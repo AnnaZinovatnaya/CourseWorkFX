@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.DirectorMenuController">
+   <children>
+      <GridPane layoutX="115.0" layoutY="38.0" vgap="20.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Button fx:id="ShowComponentsButton" layoutX="219.0" layoutY="149.0" mnemonicParsing="false" onAction="#showComponentsButtonClicked" prefHeight="95.0" prefWidth="370.0" text="Просмотреть компоненты" GridPane.rowIndex="1">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+            <Button fx:id="ReportButton" layoutX="195.0" layoutY="259.0" mnemonicParsing="false" onAction="#reportButtonClicked" prefHeight="95.0" prefWidth="370.0" text="Отчет по плавкам" GridPane.rowIndex="2">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+            <Button fx:id="AddComponentButton" mnemonicParsing="false" onAction="#addComponentButtonClicked" prefHeight="95.0" prefWidth="370.0" text="Добавить компонент">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+         </children>
+      </GridPane>
+   </children>
+</Pane>

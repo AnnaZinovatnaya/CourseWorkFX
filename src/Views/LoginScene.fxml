@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+
+<Pane fx:id="LoginPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.LoginController">
+   <children>
+      <GridPane layoutX="126.0" layoutY="93.0" prefHeight="181.0" prefWidth="349.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="60.0" minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <TextField fx:id="NameField" layoutX="266.0" layoutY="60.0" prefHeight="51.0" prefWidth="227.0" GridPane.columnIndex="1">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="LastnameField" layoutX="266.0" layoutY="127.0" prefHeight="51.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label fx:id="LastnameLabel" layoutX="135.0" layoutY="135.0" text="Фамилия" GridPane.rowIndex="1">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label fx:id="NameLabel" layoutX="185.0" layoutY="68.0" text="Имя">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <PasswordField fx:id="PasswordField" layoutX="266.0" layoutY="185.0" prefHeight="40.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </GridPane.margin>
+            </PasswordField>
+            <Label fx:id="PasswordLabel" layoutX="151.0" layoutY="193.0" text="Пароль" GridPane.rowIndex="2">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </GridPane>
+      <Button fx:id="LoginButton" layoutX="208.0" layoutY="306.0" mnemonicParsing="false" onAction="#LoginButtonClicked" prefHeight="59.0" prefWidth="185.0" text="Подтвердить">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Label layoutX="218.0" layoutY="19.0" text="Вход в систему">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+</Pane>
