@@ -1,31 +1,34 @@
 package Models;
 
-import java.time.LocalDate;
 import java.util.Date;
 
-/**
- * Created by Анюта on 30.10.2016.
- */
+
 public class Melt {
 
-    private  int idMelt;
+    private  User user;
+    private Charge charge;
     private Date date;
-    private int idCharge;
-    private int idUser;
 
-    public Melt(int idMelt, Date date, int idCharge, int idUser) {
-        this.idMelt = idMelt;
+    public Melt(User user, Charge charge, Date date) {
+        this.user = user;
+        this.charge = charge;
         this.date = date;
-        this.idCharge = idCharge;
-        this.idUser = idUser;
     }
 
-    public int getIdMelt() {
-        return idMelt;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdMelt(int idMelt) {
-        this.idMelt = idMelt;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Charge getCharge() {
+        return charge;
+    }
+
+    public void setCharge(Charge charge) {
+        this.charge = charge;
     }
 
     public Date getDate() {
@@ -34,21 +37,5 @@ public class Melt {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public int getIdCharge() {
-        return idCharge;
-    }
-
-    public void setIdCharge(int idCharge) {
-        this.idCharge = idCharge;
-    }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
     }
 }

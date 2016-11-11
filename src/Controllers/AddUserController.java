@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.Register;
 import Models.User;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -42,9 +43,12 @@ public class AddUserController {
             alert.showAndWait();
 
         } else {
-            User user = new User(0, NameField.getText(), LastnameField.getText(), PasswordField.getText(), RoleBox.getValue());
-            int n = user.addUser();
-            if(n == 0){
+
+            Register.newUser();
+            if(Register.setNameLastname(NameField.getText(), LastnameField.getText())){
+                Register.setPasswordRole(PasswordField.getText(), RoleBox.getValue());
+                Register.saveUser();
+
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setTitle("Information");
                 alert.setHeaderText("Information");
@@ -57,16 +61,10 @@ public class AddUserController {
                 this.LastnameField.setText("");
                 this.PasswordField.setText("");
                 this.RoleBox.setValue("");
-            } else if(n == 1) {
+            } else{
                 alert.setContentText("Пользователь с таким именем уже есть!");
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
-
-            } else {
-                alert.setContentText("Неизвестная ошибка!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-
             }
         }
     }

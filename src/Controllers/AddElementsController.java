@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.Register;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,12 +18,11 @@ import javafx.stage.Stage;
 public class AddElementsController {
     public AddComponentController addComponentController;
     @FXML private Button NextButton;
-    @FXML private ListView<String> AllElementsList = new ListView<String>();
-    @FXML private ListView<String> SelectedElementsList = new ListView<String>();
+    @FXML private ListView<String> AllElementsList = new ListView<>();
+    @FXML private ListView<String> SelectedElementsList = new ListView<>();
     private ObservableList<String> items;
     private ObservableList<String> selectedItems;
     Stage primaryStage;
-    private AddElements2Controller addElements2Controller;
 
 
 
@@ -31,8 +31,7 @@ public class AddElementsController {
     }
 
     @FXML public  void init(){
-        items =FXCollections.observableArrayList (
-                "C", "S", "Si");
+        items = Register.getAllElements();
         selectedItems =FXCollections.observableArrayList ();
         this.AllElementsList.setItems(items);
         this.SelectedElementsList.setItems(selectedItems);
@@ -47,9 +46,9 @@ public class AddElementsController {
 
     @FXML private void allForwardButtonClicked(ActionEvent e){
             this.SelectedElementsList.getItems().clear();
-            for (int i = 0; i < items.size(); i++) {
-                this.SelectedElementsList.getItems().add(this.items.get(i));
-            }
+        for (String item : items) {
+            this.SelectedElementsList.getItems().add(item);
+        }
     }
 
     @FXML private void oneBackButtonClicked(ActionEvent e){
@@ -74,7 +73,7 @@ public class AddElementsController {
                         getClass().getResource("../Views/AddElements2Scene.fxml")
                 );
                 Parent root = loader.load();
-                addElements2Controller = loader.getController();
+                AddElements2Controller addElements2Controller = loader.getController();
                 addElements2Controller.setPreviousController(this);
                 addElements2Controller.init(selectedItems);
                 primaryStage = addComponentController.primaryStage;

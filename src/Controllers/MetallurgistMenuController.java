@@ -8,26 +8,34 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-/**
- * Created by Анюта on 01.11.2016.
- */
 public class MetallurgistMenuController {
 
-    private MainController mainController;
     @FXML public Button AddMeltButton;
     AddComponentController addComponentController;
-    AddMeltController addMeltController;
+    AddCharge1Controller addCharge1Controller;
     ShowComponentsController showComponentsController;
     ShowMeltsController showMeltsController;
     Stage primaryStage;
 
-    public void setMainController(MainController main){
-        mainController=main;
-        primaryStage = mainController.stage;
+    public void init(Stage primaryStage){
+        this.primaryStage = primaryStage;
     }
 
     @FXML private void addMeltButtonClicked(ActionEvent e){
-
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("../Views/AddCharge1Scene.fxml")
+            );
+            Parent root = loader.load();
+            addCharge1Controller = loader.getController();
+            addCharge1Controller.setMenuController(this);
+            addCharge1Controller.init();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setTitle("Новая плавка");
+            primaryStage.show();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     @FXML private void showMeltsButtonClicked(ActionEvent e){

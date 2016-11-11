@@ -2,7 +2,6 @@
 
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 
@@ -60,11 +59,6 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="BrandField" layoutX="191.0" layoutY="102.0" GridPane.columnIndex="1">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </TextField>
             <Label text="кг" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
@@ -75,6 +69,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
+            <ChoiceBox fx:id="BrandBox" prefHeight="44.0" prefWidth="167.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </children>

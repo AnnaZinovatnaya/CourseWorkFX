@@ -47,8 +47,7 @@ public class MeltForView {
 
         MeltForView temp=null;
         ResultSet rs;
-
-
+/*
             try {
                 rs = DBUtil.dbExecuteQuery("SELECT brand, mass, date FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"' AND `date` <= '"+new java.sql.Date(secondDate.getTime())+"'");
                 while (rs.next()) {
@@ -59,7 +58,7 @@ public class MeltForView {
             } catch (Exception ex){
                 ex.printStackTrace();
             }
-
+        */
         return list;
     }
 
@@ -68,7 +67,7 @@ public class MeltForView {
 
         MeltForView temp=null;
         ResultSet rs;
-
+/*
 
         try {
             rs = DBUtil.dbExecuteQuery("SELECT brand, mass, date FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge");
@@ -80,7 +79,7 @@ public class MeltForView {
         } catch (Exception ex){
             ex.printStackTrace();
         }
-
+        */
         return list;
     }
 
@@ -89,7 +88,7 @@ public class MeltForView {
 
         MeltForView temp=null;
         ResultSet rs;
-
+/*
 
         try {
             rs = DBUtil.dbExecuteQuery("SELECT brand, mass, date FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"'");
@@ -101,7 +100,7 @@ public class MeltForView {
         } catch (Exception ex){
             ex.printStackTrace();
         }
-
+        */
         return list;
     }
 
@@ -112,7 +111,7 @@ public class MeltForView {
         ResultSet rs;
 
 
-        try {
+       /* try {
             rs = DBUtil.dbExecuteQuery("SELECT brand, mass, date FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge WHERE `date`<='"+new java.sql.Date(secondDate.getTime())+"'");
             while (rs.next()) {
                 temp = new MeltForView(rs.getString("brand"), rs.getDouble("mass"), rs.getDate("date"));
@@ -122,7 +121,7 @@ public class MeltForView {
         } catch (Exception ex){
             ex.printStackTrace();
         }
-
+*/
         return list;
     }
 }

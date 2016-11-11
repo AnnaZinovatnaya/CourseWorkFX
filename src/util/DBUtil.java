@@ -22,7 +22,7 @@ public class DBUtil {
     //needs mysql connector jar
     private static final  String db_url = "jdbc:mysql://localhost:3306/mydb";
 
-    public static void dbConnect() throws SQLException, ClassNotFoundException{
+    public static void dbConnect(){
 
         try {
             Class.forName(driverClass);
@@ -41,13 +41,13 @@ public class DBUtil {
 
 
     //Close Connection
-    public static void dbDisconnect() throws SQLException {
+    public static void dbDisconnect() {
         try {
             if (conn != null && !conn.isClosed()) {
                 conn.close();
             }
         } catch (Exception e){
-            throw e;
+            e.printStackTrace();
         }
     }
 

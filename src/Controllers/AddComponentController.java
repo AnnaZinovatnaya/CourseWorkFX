@@ -1,6 +1,7 @@
 package Controllers;
 
 import Models.Component;
+import Models.Register;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +26,6 @@ public class AddComponentController {
 
     public Stage primaryStage;
     public Component component;
-    private AddElementsController addElementsController;
 
     public void setMenuController(MetallurgistMenuController metallurgistMenuController){
         this.metallurgistMenuController = metallurgistMenuController;
@@ -44,6 +44,7 @@ public class AddComponentController {
     }
 
     @FXML private void menuButtonClicked(ActionEvent e){
+        Register.setComponentToNull();
         if(metallurgistMenuController!=null) {
             metallurgistMenuController.backToMenu();
         }
@@ -56,6 +57,7 @@ public class AddComponentController {
     }
 
     @FXML private void nextButtonClicked(ActionEvent e){
+        Register.newComponent();
         if(NameField.getText().isEmpty()||BrandField.getText().isEmpty()||AdoptField.getText().isEmpty()||AmountField.getText().isEmpty()||PriceField.getText().isEmpty()||!MandatoryButton.isSelected()&&!OptionalButton.isSelected()){
 
             alert.setContentText("Все поля должны быть заполнены!");
@@ -66,7 +68,7 @@ public class AddComponentController {
             double amount=-1;
             double price=-1;
             boolean b=true;
-            if(Component.componentExists(NameField.getText())){
+            if(Register.componentExists(NameField.getText())){
                 alert.setContentText("Компонент с таким названием уже есть!");
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
@@ -124,14 +126,13 @@ public class AddComponentController {
                                             int mandatory=0;
                                             if(this.MandatoryButton.isSelected())
                                                 mandatory=1;
-                                            this.component = new Component(0, NameField.getText(),BrandField.getText(), adopt, amount, price, mandatory);
-
+                                            Register.setComponentParam(NameField.getText(), BrandField.getText(), adopt, amount, price, mandatory);
                                             try {
                                                 FXMLLoader loader = new FXMLLoader(
                                                         getClass().getResource("../Views/AddElementsScene.fxml")
                                                 );
                                                 Parent root = loader.load();
-                                                addElementsController = loader.getController();
+                                                AddElementsController addElementsController = loader.getController();
                                                 addElementsController.setPreviousController(this);
                                                 addElementsController.init();
                                                 if(metallurgistMenuController!=null)

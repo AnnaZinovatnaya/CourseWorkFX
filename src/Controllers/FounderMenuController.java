@@ -1,13 +1,12 @@
 package Controllers;
 
-/**
- * Created by Анюта on 01.11.2016.
- */
+import javafx.stage.Stage;
+
 public class FounderMenuController {
 
-    private MainController mainController;
+    Stage primaryStage;
 
-    public void setMainController(MainController main){
-        mainController=main;
+    public void init(Stage primaryStage){
+        this.primaryStage = primaryStage;
     }
 }

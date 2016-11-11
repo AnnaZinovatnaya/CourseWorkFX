@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.Register;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,21 +9,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-/**
- * Created by Анюта on 01.11.2016.
- */
 public class AdminMenuController {
     @FXML private Button AddUserButton;
 
-    private MainController mainController;
     Stage primaryStage;
-    AddUserController addUserController;
-    FindUserController findUserController;
 
 
-    public void setMainController(MainController main){
-        mainController=main;
-        primaryStage = mainController.stage;
+    public void init(Stage primaryStage){
+        this.primaryStage = primaryStage;
     }
 
     @FXML private void addUserButtonClicked(ActionEvent e){
@@ -31,7 +25,7 @@ public class AdminMenuController {
                     getClass().getResource("../Views/AddUserScene.fxml")
             );
             Parent root = loader.load();
-            addUserController = loader.getController();
+            AddUserController addUserController = loader.getController();
             addUserController.setMenuController(this);
             addUserController.init();
             primaryStage.setScene(new Scene(root));
@@ -48,8 +42,9 @@ public class AdminMenuController {
                     getClass().getResource("../Views/FindUserScene.fxml")
             );
             Parent root = loader.load();
-            findUserController = loader.getController();
+            FindUserController findUserController = loader.getController();
             findUserController.setMenuController(this);
+            Register.setUserToNull();
             primaryStage.setScene(new Scene(root));
             primaryStage.setTitle("Поиск пользователя");
             primaryStage.show();
@@ -58,10 +53,9 @@ public class AdminMenuController {
         }
     }
 
-
     public void backToMenu(){
         primaryStage.setScene(this.AddUserButton.getScene());
-        primaryStage.setTitle("Меню");
+        primaryStage.setTitle("Меню - Администратор");
         primaryStage.show();
     }
 }

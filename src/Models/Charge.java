@@ -1,31 +1,34 @@
 package Models;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public class Charge {
 
-    private int idCharge;
+    private User user;
     private double mass;
     private double deltaMass;
-    private double resultMass;
     private Date dateCharge;
-    private int idUser;
+    private MeltBrand meltBrand;
+    private List<CompInCharge> components;
+    private List<Element> elements;
 
-    public Charge(int idCharge, double mass, double deltaMass, double resultMass, Date dateCharge, int idUser) {
-        this.idCharge = idCharge;
+    public Charge(User user, double mass, double deltaMass, Date dateCharge, MeltBrand meltBrand, List<CompInCharge> components, List<Element> elements) {
+        this.user = user;
         this.mass = mass;
         this.deltaMass = deltaMass;
-        this.resultMass = resultMass;
         this.dateCharge = dateCharge;
-        this.idUser = idUser;
+        this.meltBrand = meltBrand;
+        this.components = components;
+        this.elements = elements;
     }
 
-    public int getIdCharge() {
-        return idCharge;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdCharge(int idCharge) {
-        this.idCharge = idCharge;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public double getMass() {
@@ -44,14 +47,6 @@ public class Charge {
         this.deltaMass = deltaMass;
     }
 
-    public double getResultMass() {
-        return resultMass;
-    }
-
-    public void setResultMass(double resultMass) {
-        this.resultMass = resultMass;
-    }
-
     public Date getDateCharge() {
         return dateCharge;
     }
@@ -60,11 +55,28 @@ public class Charge {
         this.dateCharge = dateCharge;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public MeltBrand getMeltBrand() {
+        return meltBrand;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setMeltBrand(MeltBrand meltBrand) {
+        this.meltBrand = meltBrand;
     }
+
+    public List<CompInCharge> getComponents() {
+        return components;
+    }
+
+    public void setComponents(List<CompInCharge> components) {
+        this.components = components;
+    }
+
+    public List<Element> getElements() {
+        return elements;
+    }
+
+    public void setElements(List<Element> elements) {
+        this.elements = elements;
+    }
+
 }

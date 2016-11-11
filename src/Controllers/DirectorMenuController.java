@@ -10,16 +10,15 @@ import javafx.stage.Stage;
 
 
 public class DirectorMenuController {
-    MainController mainController;
+
     AddComponentController addComponentController;
     ReportController reportController;
     Stage primaryStage;
 
     @FXML private Button ReportButton;
 
-    public void setMainController(MainController main){
-        mainController=main;
-        primaryStage = mainController.stage;
+    public void init(Stage primaryStage){
+        this.primaryStage = primaryStage;
     }
 
     @FXML

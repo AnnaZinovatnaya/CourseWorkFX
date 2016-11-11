@@ -2,32 +2,27 @@ package Models;
 
 import util.DBUtil;
 import java.sql.ResultSet;
+import java.util.List;
 
 public class Component {
-    private int idComp;
     private String name;
     private String brand;
     private double adoptBase;
     private double amount;
     private double price;
     private int mandatory;
+    private double adoptComp;
+    private List<Element> elements;
 
-    public Component(int idComp, String name, String brand, double adoptBase, double amount, double price, int mandatory) {
-        this.idComp = idComp;
+    public Component(String name, String brand, double adoptBase, double amount, double price, int mandatory, double adoptComp, List<Element> elements) {
         this.name = name;
         this.brand = brand;
         this.adoptBase = adoptBase;
         this.amount = amount;
         this.price = price;
         this.mandatory = mandatory;
-    }
-
-    public int getIdComp() {
-        return idComp;
-    }
-
-    public void setIdComp(int idComp) {
-        this.idComp = idComp;
+        this.adoptComp = adoptComp;
+        this.elements = elements;
     }
 
     public String getName() {
@@ -78,7 +73,23 @@ public class Component {
         this.mandatory = mandatory;
     }
 
-    public static boolean componentExists(String name){
+    public double getAdoptComp() {
+        return adoptComp;
+    }
+
+    public void setAdoptComp(double adoptComp) {
+        this.adoptComp = adoptComp;
+    }
+
+    public List<Element> getElements() {
+        return elements;
+    }
+
+    public void setElements(List<Element> elements) {
+        this.elements = elements;
+    }
+
+    public boolean componentExists(String name){
         try {
             ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name` = '"+name+"'");
 
@@ -92,35 +103,38 @@ public class Component {
         return  false;
     }
 
-    public boolean addComponent(){
+    public void saveComponentParam(){
         ResultSet rs = null;
+        int id = 0;
         try {
 
             DBUtil.dbExecuteUpdate("INSERT INTO mydb.component (`name`, brand, adoptBase, currentAmount, currentPrice, mandatory) " +
                     "VALUES ('" + name + "', '" + brand + "', '" + adoptBase + "', '" + amount + "', '" + price + "', '" + mandatory + "')");
         } catch (Exception ex) {
             ex.printStackTrace();
-            return false;
         }
-
-        return true;
     }
 
-    public boolean getIDfromDB(){
+    public void setComponentElement(String name, double percent, double adopt){
+        elements.add(new Element(name, 0, 0, percent, adopt));
+    }
+
+    public void saveComponentElements(){
+        ResultSet rs;
+        int id = 0;
         try {
-            ResultSet rs=null;
-            rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name` = '" + name + "'");
-            if (rs.next()) {
-                idComp = rs.getInt("idComponent");
-            } else
-                return false;
+            rs = DBUtil.dbExecuteQuery("SELECT idComponent FROM mydb.component WHERE `name` = '" + name + "'");
+            if (rs.next())
+                id = rs.getInt("idComponent");
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            return false;
         }
-        return true;
-    }
 
+        for (Element element : elements) {
+            element.saveElementInComponent(id);
+        }
+
+    }
 
 }

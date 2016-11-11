@@ -1,6 +1,5 @@
 package Controllers;
 
-import Models.ElementForView;
 import Models.MeltForView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -11,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
@@ -60,17 +58,17 @@ public class ReportController {
         if(this.FirstDate.getValue()==null&&this.SecondDate.getValue()==null){
             data = MeltForView.getAllMelts();
             if (data != null) {
-                this.ReportTable.setItems(data);
+                //this.ReportTable.setItems(data);
             }
         } else if(this.SecondDate.getValue()==null){
             data = MeltForView.getMeltsFrom(Date.from(this.FirstDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             if (data != null) {
-                this.ReportTable.setItems(data);
+                //this.ReportTable.setItems(data);
             }
         } else if(this.FirstDate.getValue()==null){
             data = MeltForView.getMeltsTill(Date.from(this.SecondDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             if (data != null) {
-                this.ReportTable.setItems(data);
+                //this.ReportTable.setItems(data);
             }
         }else if(this.FirstDate.getValue().isAfter(this.SecondDate.getValue())){
             alert.setContentText("Даты заданы некорректно!");
@@ -79,7 +77,7 @@ public class ReportController {
         } else {
             data = MeltForView.getMeltsFromTill(Date.from(this.FirstDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(this.SecondDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             if (data != null) {
-                this.ReportTable.setItems(data);
+                //this.ReportTable.setItems(data);
             }
         }
 
