@@ -1,5 +1,6 @@
 package Models;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.*;
@@ -122,4 +123,31 @@ public class Register {
     public static ObservableList<String> getAllBrands(){
         return MeltBrand.getAllBrands();
     }
+
+    public static void newCharge(){
+        charge = new Charge(currentUser, 0, 0, null, null, null, null, null);
+    }
+
+    public static void setChargeBrand(String meltBrand){
+        charge.setChargeBrand(meltBrand);
+    }
+
+    public static void setChatgeMassAndDelta(double mass, double deltaMass){
+        charge.setMass(mass);
+        charge.setDeltaMass(deltaMass);
+    }
+
+    public static ObservableList<Element> getChargeElements(){
+        return FXCollections.observableList(charge.getElements());
+    }
+
+    public static boolean canEditPercent(String element, double percent){
+        return charge.canEditPercent(element, percent);
+    }
+
+    public static void setChargeElements(ObservableList<Element> elements){
+        charge.setElements(elements);
+    }
+
+
 }

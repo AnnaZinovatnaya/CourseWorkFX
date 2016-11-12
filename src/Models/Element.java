@@ -21,6 +21,14 @@ public class Element {
         this.adopt = adopt;
     }
 
+    public Element(Element element) {
+        this.name = element.getName();
+        this.minPercent = element.getMinPercentDouble();
+        this.maxPercent = element.getMaxPercentDouble();
+        this.percent = element.getPercent();
+        this.adopt = element.getAdopt();
+    }
+
     public String getName() {
         return name;
     }
@@ -29,7 +37,15 @@ public class Element {
         this.name = name;
     }
 
-    public double getMinPercent() {
+    public String getMinPercent() {
+        return String.valueOf(minPercent);
+    }
+
+    public String getMaxPercent() {
+        return String.valueOf(maxPercent);
+    }
+
+    public double getMinPercentDouble() {
         return minPercent;
     }
 
@@ -37,7 +53,7 @@ public class Element {
         this.minPercent = minPercent;
     }
 
-    public double getMaxPercent() {
+    public double getMaxPercentDouble() {
         return maxPercent;
     }
 

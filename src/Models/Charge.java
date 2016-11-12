@@ -1,5 +1,6 @@
 package Models;
-import java.time.LocalDate;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,16 +11,18 @@ public class Charge {
     private double deltaMass;
     private Date dateCharge;
     private MeltBrand meltBrand;
-    private List<CompInCharge> components;
+    private List<CompInCharge> mandatoryComponents;
+    private List<CompInCharge> optionalComponents;
     private List<Element> elements;
 
-    public Charge(User user, double mass, double deltaMass, Date dateCharge, MeltBrand meltBrand, List<CompInCharge> components, List<Element> elements) {
+    public Charge(User user, double mass, double deltaMass, Date dateCharge, MeltBrand meltBrand, List<CompInCharge> mandatoryComponents, List<CompInCharge> optionalComponents, List<Element> elements) {
         this.user = user;
         this.mass = mass;
         this.deltaMass = deltaMass;
         this.dateCharge = dateCharge;
         this.meltBrand = meltBrand;
-        this.components = components;
+        this.mandatoryComponents = mandatoryComponents;
+        this.optionalComponents = optionalComponents;
         this.elements = elements;
     }
 
@@ -63,12 +66,20 @@ public class Charge {
         this.meltBrand = meltBrand;
     }
 
-    public List<CompInCharge> getComponents() {
-        return components;
+    public List<CompInCharge> getMandatoryComponents() {
+        return mandatoryComponents;
     }
 
-    public void setComponents(List<CompInCharge> components) {
-        this.components = components;
+    public void setMandatoryComponents(List<CompInCharge> mandatoryComponents) {
+        this.mandatoryComponents = mandatoryComponents;
+    }
+
+    public List<CompInCharge> getOptionalComponents() {
+        return optionalComponents;
+    }
+
+    public void setOptionalComponents(List<CompInCharge> optionalComponents) {
+        this.optionalComponents = optionalComponents;
     }
 
     public List<Element> getElements() {
@@ -78,5 +89,28 @@ public class Charge {
     public void setElements(List<Element> elements) {
         this.elements = elements;
     }
+
+    public void setChargeBrand(String brand){
+        meltBrand = MeltBrand.getMeltBrand(brand);
+        elements = new ArrayList<>();
+        for(Element aElement: meltBrand.getElements()){
+            elements.add(aElement);
+        }
+    }
+
+    public  boolean canEditPercent(String element, double percent){
+        for(Element aElement: elements){
+            if(aElement.getName().equals(element)) {
+                if (percent >=  aElement.getMinPercentDouble() && percent <= aElement.getMaxPercentDouble())
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        return false;
+    }
+
+
 
 }

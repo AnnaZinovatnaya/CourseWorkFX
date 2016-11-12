@@ -2,28 +2,24 @@ package Models;
 
 public class CompInCharge {
 
-    private int idCompInCharge;
+    private Component component;
     private double currentMass;
     private double minPercent;
     private double maxPercent;
-    private int idCharge;
-    private int idComp;
 
-    public CompInCharge(int idCompInCharge, double currentMass, double minPercent, double maxPercent, int idCharge, int idComp) {
-        this.idCompInCharge = idCompInCharge;
+    public CompInCharge(Component component, double currentMass, double minPercent, double maxPercent) {
+        this.component = component;
         this.currentMass = currentMass;
         this.minPercent = minPercent;
         this.maxPercent = maxPercent;
-        this.idCharge = idCharge;
-        this.idComp = idComp;
     }
 
-    public int getIdCompInCharge() {
-        return idCompInCharge;
+    public Component getComponent() {
+        return component;
     }
 
-    public void setIdCompInCharge(int idCompInCharge) {
-        this.idCompInCharge = idCompInCharge;
+    public void setComponent(Component component) {
+        this.component = component;
     }
 
     public double getCurrentMass() {
@@ -48,21 +44,5 @@ public class CompInCharge {
 
     public void setMaxPercent(double maxPercent) {
         this.maxPercent = maxPercent;
-    }
-
-    public int getIdCharge() {
-        return idCharge;
-    }
-
-    public void setIdCharge(int idCharge) {
-        this.idCharge = idCharge;
-    }
-
-    public int getIdComp() {
-        return idComp;
-    }
-
-    public void setIdComp(int idComp) {
-        this.idComp = idComp;
     }
 }
