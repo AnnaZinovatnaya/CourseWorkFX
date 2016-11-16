@@ -11,11 +11,6 @@ public class DBUtil {
     //Connection
     private static Connection conn = null;
 
-    //Connection String
-    //String connStr = "jdbc:oracle:thin:Username/Password@IP:Port/SID";
-    //Username=HR, Password=HR, IP=localhost, IP=1521, SID=xe
-    //private static final String connStr = "jdbc:oracle:thin:root/MySQLPassword@localhost:3306/xe";
-
     private static final String  userName = "root";//username to connect to mysql
     private static final String password = "MySQLPassword";//password to connect to mysql
     private static final String driverClass = "com.mysql.jdbc.Driver";//driver class to connect to mysql

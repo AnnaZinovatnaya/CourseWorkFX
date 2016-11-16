@@ -6,6 +6,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -119,7 +122,24 @@ public class AddCharge2Controller {
         }
         if(b){
             Register.setChargeElements(data);
+
+            try {
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("../Views/AddCharge3Scene.fxml")
+                );
+                Parent root = loader.load();
+                AddCharge3Controller addCharge3Controller = loader.getController();
+                addCharge3Controller.addCharge2Controller = this;
+                addCharge3Controller.init();
+                addCharge1Controller.metallurgistMenuController.primaryStage.setScene(new Scene(root));
+            } catch (Exception ex){
+                ex.printStackTrace();
+            }
         }
+    }
+
+    public void backToScene(){
+        this.addCharge1Controller.metallurgistMenuController.primaryStage.setScene(this.ElementsTable.getScene());
     }
 
 }

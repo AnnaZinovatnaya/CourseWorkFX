@@ -1,7 +1,10 @@
 package Models;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import util.DBUtil;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Component {
@@ -104,12 +107,14 @@ public class Component {
     }
 
     public void saveComponentParam(){
+        this.calculateAdopt();
+
         ResultSet rs = null;
         int id = 0;
         try {
 
-            DBUtil.dbExecuteUpdate("INSERT INTO mydb.component (`name`, brand, adoptBase, currentAmount, currentPrice, mandatory) " +
-                    "VALUES ('" + name + "', '" + brand + "', '" + adoptBase + "', '" + amount + "', '" + price + "', '" + mandatory + "')");
+            DBUtil.dbExecuteUpdate("INSERT INTO mydb.component (`name`, brand, adoptBase, currentAmount, currentPrice, mandatory, aboptComp) " +
+                    "VALUES ('" + name + "', '" + brand + "', '" + adoptBase + "', '" + amount + "', '" + price + "', '" + mandatory +"', '" +adoptComp+ "')");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -134,6 +139,87 @@ public class Component {
         for (Element element : elements) {
             element.saveElementInComponent(id);
         }
+
+    }
+
+    public static ObservableList<String> getAllMandatoryComponentsString(){
+        ObservableList<String> list = FXCollections.observableArrayList ();
+
+        String temp;
+        ResultSet rs;
+
+
+        try{
+            rs = DBUtil.dbExecuteQuery("SELECT name FROM mydb.component WHERE mandatory=1");
+            while (rs.next()) {
+                temp = rs.getString("name");
+                list.add(temp);
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public static ObservableList<Component> getAllMandatoryComponents(){
+        ObservableList<Component> list = FXCollections.observableArrayList ();
+
+        ResultSet rs;
+        ResultSet rs2;
+        int i=0;
+
+        try{
+            rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE mandatory=1");
+            while (rs.next()) {
+                list.add(new Component(rs.getString("name"), rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), 1, rs.getDouble("adoptComp"), new ArrayList<Element>()));
+                rs2 = DBUtil.dbExecuteQuery("SELECT name, procent, adopt FROM mydb.elementincomponent JOIN mydb.element ON idElement = Element_idElement WHERE Component_idComponent = "+rs.getString("idComponent"));
+                while (rs2.next()) {
+                    list.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
+                }
+                i++;
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public static ArrayList<Component> getAllOptionalComponents(){
+        ArrayList<Component> list = new ArrayList<>();
+
+        ResultSet rs;
+        ResultSet rs2;
+        int i=0;
+
+        try{
+            rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE mandatory=0");
+            while (rs.next()) {
+                list.add(new Component(rs.getString("name"), rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), 0, rs.getDouble("adoptComp"), new ArrayList<Element>()));
+                rs2 = DBUtil.dbExecuteQuery("SELECT name, procent, adopt FROM mydb.elementincomponent JOIN mydb.element ON idElement = Element_idElement WHERE Component_idComponent = "+rs.getString("idComponent"));
+                while (rs2.next()) {
+                    list.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
+                }
+                i++;
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    private void calculateAdopt(){
+        double temp = 100;
+        for(Element aElement: elements){
+            temp-=aElement.getPercent();
+        }
+        temp /= adoptBase;
+
+        for(Element aElement: elements){
+            temp+=aElement.getPercent()/aElement.getAdopt();
+        }
+
+        adoptComp = 1/temp;
+
 
     }
 

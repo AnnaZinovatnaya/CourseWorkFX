@@ -107,7 +107,6 @@ public class AddElements2Controller {
 
         boolean b=true; //проверить, чтобы все поля были заполнены
         String name="";
-        Register.saveComponentParam();
 
                 if (b) {
                     for (int i = 0; i < selectedItems.size(); i++) {
@@ -115,6 +114,7 @@ public class AddElements2Controller {
                         Register.setComponentElement(selectedItems.get(i), ElementsTable.getItems().get(i).getPercent(), ElementsTable.getItems().get(i).getAdopt());
 
                     }
+                    Register.saveComponentParam();
                     Register.saveComponentElements();
 
                         alert.setAlertType(Alert.AlertType.INFORMATION);
@@ -124,7 +124,11 @@ public class AddElements2Controller {
                         alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
                         alert.showAndWait();
 
+                    if(this.addElementsController.addComponentController.metallurgistMenuController!=null) {
                         this.addElementsController.addComponentController.metallurgistMenuController.backToMenu();
+                    }
+                    else
+                        this.addElementsController.addComponentController.directorMenuController.backToMenu();
                 }
 
 

@@ -149,5 +149,25 @@ public class Register {
         charge.setElements(elements);
     }
 
+    public static ObservableList<String> getAllMandatoryComponentsString(){
+        return Component.getAllMandatoryComponentsString();
+    }
+
+    public static void setMandatoryComponents(ObservableList<String> components){
+        charge.setMandatoryComponents(components);
+        charge.setOptionalComponents();
+    }
+
+    public static ObservableList<CompInCharge> getChargeMandatoryComps(){
+        return FXCollections.observableList(charge.getMandatoryComponents());
+    }
+
+    public static ObservableList<CompInCharge> getChargeOptionalComps(){
+        return FXCollections.observableList(charge.getOptionalComponents());
+    }
+
+    public static boolean isChargePossible(){
+        return charge.isPossible();
+    }
 
 }

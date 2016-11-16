@@ -34,7 +34,7 @@
       <TableView fx:id="ElementsTable" layoutX="16.0" layoutY="142.0" prefHeight="184.0" prefWidth="569.0">
         <columns>
           <TableColumn fx:id="ElementColumn" editable="false" prefWidth="182.0" text="Химический элемент" style="-fx-font: NORMAL 18 System;"/>
-          <TableColumn fx:id="ProcentColumn" minWidth="0.0" prefWidth="222.0" text="Процентное содержание" style="-fx-font: NORMAL 18 Systen;"/>
+          <TableColumn fx:id="PercentColumn" prefWidth="222.0" text="Процентное содержание" style="-fx-font: NORMAL 18 Systen;"/>
             <TableColumn fx:id="AdoptColumn" prefWidth="164.0" text="Процент усвоения" style="-fx-font: NORMAL 18 System;"/>
         </columns>
       </TableView>
