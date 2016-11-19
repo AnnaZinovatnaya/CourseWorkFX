@@ -116,6 +116,7 @@ public class AddCharge5Controller {
         }
 
         if(Register.isChargePossible()){
+            Register.calculateCheapCharge();
             alert.setContentText("Набор шихты возможен");
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();

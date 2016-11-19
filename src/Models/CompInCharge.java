@@ -65,4 +65,13 @@ public class CompInCharge {
     public void setCurrentPercent(double currentPercent) {
         this.currentPercent = currentPercent;
     }
+
+    public void setCompInCharge(CompInCharge comp){
+        name = comp.getComponent().getName();
+        component = comp.getComponent();
+        currentMass = comp.getCurrentMass();
+        minPercent = comp.getMinPercent();
+        maxPercent = comp.getMaxPercent();
+        currentPercent = comp.getCurrentPercent();
+    }
 }

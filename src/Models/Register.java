@@ -169,5 +169,7 @@ public class Register {
     public static boolean isChargePossible(){
         return charge.isPossible();
     }
-
+    public static void calculateCheapCharge(){
+        charge.calculateCheapCharge();
+    }
 }

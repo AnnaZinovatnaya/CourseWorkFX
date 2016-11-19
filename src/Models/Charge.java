@@ -1,7 +1,5 @@
 package Models;
 
-import javafx.collections.ObservableList;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -212,7 +210,7 @@ public class Charge {
                 massM[i] = mandatoryComponents.get(i).getCurrentMass() * mandatoryComponents.get(i).getComponent().getAdoptComp()/100;
             }
 
-            for (i = 0; i < 3; i++) {
+            for (i = 0; i < elements.size(); i++) {
                 massET = checkElements();
 
                 if (massET[i] > massETmax[i]) {
@@ -244,8 +242,6 @@ public class Charge {
                     System.out.println("Строка 245");
                     return false;
                 }
-
-
             }
         }
 
@@ -257,7 +253,7 @@ public class Charge {
 
         }
 
-        massChTemp=(double)Math.round(massChTemp*10)/10;
+        //massChTemp=(double)Math.round(massChTemp*10)/10;
 
 
         System.out.println("Результаты:");
@@ -320,9 +316,24 @@ public class Charge {
             massET[i] = 0;
         }
 
-        for(int i=0; i<mandatoryComponents.size(); i++){
-            for(int j = 0; j<elements.size(); j++){
-                massET[j] += mandatoryComponents.get(i).getCurrentMass()*mandatoryComponents.get(i).getComponent().getElements().get(j).getPercent()/100*mandatoryComponents.get(i).getComponent().getElements().get(j).getAdopt()/100;
+        for (CompInCharge mandatoryComponent : mandatoryComponents) {
+            for (int j = 0; j < elements.size(); j++) {
+                massET[j] += mandatoryComponent.getCurrentMass() * mandatoryComponent.getComponent().getElements().get(j).getPercent() / 100 * mandatoryComponent.getComponent().getElements().get(j).getAdopt() / 100;
+            }
+        }
+
+        return massET;
+    }
+
+    public double[] checkElements(ArrayList<CompInCharge> list){
+        double[] massET = new double[elements.size()];
+        for(int i = 0; i<elements.size(); i++){
+            massET[i] = 0;
+        }
+
+        for (CompInCharge aList : list) {
+            for (int j = 0; j < elements.size(); j++) {
+                massET[j] += aList.getCurrentMass() * aList.getComponent().getElements().get(j).getPercent() / 100 * aList.getComponent().getElements().get(j).getAdopt() / 100;
             }
         }
 
@@ -346,5 +357,242 @@ public class Charge {
         massCharge/=sumKadoptPerc;
 
         return massCharge;
+    }
+
+    double calculateMassCharge(ArrayList<CompInCharge> list){
+
+        double sumPerc=0;
+        double massCharge;
+        double sumKadoptPerc=0;
+        for (CompInCharge aList : list) {
+            sumPerc += aList.getCurrentPercent() / 100;
+            sumKadoptPerc += (aList.getComponent().getAdoptComp() * aList.getCurrentPercent() / 100);
+        }
+
+        if(sumPerc>1)
+            return -1;
+
+        massCharge=mass*sumPerc;
+        massCharge/=sumKadoptPerc;
+
+        return massCharge;
+    }
+
+    public ArrayList<CompInCharge> sortByPrice(){
+        ArrayList<CompInCharge> newList = new ArrayList<>();
+        double prices[] = new double[mandatoryComponents.size()];
+
+        for (int i = 0; i < mandatoryComponents.size(); i++) {
+            prices[i]=mandatoryComponents.get(i).getComponent().getPrice();
+        }
+
+        while(newList.size()<mandatoryComponents.size()) {
+            int indexMinPrice=0;
+            for (int i = 0; i < mandatoryComponents.size(); i++) {
+                if (prices[i] < prices[indexMinPrice]) {
+                    indexMinPrice = i;
+                }
+            }
+            newList.add(mandatoryComponents.get(indexMinPrice));
+            prices[indexMinPrice]=10000000;
+        }
+        return newList;
+    }
+
+    public ArrayList<CompInCharge> change(ArrayList<CompInCharge> mandatoryCompsTemp){
+        ArrayList<CompInCharge> newList = new ArrayList<>();
+        CompInCharge temp = new CompInCharge(null, 0, 0, 0);
+        int i;
+        for(i=0; i<mandatoryCompsTemp.size(); i++){
+            newList.add(mandatoryCompsTemp.get(i));
+        }
+        for(i=0; i<mandatoryComponents.size(); i++){
+            if (mandatoryComponents.get(i).getName().compareTo(newList.get(i).getName())!=0){
+                for(int j=i; j<newList.size();j++){
+                    if(newList.get(j).getName().compareTo(mandatoryComponents.get(i).getName())==0){
+                        while(j!=i){
+                            temp.setCompInCharge(newList.get(j));
+                            newList.get(j).setCompInCharge(newList.get(j-1));
+                            newList.get(j-1).setCompInCharge(temp);
+                            j--;
+                        }
+                        return newList;
+                    }
+                }
+            }
+        }
+        return newList;
+    }
+
+    public ArrayList<CompInCharge> sortByElement(Element element){
+        int max=0;
+        int size;
+        ArrayList<CompInCharge> newList = new ArrayList<>();
+        size = optionalComponents.size();
+
+        while(newList.size()<size){
+            for(int i=0; i<optionalComponents.size(); i++){
+                for(int j = 0; j<optionalComponents.get(i).getComponent().getElements().size(); j++){
+                    if(optionalComponents.get(i).getComponent().getElements().get(j).getName().equals(element.getName())){
+                        if(optionalComponents.get(i).getComponent().getElements().get(j).getPercent()>optionalComponents.get(max).getComponent().getElements().get(j).getPercent()){
+                            max=i;
+                        }
+                    }
+                }
+            }
+            newList.add(optionalComponents.get(max));
+            optionalComponents.remove(max);
+            max=0;
+        }
+        return newList;
+    }
+
+    public void calculateCheapCharge(){
+        boolean meltSuccess = false;
+        int i;
+        double temp;
+
+        double curPercSum=0;
+
+        double massM[] = new double[mandatoryComponents.size()];
+
+        double massChTemp=0;
+        double massChRes;
+        double massMTemp = 0;
+
+        double massET[] = new double[elements.size()];
+        for(i = 0; i<elements.size(); i++){
+            massET[i] = 0;
+        }
+
+
+        double[] massETmin = new double[elements.size()];
+        for(i=0; i<elements.size();i++){
+            massETmin[i] = elements.get(i).getMinPercentDouble()*mass/100;
+        }
+
+        double[] massETmax = new double[elements.size()];
+        for(i=0; i<elements.size();i++){
+            massETmax[i] = elements.get(i).getMaxPercentDouble()*mass/100;
+        }
+
+        mandatoryComponents = sortMandatoryComps();
+
+        ArrayList<CompInCharge> mandatoryCompsTemp = sortByPrice();
+
+        while(!areListsEqual((ArrayList)mandatoryComponents, mandatoryCompsTemp)) {
+
+            for(i=0; i<mandatoryCompsTemp.size(); i++){
+
+                mandatoryCompsTemp.get(i).setCurrentPercent(mandatoryCompsTemp.get(i).getMinPercent());
+                curPercSum+=mandatoryCompsTemp.get(i).getCurrentPercent()/100;
+            }
+
+            massChRes = calculateMassCharge(mandatoryCompsTemp);
+            massChTemp = massChRes * curPercSum;
+            //massMTemp = mass * curPercSum;
+
+            for(i=0; i<mandatoryCompsTemp.size(); i++){
+
+                mandatoryCompsTemp.get(i).setCurrentMass(massChTemp * mandatoryCompsTemp.get(i).getCurrentPercent()/100);
+                massM[i] = mandatoryCompsTemp.get(i).getCurrentMass() * mandatoryCompsTemp.get(i).getComponent().getAdoptComp()/100;
+            }
+
+            massET = checkElements(mandatoryCompsTemp);
+
+            int p = 0;
+            while (true) {
+
+                curPercSum = 0;
+                mandatoryCompsTemp.get(p).setCurrentPercent(mandatoryCompsTemp.get(p).getMaxPercent());
+                for (i = 0; i < mandatoryCompsTemp.size(); i++) {
+                    curPercSum += mandatoryCompsTemp.get(i).getCurrentPercent()/100;
+                }
+
+                if (curPercSum > 1) {
+                    temp = curPercSum - 1;
+                    mandatoryCompsTemp.get(p).setCurrentPercent(mandatoryCompsTemp.get(p).getCurrentPercent()-temp*100);
+                    curPercSum = 1;
+                }
+
+
+                massChRes = calculateMassCharge(mandatoryCompsTemp);
+                massChTemp = massChRes * curPercSum;
+                massMTemp = mass * curPercSum;
+
+                for (i = 0; i < mandatoryCompsTemp.size(); i++) {
+                    mandatoryCompsTemp.get(i).setCurrentMass(massChTemp *mandatoryCompsTemp.get(i).getCurrentPercent()/100);
+                    massM[i] = mandatoryCompsTemp.get(i).getCurrentMass() * mandatoryCompsTemp.get(i).getComponent().getAdoptComp()/100;
+                }
+
+
+
+                for (i = 0; i < elements.size(); i++) {
+                    massET = checkElements(mandatoryCompsTemp);
+
+                    if (massET[i] > massETmax[i]) {
+                        temp = massET[i] - massETmin[i];//масса, которую надо вычесть
+                        temp /= massChTemp;//процент, который нужно вычесть
+                        mandatoryCompsTemp.get(p).setCurrentPercent(mandatoryCompsTemp.get(p).getCurrentPercent()-temp*100);
+
+                        massChRes = calculateMassCharge(mandatoryCompsTemp);
+                        massChTemp = massChRes * curPercSum;
+                        massMTemp = mass * curPercSum;
+
+                        for (i = 0; i < mandatoryCompsTemp.size(); i++) {
+                            mandatoryCompsTemp.get(i).setCurrentMass(massChTemp * mandatoryCompsTemp.get(i).getCurrentPercent()/100);
+                            massM[i] = mandatoryCompsTemp.get(i).getCurrentMass() * mandatoryCompsTemp.get(i).getComponent().getAdoptComp()/100;
+                        }
+
+                    }
+                }
+                curPercSum=0;
+                for (i = 0; i < mandatoryCompsTemp.size(); i++) {
+                    curPercSum += mandatoryCompsTemp.get(i).getCurrentPercent()/100;
+                }
+
+
+                if (curPercSum == 1) {
+                    meltSuccess=true;
+                    break;
+                } else {
+                    p++;
+                    if (p >= mandatoryCompsTemp.size()){
+
+                        mandatoryCompsTemp = change(mandatoryCompsTemp);
+                        break;
+                    }
+                }
+            }
+            if(meltSuccess)
+                break;
+        }
+
+        for (i = 0; i < mandatoryCompsTemp.size(); i++) {
+
+            mandatoryCompsTemp.get(i).setCurrentMass((double)Math.round(massChTemp * mandatoryCompsTemp.get(i).getCurrentPercent()/100*10)/10);
+            massM[i] = (double)Math.round(mandatoryCompsTemp.get(i).getCurrentMass() * mandatoryCompsTemp.get(i).getComponent().getAdoptComp()/100*10)/10;
+
+        }
+
+        massChTemp=(double)Math.round(massChTemp*10)/10;
+
+
+        System.out.println("\n***\nРезультаты 2:");
+        for(CompInCharge aComponent: mandatoryCompsTemp){
+            System.out.println(aComponent.getName()+"\t"+aComponent.getCurrentMass()+"кг");
+        }
+        //correctMelt();
+
+    }
+
+    public boolean areListsEqual(ArrayList<CompInCharge> list1, ArrayList<CompInCharge> list2){
+        if(list1.size()!=list2.size())
+            return false;
+        for(int i=0; i<list1.size();i++){
+            if(list1.get(i).getName().compareTo(list2.get(i).getName())!=0)
+                return false;
+        }
+        return true;
     }
 }
