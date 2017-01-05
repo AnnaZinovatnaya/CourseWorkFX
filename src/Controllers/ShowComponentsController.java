@@ -239,6 +239,7 @@ public class ShowComponentsController {
                 }
             } else{
                 alert.setContentText("Выберите компонент для удаления!");
+
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
             }
