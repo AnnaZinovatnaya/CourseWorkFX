@@ -52,7 +52,7 @@ public class FindUserController {
                 Stage stage = new Stage();
                 stage.setTitle("Удаление пользователя");
                 FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("../Views/DeleteUserScene.fxml")
+                        getClass().getResource("/Views/DeleteUserScene.fxml")
                 );
 
                 Parent root = loader.load();

@@ -2,6 +2,9 @@ package Models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import util.DBUtil;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -52,7 +55,11 @@ public class Component {
         this.adoptBase = adoptBase;
     }
 
-    public double getAmount() {
+    public String getAmount() {
+        return String.valueOf(amount);
+    }
+
+    public double getAmountDouble() {
         return amount;
     }
 
@@ -60,12 +67,16 @@ public class Component {
         this.amount = amount;
     }
 
-    public double getPrice() {
-        return price;
+    public String getPrice() {
+        return String.valueOf(price);
     }
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getPriceDouble() {
+        return price;
     }
 
     public int getMandatory() {
@@ -113,7 +124,7 @@ public class Component {
         int id = 0;
         try {
 
-            DBUtil.dbExecuteUpdate("INSERT INTO mydb.component (`name`, brand, adoptBase, currentAmount, currentPrice, mandatory, aboptComp) " +
+            DBUtil.dbExecuteUpdate("INSERT INTO mydb.component (`name`, brand, adoptBase, currentAmount, currentPrice, mandatory, adoptComp) " +
                     "VALUES ('" + name + "', '" + brand + "', '" + adoptBase + "', '" + amount + "', '" + price + "', '" + mandatory +"', '" +adoptComp+ "')");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -219,8 +230,37 @@ public class Component {
         }
 
         adoptComp = 1/temp;
-
-
     }
 
+    public static void updateOptionalComponentsData(ObservableList<Component> optionalComps){
+        for(Component aComponent: optionalComps) {
+            try {
+                DBUtil.dbExecuteUpdate("UPDATE `mydb`.`component` SET `currentAmount`='"+aComponent.getAmountDouble()+"', `currentPrice`='"+aComponent.getPriceDouble()+"' WHERE `name`='"+aComponent.getName()+"'");
+            } catch(Exception ex){
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public static void updateMandatoryComponentsData(ObservableList<Component> mandatoryComps){
+        for(Component aComponent: mandatoryComps) {
+            try {
+                DBUtil.dbExecuteUpdate("UPDATE `mydb`.`component` SET `currentAmount`='"+aComponent.getAmountDouble()+"', `currentPrice`='"+aComponent.getPriceDouble()+"' WHERE `name`='"+aComponent.getName()+"'");
+            } catch(Exception ex){
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public static void deleteComponent(String name){
+
+        try {
+            ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name` = '" + name +"';");
+            rs.next();
+            DBUtil.dbExecuteUpdate("DELETE FROM `mydb`.`elementincomponent` WHERE `Component_idComponent`='"+rs.getInt("idComponent")+"';");
+            DBUtil.dbExecuteUpdate("DELETE FROM mydb.component WHERE `name` = '" + name + "';");
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
 }

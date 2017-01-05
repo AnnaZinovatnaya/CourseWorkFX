@@ -1,5 +1,8 @@
 package Models;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -322,6 +325,14 @@ public class Charge {
             }
         }
 
+        for(CompInCharge optionalComponent: optionalComponents){
+            if(optionalComponent.getCurrentMass()>0){
+                for (int j = 0; j < elements.size(); j++) {
+                    massET[j] += optionalComponent.getCurrentMass() * optionalComponent.getComponent().getElements().get(j).getPercent() / 100 * optionalComponent.getComponent().getElements().get(j).getAdopt() / 100;
+                }
+            }
+        }
+
         return massET;
     }
 
@@ -334,6 +345,14 @@ public class Charge {
         for (CompInCharge aList : list) {
             for (int j = 0; j < elements.size(); j++) {
                 massET[j] += aList.getCurrentMass() * aList.getComponent().getElements().get(j).getPercent() / 100 * aList.getComponent().getElements().get(j).getAdopt() / 100;
+            }
+        }
+
+        for(CompInCharge optionalComponent: optionalComponents){
+            if(optionalComponent.getCurrentMass()>0){
+                for (int j = 0; j < elements.size(); j++) {
+                    massET[j] += optionalComponent.getCurrentMass() * optionalComponent.getComponent().getElements().get(j).getPercent() / 100 * optionalComponent.getComponent().getElements().get(j).getAdopt() / 100;
+                }
             }
         }
 
@@ -383,7 +402,7 @@ public class Charge {
         double prices[] = new double[mandatoryComponents.size()];
 
         for (int i = 0; i < mandatoryComponents.size(); i++) {
-            prices[i]=mandatoryComponents.get(i).getComponent().getPrice();
+            prices[i]=mandatoryComponents.get(i).getComponent().getPriceDouble();
         }
 
         while(newList.size()<mandatoryComponents.size()) {
@@ -558,7 +577,6 @@ public class Charge {
                 } else {
                     p++;
                     if (p >= mandatoryCompsTemp.size()){
-
                         mandatoryCompsTemp = change(mandatoryCompsTemp);
                         break;
                     }
@@ -574,16 +592,14 @@ public class Charge {
             massM[i] = (double)Math.round(mandatoryCompsTemp.get(i).getCurrentMass() * mandatoryCompsTemp.get(i).getComponent().getAdoptComp()/100*10)/10;
 
         }
-
+        mandatoryComponents = mandatoryCompsTemp;
         massChTemp=(double)Math.round(massChTemp*10)/10;
-
 
         System.out.println("\n***\nРезультаты 2:");
         for(CompInCharge aComponent: mandatoryCompsTemp){
             System.out.println(aComponent.getName()+"\t"+aComponent.getCurrentMass()+"кг");
         }
-        //correctMelt();
-
+        correctCharge();
     }
 
     public boolean areListsEqual(ArrayList<CompInCharge> list1, ArrayList<CompInCharge> list2){
@@ -594,5 +610,52 @@ public class Charge {
                 return false;
         }
         return true;
+    }
+
+    public void correctCharge(){
+        int i;
+        double massET[];
+
+        double[] massETmin = new double[elements.size()];
+        double[] massETmax = new double[elements.size()];
+        double[] delta = new double[elements.size()];
+        for(i=0; i<elements.size();i++){
+            massETmin[i] = elements.get(i).getMinPercentDouble()*mass/100;
+            massETmax[i] = elements.get(i).getMaxPercentDouble()*mass/100;
+        }
+
+        for(i=0; i<elements.size();i++){
+            massET = checkElements();
+            delta[i] = massETmin[i] - massET[i];
+            if(delta[i]>0){
+                System.out.println("\nНе хватает " + elements.get(i).getName());
+                System.out.println("В расплаве только - " + (massET[i] / mass * 100) + " процентов");
+
+                optionalComponents = sortByElement(elements.get(i));
+
+                optionalComponents.get(0).setCurrentMass((double) Math.round(((elements.get(i).getMinPercentDouble()/100*mass-massET[i])/(optionalComponents.get(0).getComponent().getElements().get(i).getAdopt()/100*(optionalComponents.get(0).getComponent().getElements().get(i).getPercent()/100-elements.get(0).getMinPercentDouble()/100))*100))/100);
+                System.out.println(optionalComponents.get(0).getName()+" - "+optionalComponents.get(0).getCurrentMass()+" кг");
+                massET = checkElements();
+                for(int j=0; j<elements.size();j++) {
+                    System.out.println(elements.get(j).getName());
+                    System.out.println("В расплаве - " + (massET[j] / mass * 100) + " процентов");
+                }
+
+
+            }
+        }
+    }
+
+    public ObservableList<CompInCharge> getChargeResultComps(){
+        ObservableList<CompInCharge> list = FXCollections.observableArrayList();
+        for(CompInCharge aComponent: mandatoryComponents){
+            list.add(aComponent);
+        }
+        for(CompInCharge aComponent: optionalComponents){
+            if(aComponent.getCurrentMass()>0){
+                list.add(aComponent);
+            }
+        }
+        return list;
     }
 }

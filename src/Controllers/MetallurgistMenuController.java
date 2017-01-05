@@ -24,7 +24,7 @@ public class MetallurgistMenuController {
     @FXML private void addMeltButtonClicked(ActionEvent e){
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("../Views/AddCharge1Scene.fxml")
+                    getClass().getResource("/Views/AddCharge1Scene.fxml")
             );
             Parent root = loader.load();
             addCharge1Controller = loader.getController();
@@ -45,7 +45,7 @@ public class MetallurgistMenuController {
     @FXML private void addComponentButtonClicked(ActionEvent e){
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("../Views/AddComponentScene.fxml")
+                    getClass().getResource("/Views/AddComponentScene.fxml")
             );
             Parent root = loader.load();
             addComponentController = loader.getController();
@@ -56,11 +56,23 @@ public class MetallurgistMenuController {
         } catch (Exception ex){
             ex.printStackTrace();
         }
-
     }
 
     @FXML private void showComponentsButtonClicked(ActionEvent e){
-
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Views/ShowComponentsScene.fxml")
+            );
+            Parent root = loader.load();
+            showComponentsController = loader.getController();
+            showComponentsController.setMenuController(this);
+            showComponentsController.init();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setTitle("Просмотр компонентов");
+            primaryStage.show();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     public void backToMenu(){

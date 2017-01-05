@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 public class AddElements2Controller {
     Stage primaryStage;
     public AddElementsController addElementsController;
+    public AddComponentController addComponentController;
     private Alert alert = new Alert(Alert.AlertType.ERROR);
     ObservableList<String> selectedItems;
     ObservableList<Element> data;
@@ -32,6 +33,12 @@ public class AddElements2Controller {
         this.addElementsController = addElementsController;
         primaryStage = addElementsController.primaryStage;
         this.component = addElementsController.addComponentController.component;
+    }
+
+    public void setPreviousController(AddComponentController addComponentController){
+        this.addComponentController = addComponentController;
+        primaryStage = addComponentController.primaryStage;
+        this.component = addComponentController.component;
     }
 
     @FXML
@@ -100,8 +107,11 @@ public class AddElements2Controller {
 
     }
 
+    //@FXML private void backButtonClicked(ActionEvent e){
+        //addElementsController.backToScene();
+    //}
     @FXML private void backButtonClicked(ActionEvent e){
-        addElementsController.backToScene();
+        addComponentController.backToScene();
     }
     @FXML private void finishedButtonClicked(ActionEvent e){
 
@@ -123,12 +133,14 @@ public class AddElements2Controller {
                         alert.setContentText("Компонент сохранен!");
                         alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
                         alert.showAndWait();
-
+/*
                     if(this.addElementsController.addComponentController.metallurgistMenuController!=null) {
                         this.addElementsController.addComponentController.metallurgistMenuController.backToMenu();
                     }
                     else
                         this.addElementsController.addComponentController.directorMenuController.backToMenu();
+
+                        */
                 }
 
 

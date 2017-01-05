@@ -172,4 +172,35 @@ public class Register {
     public static void calculateCheapCharge(){
         charge.calculateCheapCharge();
     }
+
+    public static ObservableList<CompInCharge> getChargeResultComps(){
+        return FXCollections.observableList(charge.getChargeResultComps());
+    }
+
+    public static String getChargeMeltBrand(){
+        return charge.getMeltBrand().getName();
+    }
+
+    public static String getChargeMass(){
+        return String.valueOf(charge.getMass());
+    }
+
+    public static ObservableList<Component> getAllMandatoryComponents(){
+        return Component.getAllMandatoryComponents();
+    }
+
+    public static ObservableList<Component> getAllOptionalComponents(){
+        return FXCollections.observableArrayList(Component.getAllOptionalComponents());
+    }
+
+    public static void updateOptionalComponentsData(ObservableList<Component> optionalComps){
+        Component.updateOptionalComponentsData(optionalComps);
+    }
+
+    public static void updateMandatoryComponentsData(ObservableList<Component> mandatoryComps){
+        Component.updateMandatoryComponentsData(mandatoryComps);
+    }
+    public static void deleteComponent(String name){
+        Component.deleteComponent(name);
+    }
 }

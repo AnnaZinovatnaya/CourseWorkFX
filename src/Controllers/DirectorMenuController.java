@@ -25,7 +25,7 @@ public class DirectorMenuController {
     private void addComponentButtonClicked(ActionEvent e){
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("../Views/AddComponentScene.fxml")
+                    getClass().getResource("/Views/AddComponentScene.fxml")
             );
             Parent root = loader.load();
             addComponentController = loader.getController();
@@ -46,7 +46,7 @@ public class DirectorMenuController {
     @FXML private void reportButtonClicked(ActionEvent e){
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("../Views/ReportScene.fxml")
+                    getClass().getResource("/Views/ReportScene.fxml")
             );
             Parent root = loader.load();
             reportController = loader.getController();

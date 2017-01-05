@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -92,12 +93,12 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <RadioButton fx:id="MandatoryButton" layoutX="39.0" layoutY="222.0" mnemonicParsing="false" onAction="#mandatoryButtonClicked" text="обязательный" GridPane.rowIndex="5">
+            <RadioButton fx:id="MandatoryButton" layoutX="39.0" layoutY="222.0" mnemonicParsing="false" onAction="#mandatoryButtonClicked" text="основной" GridPane.rowIndex="5">
                <font>
                   <Font size="20.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="OptionalButton" layoutX="37.0" layoutY="248.0" mnemonicParsing="false" onAction="#optionalButtonClicked" text="необязательный" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <RadioButton fx:id="OptionalButton" layoutX="37.0" layoutY="248.0" mnemonicParsing="false" onAction="#optionalButtonClicked" text="корректирующий" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
                   <Font size="20.0" />
                </font>

@@ -133,7 +133,7 @@ public class AddCharge4Controller {
             alert.showAndWait();
             return;
         }
-
+/*
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("../Views/AddCharge5Scene.fxml")
@@ -145,7 +145,28 @@ public class AddCharge4Controller {
             addCharge3Controller.addCharge2Controller.addCharge1Controller.metallurgistMenuController.primaryStage.setScene(new Scene(root));
         } catch (Exception ex) {
             ex.printStackTrace();
+        }*/
+        if(Register.isChargePossible()){
+            Register.calculateCheapCharge();
+            try {
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("/Views/ChargeResultScene.fxml")
+                );
+                Parent root = loader.load();
+                ChargeResultController chargeResultController = loader.getController();
+                chargeResultController.addCharge4Controller = this;
+                chargeResultController.init();
+                addCharge3Controller.addCharge2Controller.addCharge1Controller.metallurgistMenuController.primaryStage.setScene(new Scene(root));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else{
+            alert.setContentText("Набор шихты невозможен");
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
         }
+
+
     }
 
     public void backToScene(){

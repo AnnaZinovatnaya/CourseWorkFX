@@ -5,15 +5,13 @@ import Models.Register;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.text.Font;
-
-import javax.print.DocFlavor;
 
 public class AddCharge5Controller {
     AddCharge4Controller addCharge4Controller;
@@ -23,6 +21,7 @@ public class AddCharge5Controller {
     @FXML private TableColumn<CompInCharge, String> MinPercentColumn = new TableColumn<>();
     @FXML private TableColumn<CompInCharge, String> MaxPercentColumn = new TableColumn<>();
     @FXML private TableView<CompInCharge> ComponentsTable = new TableView<>();
+    @FXML private Button BackButton;
 
     ObservableList<CompInCharge> data;
 
@@ -117,13 +116,28 @@ public class AddCharge5Controller {
 
         if(Register.isChargePossible()){
             Register.calculateCheapCharge();
-            alert.setContentText("Набор шихты возможен");
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            try {
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("/Views/ChargeResultScene.fxml")
+                );
+                Parent root = loader.load();
+                ChargeResultController chargeResultController = loader.getController();
+                chargeResultController.addCharge5Controller = this;
+                chargeResultController.init();
+                addCharge4Controller.addCharge3Controller.addCharge2Controller.addCharge1Controller.metallurgistMenuController.primaryStage.setScene(new Scene(root));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         } else{
             alert.setContentText("Набор шихты невозможен");
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
         }
+
+
+    }
+    public void backToScene(){
+        addCharge4Controller.addCharge3Controller.addCharge2Controller.addCharge1Controller.metallurgistMenuController.primaryStage.setScene(this.BackButton.getScene());
+
     }
 }

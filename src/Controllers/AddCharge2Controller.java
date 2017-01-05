@@ -54,15 +54,15 @@ public class AddCharge2Controller {
                     }
 
                     if(b) {
-                        if(!Register.canEditPercent(t.getTableView().getItems().get(
+                        /*if(!Register.canEditPercent(t.getTableView().getItems().get(
                                 t.getTablePosition().getRow()).getName(), Double.parseDouble(t.getNewValue()))){
                             alert.setContentText("Минимальный процент задан некорректно!");
                             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
                             alert.showAndWait();
-                        }else{
+                        }else{*/
                             t.getTableView().getItems().get(
                                     t.getTablePosition().getRow()).setMinPercent(Double.parseDouble(t.getNewValue()));
-                        }
+                        //}
                     }
                 }
         );
@@ -86,17 +86,16 @@ public class AddCharge2Controller {
 
                     if(b) {
 
-                        if(!Register.canEditPercent(t.getTableView().getItems().get(
+                        /*if(!Register.canEditPercent(t.getTableView().getItems().get(
                                 t.getTablePosition().getRow()).getName(), Double.parseDouble(t.getNewValue()))){
                             alert.setContentText("Максимальный процент задан некорректно!");
                             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
                             alert.showAndWait();
 
-                        }else{
+                        }else{*/
                             t.getTableView().getItems().get(
                                     t.getTablePosition().getRow()).setMaxPercent(Double.parseDouble(t.getNewValue()));
-                        }
-
+                        //}
                     }
                 }
         );
@@ -125,7 +124,7 @@ public class AddCharge2Controller {
 
             try {
                 FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("../Views/AddCharge3Scene.fxml")
+                        getClass().getResource("/Views/AddCharge3Scene.fxml")
                 );
                 Parent root = loader.load();
                 AddCharge3Controller addCharge3Controller = loader.getController();

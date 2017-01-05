@@ -2,6 +2,7 @@ package Controllers;
 
 import Models.Component;
 import Models.Register;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -128,6 +129,7 @@ public class AddComponentController {
                                                 mandatory=1;
                                             Register.setComponentParam(NameField.getText(), BrandField.getText(), adopt, amount, price, mandatory);
                                             try {
+                                                /*
                                                 FXMLLoader loader = new FXMLLoader(
                                                         getClass().getResource("../Views/AddElementsScene.fxml")
                                                 );
@@ -141,6 +143,21 @@ public class AddComponentController {
                                                     primaryStage = directorMenuController.primaryStage;
                                                 primaryStage.setScene(new Scene(root));
                                                 primaryStage.setTitle("Новый компонент");
+                                                */
+
+                                                FXMLLoader loader = new FXMLLoader(
+                                                        getClass().getResource("/Views/AddElements2Scene.fxml")
+                                                );
+                                                Parent root = loader.load();
+
+                                                AddElements2Controller addElements2Controller = loader.getController();
+                                                addElements2Controller.setPreviousController(this);
+                                                addElements2Controller.init(FXCollections.observableArrayList("C", "S", "Si"));
+                                                if(metallurgistMenuController!=null)
+                                                    primaryStage = metallurgistMenuController.primaryStage;
+                                                else
+                                                    primaryStage = directorMenuController.primaryStage;
+                                                primaryStage.setScene(new Scene(root));
                                             } catch (Exception ex){
                                                 ex.printStackTrace();
                                             }

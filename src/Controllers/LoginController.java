@@ -44,7 +44,7 @@ public class LoginController{
                 try {
                     if (Register.getRole().equals("администратор")) {
                         FXMLLoader loader = new FXMLLoader(
-                                getClass().getResource("../Views/AdminMenuScene.fxml")
+                                getClass().getResource("/Views/AdminMenuScene.fxml")
                         );
                         Parent root = loader.load();
                         AdminMenuController adminMenuController = loader.getController();
@@ -54,7 +54,7 @@ public class LoginController{
 
                     } else if (Register.getRole().equals("металлург")) {
                         FXMLLoader loader = new FXMLLoader(
-                                getClass().getResource("../Views/MetallurgistMenuScene.fxml")
+                                getClass().getResource("/Views/MetallurgistMenuScene.fxml")
                         );
                         Parent root = loader.load();
                         MetallurgistMenuController metallurgistMenuController = loader.getController();
@@ -64,7 +64,7 @@ public class LoginController{
 
                     } else if (Register.getRole().equals("плавильщик")) {
                         FXMLLoader loader = new FXMLLoader(
-                                getClass().getResource("../Views/FounderMenuScene.fxml")
+                                getClass().getResource("/Views/FounderMenuScene.fxml")
                         );
                         Parent root = loader.load();
                         FounderMenuController founderMenuController = loader.getController();
@@ -73,7 +73,7 @@ public class LoginController{
                         primaryStage.setTitle("Меню - Плавильщик");
                     } else if (Register.getRole().equals("руководитель")) {
                         FXMLLoader loader = new FXMLLoader(
-                                getClass().getResource("../Views/DirectorMenuScene.fxml")
+                                getClass().getResource("/Views/DirectorMenuScene.fxml")
                         );
                         Parent root = loader.load();
                         DirectorMenuController directorMenuController = loader.getController();

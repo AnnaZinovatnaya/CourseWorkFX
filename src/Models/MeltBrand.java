@@ -3,7 +3,6 @@ package Models;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import util.DBUtil;
-
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;

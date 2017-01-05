@@ -70,12 +70,12 @@ public class AddElementsController {
         if(selectedItems.size()>0) {
             try {
                 FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("../Views/AddElements2Scene.fxml")
+                        getClass().getResource("/Views/AddElements2Scene.fxml")
                 );
                 Parent root = loader.load();
                 AddElements2Controller addElements2Controller = loader.getController();
                 addElements2Controller.setPreviousController(this);
-                addElements2Controller.init(selectedItems);
+                addElements2Controller.init(items);
                 primaryStage = addComponentController.primaryStage;
                 primaryStage.setScene(new Scene(root));
             } catch (Exception ex) {

@@ -22,7 +22,7 @@ public class AdminMenuController {
     @FXML private void addUserButtonClicked(ActionEvent e){
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("../Views/AddUserScene.fxml")
+                    getClass().getResource("/Views/AddUserScene.fxml")
             );
             Parent root = loader.load();
             AddUserController addUserController = loader.getController();
@@ -39,7 +39,7 @@ public class AdminMenuController {
     @FXML private void findUserButtonClicked(ActionEvent e){
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("../Views/FindUserScene.fxml")
+                    getClass().getResource("/Views/FindUserScene.fxml")
             );
             Parent root = loader.load();
             FindUserController findUserController = loader.getController();

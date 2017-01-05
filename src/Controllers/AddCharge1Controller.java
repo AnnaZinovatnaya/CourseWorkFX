@@ -83,7 +83,7 @@ public class AddCharge1Controller {
 
             try {
                 FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("../Views/AddCharge2Scene.fxml")
+                        getClass().getResource("/Views/AddCharge2Scene.fxml")
                 );
                 Parent root = loader.load();
                 AddCharge2Controller addCharge2Controller = loader.getController();

@@ -31,7 +31,7 @@ public class AddCharge3Controller {
             Register.setMandatoryComponents(selectedItems);
             try {
                 FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("../Views/AddCharge4Scene.fxml")
+                        getClass().getResource("/Views/AddCharge4Scene.fxml")
                 );
                 Parent root = loader.load();
                 AddCharge4Controller addCharge4Controller = loader.getController();
