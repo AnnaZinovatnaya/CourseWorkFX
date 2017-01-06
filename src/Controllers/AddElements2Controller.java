@@ -96,8 +96,6 @@ public class AddElements2Controller {
                     if(b) {
                         t.getTableView().getItems().get(
                                 t.getTablePosition().getRow()).setAdopt(Double.parseDouble(t.getNewValue()));
-                    } else {
-
                     }
                 }
         );
@@ -133,14 +131,14 @@ public class AddElements2Controller {
                         alert.setContentText("Компонент сохранен!");
                         alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
                         alert.showAndWait();
-/*
-                    if(this.addElementsController.addComponentController.metallurgistMenuController!=null) {
-                        this.addElementsController.addComponentController.metallurgistMenuController.backToMenu();
+
+                    if(this.addComponentController.metallurgistMenuController!=null) {
+                        this.addComponentController.metallurgistMenuController.backToMenu();
                     }
                     else
-                        this.addElementsController.addComponentController.directorMenuController.backToMenu();
+                        this.addComponentController.directorMenuController.backToMenu();
 
-                        */
+
                 }
 
 

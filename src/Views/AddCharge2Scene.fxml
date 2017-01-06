@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddCharge2Controller">
+   <children>
+      <Label layoutX="201.0" layoutY="20.0" text="Добавление плавки">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="NextButtob" layoutX="502.0" layoutY="342.0" mnemonicParsing="false" onAction="#nextButtonClicked" text="Далее">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="BackButton" layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Label layoutX="15.0" layoutY="62.0" text="Корректировка химического состава:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TableView fx:id="ElementsTable" layoutX="15.0" layoutY="106.0" prefHeight="200.0" prefWidth="568.0">
+        <columns>
+          <TableColumn fx:id="NameColumn" editable="false" prefWidth="190.0" text="Название хим. элемента" />
+          <TableColumn fx:id="MinPercentColumn" prefWidth="189.0" text="Мин. количество, %" />
+            <TableColumn fx:id="MaxPercentColumn" prefWidth="189.0" text="Макс. количество, %" />
+        </columns>
+      </TableView>
+   </children>
+</Pane>

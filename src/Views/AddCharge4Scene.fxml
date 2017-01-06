@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddCharge4Controller">
+   <children>
+      <Label layoutX="200.0" layoutY="14.0" text="Добавление плавки">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="NextButtob" layoutX="502.0" layoutY="342.0" mnemonicParsing="false" onAction="#nextButtonClicked" text="Далее">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="BackButton" layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Label layoutX="20.0" layoutY="56.0" text="Укажите мин. и макс. вхождение компонета:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TableView fx:id="ComponentsTable" layoutX="14.0" layoutY="94.0" prefHeight="233.0" prefWidth="569.0">
+         <columns>
+            <TableColumn fx:id="ComponentColumn" editable="false" prefWidth="175.0" style="-fx-font: NORMAL 16 System;" text="Компонент" />
+            <TableColumn fx:id="MinPercentColumn" prefWidth="197.0" style="-fx-font: NORMAL 16 Systen;" text="Мин. вхождение, %" />
+            <TableColumn fx:id="MaxPercentColumn" prefWidth="197.0" style="-fx-font: NORMAL 16 System;" text="Макс. вхождение, %" />
+         </columns>
+      </TableView>
+   </children>
+</Pane>
