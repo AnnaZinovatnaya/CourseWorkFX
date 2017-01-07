@@ -59,5 +59,10 @@
             <Font size="20.0" />
          </font>
       </Button>
+      <Button fx:id="selectButton" layoutX="225.0" layoutY="349.0" mnemonicParsing="false" onAction="#selectButtonClicked" text="Выбрать">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

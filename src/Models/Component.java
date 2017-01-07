@@ -263,4 +263,18 @@ public class Component {
             ex.printStackTrace();
         }
     }
+
+    public static Component findComponent(String name){
+        Component temp = null;
+        try{
+            ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name` = '"+name+"'");
+            rs.next();
+            temp = new Component(name, rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), rs.getInt("mandatory"), rs.getDouble("adoptComp"), null);
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        return temp;
+    }
 }

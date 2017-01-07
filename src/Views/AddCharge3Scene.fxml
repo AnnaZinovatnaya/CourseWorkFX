@@ -5,7 +5,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddCharge3Controller">
    <children>
       <Button fx:id="BackButton" layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
@@ -35,24 +34,24 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <GridPane prefHeight="180.0" prefWidth="38.0" vgap="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <GridPane prefHeight="205.0" prefWidth="61.0" vgap="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Button fx:id="AllForwardButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" mnemonicParsing="false" onAction="#allForwardButtonClicked" prefHeight="40.0" prefWidth="40.0" text="&gt;&gt;" GridPane.rowIndex="1">
+                  <Button fx:id="AllForwardButton" maxHeight="40.0" maxWidth="50.0" minHeight="40.0" mnemonicParsing="false" onAction="#allForwardButtonClicked" prefHeight="40.0" prefWidth="50.0" text="&gt;&gt;" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="AllBackButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" mnemonicParsing="false" onAction="#allBackButtonClicked" prefHeight="40.0" prefWidth="40.0" text="&lt;&lt;" GridPane.rowIndex="3">
+                  <Button fx:id="AllBackButton" maxHeight="40.0" maxWidth="50.0" minHeight="40.0" mnemonicParsing="false" onAction="#allBackButtonClicked" prefHeight="40.0" prefWidth="50.0" text="&lt;&lt;" GridPane.rowIndex="3">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="OneForwardButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" mnemonicParsing="false" onAction="#oneForwardButtonClicked" prefHeight="40.0" prefWidth="40.0" text="&gt;">
+                  <Button fx:id="OneForwardButton" maxHeight="40.0" maxWidth="50.0" minHeight="40.0" mnemonicParsing="false" onAction="#oneForwardButtonClicked" prefHeight="40.0" prefWidth="50.0" text="&gt;">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="OneBackButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" mnemonicParsing="false" onAction="#oneBackButtonClicked" prefHeight="40.0" prefWidth="40.0" text="&lt;" GridPane.rowIndex="2">
+                  <Button fx:id="OneBackButton" maxHeight="40.0" maxWidth="50.0" minHeight="40.0" mnemonicParsing="false" onAction="#oneBackButtonClicked" prefHeight="40.0" prefWidth="50.0" text="&lt;" GridPane.rowIndex="2">
                      <font>
                         <Font size="14.0" />
                      </font>

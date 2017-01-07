@@ -246,4 +246,54 @@ public class ShowComponentsController {
         }
 
     }
+
+    @FXML private void selectButtonClicked(ActionEvent e) {
+        if(this.mandatoryTab.isSelected()) {
+            Component temp = this.MandatoryComponentsTable.getSelectionModel().getSelectedItem();
+            if (temp != null) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(
+                            getClass().getResource("/Views/ShowComponentScene.fxml")
+                    );
+                    Parent root = loader.load();
+                    ShowComponentController showComponentController = loader.getController();
+                    showComponentController.init(this, temp.getName());
+                    this.metallurgistMenuController.primaryStage.setScene(new Scene(root));
+                    this.metallurgistMenuController.primaryStage.setTitle("Просмотр компонента");
+
+                } catch (Exception ex){
+                    ex.printStackTrace();
+                }
+
+            } else{
+                alert.setContentText("Выберите компонент!");
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+            }
+
+        }
+        else{
+            Component temp = this.OptionalComponentsTable.getSelectionModel().getSelectedItem();
+            if (temp != null) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(
+                            getClass().getResource("/Views/ShowComponentScene.fxml")
+                    );
+                    Parent root = loader.load();
+                    ShowComponentController showComponentController = loader.getController();
+                    showComponentController.init(this, temp.getName());
+                    this.metallurgistMenuController.primaryStage.setScene(new Scene(root));
+                    this.metallurgistMenuController.primaryStage.setTitle("Просмотр компонента");
+
+                } catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            } else{
+                alert.setContentText("Выберите компонент!");
+
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+            }
+        }
+    }
 }

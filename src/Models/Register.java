@@ -203,4 +203,8 @@ public class Register {
     public static void deleteComponent(String name){
         Component.deleteComponent(name);
     }
+
+    public static Component findComponent(String name){
+        return Component.findComponent(name);
+    }
 }
