@@ -9,38 +9,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.text.Font;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import util.DBUtil;
-
-import javax.xml.transform.Result;
-import java.sql.ResultSet;
 
 public class ShowComponentsController {
     MetallurgistMenuController metallurgistMenuController;
-    @FXML private TableColumn<Component, String> NameColumnM = new TableColumn<>();
-    @FXML private TableColumn<Component, String> BrandColumnM = new TableColumn<>();
-    @FXML private TableColumn<Component, String> AmountColumnM = new TableColumn<>();
-    @FXML private TableColumn<Component, String> PriceColumnM = new TableColumn<>();
-    @FXML public TableView<Component> MandatoryComponentsTable = new TableView<>();
+    @FXML public ListView <String> MandatoryView= new ListView<>();
+    @FXML public ListView <String> OptionalView= new ListView<>();
 
-    @FXML private TableColumn<Component, String> NameColumnO = new TableColumn<>();
-    @FXML private TableColumn<Component, String> BrandColumnO = new TableColumn<>();
-    @FXML private TableColumn<Component, String> AmountColumnO = new TableColumn<>();
-    @FXML private TableColumn<Component, String> PriceColumnO = new TableColumn<>();
-    @FXML public TableView<Component> OptionalComponentsTable = new TableView<>();
 
     @FXML private Tab mandatoryTab = new Tab();
     @FXML private Tab optionalTab = new Tab();
 
-    ObservableList<Component> mandatoryComps;
-    ObservableList<Component> optionalComps;
-
-    private boolean mandatoryChanged=false;
-    private boolean optionalChanged=false;
+    ObservableList<String> mandatoryComps;
+    ObservableList<String> optionalComps;
 
     private Alert alert = new Alert(Alert.AlertType.ERROR);
 
@@ -49,140 +30,19 @@ public class ShowComponentsController {
     }
 
     public void init(){
-        this.OptionalComponentsTable.setEditable(true);
-        this.MandatoryComponentsTable.setEditable(true);
 
-        mandatoryComps = Register.getAllMandatoryComponents();
-        optionalComps = Register.getAllOptionalComponents();
+        this.mandatoryComps = Register.getAllMandatoryComponentsString();
+        this.optionalComps = Register.getAllOptionalComponentsString();
 
-        this.NameColumnM.setCellValueFactory(new PropertyValueFactory<>("name"));
-        this.BrandColumnM.setCellValueFactory(new PropertyValueFactory<>("brand"));
-        this.AmountColumnM.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        this.AmountColumnM.setEditable(true);
-        this.AmountColumnM.setCellFactory(TextFieldTableCell.forTableColumn());
-        this.AmountColumnM.setOnEditCommit(
-                t -> {
-                    double amount;
-                    boolean b= true;
-                    try {
-                        amount = Double.parseDouble(t.getNewValue());
-                    } catch (Exception ex){
-                        alert.setContentText("Количество задано некорректно!");
-                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                        alert.showAndWait();
-
-                        b=false;
-                    }
-
-                    if(b) {
-
-                        t.getTableView().getItems().get(
-                                t.getTablePosition().getRow()).setAmount(Double.parseDouble(t.getNewValue()));
-                        mandatoryChanged = true;
-                    }
-                }
-        );
-
-        this.PriceColumnM.setCellValueFactory(new PropertyValueFactory<>("price"));
-        this.PriceColumnM.setEditable(true);
-        this.PriceColumnM.setCellFactory(TextFieldTableCell.forTableColumn());
-        this.PriceColumnM.setOnEditCommit(
-                t -> {
-                    double price;
-                    boolean b= true;
-                    try {
-                        price = Double.parseDouble(t.getNewValue());
-                    } catch (Exception ex){
-                        alert.setContentText("Цена задана некорректно!");
-                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                        alert.showAndWait();
-
-                        b=false;
-                    }
-
-                    if(b) {
-
-                        t.getTableView().getItems().get(
-                                t.getTablePosition().getRow()).setPrice(Double.parseDouble(t.getNewValue()));
-                        mandatoryChanged = true;
-                    }
-                }
-        );
-
-        this.MandatoryComponentsTable.setItems(mandatoryComps);
-        this.MandatoryComponentsTable.getColumns().clear();
-        this.MandatoryComponentsTable.getColumns().addAll(NameColumnM, BrandColumnM, AmountColumnM, PriceColumnM);
-
-        this.NameColumnO.setCellValueFactory(new PropertyValueFactory<>("name"));
-        this.BrandColumnO.setCellValueFactory(new PropertyValueFactory<>("brand"));
-        this.AmountColumnO.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        this.AmountColumnO.setEditable(true);
-        this.AmountColumnO.setCellFactory(TextFieldTableCell.forTableColumn());
-        this.AmountColumnO.setOnEditCommit(
-                t -> {
-                    double amount;
-                    boolean b= true;
-                    try {
-                        amount = Double.parseDouble(t.getNewValue());
-                    } catch (Exception ex){
-                        alert.setContentText("Количество задано некорректно!");
-                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                        alert.showAndWait();
-
-                        b=false;
-                    }
-
-                    if(b) {
-
-                        t.getTableView().getItems().get(
-                                t.getTablePosition().getRow()).setAmount(Double.parseDouble(t.getNewValue()));
-                        optionalChanged = true;
-                    }
-                }
-        );
-        this.PriceColumnO.setCellValueFactory(new PropertyValueFactory<>("price"));
-        this.PriceColumnO.setEditable(true);
-        this.PriceColumnO.setCellFactory(TextFieldTableCell.forTableColumn());
-        this.PriceColumnO.setOnEditCommit(
-                t -> {
-                    double price;
-                    boolean b= true;
-                    try {
-                        price = Double.parseDouble(t.getNewValue());
-                    } catch (Exception ex){
-                        alert.setContentText("Цена задана некорректно!");
-                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                        alert.showAndWait();
-
-                        b=false;
-                    }
-
-                    if(b) {
-
-                        t.getTableView().getItems().get(
-                                t.getTablePosition().getRow()).setPrice(Double.parseDouble(t.getNewValue()));
-                        optionalChanged = true;
-                    }
-                }
-        );
-
-        this.OptionalComponentsTable.setItems(optionalComps);
-        this.OptionalComponentsTable.getColumns().clear();
-        this.OptionalComponentsTable.getColumns().addAll(NameColumnO, BrandColumnO, AmountColumnO, PriceColumnO);
+        this.MandatoryView.setItems(mandatoryComps);
+        this.OptionalView.setItems(optionalComps);
     }
 
     @FXML private void menuButtonClicked(ActionEvent e){
         metallurgistMenuController.backToMenu();
     }
 
-    @FXML private void saveButtonClicked(ActionEvent e) {
-        if(optionalChanged){
-            Register.updateOptionalComponentsData(optionalComps);
-        }
-        if(mandatoryChanged){
-            Register.updateMandatoryComponentsData(mandatoryComps);
-        }
-    }
+    /*
     @FXML private void deleteButtonClicked(ActionEvent e) {
 
 
@@ -246,18 +106,23 @@ public class ShowComponentsController {
         }
 
     }
+    */
 
     @FXML private void selectButtonClicked(ActionEvent e) {
+        String temp;
         if(this.mandatoryTab.isSelected()) {
-            Component temp = this.MandatoryComponentsTable.getSelectionModel().getSelectedItem();
-            if (temp != null) {
+            temp = this.MandatoryView.getSelectionModel().getSelectedItem();
+        }else {
+            temp = this.OptionalView.getSelectionModel().getSelectedItem();
+        }
+        if (temp != null) {
                 try {
                     FXMLLoader loader = new FXMLLoader(
                             getClass().getResource("/Views/ShowComponentScene.fxml")
                     );
                     Parent root = loader.load();
                     ShowComponentController showComponentController = loader.getController();
-                    showComponentController.init(this, temp.getName());
+                    showComponentController.init(this, temp);
                     this.metallurgistMenuController.primaryStage.setScene(new Scene(root));
                     this.metallurgistMenuController.primaryStage.setTitle("Просмотр компонента");
 
@@ -270,30 +135,16 @@ public class ShowComponentsController {
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
             }
+    }
 
-        }
-        else{
-            Component temp = this.OptionalComponentsTable.getSelectionModel().getSelectedItem();
-            if (temp != null) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(
-                            getClass().getResource("/Views/ShowComponentScene.fxml")
-                    );
-                    Parent root = loader.load();
-                    ShowComponentController showComponentController = loader.getController();
-                    showComponentController.init(this, temp.getName());
-                    this.metallurgistMenuController.primaryStage.setScene(new Scene(root));
-                    this.metallurgistMenuController.primaryStage.setTitle("Просмотр компонента");
+    public void refreshItems(){
+        this.mandatoryComps.removeAll();
+        this.optionalComps.removeAll();
 
-                } catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            } else{
-                alert.setContentText("Выберите компонент!");
+        this.mandatoryComps = Register.getAllMandatoryComponentsString();
+        this.optionalComps = Register.getAllOptionalComponentsString();
 
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-            }
-        }
+        this.MandatoryView.setItems(mandatoryComps);
+        this.OptionalView.setItems(optionalComps);
     }
 }

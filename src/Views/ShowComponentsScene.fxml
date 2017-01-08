@@ -10,28 +10,14 @@
    <children>
       <TabPane fx:id="AdoptCColumnO" layoutY="36.0" prefHeight="305.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab fx:id="mandatoryTab" style="-fx-font: NORMAL 18 System; -fx-padding: 5px 10px 5px 10px; -fx-border-radius: 5px;" text="Основные">
+          <Tab fx:id="mandatoryTab" style="-fx-font: NORMAL 18 System; -fx-padding: 5px 10px 5px 10px; -fx-border-radius: 5px;-fx-focus-color: transparent;" text="Основные">
                <content>
-                  <TableView fx:id="MandatoryComponentsTable" prefHeight="200.0" prefWidth="200.0">
-                     <columns>
-                        <TableColumn fx:id="NameColumnM" prefWidth="200.0" style="-fx-font: NORMAL 18 System;" text="Название" />
-                        <TableColumn fx:id="BrandColumnM" prefWidth="150.0" style="-fx-font: NORMAL 18 System;" text="Марка" />
-                        <TableColumn fx:id="AmountColumnM" prefWidth="150.0" style="-fx-font: NORMAL 18 System;" text="Количество, кг" />
-                        <TableColumn fx:id="PriceColumnM" prefWidth="100.0" style="-fx-font: NORMAL 18 System;" text="Цена, грн" />
-                     </columns>
-                  </TableView>
+                  <ListView fx:id="MandatoryView" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;"/>
                </content>
             </Tab>
-          <Tab fx:id="optionalTab" style="-fx-font: NORMAL 18 System; -fx-padding: 5px 10px 5px 10px; -fx-border-radius: 5px;" text="Корректирующие">
+          <Tab fx:id="optionalTab" style="-fx-font: NORMAL 18 System; -fx-padding: 5px 10px 5px 10px; -fx-border-radius: 5px;-fx-focus-color: transparent;" text="Корректирующие">
                <content>
-                  <TableView fx:id="OptionalComponentsTable" prefHeight="227.0" prefWidth="600.0">
-                    <columns>
-                      <TableColumn fx:id="NameColumnO" prefWidth="200.0" style="-fx-font: NORMAL 18 System;" text="Название" />
-                        <TableColumn fx:id="BrandColumnO" prefWidth="150.0" resizable="false" style="-fx-font: NORMAL 18 System;" text="Марка" />
-                        <TableColumn fx:id="AmountColumnO" prefWidth="150.0" style="-fx-font: NORMAL 18 System;" text="Количество, кг" />
-                        <TableColumn fx:id="PriceColumnO" prefWidth="100.0" style="-fx-font: NORMAL 18 System;" text="Цена, грн" />
-                    </columns>
-                  </TableView>
+                  <ListView fx:id="OptionalView" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;"/>
                </content>
             </Tab>
         </tabs>
@@ -49,17 +35,7 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="SaveButton" layoutX="467.0" layoutY="349.0" mnemonicParsing="false" onAction="#saveButtonClicked" text="Сохранить">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
-      <Button fx:id="DeleteButton" layoutX="340.0" layoutY="349.0" mnemonicParsing="false" onAction="#deleteButtonClicked" text="Удалить">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
-      <Button fx:id="selectButton" layoutX="225.0" layoutY="349.0" mnemonicParsing="false" onAction="#selectButtonClicked" text="Выбрать">
+      <Button fx:id="selectButton" layoutX="487.0" layoutY="349.0" mnemonicParsing="false" onAction="#selectButtonClicked" text="Выбрать">
          <font>
             <Font size="20.0" />
          </font>

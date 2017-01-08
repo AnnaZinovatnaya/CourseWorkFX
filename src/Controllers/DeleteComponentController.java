@@ -1,6 +1,5 @@
 package Controllers;
 
-import Models.Component;
 import Models.Register;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,20 +11,18 @@ import javafx.stage.Stage;
 
 public class DeleteComponentController {
 
-    ShowComponentsController showComponentsController;
-    Component temp;
-    int type;
+    ShowComponentController showComponentController;
+    String temp;
     private Alert alert = new Alert(Alert.AlertType.ERROR);
 
 
-    public void init(Component temp, int type){
+    public void init(String temp){
         this.temp = temp;
-        this.type = type;
     }
     @FXML
     private void deleteButtonClicked(ActionEvent e){
         Stage stage;
-        Register.deleteComponent(temp.getName());
+        Register.deleteComponent(temp);
 
         alert.setAlertType(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Удаление компонента");
@@ -34,15 +31,7 @@ public class DeleteComponentController {
         alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
         alert.showAndWait();
         alert.setAlertType(Alert.AlertType.ERROR);
-        if(type==0) {
-            this.showComponentsController.MandatoryComponentsTable.getItems().remove(temp);
-            this.showComponentsController.MandatoryComponentsTable.refresh();
-        }
-        else{
-            this.showComponentsController.OptionalComponentsTable.getItems().remove(temp);
-            this.showComponentsController.OptionalComponentsTable.refresh();
-        }
-
+        this.showComponentController.deleted = true;
         stage = (Stage)((Button) e.getSource()).getScene().getWindow();
         stage.close();
     }

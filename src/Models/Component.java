@@ -172,6 +172,25 @@ public class Component {
         return list;
     }
 
+    public static ObservableList<String> getAllOptionalComponentsString(){
+        ObservableList<String> list = FXCollections.observableArrayList ();
+
+        String temp;
+        ResultSet rs;
+
+
+        try{
+            rs = DBUtil.dbExecuteQuery("SELECT name FROM mydb.component WHERE mandatory=0");
+            while (rs.next()) {
+                temp = rs.getString("name");
+                list.add(temp);
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
     public static ObservableList<Component> getAllMandatoryComponents(){
         ObservableList<Component> list = FXCollections.observableArrayList ();
 
@@ -182,7 +201,7 @@ public class Component {
         try{
             rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE mandatory=1");
             while (rs.next()) {
-                list.add(new Component(rs.getString("name"), rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), 1, rs.getDouble("adoptComp"), new ArrayList<Element>()));
+                list.add(new Component(rs.getString("name"), rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), 1, rs.getDouble("adoptComp"), new ArrayList<>()));
                 rs2 = DBUtil.dbExecuteQuery("SELECT name, procent, adopt FROM mydb.elementincomponent JOIN mydb.element ON idElement = Element_idElement WHERE Component_idComponent = "+rs.getString("idComponent"));
                 while (rs2.next()) {
                     list.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
@@ -205,7 +224,7 @@ public class Component {
         try{
             rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE mandatory=0");
             while (rs.next()) {
-                list.add(new Component(rs.getString("name"), rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), 0, rs.getDouble("adoptComp"), new ArrayList<Element>()));
+                list.add(new Component(rs.getString("name"), rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), 0, rs.getDouble("adoptComp"), new ArrayList<>()));
                 rs2 = DBUtil.dbExecuteQuery("SELECT name, procent, adopt FROM mydb.elementincomponent JOIN mydb.element ON idElement = Element_idElement WHERE Component_idComponent = "+rs.getString("idComponent"));
                 while (rs2.next()) {
                     list.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
@@ -266,10 +285,17 @@ public class Component {
 
     public static Component findComponent(String name){
         Component temp = null;
+        int idComponent;
         try{
             ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name` = '"+name+"'");
             rs.next();
-            temp = new Component(name, rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), rs.getInt("mandatory"), rs.getDouble("adoptComp"), null);
+            temp = new Component(name, rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), rs.getInt("mandatory"), rs.getDouble("adoptComp"), new ArrayList<>());
+            idComponent = rs.getInt("idComponent");
+            ResultSet rs2 = DBUtil.dbExecuteQuery("SELECT `name`, procent, adopt FROM mydb.element E JOIN mydb.elementincomponent EC ON E.idElement=EC.Element_idElement WHERE EC.Component_idComponent='"+idComponent+"';");
+
+            while(rs2.next()){
+                temp.getElements().add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
+            }
 
         }catch (Exception ex){
             ex.printStackTrace();

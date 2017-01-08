@@ -153,6 +153,10 @@ public class Register {
         return Component.getAllMandatoryComponentsString();
     }
 
+    public static ObservableList<String> getAllOptionalComponentsString(){
+        return Component.getAllOptionalComponentsString();
+    }
+
     public static void setMandatoryComponents(ObservableList<String> components){
         charge.setMandatoryComponents(components);
         charge.setOptionalComponents();
