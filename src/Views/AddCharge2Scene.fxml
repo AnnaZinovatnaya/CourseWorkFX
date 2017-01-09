@@ -30,9 +30,9 @@
       </Label>
       <TableView fx:id="ElementsTable" layoutX="15.0" layoutY="106.0" prefHeight="200.0" prefWidth="568.0">
         <columns>
-          <TableColumn fx:id="NameColumn" editable="false" prefWidth="190.0" text="Название хим. элемента" />
-          <TableColumn fx:id="MinPercentColumn" prefWidth="189.0" text="Мин. количество, %" />
-            <TableColumn fx:id="MaxPercentColumn" prefWidth="189.0" text="Макс. количество, %" />
+          <TableColumn fx:id="NameColumn" editable="false" prefWidth="190.0" text="Название элемента" style="-fx-font: NORMAL 18 System;"/>
+          <TableColumn fx:id="MinPercentColumn" prefWidth="189.0" text="Мин. количество, %" style="-fx-font: NORMAL 18 System;"/>
+            <TableColumn fx:id="MaxPercentColumn" prefWidth="189.0" text="Макс. количество, %" style="-fx-font: NORMAL 18 System;"/>
         </columns>
       </TableView>
    </children>

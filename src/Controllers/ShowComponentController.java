@@ -8,9 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -25,8 +24,9 @@ public class ShowComponentController {
     @FXML private TextField SPercentField;
     @FXML private TextField PriceField;
     @FXML private TextField AmountField;
-    @FXML private ChoiceBox<String> TypeBox;
     @FXML private Label NameLabel;
+
+    private Alert alert = new Alert(Alert.AlertType.ERROR);
 
     private ShowComponentsController showComponentsController;
     Component component;
@@ -55,11 +55,15 @@ public class ShowComponentController {
                 this.SPercentField.setText(String.valueOf(aElement.getPercent()));
             }
         }
+
     }
 
 
     @FXML
     private void backButtonClicked(ActionEvent e) {
+        this.showComponentsController.OptionalView.getSelectionModel().clearSelection();
+        this.showComponentsController.MandatoryView.getSelectionModel().clearSelection();
+        this.showComponentsController.metallurgistMenuController.primaryStage.setTitle("Просмотр компонентов");
         this.showComponentsController.metallurgistMenuController.primaryStage.setScene(this.showComponentsController.MandatoryView.getScene());
 
     }
@@ -90,6 +94,163 @@ public class ShowComponentController {
     }
     @FXML
     private void saveButtonClicked(ActionEvent e) {
+        boolean b=true;
+        double temp=0;
 
+        if(BrandField.getText().isEmpty()||AdoptField.getText().isEmpty()||PriceField.getText().isEmpty()||AmountField.getText().isEmpty()||CAdoptField.getText().isEmpty()||CPercentField.getText().isEmpty()||SiAdoptField.getText().isEmpty()||SiPercentField.getText().isEmpty()||SAdoptField.getText().isEmpty()||SPercentField.getText().isEmpty()){
+            alert.setContentText("Все поля должны быть заполнены!");
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
+            b=false;
+        }
+        if(b){
+            component.setBrand(BrandField.getText());
+            try {
+                temp = Double.parseDouble(AdoptField.getText());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                alert.setContentText("Усвоение базового элемента задано некорректно!");
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+                b = false;
+            }
+            component.setAdoptBase(temp);
+        }
+
+        if(b){
+            try {
+                temp = Double.parseDouble(PriceField.getText());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                alert.setContentText("Цена задана некорректно!");
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+                b = false;
+            }
+            component.setPrice(temp);
+        }
+        if(b){
+            try {
+                temp = Double.parseDouble(AmountField.getText());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                alert.setContentText("Количество на складе задано некорректно!");
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+                b = false;
+            }
+            component.setAmount(temp);
+        }
+
+        if(b){
+            try {
+                temp = Double.parseDouble(CAdoptField.getText());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                alert.setContentText("Усвоение С задано некорректно!");
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+                b = false;
+            }
+            for(Element aElement: component.getElements()){
+                if(aElement.getName().equals("C")){
+                    aElement.setAdopt(temp);
+                }
+            }
+        }
+
+        if(b){
+            try {
+                temp = Double.parseDouble(SiAdoptField.getText());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                alert.setContentText("Усвоение Si задано некорректно!");
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+                b = false;
+            }
+            for(Element aElement: component.getElements()){
+                if(aElement.getName().equals("Si")){
+                    aElement.setAdopt(temp);
+                }
+            }
+        }
+
+        if(b){
+            try {
+                temp = Double.parseDouble(SAdoptField.getText());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                alert.setContentText("Усвоение S задано некорректно!");
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+                b = false;
+            }
+            for(Element aElement: component.getElements()){
+                if(aElement.getName().equals("S")){
+                    aElement.setAdopt(temp);
+                }
+            }
+        }
+
+        if(b){
+            try {
+                temp = Double.parseDouble(CPercentField.getText());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                alert.setContentText("Вхождение С задано некорректно!");
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+                b = false;
+            }
+            for(Element aElement: component.getElements()){
+                if(aElement.getName().equals("C")){
+                    aElement.setPercent(temp);
+                }
+            }
+        }
+
+        if(b){
+            try {
+                temp = Double.parseDouble(SiPercentField.getText());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                alert.setContentText("Вхождение Si задано некорректно!");
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+                b = false;
+            }
+            for(Element aElement: component.getElements()){
+                if(aElement.getName().equals("Si")){
+                    aElement.setPercent(temp);
+                }
+            }
+        }
+
+        if(b){
+            try {
+                temp = Double.parseDouble(SPercentField.getText());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                alert.setContentText("Вхождение S задано некорректно!");
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+                b = false;
+            }
+            for(Element aElement: component.getElements()){
+                if(aElement.getName().equals("S")){
+                    aElement.setPercent(temp);
+                }
+            }
+        }
+        if(b){
+            Register.updateComponentData(component);
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+            alert.setTitle("Сохранение");
+            alert.setHeaderText("Сохранение");
+            alert.setContentText("Изменения сохранены!");
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
+        }
     }
 }

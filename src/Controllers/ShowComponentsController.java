@@ -4,11 +4,13 @@ import Models.Component;
 import Models.Register;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 
 public class ShowComponentsController {
@@ -36,77 +38,40 @@ public class ShowComponentsController {
 
         this.MandatoryView.setItems(mandatoryComps);
         this.OptionalView.setItems(optionalComps);
+
+        this.MandatoryView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent click) {
+
+                if (click.getClickCount() == 2) {
+                    String currentItemSelected = MandatoryView.getSelectionModel().getSelectedItem();
+                    if(currentItemSelected!=null){
+                        selectButtonClicked(new ActionEvent());
+                    }
+                }
+            }
+        });
+
+        this.OptionalView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent click) {
+
+                if (click.getClickCount() == 2) {
+                    String currentItemSelected = OptionalView.getSelectionModel().getSelectedItem();
+                    if(currentItemSelected!=null){
+                        selectButtonClicked(new ActionEvent());
+
+                    }
+                }
+            }
+        });
+        this.OptionalView.getSelectionModel().clearSelection();
+
     }
 
     @FXML private void menuButtonClicked(ActionEvent e){
         metallurgistMenuController.backToMenu();
     }
-
-    /*
-    @FXML private void deleteButtonClicked(ActionEvent e) {
-
-
-        if(this.mandatoryTab.isSelected()) {
-            Component temp = this.MandatoryComponentsTable.getSelectionModel().getSelectedItem();
-            if (temp != null) {
-                try {
-                    Stage stage = new Stage();
-                    stage.setTitle("Удаление компонента");
-                    FXMLLoader loader = new FXMLLoader(
-                            getClass().getResource("/Views/DeleteComponentScene.fxml")
-                    );
-                    Parent root = loader.load();
-                    DeleteComponentController deleteComponentController = loader.getController();
-                    deleteComponentController.showComponentsController=this;
-                    deleteComponentController.init(temp, 0);
-                    stage.setScene(new Scene(root));
-                    stage.initModality(Modality.APPLICATION_MODAL);
-                    stage.initOwner(this.MandatoryComponentsTable.getScene().getWindow());
-                    stage.showAndWait();
-
-                } catch (Exception ex){
-                    ex.printStackTrace();
-                }
-
-            } else{
-                alert.setContentText("Выберите компонент для удаления!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-            }
-
-
-        }
-        else{
-            Component temp = this.OptionalComponentsTable.getSelectionModel().getSelectedItem();
-            if (temp != null) {
-                try {
-                    Stage stage = new Stage();
-                    stage.setTitle("Удаление компонента");
-                    FXMLLoader loader = new FXMLLoader(
-                            getClass().getResource("/Views/DeleteComponentScene.fxml")
-                    );
-                    Parent root = loader.load();
-                    DeleteComponentController deleteComponentController = loader.getController();
-                    deleteComponentController.showComponentsController=this;
-                    deleteComponentController.init(temp, 1);
-                    stage.setScene(new Scene(root));
-                    stage.initModality(Modality.APPLICATION_MODAL);
-                    stage.initOwner(this.OptionalComponentsTable.getScene().getWindow());
-                    stage.showAndWait();
-
-                } catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            } else{
-                alert.setContentText("Выберите компонент для удаления!");
-
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-            }
-        }
-
-    }
-    */
 
     @FXML private void selectButtonClicked(ActionEvent e) {
         String temp;

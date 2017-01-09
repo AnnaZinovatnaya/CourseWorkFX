@@ -197,13 +197,10 @@ public class Register {
         return FXCollections.observableArrayList(Component.getAllOptionalComponents());
     }
 
-    public static void updateOptionalComponentsData(ObservableList<Component> optionalComps){
-        Component.updateOptionalComponentsData(optionalComps);
+    public static void updateComponentData(Component component){
+        Component.updateComponentData(component);
     }
 
-    public static void updateMandatoryComponentsData(ObservableList<Component> mandatoryComps){
-        Component.updateMandatoryComponentsData(mandatoryComps);
-    }
     public static void deleteComponent(String name){
         Component.deleteComponent(name);
     }
