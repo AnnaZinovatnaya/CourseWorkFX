@@ -133,19 +133,7 @@ public class AddCharge4Controller {
             alert.showAndWait();
             return;
         }
-/*
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("../Views/AddCharge5Scene.fxml")
-            );
-            Parent root = loader.load();
-            AddCharge5Controller addCharge5Controller = loader.getController();
-            addCharge5Controller.addCharge4Controller = this;
-            addCharge5Controller.init();
-            addCharge3Controller.addCharge2Controller.addCharge1Controller.metallurgistMenuController.primaryStage.setScene(new Scene(root));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }*/
+
         if(Register.isChargePossible()){
             Register.calculateCheapCharge();
             try {

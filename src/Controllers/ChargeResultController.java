@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ChargeResultController {
-    AddCharge5Controller addCharge5Controller;
     AddCharge4Controller addCharge4Controller;
 
     @FXML private TableColumn<CompInCharge, String> NameColumn = new TableColumn<>();
@@ -43,5 +42,7 @@ public class ChargeResultController {
     private void backButtonClicked(ActionEvent e){
         addCharge4Controller.backToScene();
     }
-    @FXML private void doneButtonClicked(ActionEvent e){}
+    @FXML private void doneButtonClicked(ActionEvent e){
+        Register.saveCharge();
+    }
 }

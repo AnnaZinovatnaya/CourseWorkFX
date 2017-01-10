@@ -2,7 +2,11 @@ package Models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import util.DBUtil;
 
+import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -657,5 +661,79 @@ public class Charge {
             }
         }
         return list;
+    }
+
+    public void saveToDB(){
+        int idUser;
+        int idMeltBrand;
+        int idCharge;
+        int idElement;
+        int idComponent;
+        try{
+            ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.user WHERE `name`='"+user.getName()+"' AND lastname = '"+user.getLastname()+"';");
+            rs.next();
+            idUser = rs.getInt("idUser");
+            rs = null;
+            rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.meltbrand WHERE `name`='"+meltBrand.getName()+"';");
+            rs.next();
+            idMeltBrand = rs.getInt("idMeltBrand");
+            java.sql.Date sqlDate = new java.sql.Date(dateCharge.getTime());
+
+            DBUtil.dbExecuteUpdate("INSERT INTO mydb.charge (mass, deltaMass, dateCharge, User_idUser, MeltBrand_idMeltBrand)\n" +
+                    "VALUES ('"+mass+"', '"+deltaMass+"', '"+sqlDate+"', '"+idUser+"', '"+idMeltBrand+"');");
+
+            rs = null;
+            rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.charge WHERE dateCharge='"+sqlDate+"'");
+            rs.next();
+            idCharge = rs.getInt("idCharge");
+            for(Element aElement: elements){
+                if(aElement.getName().equals("C")){
+                    rs = null;
+                    rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='C'");
+                    rs.next();
+                    idElement = rs.getInt("idElement");
+                    DBUtil.dbExecuteUpdate("INSERT INTO mydb.elementincharge (minProcent, maxProcent, Charge_idCharge, Element_idElement)\n" +
+                            "VALUES ('"+aElement.getMinPercentDouble()+"', '"+aElement.getMaxPercentDouble()+"', '"+idCharge+"', '"+idElement+"');");
+                }
+                if(aElement.getName().equals("Si")){
+                    rs = null;
+                    rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='Si'");
+                    rs.next();
+                    idElement = rs.getInt("idElement");
+                    DBUtil.dbExecuteUpdate("INSERT INTO mydb.elementincharge (minProcent, maxProcent, Charge_idCharge, Element_idElement)\n" +
+                            "VALUES ('"+aElement.getMinPercentDouble()+"', '"+aElement.getMaxPercentDouble()+"', '"+idCharge+"', '"+idElement+"');");
+                }
+                if(aElement.getName().equals("S")){
+                    rs = null;
+                    rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='S'");
+                    rs.next();
+                    idElement = rs.getInt("idElement");
+                    DBUtil.dbExecuteUpdate("INSERT INTO mydb.elementincharge (minProcent, maxProcent, Charge_idCharge, Element_idElement)\n" +
+                            "VALUES ('"+aElement.getMinPercentDouble()+"', '"+aElement.getMaxPercentDouble()+"', '"+idCharge+"', '"+idElement+"');");
+                }
+            }
+            for(CompInCharge aComp: mandatoryComponents){
+                rs = null;
+                rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name` = '"+aComp.getName()+"';");
+                rs.next();
+                idComponent = rs.getInt("idComponent");
+                DBUtil.dbExecuteUpdate("INSERT INTO mydb.componentincharge (currentMass, minProcent, maxProcent, Charge_idCharge, Component_idComponent)\n" +
+                        "VALUES ('"+aComp.getCurrentMass()+"', '"+aComp.getMinPercent()+"', '"+aComp.getMaxPercent()+"', '"+idCharge+"', '"+idComponent+"');");
+            }
+
+            for(CompInCharge aComp: optionalComponents) {
+                if (aComp.getCurrentMass() != 0) {
+                    rs = null;
+                    rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name` = '" + aComp.getName() + "';");
+                    rs.next();
+                    idComponent = rs.getInt("idComponent");
+                    DBUtil.dbExecuteUpdate("INSERT INTO mydb.componentincharge (currentMass, minProcent, maxProcent, Charge_idCharge, Component_idComponent)\n" +
+                            "VALUES ('" + aComp.getCurrentMass() + "', '" + aComp.getMinPercent() + "', '" + aComp.getMaxPercent() + "', '" + idCharge + "', '" + idComponent + "');");
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

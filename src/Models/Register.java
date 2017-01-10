@@ -132,7 +132,7 @@ public class Register {
         charge.setChargeBrand(meltBrand);
     }
 
-    public static void setChatgeMassAndDelta(double mass, double deltaMass){
+    public static void setChargeMassAndDelta(double mass, double deltaMass){
         charge.setMass(mass);
         charge.setDeltaMass(deltaMass);
     }
@@ -207,5 +207,11 @@ public class Register {
 
     public static Component findComponent(String name){
         return Component.findComponent(name);
+    }
+
+    public static void saveCharge(){
+        charge.setDateCharge(new Date());
+        charge.setUser(currentUser);
+        charge.saveToDB();
     }
 }

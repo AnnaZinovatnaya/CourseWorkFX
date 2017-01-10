@@ -79,7 +79,7 @@ public class AddCharge1Controller {
         if(b){
             Register.newCharge();
             Register.setChargeBrand(BrandBox.getValue());
-            Register.setChatgeMassAndDelta(mass, deltaMass);
+            Register.setChargeMassAndDelta(mass, deltaMass);
 
             try {
                 FXMLLoader loader = new FXMLLoader(

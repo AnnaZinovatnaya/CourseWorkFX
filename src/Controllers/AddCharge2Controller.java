@@ -54,15 +54,8 @@ public class AddCharge2Controller {
                     }
 
                     if(b) {
-                        /*if(!Register.canEditPercent(t.getTableView().getItems().get(
-                                t.getTablePosition().getRow()).getName(), Double.parseDouble(t.getNewValue()))){
-                            alert.setContentText("Минимальный процент задан некорректно!");
-                            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                            alert.showAndWait();
-                        }else{*/
                             t.getTableView().getItems().get(
                                     t.getTablePosition().getRow()).setMinPercent(Double.parseDouble(t.getNewValue()));
-                        //}
                     }
                 }
         );
@@ -85,17 +78,8 @@ public class AddCharge2Controller {
                     }
 
                     if(b) {
-
-                        /*if(!Register.canEditPercent(t.getTableView().getItems().get(
-                                t.getTablePosition().getRow()).getName(), Double.parseDouble(t.getNewValue()))){
-                            alert.setContentText("Максимальный процент задан некорректно!");
-                            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                            alert.showAndWait();
-
-                        }else{*/
                             t.getTableView().getItems().get(
                                     t.getTablePosition().getRow()).setMaxPercent(Double.parseDouble(t.getNewValue()));
-                        //}
                     }
                 }
         );
