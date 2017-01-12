@@ -681,7 +681,6 @@ public class Charge {
 
             DBUtil.dbExecuteUpdate("INSERT INTO mydb.charge (mass, deltaMass, dateCharge, User_idUser, MeltBrand_idMeltBrand)\n" +
                     "VALUES ('"+mass+"', '"+deltaMass+"', '"+sqlDate+"', '"+idUser+"', '"+idMeltBrand+"');");
-
             rs = null;
             rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.charge WHERE dateCharge='"+sqlDate+"'");
             rs.next();

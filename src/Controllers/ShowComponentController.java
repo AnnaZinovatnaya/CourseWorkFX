@@ -63,8 +63,14 @@ public class ShowComponentController {
     private void backButtonClicked(ActionEvent e) {
         this.showComponentsController.OptionalView.getSelectionModel().clearSelection();
         this.showComponentsController.MandatoryView.getSelectionModel().clearSelection();
-        this.showComponentsController.metallurgistMenuController.primaryStage.setTitle("Просмотр компонентов");
-        this.showComponentsController.metallurgistMenuController.primaryStage.setScene(this.showComponentsController.MandatoryView.getScene());
+        if(this.showComponentsController.metallurgistMenuController!=null){
+            this.showComponentsController.metallurgistMenuController.primaryStage.setTitle("Просмотр компонентов");
+            this.showComponentsController.metallurgistMenuController.primaryStage.setScene(this.showComponentsController.MandatoryView.getScene());
+        }else{
+            this.showComponentsController.directorMenuController.primaryStage.setTitle("Просмотр компонентов");
+            this.showComponentsController.directorMenuController.primaryStage.setScene(this.showComponentsController.MandatoryView.getScene());
+
+        }
 
     }
     @FXML
@@ -85,7 +91,11 @@ public class ShowComponentController {
             stage.showAndWait();
             if(deleted) {
                 this.showComponentsController.refreshItems();
-                this.showComponentsController.metallurgistMenuController.primaryStage.setScene(this.showComponentsController.MandatoryView.getScene());
+                if (this.showComponentsController.metallurgistMenuController != null) {
+                    this.showComponentsController.metallurgistMenuController.primaryStage.setScene(this.showComponentsController.MandatoryView.getScene());
+                }else{
+                    this.showComponentsController.directorMenuController.primaryStage.setScene(this.showComponentsController.MandatoryView.getScene());
+                }
             }
 
         } catch (Exception ex){

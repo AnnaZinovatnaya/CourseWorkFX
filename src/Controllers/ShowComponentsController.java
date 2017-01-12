@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 
 public class ShowComponentsController {
     MetallurgistMenuController metallurgistMenuController;
+    DirectorMenuController directorMenuController;
     @FXML public ListView <String> MandatoryView= new ListView<>();
     @FXML public ListView <String> OptionalView= new ListView<>();
 
@@ -29,6 +30,10 @@ public class ShowComponentsController {
 
     public void setMenuController(MetallurgistMenuController metallurgistMenuController){
         this.metallurgistMenuController = metallurgistMenuController;
+    }
+
+    public void setMenuController(DirectorMenuController directorMenuController){
+        this.directorMenuController = directorMenuController;
     }
 
     public void init(){
@@ -70,7 +75,12 @@ public class ShowComponentsController {
     }
 
     @FXML private void menuButtonClicked(ActionEvent e){
-        metallurgistMenuController.backToMenu();
+
+        if(metallurgistMenuController!=null){
+            metallurgistMenuController.backToMenu();
+        }else{
+            directorMenuController.backToMenu();
+        }
     }
 
     @FXML private void selectButtonClicked(ActionEvent e) {
@@ -88,8 +98,13 @@ public class ShowComponentsController {
                     Parent root = loader.load();
                     ShowComponentController showComponentController = loader.getController();
                     showComponentController.init(this, temp);
-                    this.metallurgistMenuController.primaryStage.setScene(new Scene(root));
-                    this.metallurgistMenuController.primaryStage.setTitle("Просмотр компонента");
+                    if(metallurgistMenuController!=null) {
+                        this.metallurgistMenuController.primaryStage.setScene(new Scene(root));
+                        this.metallurgistMenuController.primaryStage.setTitle("Просмотр компонента");
+                    }else{
+                        this.directorMenuController.primaryStage.setScene(new Scene(root));
+                        this.directorMenuController.primaryStage.setTitle("Просмотр компонента");
+                    }
 
                 } catch (Exception ex){
                     ex.printStackTrace();

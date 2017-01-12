@@ -40,7 +40,20 @@ public class DirectorMenuController {
     }
 
     @FXML private void showComponentsButtonClicked(ActionEvent e){
-
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Views/ShowComponentsScene.fxml")
+            );
+            Parent root = loader.load();
+            ShowComponentsController showComponentsController = loader.getController();
+            showComponentsController.setMenuController(this);
+            showComponentsController.init();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setTitle("Просмотр компонентов");
+            primaryStage.show();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     @FXML private void reportButtonClicked(ActionEvent e){
@@ -61,7 +74,7 @@ public class DirectorMenuController {
 
     public void backToMenu(){
         primaryStage.setScene(this.ReportButton.getScene());
-        primaryStage.setTitle("Меню");
+        primaryStage.setTitle("Меню - Руководитель");
         primaryStage.show();
     }
 }
