@@ -1,6 +1,5 @@
 package Controllers;
 
-import Models.Component;
 import Models.Register;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

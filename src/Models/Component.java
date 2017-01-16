@@ -120,8 +120,6 @@ public class Component {
     public void saveComponentParam(){
         this.calculateAdopt();
 
-        ResultSet rs = null;
-        int id = 0;
         try {
 
             DBUtil.dbExecuteUpdate("INSERT INTO mydb.component (`name`, brand, adoptBase, currentAmount, currentPrice, mandatory, adoptComp) " +
@@ -295,21 +293,21 @@ public class Component {
             idComponent = rs.getInt("idComponent");
             for(Element aElement: component.getElements()){
                 if(aElement.getName().equals("C")){
-                    rs=null;
+
                     rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='C'");
                     rs.next();
                     idElement = rs.getInt("idElement");
                     DBUtil.dbExecuteUpdate("UPDATE mydb.elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';");
                 }
                 if(aElement.getName().equals("Si")){
-                    rs=null;
+
                     rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='Si'");
                     rs.next();
                     idElement = rs.getInt("idElement");
                     DBUtil.dbExecuteUpdate("UPDATE mydb.elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';");
                 }
                 if(aElement.getName().equals("S")){
-                    rs=null;
+                    
                     rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='S'");
                     rs.next();
                     idElement = rs.getInt("idElement");

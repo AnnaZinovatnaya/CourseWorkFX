@@ -31,6 +31,7 @@ public class ReportController {
 
     public void setMenuController(DirectorMenuController directorMenuController){
         this.directorMenuController = directorMenuController;
+        this.ReportTable.setPlaceholder(new Label("Выберите необходимый период и нажмите кнопу 'Выбрать'"));
     }
 
     @FXML private void menuButtonClicked(ActionEvent e){
@@ -51,24 +52,24 @@ public class ReportController {
                         return property;
                     }
                 });
-
+        this.ReportTable.setPlaceholder(new Label("В этот период не было плавок"));
         this.ReportTable.getColumns().clear();
         this.ReportTable.getColumns().addAll(BrandColumn, AmountColumn, DateColumn);
 
         if(this.FirstDate.getValue()==null&&this.SecondDate.getValue()==null){
             data = MeltForView.getAllMelts();
             if (data != null) {
-                //this.ReportTable.setItems(data);
+                this.ReportTable.setItems(data);
             }
         } else if(this.SecondDate.getValue()==null){
             data = MeltForView.getMeltsFrom(Date.from(this.FirstDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             if (data != null) {
-                //this.ReportTable.setItems(data);
+                this.ReportTable.setItems(data);
             }
         } else if(this.FirstDate.getValue()==null){
             data = MeltForView.getMeltsTill(Date.from(this.SecondDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             if (data != null) {
-                //this.ReportTable.setItems(data);
+                this.ReportTable.setItems(data);
             }
         }else if(this.FirstDate.getValue().isAfter(this.SecondDate.getValue())){
             alert.setContentText("Даты заданы некорректно!");
@@ -77,7 +78,7 @@ public class ReportController {
         } else {
             data = MeltForView.getMeltsFromTill(Date.from(this.FirstDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(this.SecondDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             if (data != null) {
-                //this.ReportTable.setItems(data);
+                this.ReportTable.setItems(data);
             }
         }
 

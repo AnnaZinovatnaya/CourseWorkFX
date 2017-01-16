@@ -23,7 +23,7 @@ public class AddCharge4Controller {
     @FXML private TableColumn<CompInCharge, String> MaxPercentColumn = new TableColumn<>();
     @FXML private TableView<CompInCharge> ComponentsTable = new TableView<>();
 
-    ObservableList<CompInCharge> data;
+    private ObservableList<CompInCharge> data;
 
     private Alert alert = new Alert(Alert.AlertType.ERROR);
 
@@ -91,10 +91,10 @@ public class AddCharge4Controller {
     }
 
     @FXML
-    private void backButtonClicked(ActionEvent e){
+    private void backButtonClicked(){
         addCharge3Controller.backToScene();
     }
-    @FXML private void nextButtonClicked(ActionEvent e){
+    @FXML private void nextButtonClicked(){
 
         for(CompInCharge aComp: data){
             if(aComp.getMaxPercent()==0||aComp.getMaxPercent()==0){
@@ -153,8 +153,6 @@ public class AddCharge4Controller {
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
         }
-
-
     }
 
     public void backToScene(){

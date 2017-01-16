@@ -28,7 +28,7 @@ public class LoginController{
     }
 
 
-    @FXML private void LoginButtonClicked(ActionEvent e){
+    @FXML private void LoginButtonClicked(){
 
         if(NameField.getText().isEmpty()||LastnameField.getText().isEmpty()||PasswordField.getText().isEmpty()){
             alert.setContentText("Все поля должны быть заполнены!");

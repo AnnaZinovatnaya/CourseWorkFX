@@ -673,7 +673,6 @@ public class Charge {
             ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.user WHERE `name`='"+user.getName()+"' AND lastname = '"+user.getLastname()+"';");
             rs.next();
             idUser = rs.getInt("idUser");
-            rs = null;
             rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.meltbrand WHERE `name`='"+meltBrand.getName()+"';");
             rs.next();
             idMeltBrand = rs.getInt("idMeltBrand");
@@ -681,13 +680,11 @@ public class Charge {
 
             DBUtil.dbExecuteUpdate("INSERT INTO mydb.charge (mass, deltaMass, dateCharge, User_idUser, MeltBrand_idMeltBrand)\n" +
                     "VALUES ('"+mass+"', '"+deltaMass+"', '"+sqlDate+"', '"+idUser+"', '"+idMeltBrand+"');");
-            rs = null;
             rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.charge WHERE dateCharge='"+sqlDate+"'");
             rs.next();
             idCharge = rs.getInt("idCharge");
             for(Element aElement: elements){
                 if(aElement.getName().equals("C")){
-                    rs = null;
                     rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='C'");
                     rs.next();
                     idElement = rs.getInt("idElement");
@@ -695,7 +692,7 @@ public class Charge {
                             "VALUES ('"+aElement.getMinPercentDouble()+"', '"+aElement.getMaxPercentDouble()+"', '"+idCharge+"', '"+idElement+"');");
                 }
                 if(aElement.getName().equals("Si")){
-                    rs = null;
+
                     rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='Si'");
                     rs.next();
                     idElement = rs.getInt("idElement");
@@ -703,7 +700,7 @@ public class Charge {
                             "VALUES ('"+aElement.getMinPercentDouble()+"', '"+aElement.getMaxPercentDouble()+"', '"+idCharge+"', '"+idElement+"');");
                 }
                 if(aElement.getName().equals("S")){
-                    rs = null;
+
                     rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='S'");
                     rs.next();
                     idElement = rs.getInt("idElement");
@@ -712,7 +709,7 @@ public class Charge {
                 }
             }
             for(CompInCharge aComp: mandatoryComponents){
-                rs = null;
+
                 rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name` = '"+aComp.getName()+"';");
                 rs.next();
                 idComponent = rs.getInt("idComponent");
@@ -722,7 +719,7 @@ public class Charge {
 
             for(CompInCharge aComp: optionalComponents) {
                 if (aComp.getCurrentMass() != 0) {
-                    rs = null;
+
                     rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name` = '" + aComp.getName() + "';");
                     rs.next();
                     idComponent = rs.getInt("idComponent");

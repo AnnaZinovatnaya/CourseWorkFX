@@ -5,8 +5,6 @@ import Models.Element;
 import Models.Register;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -105,43 +103,44 @@ public class AddElements2Controller {
 
     }
 
-    //@FXML private void backButtonClicked(ActionEvent e){
-        //addElementsController.backToScene();
-    //}
-    @FXML private void backButtonClicked(ActionEvent e){
+    @FXML private void backButtonClicked(){
         addComponentController.backToScene();
     }
-    @FXML private void finishedButtonClicked(ActionEvent e){
+    @FXML private void finishedButtonClicked(){
 
-        boolean b=true; //проверить, чтобы все поля были заполнены
-        String name="";
+        boolean b=true;
+        for(Element aElement: ElementsTable.getItems()){
+            if(aElement.getPercent()==0)
+                b=false;
+            if(aElement.getAdopt()==0)
+                b=false;
+        }
+        if (b) {
+            for (int i = 0; i < selectedItems.size(); i++) {
 
-                if (b) {
-                    for (int i = 0; i < selectedItems.size(); i++) {
+                Register.setComponentElement(selectedItems.get(i), ElementsTable.getItems().get(i).getPercent(), ElementsTable.getItems().get(i).getAdopt());
 
-                        Register.setComponentElement(selectedItems.get(i), ElementsTable.getItems().get(i).getPercent(), ElementsTable.getItems().get(i).getAdopt());
+            }
+            Register.saveComponentParam();
+            Register.saveComponentElements();
 
-                    }
-                    Register.saveComponentParam();
-                    Register.saveComponentElements();
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText("Information");
+            alert.setContentText("Компонент сохранен!");
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
 
-                        alert.setAlertType(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Information");
-                        alert.setHeaderText("Information");
-                        alert.setContentText("Компонент сохранен!");
-                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                        alert.showAndWait();
-
-                    if(this.addComponentController.metallurgistMenuController!=null) {
-                        this.addComponentController.metallurgistMenuController.backToMenu();
-                    }
-                    else
-                        this.addComponentController.directorMenuController.backToMenu();
-
-
-                }
-
-
+            if(this.addComponentController.metallurgistMenuController!=null) {
+                this.addComponentController.metallurgistMenuController.backToMenu();
+            }
+            else
+                this.addComponentController.directorMenuController.backToMenu();
+        }else{
+            alert.setContentText("Все поля должны быть заполнены!");
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
+        }
 
     }
 }

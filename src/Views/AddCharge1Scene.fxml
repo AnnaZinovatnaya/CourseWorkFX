@@ -11,12 +11,12 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button fx:id="MenuButton" layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#menuButtonClicked" text="Меню">
+      <Button layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#menuButtonClicked" text="Меню">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="NextButton" layoutX="502.0" layoutY="342.0" mnemonicParsing="false" onAction="#nextButtonClicked" text="Далее">
+      <Button layoutX="502.0" layoutY="342.0" mnemonicParsing="false" onAction="#nextButtonClicked" text="Далее">
          <font>
             <Font size="20.0" />
          </font>

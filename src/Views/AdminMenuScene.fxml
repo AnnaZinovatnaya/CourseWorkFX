@@ -15,7 +15,7 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="FindUserButton" layoutX="110.0" layoutY="200.0" mnemonicParsing="false" onAction="#findUserButtonClicked" prefHeight="95.0" prefWidth="370.0" text="Найти пользователя" GridPane.rowIndex="1">
+            <Button layoutX="110.0" layoutY="200.0" mnemonicParsing="false" onAction="#findUserButtonClicked" prefHeight="95.0" prefWidth="370.0" text="Найти пользователя" GridPane.rowIndex="1">
                <font>
                   <Font size="24.0" />
                </font>

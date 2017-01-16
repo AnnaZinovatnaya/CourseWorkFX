@@ -66,12 +66,12 @@
           <TableColumn fx:id="AmountColumn" prefWidth="244.0" text="Количество (кг)" />
         </columns>
       </TableView>
-      <Button fx:id="BackButton" layoutX="7.0" layoutY="350.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
+      <Button layoutX="7.0" layoutY="350.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="DoneButton" layoutX="460.0" layoutY="350.0" mnemonicParsing="false" onAction="#doneButtonClicked" text="Выполнено">
+      <Button layoutX="460.0" layoutY="350.0" mnemonicParsing="false" onAction="#doneButtonClicked" text="Выполнено">
          <font>
             <Font size="20.0" />
          </font>

@@ -3,7 +3,6 @@ package Controllers;
 import Models.Register;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,10 +22,10 @@ public class AddCharge3Controller {
     private ObservableList<String> selectedItems;
 
     @FXML
-    private void backButtonClicked(ActionEvent e){
+    private void backButtonClicked(){
         addCharge2Controller.backToScene();
     }
-    @FXML private void nextButtonClicked(ActionEvent e){
+    @FXML private void nextButtonClicked(){
         if(selectedItems.size()>0) {
             Register.setMandatoryComponents(selectedItems);
             try {
@@ -43,7 +42,7 @@ public class AddCharge3Controller {
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Ни один элемент не выбран!");
+            alert.setContentText("Ни один компонент не выбран!");
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
         }
@@ -56,28 +55,28 @@ public class AddCharge3Controller {
         this.SelectedComponentsList.setItems(selectedItems);
     }
 
-    @FXML private void oneForwardButtonClicked(ActionEvent e){
+    @FXML private void oneForwardButtonClicked(){
         String temp = AllComponentsList.getSelectionModel().getSelectedItem();
         if(!selectedItems.contains(temp)&&temp!=null) {
             this.SelectedComponentsList.getItems().add(temp);
         }
     }
 
-    @FXML private void allForwardButtonClicked(ActionEvent e){
+    @FXML private void allForwardButtonClicked(){
         this.SelectedComponentsList.getItems().clear();
         for (String item : items) {
             this.SelectedComponentsList.getItems().add(item);
         }
     }
 
-    @FXML private void oneBackButtonClicked(ActionEvent e){
+    @FXML private void oneBackButtonClicked(){
         String temp = SelectedComponentsList.getSelectionModel().getSelectedItem();
         if(temp!=null) {
             this.SelectedComponentsList.getItems().remove(temp);
         }
     }
 
-    @FXML private void allBackButtonClicked(ActionEvent e){
+    @FXML private void allBackButtonClicked(){
         this.SelectedComponentsList.getItems().clear();
     }
 

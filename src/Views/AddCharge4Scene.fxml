@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 
@@ -13,12 +12,12 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button fx:id="NextButtob" layoutX="502.0" layoutY="342.0" mnemonicParsing="false" onAction="#nextButtonClicked" text="Далее">
+      <Button layoutX="502.0" layoutY="342.0" mnemonicParsing="false" onAction="#nextButtonClicked" text="Далее">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="BackButton" layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
+      <Button layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
          <font>
             <Font size="20.0" />
          </font>
@@ -31,7 +30,7 @@
       <TableView fx:id="ComponentsTable" layoutX="14.0" layoutY="94.0" prefHeight="233.0" prefWidth="569.0">
          <columns>
             <TableColumn fx:id="ComponentColumn" editable="false" prefWidth="175.0" style="-fx-font: NORMAL 16 System;" text="Компонент" />
-            <TableColumn fx:id="MinPercentColumn" prefWidth="197.0" style="-fx-font: NORMAL 16 Systen;" text="Мин. вхождение, %" />
+            <TableColumn fx:id="MinPercentColumn" prefWidth="197.0" style="-fx-font: NORMAL 16 System;" text="Мин. вхождение, %" />
             <TableColumn fx:id="MaxPercentColumn" prefWidth="197.0" style="-fx-font: NORMAL 16 System;" text="Макс. вхождение, %" />
          </columns>
       </TableView>

@@ -3,7 +3,6 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ShowComponentsController">
@@ -30,12 +29,12 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="MenuButton" layoutX="6.0" layoutY="349.0" mnemonicParsing="false" onAction="#menuButtonClicked" text="Меню">
+      <Button layoutX="6.0" layoutY="349.0" mnemonicParsing="false" onAction="#menuButtonClicked" text="Меню">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="selectButton" layoutX="487.0" layoutY="349.0" mnemonicParsing="false" onAction="#selectButtonClicked" text="Выбрать">
+      <Button layoutX="487.0" layoutY="349.0" mnemonicParsing="false" onAction="#selectButtonClicked" text="Выбрать">
          <font>
             <Font size="20.0" />
          </font>

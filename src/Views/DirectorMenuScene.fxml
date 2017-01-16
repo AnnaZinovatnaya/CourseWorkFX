@@ -18,7 +18,7 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="ShowComponentsButton" layoutX="219.0" layoutY="149.0" mnemonicParsing="false" onAction="#showComponentsButtonClicked" prefHeight="95.0" prefWidth="370.0" text="Просмотреть компоненты" GridPane.rowIndex="1">
+            <Button layoutX="219.0" layoutY="149.0" mnemonicParsing="false" onAction="#showComponentsButtonClicked" prefHeight="95.0" prefWidth="370.0" text="Просмотреть компоненты" GridPane.rowIndex="1">
                <font>
                   <Font size="24.0" />
                </font>
@@ -28,7 +28,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="AddComponentButton" mnemonicParsing="false" onAction="#addComponentButtonClicked" prefHeight="95.0" prefWidth="370.0" text="Добавить компонент">
+            <Button mnemonicParsing="false" onAction="#addComponentButtonClicked" prefHeight="95.0" prefWidth="370.0" text="Добавить компонент">
                <font>
                   <Font size="24.0" />
                </font>

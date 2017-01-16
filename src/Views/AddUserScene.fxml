@@ -75,12 +75,12 @@
             </ChoiceBox>
          </children>
       </GridPane>
-      <Button fx:id="AddUserButton" layoutX="470.0" layoutY="342.0" mnemonicParsing="false" onAction="#addUserButtonClicked" text="Добавить">
+      <Button layoutX="470.0" layoutY="342.0" mnemonicParsing="false" onAction="#addUserButtonClicked" text="Добавить">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="MenuButton" layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#menuButtonClicked" text="Меню">
+      <Button layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#menuButtonClicked" text="Меню">
          <font>
             <Font size="20.0" />
          </font>

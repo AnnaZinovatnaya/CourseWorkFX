@@ -5,10 +5,12 @@ import Models.Register;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 public class ChargeResultController {
     AddCharge4Controller addCharge4Controller;
@@ -19,10 +21,16 @@ public class ChargeResultController {
     @FXML private TextField AmountField;
     @FXML private TextField MeltField;
     @FXML private TextField NumberField;
+    @FXML private Button BackButton;
+    @FXML private Button DoneButton;
+
+    Stage stage;
 
     ObservableList<CompInCharge> data;
 
     public void init(){
+
+        this.stage = this.addCharge4Controller.addCharge3Controller.addCharge2Controller.addCharge1Controller.metallurgistMenuController.primaryStage;
         this.NumberField.setText("1");
         this.AmountField.setText(Register.getChargeMass());
         this.MeltField.setText(Register.getChargeMeltBrand());
@@ -36,13 +44,19 @@ public class ChargeResultController {
         this.ComponentsTable.setItems(data);
         this.ComponentsTable.getColumns().clear();
         this.ComponentsTable.getColumns().addAll(NameColumn, AmountColumn);
+        this.stage.setResizable(true);
+        this.stage.setMinHeight(400);
+        this.stage.setMinWidth(600);
+
     }
 
     @FXML
-    private void backButtonClicked(ActionEvent e){
+    private void backButtonClicked(){
+
+        this.addCharge4Controller.addCharge3Controller.addCharge2Controller.addCharge1Controller.metallurgistMenuController.primaryStage.setResizable(false);
         addCharge4Controller.backToScene();
     }
-    @FXML private void doneButtonClicked(ActionEvent e){
+    @FXML private void doneButtonClicked(){
         Register.saveCharge();
     }
 }

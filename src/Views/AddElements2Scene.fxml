@@ -21,12 +21,12 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="BackButton" layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
+      <Button layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="FinishedButton" layoutX="494.0" layoutY="342.0" mnemonicParsing="false" onAction="#finishedButtonClicked" text="Готово">
+      <Button layoutX="494.0" layoutY="342.0" mnemonicParsing="false" onAction="#finishedButtonClicked" text="Готово">
          <font>
             <Font size="20.0" />
          </font>
@@ -34,7 +34,7 @@
       <TableView fx:id="ElementsTable" layoutX="16.0" layoutY="142.0" prefHeight="184.0" prefWidth="569.0">
         <columns>
           <TableColumn fx:id="ElementColumn" editable="false" prefWidth="182.0" text="Химический элемент" style="-fx-font: NORMAL 18 System;"/>
-          <TableColumn fx:id="PercentColumn" prefWidth="222.0" text="Процентное содержание" style="-fx-font: NORMAL 18 Systen;"/>
+          <TableColumn fx:id="PercentColumn" prefWidth="222.0" text="Процентное содержание" style="-fx-font: NORMAL 18 System;"/>
             <TableColumn fx:id="AdoptColumn" prefWidth="164.0" text="Процент усвоения" style="-fx-font: NORMAL 18 System;"/>
         </columns>
       </TableView>

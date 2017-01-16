@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
-<Pane fx:id="LoginPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.LoginController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.LoginController">
    <children>
       <GridPane layoutX="126.0" layoutY="93.0" prefHeight="181.0" prefWidth="349.0">
          <columnConstraints>
@@ -35,7 +35,7 @@
                   <Insets bottom="5.0" top="5.0" />
                </GridPane.margin>
             </TextField>
-            <Label fx:id="LastnameLabel" layoutX="135.0" layoutY="135.0" text="Фамилия" GridPane.rowIndex="1">
+            <Label layoutX="135.0" layoutY="135.0" text="Фамилия" GridPane.rowIndex="1">
                <font>
                   <Font size="24.0" />
                </font>
@@ -43,7 +43,7 @@
                   <Insets bottom="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <Label fx:id="NameLabel" layoutX="185.0" layoutY="68.0" text="Имя">
+            <Label layoutX="185.0" layoutY="68.0" text="Имя">
                <font>
                   <Font size="24.0" />
                </font>
@@ -59,7 +59,7 @@
                   <Insets bottom="5.0" top="5.0" />
                </GridPane.margin>
             </PasswordField>
-            <Label fx:id="PasswordLabel" layoutX="151.0" layoutY="193.0" text="Пароль" GridPane.rowIndex="2">
+            <Label layoutX="151.0" layoutY="193.0" text="Пароль" GridPane.rowIndex="2">
                <font>
                   <Font size="24.0" />
                </font>
@@ -72,7 +72,7 @@
             <Insets />
          </opaqueInsets>
       </GridPane>
-      <Button fx:id="LoginButton" layoutX="208.0" layoutY="306.0" mnemonicParsing="false" onAction="#LoginButtonClicked" prefHeight="59.0" prefWidth="185.0" text="Подтвердить">
+      <Button layoutX="208.0" layoutY="306.0" mnemonicParsing="false" onAction="#LoginButtonClicked" prefHeight="59.0" prefWidth="185.0" text="Подтвердить">
          <font>
             <Font size="24.0" />
          </font>

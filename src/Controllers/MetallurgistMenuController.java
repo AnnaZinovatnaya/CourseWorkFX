@@ -77,7 +77,7 @@ public class MetallurgistMenuController {
 
     public void backToMenu(){
         primaryStage.setScene(this.AddMeltButton.getScene());
-        primaryStage.setTitle("Меню");
+        primaryStage.setTitle("Меню - Металлург");
         primaryStage.show();
     }
 

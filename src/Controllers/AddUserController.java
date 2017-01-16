@@ -20,8 +20,6 @@ public class AddUserController {
     @FXML private TextField LastnameField;
     @FXML private TextField PasswordField;
     @FXML private ChoiceBox<String> RoleBox;
-    @FXML private Button MenuButton;
-    @FXML private Button AddUserButton;
 
     public void setMenuController(AdminMenuController adminMenuController){
         this.adminMenuController = adminMenuController;

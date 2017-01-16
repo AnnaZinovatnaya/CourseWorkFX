@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -105,12 +104,12 @@
             </RadioButton>
          </children>
       </GridPane>
-      <Button fx:id="MenuButton" layoutX="10.0" layoutY="346.0" mnemonicParsing="false" onAction="#menuButtonClicked" text="Меню">
+      <Button layoutX="10.0" layoutY="346.0" mnemonicParsing="false" onAction="#menuButtonClicked" text="Меню">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="NextButton" layoutX="507.0" layoutY="346.0" mnemonicParsing="false" onAction="#nextButtonClicked" text="Далее">
+      <Button layoutX="507.0" layoutY="346.0" mnemonicParsing="false" onAction="#nextButtonClicked" text="Далее">
          <font>
             <Font size="20.0" />
          </font>

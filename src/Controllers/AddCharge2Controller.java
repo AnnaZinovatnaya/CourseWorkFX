@@ -23,9 +23,10 @@ public class AddCharge2Controller {
 
     AddCharge1Controller addCharge1Controller;
 
-    ObservableList<Element> data;
+    private ObservableList<Element> data;
 
     private Alert alert = new Alert(Alert.AlertType.ERROR);
+
     public void init(){
         this.ElementsTable.setEditable(true);
         this.data = FXCollections.observableArrayList();
@@ -60,7 +61,6 @@ public class AddCharge2Controller {
                 }
         );
 
-
         this.MaxPercentColumn.setCellValueFactory(new PropertyValueFactory<>("maxPercent"));
         this.MaxPercentColumn.setEditable(true);
         this.MaxPercentColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -89,10 +89,10 @@ public class AddCharge2Controller {
         this.ElementsTable.getColumns().addAll(NameColumn, MinPercentColumn, MaxPercentColumn);
     }
 
-    @FXML private void backButtonClicked(ActionEvent e){
+    @FXML private void backButtonClicked(){
         addCharge1Controller.backToScene();
     }
-    @FXML private void nextButtonClicked(ActionEvent e){
+    @FXML private void nextButtonClicked(){
         boolean b = true;
         for(Element aElement: data){
             if(aElement.getMinPercentDouble()>aElement.getMaxPercentDouble()){

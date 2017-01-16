@@ -19,7 +19,7 @@ public class AddCharge1Controller {
     @FXML private ChoiceBox<String> BrandBox;
     @FXML private TextField MassField;
     @FXML private TextField DeltaMassField;
-    ObservableList<String> data;
+    private ObservableList<String> data;
     private Alert alert = new Alert(Alert.AlertType.ERROR);
 
 
@@ -38,11 +38,11 @@ public class AddCharge1Controller {
         this.BrandBox.setValue("");
     }
 
-    @FXML public void menuButtonClicked(ActionEvent e){
+    @FXML public void menuButtonClicked(){
         metallurgistMenuController.backToMenu();
     }
 
-    @FXML public void nextButtonClicked(ActionEvent e){
+    @FXML public void nextButtonClicked(){
         boolean b=true;
         double mass=0;
         double deltaMass=0;

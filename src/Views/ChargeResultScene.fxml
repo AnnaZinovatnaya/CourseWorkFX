@@ -2,79 +2,107 @@
 
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ChargeResultController">
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ChargeResultController">
    <children>
-      <Label layoutX="247.0" layoutY="6.0" text="Результат">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <GridPane hgap="70.0" layoutX="56.0" layoutY="43.0" prefHeight="76.0" prefWidth="488.0">
-        <columnConstraints>
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <TextField fx:id="NumberField" editable="false" GridPane.rowIndex="1">
+            <Label text="Результат">
                <font>
-                  <Font size="20.0" />
+                  <Font size="24.0" />
                </font>
-            </TextField>
-            <TextField fx:id="MeltField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </TextField>
-            <TextField fx:id="AmountField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </TextField>
-            <Label text="№ плавки">
+            </Label>
+            <GridPane hgap="20.0" vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="№ плавки">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label text="Сплав" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label text="Кол-во, кг" GridPane.columnIndex="2">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="NumberField" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="MeltField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="AmountField" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </TextField>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </GridPane>
+            <Label text="Компоненты">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label text="Сплав" GridPane.columnIndex="1">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label text="Кол-во, кг" GridPane.columnIndex="2">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
+            <TableView fx:id="ComponentsTable" prefHeight="136.0" prefWidth="580.0" VBox.vgrow="ALWAYS">
+              <columns>
+                <TableColumn fx:id="NameColumn" maxWidth="1.7976931348623157E308" minWidth="290.0" prefWidth="-1.0" text="Название" style="-fx-font: NORMAL 18 System;"/>
+                <TableColumn fx:id="AmountColumn" maxWidth="1.7976931348623157E308" minWidth="290.0" prefWidth="-1.0" text="Количество, кг" style="-fx-font: NORMAL 18 System;" />
+              </columns>
+            </TableView>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#doneButtonClicked" text="Сохранить" GridPane.columnIndex="2">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+            </GridPane>
          </children>
-      </GridPane>
-      <Label layoutX="241.0" layoutY="131.0" text="Компоненты">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <TableView fx:id="ComponentsTable" layoutX="55.0" layoutY="168.0" prefHeight="171.0" prefWidth="488.0">
-        <columns>
-          <TableColumn fx:id="NameColumn" prefWidth="244.0" style="-fx-font: NORMAL 18 System;" text="Название" />
-          <TableColumn fx:id="AmountColumn" prefWidth="244.0" style="-fx-font: NORMAL 18 System;" text="Количество, кг" />
-        </columns>
-      </TableView>
-      <Button fx:id="BackButton" layoutX="7.0" layoutY="350.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
-      <Button fx:id="DoneButton" layoutX="468.0" layoutY="350.0" mnemonicParsing="false" onAction="#doneButtonClicked" text="Сохранить">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
+      </VBox>
    </children>
-</Pane>
+</AnchorPane>

@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 
 public class AddElementsController {
     public AddComponentController addComponentController;
-    @FXML private Button NextButton;
     @FXML private ListView<String> AllElementsList = new ListView<>();
     @FXML private ListView<String> SelectedElementsList = new ListView<>();
     private ObservableList<String> items;
@@ -90,7 +89,7 @@ public class AddElementsController {
     }
 
     public void backToScene(){
-        primaryStage.setScene(this.NextButton.getScene());
+        primaryStage.setScene(this.AllElementsList.getScene());
     }
 
 

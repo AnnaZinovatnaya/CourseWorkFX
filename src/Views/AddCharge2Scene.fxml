@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 
@@ -13,12 +12,12 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button fx:id="NextButtob" layoutX="502.0" layoutY="342.0" mnemonicParsing="false" onAction="#nextButtonClicked" text="Далее">
+      <Button layoutX="502.0" layoutY="342.0" mnemonicParsing="false" onAction="#nextButtonClicked" text="Далее">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="BackButton" layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
+      <Button layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
          <font>
             <Font size="20.0" />
          </font>

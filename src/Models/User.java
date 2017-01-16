@@ -50,7 +50,6 @@ public class User {
     }
 
     public void saveUser() {
-        ResultSet rs = null;
         try {
             DBUtil.dbExecuteUpdate("INSERT INTO mydb.user (`name`, lastname, `password`, role) " +
                         "VALUES ('" + name + "', '" + lastname + "', '" + password + "', '" + role + "')");
