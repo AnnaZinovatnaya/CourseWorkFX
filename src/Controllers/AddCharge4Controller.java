@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 public class AddCharge4Controller {
 
@@ -22,6 +23,7 @@ public class AddCharge4Controller {
     @FXML private TableColumn<CompInCharge, String> MinPercentColumn = new TableColumn<>();
     @FXML private TableColumn<CompInCharge, String> MaxPercentColumn = new TableColumn<>();
     @FXML private TableView<CompInCharge> ComponentsTable = new TableView<>();
+    Stage primaryStage;
 
     private ObservableList<CompInCharge> data;
 
@@ -29,6 +31,7 @@ public class AddCharge4Controller {
 
     @FXML
     public  void init(){
+        this.primaryStage = this.addCharge3Controller.primaryStage;
         data = Register.getChargeMandatoryComps();
 
 
@@ -144,7 +147,7 @@ public class AddCharge4Controller {
                 ChargeResultController chargeResultController = loader.getController();
                 chargeResultController.addCharge4Controller = this;
                 chargeResultController.init();
-                addCharge3Controller.addCharge2Controller.addCharge1Controller.metallurgistMenuController.primaryStage.setScene(new Scene(root));
+                primaryStage.setScene(new Scene(root));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -156,6 +159,6 @@ public class AddCharge4Controller {
     }
 
     public void backToScene(){
-        this.addCharge3Controller.addCharge2Controller.addCharge1Controller.metallurgistMenuController.primaryStage.setScene(this.ComponentsTable.getScene());
+        this.primaryStage.setScene(this.ComponentsTable.getScene());
     }
 }

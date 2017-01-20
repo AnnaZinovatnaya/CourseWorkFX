@@ -1,6 +1,5 @@
 package Controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,7 +21,7 @@ public class DirectorMenuController {
     }
 
     @FXML
-    private void addComponentButtonClicked(ActionEvent e){
+    private void addComponentButtonClicked(){
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/Views/AddComponentScene.fxml")
@@ -39,7 +38,7 @@ public class DirectorMenuController {
 
     }
 
-    @FXML private void showComponentsButtonClicked(ActionEvent e){
+    @FXML private void showComponentsButtonClicked(){
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/Views/ShowComponentsScene.fxml")
@@ -56,7 +55,7 @@ public class DirectorMenuController {
         }
     }
 
-    @FXML private void reportButtonClicked(ActionEvent e){
+    @FXML private void reportButtonClicked(){
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/Views/ReportScene.fxml")

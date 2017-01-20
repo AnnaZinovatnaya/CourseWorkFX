@@ -4,7 +4,6 @@ import Models.Element;
 import Models.Register;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 public class AddCharge2Controller {
 
@@ -26,8 +26,10 @@ public class AddCharge2Controller {
     private ObservableList<Element> data;
 
     private Alert alert = new Alert(Alert.AlertType.ERROR);
+    Stage primaryStage;
 
     public void init(){
+        this.primaryStage = this.addCharge1Controller.primaryStage;
         this.ElementsTable.setEditable(true);
         this.data = FXCollections.observableArrayList();
         for(Element aElement: Register.getChargeElements()){
@@ -114,7 +116,7 @@ public class AddCharge2Controller {
                 AddCharge3Controller addCharge3Controller = loader.getController();
                 addCharge3Controller.addCharge2Controller = this;
                 addCharge3Controller.init();
-                addCharge1Controller.metallurgistMenuController.primaryStage.setScene(new Scene(root));
+                primaryStage.setScene(new Scene(root));
             } catch (Exception ex){
                 ex.printStackTrace();
             }
@@ -122,7 +124,7 @@ public class AddCharge2Controller {
     }
 
     public void backToScene(){
-        this.addCharge1Controller.metallurgistMenuController.primaryStage.setScene(this.ElementsTable.getScene());
+        this.primaryStage.setScene(this.ElementsTable.getScene());
     }
 
 }

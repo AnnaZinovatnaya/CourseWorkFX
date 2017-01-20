@@ -2,7 +2,6 @@ package Controllers;
 
 import Models.Register;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,7 +49,7 @@ public class ShowComponentsController {
                 if (click.getClickCount() == 2) {
                     String currentItemSelected = MandatoryView.getSelectionModel().getSelectedItem();
                     if(currentItemSelected!=null){
-                        selectButtonClicked(new ActionEvent());
+                        selectButtonClicked();
                     }
                 }
             }
@@ -63,7 +62,7 @@ public class ShowComponentsController {
                 if (click.getClickCount() == 2) {
                     String currentItemSelected = OptionalView.getSelectionModel().getSelectedItem();
                     if(currentItemSelected!=null){
-                        selectButtonClicked(new ActionEvent());
+                        selectButtonClicked();
 
                     }
                 }
@@ -73,7 +72,7 @@ public class ShowComponentsController {
 
     }
 
-    @FXML private void menuButtonClicked(ActionEvent e){
+    @FXML private void menuButtonClicked(){
 
         if(metallurgistMenuController!=null){
             metallurgistMenuController.backToMenu();
@@ -82,7 +81,7 @@ public class ShowComponentsController {
         }
     }
 
-    @FXML private void selectButtonClicked(ActionEvent e) {
+    @FXML private void selectButtonClicked() {
         String temp;
         if(this.mandatoryTab.isSelected()) {
             temp = this.MandatoryView.getSelectionModel().getSelectedItem();

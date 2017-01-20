@@ -1,6 +1,5 @@
 package Controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,15 +20,14 @@ public class MetallurgistMenuController {
         this.primaryStage = primaryStage;
     }
 
-    @FXML private void addMeltButtonClicked(ActionEvent e){
+    @FXML private void addMeltButtonClicked(){
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/Views/AddCharge1Scene.fxml")
             );
             Parent root = loader.load();
             addCharge1Controller = loader.getController();
-            addCharge1Controller.setMenuController(this);
-            addCharge1Controller.init();
+            addCharge1Controller.init(this);
             primaryStage.setScene(new Scene(root));
             primaryStage.setTitle("Новая плавка");
             primaryStage.show();
@@ -38,11 +36,11 @@ public class MetallurgistMenuController {
         }
     }
 
-    @FXML private void showMeltsButtonClicked(ActionEvent e){
+    @FXML private void showMeltsButtonClicked(){
 
     }
 
-    @FXML private void addComponentButtonClicked(ActionEvent e){
+    @FXML private void addComponentButtonClicked(){
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/Views/AddComponentScene.fxml")
@@ -58,7 +56,7 @@ public class MetallurgistMenuController {
         }
     }
 
-    @FXML private void showComponentsButtonClicked(ActionEvent e){
+    @FXML private void showComponentsButtonClicked(){
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/Views/ShowComponentsScene.fxml")

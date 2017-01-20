@@ -3,7 +3,6 @@ package Controllers;
 import Models.CompInCharge;
 import Models.Register;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -24,13 +23,13 @@ public class ChargeResultController {
     @FXML private Button BackButton;
     @FXML private Button DoneButton;
 
-    Stage stage;
+    Stage primaryStage;
 
     ObservableList<CompInCharge> data;
 
     public void init(){
 
-        this.stage = this.addCharge4Controller.addCharge3Controller.addCharge2Controller.addCharge1Controller.metallurgistMenuController.primaryStage;
+        this.primaryStage = this.addCharge4Controller.primaryStage;
         this.NumberField.setText("1");
         this.AmountField.setText(Register.getChargeMass());
         this.MeltField.setText(Register.getChargeMeltBrand());
@@ -44,16 +43,15 @@ public class ChargeResultController {
         this.ComponentsTable.setItems(data);
         this.ComponentsTable.getColumns().clear();
         this.ComponentsTable.getColumns().addAll(NameColumn, AmountColumn);
-        this.stage.setResizable(true);
-        this.stage.setMinHeight(400);
-        this.stage.setMinWidth(600);
+        this.primaryStage.setResizable(true);
+        this.primaryStage.setMinHeight(400);
+        this.primaryStage.setMinWidth(600);
 
     }
 
     @FXML
     private void backButtonClicked(){
-
-        this.addCharge4Controller.addCharge3Controller.addCharge2Controller.addCharge1Controller.metallurgistMenuController.primaryStage.setResizable(false);
+        this.primaryStage.setResizable(false);
         addCharge4Controller.backToScene();
     }
     @FXML private void doneButtonClicked(){

@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 public class AddCharge3Controller {
 
@@ -20,6 +21,7 @@ public class AddCharge3Controller {
     @FXML private ListView<String> SelectedComponentsList = new ListView<>();
     private ObservableList<String> items;
     private ObservableList<String> selectedItems;
+    Stage primaryStage;
 
     @FXML
     private void backButtonClicked(){
@@ -36,7 +38,7 @@ public class AddCharge3Controller {
                 AddCharge4Controller addCharge4Controller = loader.getController();
                 addCharge4Controller.addCharge3Controller = this;
                 addCharge4Controller.init();
-                addCharge2Controller.addCharge1Controller.metallurgistMenuController.primaryStage.setScene(new Scene(root));
+                primaryStage.setScene(new Scene(root));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -49,6 +51,7 @@ public class AddCharge3Controller {
     }
 
     public void init(){
+        this.primaryStage = this.addCharge2Controller.primaryStage;
         items = Register.getAllMandatoryComponentsString();
         selectedItems = FXCollections.observableArrayList ();
         this.AllComponentsList.setItems(items);
@@ -82,6 +85,6 @@ public class AddCharge3Controller {
 
 
     public void backToScene(){
-        this.addCharge2Controller.addCharge1Controller.metallurgistMenuController.primaryStage.setScene(this.AllComponentsList.getScene());
+        this.primaryStage.setScene(this.AllComponentsList.getScene());
     }
 }

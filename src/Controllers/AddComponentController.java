@@ -3,7 +3,6 @@ package Controllers;
 import Models.Component;
 import Models.Register;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,21 +29,23 @@ public class AddComponentController {
 
     public void setMenuController(MetallurgistMenuController metallurgistMenuController){
         this.metallurgistMenuController = metallurgistMenuController;
+        this.primaryStage = this.metallurgistMenuController.primaryStage;
     }
 
     public void setMenuController(DirectorMenuController directorMenuController){
         this.directorMenuController = directorMenuController;
+        this.primaryStage = this.directorMenuController.primaryStage;
     }
 
-    @FXML private void mandatoryButtonClicked(ActionEvent e){
+    @FXML private void mandatoryButtonClicked(){
         this.OptionalButton.setSelected(false);
     }
 
-    @FXML private void optionalButtonClicked(ActionEvent e){
+    @FXML private void optionalButtonClicked(){
         this.MandatoryButton.setSelected(false);
     }
 
-    @FXML private void menuButtonClicked(ActionEvent e){
+    @FXML private void menuButtonClicked(){
         Register.setComponentToNull();
         if(metallurgistMenuController!=null) {
             metallurgistMenuController.backToMenu();
@@ -54,10 +55,10 @@ public class AddComponentController {
     }
 
     public void backToScene(){
-        primaryStage.setScene(this.AdoptField.getScene());
+        this.primaryStage.setScene(this.AdoptField.getScene());
     }
 
-    @FXML private void nextButtonClicked(ActionEvent e){
+    @FXML private void nextButtonClicked(){
         Register.newComponent();
         if(NameField.getText().isEmpty()||BrandField.getText().isEmpty()||AdoptField.getText().isEmpty()||AmountField.getText().isEmpty()||PriceField.getText().isEmpty()||!MandatoryButton.isSelected()&&!OptionalButton.isSelected()){
 
@@ -129,21 +130,6 @@ public class AddComponentController {
                                                 mandatory=1;
                                             Register.setComponentParam(NameField.getText(), BrandField.getText(), adopt, amount, price, mandatory);
                                             try {
-                                                /*
-                                                FXMLLoader loader = new FXMLLoader(
-                                                        getClass().getResource("../Views/AddElementsScene.fxml")
-                                                );
-                                                Parent root = loader.load();
-                                                AddElementsController addElementsController = loader.getController();
-                                                addElementsController.setPreviousController(this);
-                                                addElementsController.init();
-                                                if(metallurgistMenuController!=null)
-                                                    primaryStage = metallurgistMenuController.primaryStage;
-                                                else
-                                                    primaryStage = directorMenuController.primaryStage;
-                                                primaryStage.setScene(new Scene(root));
-                                                primaryStage.setTitle("Новый компонент");
-                                                */
 
                                                 FXMLLoader loader = new FXMLLoader(
                                                         getClass().getResource("/Views/AddElements2Scene.fxml")
@@ -153,10 +139,6 @@ public class AddComponentController {
                                                 AddElements2Controller addElements2Controller = loader.getController();
                                                 addElements2Controller.setPreviousController(this);
                                                 addElements2Controller.init(FXCollections.observableArrayList("C", "S", "Si"));
-                                                if(metallurgistMenuController!=null)
-                                                    primaryStage = metallurgistMenuController.primaryStage;
-                                                else
-                                                    primaryStage = directorMenuController.primaryStage;
                                                 primaryStage.setScene(new Scene(root));
                                             } catch (Exception ex){
                                                 ex.printStackTrace();
@@ -169,7 +151,5 @@ public class AddComponentController {
                 }
             }
         }
-
     }
-
 }

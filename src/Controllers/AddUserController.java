@@ -1,14 +1,10 @@
 package Controllers;
 
 import Models.Register;
-import Models.User;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Font;
-import util.DBUtil;
-import java.sql.ResultSet;
 
 
 public class AddUserController {
@@ -29,11 +25,11 @@ public class AddUserController {
         this.RoleBox.setItems(FXCollections.observableArrayList("","руководитель",  "металлург", "плавильщик"));
     }
 
-    @FXML private void menuButtonClicked(ActionEvent e){
+    @FXML private void menuButtonClicked(){
         adminMenuController.backToMenu();
     }
 
-    @FXML private void addUserButtonClicked(ActionEvent e){
+    @FXML private void addUserButtonClicked(){
         if(NameField.getText().isEmpty()||LastnameField.getText().isEmpty()||PasswordField.getText().isEmpty()||RoleBox.getValue().isEmpty()){
 
             alert.setContentText("Все поля должны быть заполнены!");

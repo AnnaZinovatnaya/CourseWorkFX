@@ -3,7 +3,6 @@ package Controllers;
 import Models.Register;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +12,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 public class AddCharge1Controller {
     MetallurgistMenuController metallurgistMenuController;
@@ -21,13 +21,11 @@ public class AddCharge1Controller {
     @FXML private TextField DeltaMassField;
     private ObservableList<String> data;
     private Alert alert = new Alert(Alert.AlertType.ERROR);
+    Stage primaryStage;
 
-
-    public void setMenuController(MetallurgistMenuController metallurgistMenuController){
+    public void init(MetallurgistMenuController metallurgistMenuController){
         this.metallurgistMenuController = metallurgistMenuController;
-    }
-
-    public void init(){
+        this.primaryStage = this.metallurgistMenuController.primaryStage;
         this.data = FXCollections.observableArrayList ("");
         ObservableList<String> temp = Register.getAllBrands();
         for (String aTemp : temp) {
@@ -89,7 +87,7 @@ public class AddCharge1Controller {
                 AddCharge2Controller addCharge2Controller = loader.getController();
                 addCharge2Controller.addCharge1Controller = this;
                 addCharge2Controller.init();
-                metallurgistMenuController.primaryStage.setScene(new Scene(root));
+                primaryStage.setScene(new Scene(root));
             } catch (Exception ex){
                 ex.printStackTrace();
             }
@@ -97,7 +95,7 @@ public class AddCharge1Controller {
     }
 
     public void backToScene(){
-        this.metallurgistMenuController.primaryStage.setScene(this.BrandBox.getScene());
+        this.primaryStage.setScene(this.BrandBox.getScene());
     }
 }
 

@@ -10,11 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 
 public class AddElements2Controller {
-    Stage primaryStage;
     public AddElementsController addElementsController;
     public AddComponentController addComponentController;
     private Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -29,13 +27,11 @@ public class AddElements2Controller {
 
     public void setPreviousController(AddElementsController addElementsController){
         this.addElementsController = addElementsController;
-        primaryStage = addElementsController.primaryStage;
         this.component = addElementsController.addComponentController.component;
     }
 
     public void setPreviousController(AddComponentController addComponentController){
         this.addComponentController = addComponentController;
-        primaryStage = addComponentController.primaryStage;
         this.component = addComponentController.component;
     }
 
@@ -54,10 +50,10 @@ public class AddElements2Controller {
         this.PercentColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         this.PercentColumn.setOnEditCommit(
                 t -> {
-                    double percent;
+
                     boolean b= true;
                     try {
-                        percent = Double.parseDouble(t.getNewValue());
+                        Double.parseDouble(t.getNewValue());
                     } catch (Exception ex){
                         alert.setContentText("Процент задан некорректно!");
                         alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
@@ -80,10 +76,9 @@ public class AddElements2Controller {
         this.AdoptColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         this.AdoptColumn.setOnEditCommit(
                 t -> {
-                    double adopt;
                     boolean b= true;
                     try {
-                        adopt = Double.parseDouble(t.getNewValue());
+                        Double.parseDouble(t.getNewValue());
                     } catch (Exception ex){
                         alert.setContentText("Усвоение задано некорректно!");
                         alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));

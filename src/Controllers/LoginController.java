@@ -2,11 +2,15 @@ package Controllers;
 
 import Models.Register;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -21,10 +25,17 @@ public class LoginController{
     @FXML
     private PasswordField PasswordField;
 
+    @FXML private Pane PrimaryPane;
     Stage primaryStage;
 
     public void init(Stage primaryStage){
         this.primaryStage = primaryStage;
+        this.PrimaryPane.setOnKeyPressed(key -> {
+            if (key.getCode() == KeyCode.ENTER) {
+                LoginButtonClicked();
+            }
+
+        });
     }
 
 

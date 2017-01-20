@@ -3,7 +3,6 @@ package Controllers;
 import Models.Component;
 import Models.Element;
 import Models.Register;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -60,21 +59,21 @@ public class ShowComponentController {
 
 
     @FXML
-    private void backButtonClicked(ActionEvent e) {
-        this.showComponentsController.OptionalView.getSelectionModel().clearSelection();
-        this.showComponentsController.MandatoryView.getSelectionModel().clearSelection();
-        if(this.showComponentsController.metallurgistMenuController!=null){
-            this.showComponentsController.metallurgistMenuController.primaryStage.setTitle("Просмотр компонентов");
-            this.showComponentsController.metallurgistMenuController.primaryStage.setScene(this.showComponentsController.MandatoryView.getScene());
+    private void backButtonClicked() {
+        showComponentsController.OptionalView.getSelectionModel().clearSelection();
+        showComponentsController.MandatoryView.getSelectionModel().clearSelection();
+        if(showComponentsController.metallurgistMenuController!=null){
+            showComponentsController.metallurgistMenuController.primaryStage.setTitle("Просмотр компонентов");
+            showComponentsController.metallurgistMenuController.primaryStage.setScene(showComponentsController.MandatoryView.getScene());
         }else{
-            this.showComponentsController.directorMenuController.primaryStage.setTitle("Просмотр компонентов");
-            this.showComponentsController.directorMenuController.primaryStage.setScene(this.showComponentsController.MandatoryView.getScene());
+            showComponentsController.directorMenuController.primaryStage.setTitle("Просмотр компонентов");
+            showComponentsController.directorMenuController.primaryStage.setScene(showComponentsController.MandatoryView.getScene());
 
         }
 
     }
     @FXML
-    private void deleteButtonClicked(ActionEvent e) {
+    private void deleteButtonClicked() {
         try {
             Stage stage = new Stage();
             stage.setTitle("Удаление компонента");
@@ -90,11 +89,11 @@ public class ShowComponentController {
             stage.initOwner(this.BrandField.getScene().getWindow());
             stage.showAndWait();
             if(deleted) {
-                this.showComponentsController.refreshItems();
-                if (this.showComponentsController.metallurgistMenuController != null) {
-                    this.showComponentsController.metallurgistMenuController.primaryStage.setScene(this.showComponentsController.MandatoryView.getScene());
+                showComponentsController.refreshItems();
+                if (showComponentsController.metallurgistMenuController != null) {
+                    showComponentsController.metallurgistMenuController.primaryStage.setScene(showComponentsController.MandatoryView.getScene());
                 }else{
-                    this.showComponentsController.directorMenuController.primaryStage.setScene(this.showComponentsController.MandatoryView.getScene());
+                    showComponentsController.directorMenuController.primaryStage.setScene(showComponentsController.MandatoryView.getScene());
                 }
             }
 
@@ -103,7 +102,7 @@ public class ShowComponentController {
         }
     }
     @FXML
-    private void saveButtonClicked(ActionEvent e) {
+    private void saveButtonClicked() {
         boolean b=true;
         double temp=0;
 

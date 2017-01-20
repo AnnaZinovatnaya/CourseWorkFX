@@ -1,7 +1,6 @@
 package Controllers;
 
 import Models.Register;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,11 +25,11 @@ public class FindUserController {
     }
 
 
-    @FXML private void menuButtonClicked(ActionEvent e){
+    @FXML private void menuButtonClicked(){
         adminMenuController.backToMenu();
     }
 
-    @FXML private void searchButtonClicked(ActionEvent e){
+    @FXML private void searchButtonClicked(){
         if(NameField.getText().isEmpty()||LastnameField.getText().isEmpty()){
 
             alert.setContentText("Все поля должны быть заполнены!");
@@ -46,7 +45,7 @@ public class FindUserController {
         }
     }
 
-    @FXML private void deleteButtonClicked(ActionEvent e){
+    @FXML private void deleteButtonClicked(){
         if(Register.canDelete()){
             try {
                 Stage stage = new Stage();

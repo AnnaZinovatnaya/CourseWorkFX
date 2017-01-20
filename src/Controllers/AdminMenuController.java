@@ -19,7 +19,7 @@ public class AdminMenuController {
         this.primaryStage = primaryStage;
     }
 
-    @FXML private void addUserButtonClicked(ActionEvent e){
+    @FXML private void addUserButtonClicked(){
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/Views/AddUserScene.fxml")
@@ -36,7 +36,7 @@ public class AdminMenuController {
         }
     }
 
-    @FXML private void findUserButtonClicked(ActionEvent e){
+    @FXML private void findUserButtonClicked(){
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/Views/FindUserScene.fxml")
