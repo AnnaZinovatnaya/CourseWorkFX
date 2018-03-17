@@ -8,12 +8,12 @@ import javafx.stage.Stage;
 
 public class DeleteUserController {
 
-    FindUserController findUserController;
+    UserController userController;
 
     @FXML private void deleteButtonClicked(ActionEvent e){
         Stage stage;
         Register.deleteUser();
-        findUserController.ResultArea.appendText("\nПользователь удален!");
+        userController.ResultArea.appendText("\nПользователь удален!");
 
         stage = (Stage)((Button) e.getSource()).getScene().getWindow();
         stage.close();

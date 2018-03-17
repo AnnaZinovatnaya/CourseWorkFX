@@ -23,8 +23,7 @@ public class AddCharge3Controller {
     private ObservableList<String> selectedItems;
     Stage primaryStage;
 
-    @FXML
-    private void backButtonClicked(){
+    @FXML private void backButtonClicked(){
         addCharge2Controller.backToScene();
     }
     @FXML private void nextButtonClicked(){

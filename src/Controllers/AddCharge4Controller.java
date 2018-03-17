@@ -18,8 +18,7 @@ public class AddCharge4Controller {
 
     AddCharge3Controller addCharge3Controller;
 
-    @FXML
-    private TableColumn<CompInCharge, String> ComponentColumn = new TableColumn<>();
+    @FXML private TableColumn<CompInCharge, String> ComponentColumn = new TableColumn<>();
     @FXML private TableColumn<CompInCharge, String> MinPercentColumn = new TableColumn<>();
     @FXML private TableColumn<CompInCharge, String> MaxPercentColumn = new TableColumn<>();
     @FXML private TableView<CompInCharge> ComponentsTable = new TableView<>();

@@ -1,6 +1,7 @@
 package Views;
 
 import Controllers.LoginController;
+import Controllers.UserController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,8 +18,12 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("/Views/LoginScene.fxml")
         );
         Parent root = loader.load();
-        LoginController loginController = loader.getController();
-        loginController.init(primaryStage);
+//        LoginController loginController = loader.getController();
+//        loginController.init(primaryStage);
+
+        UserController userController = loader.getController();
+        userController.init(primaryStage);
+
         primaryStage.setTitle("Вход в систему");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);

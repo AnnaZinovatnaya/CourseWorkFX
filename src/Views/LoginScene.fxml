@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
-<Pane fx:id="PrimaryPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.LoginController">
+<Pane fx:id="PrimaryPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.UserController">
    <children>
       <GridPane layoutX="126.0" layoutY="93.0" prefHeight="181.0" prefWidth="349.0">
          <columnConstraints>
@@ -19,7 +19,7 @@
             <RowConstraints maxHeight="60.0" minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <TextField fx:id="NameField" layoutX="266.0" layoutY="60.0" prefHeight="51.0" prefWidth="227.0" GridPane.columnIndex="1">
+            <TextField fx:id="LoginNameField" layoutX="266.0" layoutY="60.0" prefHeight="51.0" prefWidth="227.0" GridPane.columnIndex="1">
                <font>
                   <Font size="24.0" />
                </font>
@@ -27,7 +27,7 @@
                   <Insets bottom="5.0" top="5.0" />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="LastnameField" layoutX="266.0" layoutY="127.0" prefHeight="51.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="LoginLastnameField" layoutX="266.0" layoutY="127.0" prefHeight="51.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="24.0" />
                </font>
@@ -51,7 +51,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <PasswordField fx:id="PasswordField" layoutX="266.0" layoutY="185.0" prefHeight="40.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <PasswordField fx:id="LoginPasswordField" layoutX="266.0" layoutY="185.0" prefHeight="40.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font size="24.0" />
                </font>

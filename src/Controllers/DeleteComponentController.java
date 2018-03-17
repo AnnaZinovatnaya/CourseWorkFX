@@ -19,8 +19,7 @@ public class DeleteComponentController {
     public void init(String temp){
         this.temp = temp;
     }
-    @FXML
-    private void deleteButtonClicked(ActionEvent e){
+    @FXML private void deleteButtonClicked(ActionEvent e){
         Stage stage;
         Register.deleteComponent(temp);
 
