@@ -62,12 +62,12 @@ public class ShowComponentController {
     private void backButtonClicked() {
         showComponentsController.OptionalView.getSelectionModel().clearSelection();
         showComponentsController.MandatoryView.getSelectionModel().clearSelection();
-        if(showComponentsController.metallurgistMenuController!=null){
-            showComponentsController.metallurgistMenuController.primaryStage.setTitle("Просмотр компонентов");
-            showComponentsController.metallurgistMenuController.primaryStage.setScene(showComponentsController.MandatoryView.getScene());
+        if(showComponentsController.menuController!=null){
+            showComponentsController.menuController.primaryStage.setTitle("Просмотр компонентов");
+            showComponentsController.menuController.primaryStage.setScene(showComponentsController.MandatoryView.getScene());
         }else{
-            showComponentsController.directorMenuController.primaryStage.setTitle("Просмотр компонентов");
-            showComponentsController.directorMenuController.primaryStage.setScene(showComponentsController.MandatoryView.getScene());
+            showComponentsController.menuController.primaryStage.setTitle("Просмотр компонентов");
+            showComponentsController.menuController.primaryStage.setScene(showComponentsController.MandatoryView.getScene());
 
         }
 
@@ -90,11 +90,8 @@ public class ShowComponentController {
             stage.showAndWait();
             if(deleted) {
                 showComponentsController.refreshItems();
-                if (showComponentsController.metallurgistMenuController != null) {
-                    showComponentsController.metallurgistMenuController.primaryStage.setScene(showComponentsController.MandatoryView.getScene());
-                }else{
-                    showComponentsController.directorMenuController.primaryStage.setScene(showComponentsController.MandatoryView.getScene());
-                }
+                showComponentsController.menuController.primaryStage.setScene(showComponentsController.MandatoryView.getScene());
+
             }
 
         } catch (Exception ex){

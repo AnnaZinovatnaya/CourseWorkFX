@@ -15,7 +15,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class AddCharge1Controller {
-    MetallurgistMenuController metallurgistMenuController;
+    MenuController menuController;
     @FXML private ChoiceBox<String> BrandBox;
     @FXML private TextField MassField;
     @FXML private TextField DeltaMassField;
@@ -23,9 +23,9 @@ public class AddCharge1Controller {
     private Alert alert = new Alert(Alert.AlertType.ERROR);
     Stage primaryStage;
 
-    public void init(MetallurgistMenuController metallurgistMenuController){
-        this.metallurgistMenuController = metallurgistMenuController;
-        this.primaryStage = this.metallurgistMenuController.primaryStage;
+    public void init(MenuController menuController){
+        this.menuController = menuController;
+        this.primaryStage = this.menuController.primaryStage;
         this.data = FXCollections.observableArrayList ("");
         ObservableList<String> temp = Register.getAllBrands();
         for (String aTemp : temp) {
@@ -37,7 +37,7 @@ public class AddCharge1Controller {
     }
 
     @FXML public void menuButtonClicked(){
-        metallurgistMenuController.backToMenu();
+        menuController.backToMenu();
     }
 
     @FXML public void nextButtonClicked(){
@@ -46,7 +46,8 @@ public class AddCharge1Controller {
         double deltaMass=0;
         if(BrandBox.getValue().isEmpty()||MassField.getText().isEmpty()||DeltaMassField.getText().isEmpty()){
             alert.setContentText("Все поля должны быть заполнены!");
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
             b=false;
         }
@@ -58,7 +59,8 @@ public class AddCharge1Controller {
             } catch (Exception ex) {
                 ex.printStackTrace();
                 alert.setContentText("Масса задана некорректно!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
                 b = false;
             }
@@ -69,7 +71,8 @@ public class AddCharge1Controller {
             } catch (Exception ex){
                 ex.printStackTrace();
                 alert.setContentText("Отклонение по массе задано некорректно!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
                 b=false;
             }

@@ -26,15 +26,15 @@ public class ReportController {
     ObservableList<MeltForView> data;
     private Alert alert = new Alert(Alert.AlertType.ERROR);
 
-    DirectorMenuController directorMenuController;
+    MenuController menuController;
 
-    public void setMenuController(DirectorMenuController directorMenuController){
-        this.directorMenuController = directorMenuController;
+    public void setMenuController(MenuController menuController){
+        this.menuController = menuController;
         this.ReportTable.setPlaceholder(new Label("Выберите необходимый период и нажмите кнопу 'Выбрать'"));
     }
 
     @FXML private void menuButtonClicked(){
-        directorMenuController.backToMenu();
+        menuController.backToMenu();
     }
 
     @FXML private void selectButtonClicked(){

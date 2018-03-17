@@ -1,6 +1,5 @@
 package Views;
 
-import Controllers.LoginController;
 import Controllers.UserController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

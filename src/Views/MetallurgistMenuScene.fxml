@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<Pane maxHeight="-Infinity" fx:controller="Controllers.MetallurgistMenuController" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" fx:controller="Controllers.MenuController" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane layoutX="140.0" layoutY="30.0" vgap="20.0">
          <columnConstraints>
@@ -28,12 +28,12 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="ShowComponentsButton" layoutX="210.0" layoutY="214.0" mnemonicParsing="false" onAction="#showComponentsButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Просмотр компонентов" GridPane.rowIndex="2">
+            <Button fx:id="MetShowComponentsButton" layoutX="210.0" layoutY="214.0" mnemonicParsing="false" onAction="#showComponentsButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Просмотр компонентов" GridPane.rowIndex="2">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="AddComponentButton" layoutX="231.0" layoutY="272.0" mnemonicParsing="false" onAction="#addComponentButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Новый конпонент" GridPane.rowIndex="3">
+            <Button fx:id="MetAddComponentButton" layoutX="231.0" layoutY="272.0" mnemonicParsing="false" onAction="#addComponentButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Новый конпонент" GridPane.rowIndex="3">
                <font>
                   <Font size="24.0" />
                </font>

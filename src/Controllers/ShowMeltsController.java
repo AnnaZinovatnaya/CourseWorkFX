@@ -1,10 +1,10 @@
 package Controllers;
 
 public class ShowMeltsController {
-    MetallurgistMenuController metallurgistMenuController;
+    MenuController menuController;
 
 
-    public void setMenuController(MetallurgistMenuController metallurgistMenuController){
-        this.metallurgistMenuController = metallurgistMenuController;
+    public void setMenuController(MenuController menuController){
+        this.menuController = menuController;
     }
 }

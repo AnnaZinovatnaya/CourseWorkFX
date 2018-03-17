@@ -33,7 +33,7 @@ public class UserController {
     @FXML private TextField SearchLastnameField;
     @FXML public TextArea ResultArea;
 
-    AdminMenuController adminMenuController;
+    MenuController menuController;
 
     public void init(Stage primaryStage)
     {
@@ -51,13 +51,13 @@ public class UserController {
         this.RoleBox.setItems(FXCollections.observableArrayList("","руководитель",  "металлург", "плавильщик"));
     }
 
-    public void setMenuController(AdminMenuController adminMenuController)
+    public void setMenuController(MenuController menuController)
     {
-        this.adminMenuController = adminMenuController;
+        this.menuController = menuController;
     }
 
     @FXML private void menuButtonClicked(){
-        adminMenuController.backToMenu();
+        menuController.backToMenu();
     }
 
     @FXML private void LoginButtonClicked(){
@@ -96,10 +96,9 @@ public class UserController {
                                     getClass().getResource("/Views/AdminMenuScene.fxml")
                             );
                             Parent root = loader.load();
-                            AdminMenuController adminMenuController = loader.getController();
-                            adminMenuController.init(primaryStage);
+                            MenuController menuController = loader.getController();
+                            menuController.init(primaryStage, "Меню - Администратор");
                             primaryStage.setScene(new Scene(root));
-                            primaryStage.setTitle("Меню - Администратор");
 
                         }
                         else if (Register.getRole().equals("металлург"))
@@ -108,11 +107,9 @@ public class UserController {
                                     getClass().getResource("/Views/MetallurgistMenuScene.fxml")
                             );
                             Parent root = loader.load();
-                            MetallurgistMenuController metallurgistMenuController = loader.getController();
-                            metallurgistMenuController.init(primaryStage);
+                            MenuController menuController = loader.getController();
+                            menuController.init(primaryStage, "Меню - Металлург");
                             primaryStage.setScene(new Scene(root));
-                            primaryStage.setTitle("Меню - Металлург");
-
                         }
                         else if (Register.getRole().equals("плавильщик"))
                         {
@@ -120,10 +117,9 @@ public class UserController {
                                     getClass().getResource("/Views/FounderMenuScene.fxml")
                             );
                             Parent root = loader.load();
-                            FounderMenuController founderMenuController = loader.getController();
-                            founderMenuController.init(primaryStage);
+                            MenuController menuController = loader.getController();
+                            menuController.init(primaryStage, "Меню - Плавильщик");
                             primaryStage.setScene(new Scene(root));
-                            primaryStage.setTitle("Меню - Плавильщик");
                         }
                         else if (Register.getRole().equals("руководитель"))
                         {
@@ -131,10 +127,9 @@ public class UserController {
                                     getClass().getResource("/Views/DirectorMenuScene.fxml")
                             );
                             Parent root = loader.load();
-                            DirectorMenuController directorMenuController = loader.getController();
-                            directorMenuController.init(primaryStage);
+                            MenuController menuController = loader.getController();
+                            menuController.init(primaryStage, "Меню - Руководитель");
                             primaryStage.setScene(new Scene(root));
-                            primaryStage.setTitle("Меню - Руководитель");
                         }
                     }catch (Exception ex){
                         ex.printStackTrace();

@@ -126,11 +126,8 @@ public class AddElements2Controller {
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
 
-            if(this.addComponentController.metallurgistMenuController!=null) {
-                this.addComponentController.metallurgistMenuController.backToMenu();
-            }
-            else
-                this.addComponentController.directorMenuController.backToMenu();
+            this.addComponentController.menuController.backToMenu();
+
         }else{
             alert.setContentText("Все поля должны быть заполнены!");
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));

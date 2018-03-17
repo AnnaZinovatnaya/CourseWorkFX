@@ -13,8 +13,8 @@ import javafx.stage.Stage;
 
 public class AddComponentController {
 
-    MetallurgistMenuController metallurgistMenuController;
-    DirectorMenuController directorMenuController;
+    MenuController menuController;
+    //DirectorMenuController directorMenuController;
     private Alert alert = new Alert(Alert.AlertType.ERROR);
     @FXML private TextField NameField;
     @FXML private TextField BrandField;
@@ -27,14 +27,9 @@ public class AddComponentController {
     public Stage primaryStage;
     public Component component;
 
-    public void setMenuController(MetallurgistMenuController metallurgistMenuController){
-        this.metallurgistMenuController = metallurgistMenuController;
-        this.primaryStage = this.metallurgistMenuController.primaryStage;
-    }
-
-    public void setMenuController(DirectorMenuController directorMenuController){
-        this.directorMenuController = directorMenuController;
-        this.primaryStage = this.directorMenuController.primaryStage;
+    public void setMenuController(MenuController menuController){
+        this.menuController = menuController;
+        this.primaryStage = this.menuController.primaryStage;
     }
 
     @FXML private void mandatoryButtonClicked(){
@@ -47,11 +42,7 @@ public class AddComponentController {
 
     @FXML private void menuButtonClicked(){
         Register.setComponentToNull();
-        if(metallurgistMenuController!=null) {
-            metallurgistMenuController.backToMenu();
-        }
-        else
-            directorMenuController.backToMenu();
+        menuController.backToMenu();
     }
 
     public void backToScene(){
