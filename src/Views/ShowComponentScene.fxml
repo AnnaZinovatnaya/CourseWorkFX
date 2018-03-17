@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ShowComponentController">
+   <children>
+      <VBox alignment="TOP_CENTER" layoutX="7.0" layoutY="17.0" prefHeight="39.0" prefWidth="587.0">
+         <children>
+            <Label fx:id="NameLabel" text="Название">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <Button fx:id="BackButton" layoutX="7.0" layoutY="347.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="DeleteButton" layoutX="352.0" layoutY="347.0" mnemonicParsing="false" onAction="#deleteButtonClicked" text="Удалить">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="SaveButton" layoutX="467.0" layoutY="347.0" mnemonicParsing="false" onAction="#saveButtonClicked" text="Сохранить">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Label layoutX="17.0" layoutY="89.0" text="Марка">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="331.0" layoutY="75.0" text="Усвоение">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="161.0" text="Содержание, %">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="181.0" layoutY="161.0" text="Усвоение, %">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="16.0" layoutY="203.0" text="C">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="15.0" layoutY="245.0" text="Si">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="17.0" layoutY="292.0" prefHeight="27.0" prefWidth="0.0" text="S">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="412.0" layoutY="200.0" text="Цена">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="382.0" layoutY="245.0" text="Наличие">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="BrandField" layoutX="84.0" layoutY="83.0" prefHeight="39.0" prefWidth="150.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="AdoptField" layoutX="468.0" layoutY="83.0" prefHeight="39.0" prefWidth="82.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="CPercentField" layoutX="62.0" layoutY="194.0" prefHeight="25.0" prefWidth="82.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="CAdoptField" layoutX="190.0" layoutY="194.0" prefHeight="25.0" prefWidth="82.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="SiAdoptField" layoutX="190.0" layoutY="240.0" prefHeight="25.0" prefWidth="82.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="SiPercentField" layoutX="62.0" layoutY="240.0" prefHeight="25.0" prefWidth="82.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="SAdoptField" layoutX="190.0" layoutY="286.0" prefHeight="25.0" prefWidth="82.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="SPercentField" layoutX="62.0" layoutY="286.0" prefHeight="25.0" prefWidth="82.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="PriceField" layoutX="467.0" layoutY="194.0" prefHeight="25.0" prefWidth="82.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="AmountField" layoutX="467.0" layoutY="239.0" prefHeight="25.0" prefWidth="82.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <Label layoutX="560.0" layoutY="200.0" text="грн">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="560.0" layoutY="245.0" text="кг">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="424.0" layoutY="75.0" text="баз.">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="359.0" layoutY="102.0" text="элемента">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="562.0" layoutY="89.0" text="\%">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

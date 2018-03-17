@@ -72,8 +72,15 @@ public class Register {
         user = null;
     }
 
-    public static boolean login(String name, String lastname, String password){
-        currentUser = User.login(name, lastname, password);
+    public static boolean login(String name, String lastname, String password) throws RuntimeException{
+        try {
+            currentUser = User.login(name, lastname, password);
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+
         return currentUser != null;
     }
 
@@ -96,7 +103,6 @@ public class Register {
         component.setAmount(amount);
         component.setPrice(price);
         component.setMandatory(mandatory);
-
     }
 
     public static ObservableList<String> getAllElements(){

@@ -3,13 +3,11 @@ package Controllers;
 import Models.Register;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Font;
@@ -36,36 +34,36 @@ public class AddElementsController {
         this.SelectedElementsList.setItems(selectedItems);
     }
 
-    @FXML private void oneForwardButtonClicked(ActionEvent e){
+    @FXML private void oneForwardButtonClicked(){
         String temp = AllElementsList.getSelectionModel().getSelectedItem();
         if(!selectedItems.contains(temp)&&temp!=null) {
             this.SelectedElementsList.getItems().add(temp);
         }
     }
 
-    @FXML private void allForwardButtonClicked(ActionEvent e){
+    @FXML private void allForwardButtonClicked(){
             this.SelectedElementsList.getItems().clear();
         for (String item : items) {
             this.SelectedElementsList.getItems().add(item);
         }
     }
 
-    @FXML private void oneBackButtonClicked(ActionEvent e){
+    @FXML private void oneBackButtonClicked(){
         String temp = SelectedElementsList.getSelectionModel().getSelectedItem();
         if(temp!=null) {
             this.SelectedElementsList.getItems().remove(temp);
         }
     }
 
-    @FXML private void allBackButtonClicked(ActionEvent e){
+    @FXML private void allBackButtonClicked(){
         this.SelectedElementsList.getItems().clear();
     }
 
-    @FXML private void backButtonClicked(ActionEvent e){
+    @FXML private void backButtonClicked(){
         addComponentController.backToScene();
     }
 
-    @FXML private void nextButtonClicked(ActionEvent e){
+    @FXML private void nextButtonClicked(){
         if(selectedItems.size()>0) {
             try {
                 FXMLLoader loader = new FXMLLoader(

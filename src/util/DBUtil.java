@@ -2,112 +2,207 @@ package util;
 
 import com.sun.rowset.CachedRowSetImpl;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 
 public class DBUtil {
-    //Declare JDBC Driver
-    private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
 
-    //Connection
+    private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
+    private static String driverClass = "com.mysql.jdbc.Driver";
+
     private static Connection conn = null;
 
-    private static final String  userName = "root";//username to connect to mysql
-    private static final String password = "MySQLPassword";//password to connect to mysql
-    private static final String driverClass = "com.mysql.jdbc.Driver";//driver class to connect to mysql
-    //needs mysql connector jar
-    private static final  String db_url = "jdbc:mysql://localhost:3306/mydb";
+    private static String  USERNAME;
+    private static String  PASSWORD;
+    private static String  DB_URL;
 
-    public static void dbConnect(){
-
-        try {
-            Class.forName(driverClass);
-            conn = DriverManager.getConnection(db_url, userName, password);
-
-            if(!conn.isClosed())
+    private static void dbConnect() throws RuntimeException
+    {
+        boolean isConfigurationOK;
+        try
+        {
+            FileReader fileReader = new FileReader("C:\\Users\\Анюта\\IdeaProjects\\CourseWorkFX\\src\\configuration.txt");
+            String str = "";
+            int c;
+            while ((c = fileReader.read()) != -1)
             {
-                System.out.println("Connection Successful");
+                str += (char)c;
+            }
+
+            isConfigurationOK = parseData(str);
+
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new RuntimeException(ErrorMessage.FILE_NOT_FOUND);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_READ_FILE);
+        }
+
+        if (true == isConfigurationOK)
+        {
+            try
+            {
+                Class.forName(driverClass);
+                conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            }
+            catch (Exception e)
+            {
+                throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
             }
         }
-        catch (Exception e){
-            e.printStackTrace();
+        else
+        {
+            throw new RuntimeException(ErrorMessage.BAD_CONF_FILE);
         }
-
     }
 
-
-    //Close Connection
-    public static void dbDisconnect() {
-        try {
-            if (conn != null && !conn.isClosed()) {
+    private static void dbDisconnect() throws RuntimeException
+    {
+        try
+        {
+            if (conn != null && !conn.isClosed())
+            {
                 conn.close();
             }
-        } catch (Exception e){
-            e.printStackTrace();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_CLOSE_CONNECTION);
         }
     }
 
-    //DB Execute Query Operation
-    public static ResultSet dbExecuteQuery(String queryStmt) throws SQLException, ClassNotFoundException {
-        //Declare statement, resultSet and CachedResultSet as null
+    public static ResultSet dbExecuteQuery(String queryStmt) throws RuntimeException
+    {
         Statement stmt = null;
         ResultSet resultSet = null;
         CachedRowSetImpl crs = null;
-        try {
-            //Connect to DB (Establish Oracle Connection)
-            dbConnect();
+        try
+        {
+            if (null == conn || conn.isClosed())
+            {
+                try
+                {
+                    dbConnect();
+                }
+                catch (RuntimeException e)
+                {
+                    throw e;
+                }
+            }
 
-            //Create statement
             stmt = conn.createStatement();
-
-            //Execute select (query) operation
             resultSet = stmt.executeQuery(queryStmt);
-
-            //CachedRowSet Implementation
-            //In order to prevent "java.sql.SQLRecoverableException: Closed Connection: next" error
-            //We are using CachedRowSet
             crs = new CachedRowSetImpl();
             crs.populate(resultSet);
-        } catch (SQLException e) {
-            System.out.println("Problem occurred at executeQuery operation : " + e);
-            throw e;
-        } finally {
-            if (resultSet != null) {
-                //Close resultSet
-                resultSet.close();
-            }
-            if (stmt != null) {
-                //Close Statement
-                stmt.close();
-            }
-            //Close connection
-            dbDisconnect();
         }
-        //Return CachedRowSet
+        catch (SQLException e)
+        {
+            throw new RuntimeException (ErrorMessage.CANNOT_EXECUTE_QUERY + queryStmt);
+        }
+        finally
+        {
+            if (resultSet != null)
+            {
+                try {
+                    resultSet.close();
+                }
+                catch (SQLException e)
+                {
+                    throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
+                }
+            }
+            if (stmt != null)
+            {
+                try {
+                    stmt.close();
+                }
+                catch (SQLException e)
+                {
+                    throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
+                }
+            }
+
+            try
+            {
+                dbDisconnect();
+            }
+            catch (RuntimeException e)
+            {
+                throw e;
+            }
+        }
         return crs;
     }
 
-    //DB Execute Update (For Update/Insert/Delete) Operation
-    public static void dbExecuteUpdate(String sqlStmt) throws SQLException, ClassNotFoundException {
-        //Declare statement as null
+    public static void dbExecuteUpdate(String sqlStmt) throws RuntimeException
+    {
         Statement stmt = null;
-        try {
-
-            //Connect to DB (Establish Oracle Connection)
-            dbConnect();
-            //Create Statement
-            stmt = conn.createStatement();
-            //Run executeUpdate operation with given sql statement
-            stmt.executeUpdate(sqlStmt);
-        } catch (SQLException e) {
-            System.out.println("Problem occurred at executeUpdate operation : " + e);
-            throw e;
-        } finally {
-            if (stmt != null) {
-                //Close statement
-                stmt.close();
+        try
+        {
+            if (null == conn || conn.isClosed())
+            {
+                try
+                {
+                    dbConnect();
+                }
+                catch (RuntimeException e)
+                {
+                    throw e;
+                }
             }
-            //Close connection
-            dbDisconnect();
+
+            stmt = conn.createStatement();
+
+            stmt.executeUpdate(sqlStmt);
         }
+        catch (SQLException e)
+        {
+            throw new RuntimeException (ErrorMessage.CANNOT_EXECUTE_QUERY + sqlStmt);
+        }
+        finally
+        {
+            if (stmt != null)
+            {
+                try {
+                    stmt.close();
+                }
+                catch (SQLException e)
+                {
+                    throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
+                }
+            }
+
+            try
+            {
+                dbDisconnect();
+            }
+            catch (RuntimeException e)
+            {
+                throw e;
+            }
+        }
+    }
+
+    private static boolean parseData(String string)
+    {
+        String strings[] = string.split("\n");
+
+        if (!(strings[0].split("\""))[0].contains("username") ||
+            !(strings[1].split("\""))[0].contains("password") ||
+            !(strings[2].split("\""))[0].contains("url"))
+        {
+            return false;
+        }
+
+        USERNAME = (strings[0].split("\""))[1];
+        PASSWORD = (strings[1].split("\""))[1];
+        DB_URL   = (strings[2].split("\""))[1];
+
+        return true;
     }
 }
