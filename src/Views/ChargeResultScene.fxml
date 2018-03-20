@@ -41,17 +41,17 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="NumberField" GridPane.rowIndex="1">
+                  <TextField fx:id="numberField" GridPane.rowIndex="1">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="MeltField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="meltField" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="AmountField" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <TextField fx:id="amountField" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -69,10 +69,10 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TableView fx:id="ComponentsTable" prefHeight="136.0" prefWidth="580.0" VBox.vgrow="ALWAYS">
+            <TableView fx:id="componentsTable" prefHeight="136.0" prefWidth="580.0" VBox.vgrow="ALWAYS">
               <columns>
-                <TableColumn fx:id="NameColumn" maxWidth="1.7976931348623157E308" minWidth="290.0" prefWidth="-1.0" text="Название" style="-fx-font: NORMAL 18 System;"/>
-                <TableColumn fx:id="AmountColumn" maxWidth="1.7976931348623157E308" minWidth="290.0" prefWidth="-1.0" text="Количество, кг" style="-fx-font: NORMAL 18 System;" />
+                <TableColumn fx:id="nameColumn" maxWidth="1.7976931348623157E308" minWidth="290.0" prefWidth="-1.0" text="Название" style="-fx-font: NORMAL 18 System;"/>
+                <TableColumn fx:id="amountColumn" maxWidth="1.7976931348623157E308" minWidth="290.0" prefWidth="-1.0" text="Количество, кг" style="-fx-font: NORMAL 18 System;" />
               </columns>
             </TableView>
             <GridPane>

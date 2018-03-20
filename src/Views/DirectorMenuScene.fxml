@@ -23,7 +23,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="ReportButton" layoutX="195.0" layoutY="259.0" mnemonicParsing="false" onAction="#reportButtonClicked" prefHeight="95.0" prefWidth="370.0" text="Отчет по плавкам" GridPane.rowIndex="2">
+            <Button fx:id="reportButton" layoutX="195.0" layoutY="259.0" mnemonicParsing="false" onAction="#reportButtonClicked" prefHeight="95.0" prefWidth="370.0" text="Отчет по плавкам" GridPane.rowIndex="2">
                <font>
                   <Font size="24.0" />
                </font>

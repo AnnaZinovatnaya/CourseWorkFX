@@ -11,23 +11,23 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <DatePicker fx:id="SecondDate" layoutX="397.0" layoutY="68.0" />
+      <DatePicker fx:id="secondDate" layoutX="397.0" layoutY="68.0" />
       <Label layoutX="164.0" layoutY="65.0" text="с">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <DatePicker fx:id="FirstDate" layoutX="182.0" layoutY="68.0" />
+      <DatePicker fx:id="firstDate" layoutX="182.0" layoutY="68.0" />
       <Label layoutX="364.0" layoutY="65.0" text="по">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <TableView fx:id="ReportTable" layoutY="110.0" prefHeight="224.0" prefWidth="600.0">
+      <TableView fx:id="reportTable" layoutY="110.0" prefHeight="224.0" prefWidth="600.0">
         <columns>
-          <TableColumn fx:id="BrandColumn" editable="false" prefWidth="150.0" resizable="false" text="Марка" style="-fx-font: NORMAL 18 System;"/>
-          <TableColumn fx:id="AmountColumn" editable="false" prefWidth="250.0" resizable="false" text="Количество, кг" style="-fx-font: NORMAL 18 System;"/>
-            <TableColumn fx:id="DateColumn" editable="false" prefWidth="200.0" resizable="false" text="Дата" style="-fx-font: NORMAL 18 System;"/>
+          <TableColumn fx:id="brandColumn" editable="false" prefWidth="150.0" resizable="false" text="Марка" style="-fx-font: NORMAL 18 System;"/>
+          <TableColumn fx:id="amountColumn" editable="false" prefWidth="250.0" resizable="false" text="Количество, кг" style="-fx-font: NORMAL 18 System;"/>
+            <TableColumn fx:id="dateColumn" editable="false" prefWidth="200.0" resizable="false" text="Дата" style="-fx-font: NORMAL 18 System;"/>
         </columns>
       </TableView>
       <Button fx:id="SelectButton" layoutX="485.0" layoutY="346.0" mnemonicParsing="false" onAction="#selectButtonClicked" text="Выбрать">

@@ -8,7 +8,7 @@
    <children>
       <VBox alignment="TOP_CENTER" layoutX="7.0" layoutY="17.0" prefHeight="39.0" prefWidth="587.0">
          <children>
-            <Label fx:id="NameLabel" text="Название">
+            <Label fx:id="nameLabel" text="Название">
                <font>
                   <Font size="20.0" />
                </font>
@@ -75,12 +75,12 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="BrandField" layoutX="84.0" layoutY="83.0" prefHeight="39.0" prefWidth="150.0">
+      <TextField fx:id="brandField" layoutX="84.0" layoutY="83.0" prefHeight="39.0" prefWidth="150.0">
          <font>
             <Font size="18.0" />
          </font>
       </TextField>
-      <TextField fx:id="AdoptField" layoutX="468.0" layoutY="83.0" prefHeight="39.0" prefWidth="82.0">
+      <TextField fx:id="adoptField" layoutX="468.0" layoutY="83.0" prefHeight="39.0" prefWidth="82.0">
          <font>
             <Font size="18.0" />
          </font>
@@ -115,12 +115,12 @@
             <Font size="18.0" />
          </font>
       </TextField>
-      <TextField fx:id="PriceField" layoutX="467.0" layoutY="194.0" prefHeight="25.0" prefWidth="82.0">
+      <TextField fx:id="priceField" layoutX="467.0" layoutY="194.0" prefHeight="25.0" prefWidth="82.0">
          <font>
             <Font size="18.0" />
          </font>
       </TextField>
-      <TextField fx:id="AmountField" layoutX="467.0" layoutY="239.0" prefHeight="25.0" prefWidth="82.0">
+      <TextField fx:id="amountField" layoutX="467.0" layoutY="239.0" prefHeight="25.0" prefWidth="82.0">
          <font>
             <Font size="18.0" />
          </font>

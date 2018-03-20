@@ -7,118 +7,146 @@ import util.DBUtil;
 import java.sql.ResultSet;
 import java.util.Date;
 
-public class MeltForView {
+public class MeltForView
+{
     private String brand;
     private double mass;
-    private Date date;
+    private Date   date;
 
-    public MeltForView(String brand, double mass, Date date) {
+    public MeltForView(String brand, double mass, Date date)
+    {
         this.brand = brand;
         this.mass = mass;
         this.date = date;
     }
 
-    public String getBrand() {
+    public String getBrand()
+    {
         return brand;
     }
 
-    public void setBrand(String brand) {
+    public void setBrand(String brand)
+    {
         this.brand = brand;
     }
 
-    public double getMass() {
+    public double getMass()
+    {
         return mass;
     }
 
-    public void setMass(double mass) {
+    public void setMass(double mass)
+    {
         this.mass = mass;
     }
 
-    public Date getDate() {
+    public Date getDate()
+    {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Date date)
+    {
         this.date = date;
     }
 
-    public static ObservableList<MeltForView> getMeltsFromTill(Date firstDate, Date secondDate){
+    public static ObservableList<MeltForView> getMeltsFromTill(Date firstDate, Date secondDate)
+    {
         ObservableList<MeltForView> list = FXCollections.observableArrayList ();
 
         MeltForView temp;
         ResultSet rs;
 
-            try {
-                rs = DBUtil.dbExecuteQuery("SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"' AND `date` <= '"+new java.sql.Date(secondDate.getTime())+"'");
-                while (rs.next()) {
-                    temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
-                    list.add(temp);
-                }
-
-            } catch (Exception ex){
-                ex.printStackTrace();
+        try
+        {
+            rs = DBUtil.dbExecuteQuery("SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"' AND `date` <= '"+new java.sql.Date(secondDate.getTime())+"'");
+            while (rs.next())
+            {
+                temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
+                list.add(temp);
             }
+
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
 
         return list;
     }
 
-    public static ObservableList<MeltForView> getAllMelts(){
+    public static ObservableList<MeltForView> getAllMelts()
+    {
         ObservableList<MeltForView> list = FXCollections.observableArrayList ();
 
         MeltForView temp;
         ResultSet rs;
 
 
-        try {
+        try
+        {
             rs = DBUtil.dbExecuteQuery("SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand");
-            while (rs.next()) {
+            while (rs.next())
+            {
                 temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
                 list.add(temp);
             }
 
-        } catch (Exception ex){
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
 
         return list;
     }
 
-    public static ObservableList<MeltForView> getMeltsFrom(Date firstDate){
+    public static ObservableList<MeltForView> getMeltsFrom(Date firstDate)
+    {
         ObservableList<MeltForView> list = FXCollections.observableArrayList ();
 
         MeltForView temp;
         ResultSet rs;
 
 
-        try {
+        try
+        {
             rs = DBUtil.dbExecuteQuery("SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge  JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"'");
-            while (rs.next()) {
+            while (rs.next())
+            {
                 temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
                 list.add(temp);
             }
 
-        } catch (Exception ex){
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
 
         return list;
     }
 
-    public static ObservableList<MeltForView> getMeltsTill(Date secondDate){
+    public static ObservableList<MeltForView> getMeltsTill(Date secondDate)
+    {
         ObservableList<MeltForView> list = FXCollections.observableArrayList ();
 
         MeltForView temp;
         ResultSet rs;
 
 
-        try {
+        try
+        {
             rs = DBUtil.dbExecuteQuery("SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand  WHERE `date`<='"+new java.sql.Date(secondDate.getTime())+"'");
-            while (rs.next()) {
+            while (rs.next())
+            {
                 temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
                 list.add(temp);
             }
 
-        } catch (Exception ex){
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
 

@@ -5,75 +5,92 @@ import javafx.collections.ObservableList;
 
 import java.util.*;
 
-public class Register {
-    public static User currentUser;
-    public static User user;
-    public static Component component;
+public class Manager
+{
+    public static User            currentUser;
+    public static User            user;
+    public static Component       component;
     public static List<Component> components;
-    public static Charge charge;
-    public static List<Charge> charges;
-    public static List<Melt> melts;
+    public static Charge          charge;
+    public static List<Charge>    charges;
+    public static List<Melt>      melts;
     public static List<MeltBrand> meltBrands;
 
 
-    public static void newUser(){
+    public static void newUser()
+    {
         user = new User("", "", "", "");
     }
 
-    public static boolean setNameLastname(String name, String lastname){
-        if(!user.isUser(name, lastname)){
+    public static boolean setNameLastname(String name, String lastname)
+    {
+        if(!user.isUser(name, lastname))
+        {
             user.setName(name);
             user.setLastname(lastname);
             return true;
-        } else
+        }
+        else
             return false;
     }
 
-    public static void setPasswordRole(String password, String role){
+    public static void setPasswordRole(String password, String role)
+    {
         user.setPassword(password);
         user.setRole(role);
     }
 
-    public static void saveUser(){
+    public static void saveUser()
+    {
         user.saveUser();
     }
 
-    public static boolean findUser(String name, String lastname){
+    public static boolean findUser(String name, String lastname)
+    {
         user = User.findUser(name, lastname);
         return user != null;
     }
 
-    public static String getFoundName(){
+    public static String getFoundName()
+    {
         return user.getName();
     }
 
-    public static String getFoundLastname(){
+    public static String getFoundLastname()
+    {
         return user.getLastname();
     }
 
-    public static String getFoundPassword(){
+    public static String getFoundPassword()
+    {
         return user.getPassword();
     }
 
-    public static String getFoundRole(){
+    public static String getFoundRole()
+    {
         return user.getRole();
     }
 
-    public static boolean canDelete(){
+    public static boolean canDelete()
+    {
         return user != null;
     }
 
-    public static void deleteUser(){
+    public static void deleteUser()
+    {
         user.deleteUser();
         user = null;
     }
 
-    public static void setUserToNull(){
+    public static void setUserToNull()
+    {
         user = null;
     }
 
-    public static boolean login(String name, String lastname, String password) throws RuntimeException{
-        try {
+    public static boolean login(String name, String lastname, String password) throws RuntimeException
+    {
+        try
+        {
             currentUser = User.login(name, lastname, password);
         }
         catch (RuntimeException e)
@@ -84,19 +101,23 @@ public class Register {
         return currentUser != null;
     }
 
-    public static String getRole(){
+    public static String getRole()
+    {
         return currentUser.getRole();
     }
 
-    public static void newComponent(){
+    public static void newComponent()
+    {
         component = new Component("", "", 0, 0, 0, 0, 0, new ArrayList<>());
     }
 
-    public static boolean componentExists(String name){
+    public static boolean componentExists(String name)
+    {
         return component.componentExists(name);
     }
 
-    public static void setComponentParam(String name, String brand,double adopt,double amount,double price,int mandatory){
+    public static void setComponentParam(String name, String brand,double adopt,double amount,double price,int mandatory)
+    {
         component.setName(name);
         component.setBrand(brand);
         component.setAdoptBase(adopt);
@@ -105,117 +126,145 @@ public class Register {
         component.setMandatory(mandatory);
     }
 
-    public static ObservableList<String> getAllElements(){
+    public static ObservableList<String> getAllElements()
+    {
         return Element.getAllElements();
     }
 
-    public static void saveComponentParam(){
+    public static void saveComponentParam()
+    {
         component.saveComponentParam();
     }
 
-    public static void setComponentElement(String name, double percent, double adopt){
+    public static void setComponentElement(String name, double percent, double adopt)
+    {
         component.setComponentElement(name, percent, adopt);
     }
 
-    public static void saveComponentElements(){
+    public static void saveComponentElements()
+    {
         component.saveComponentElements();
         component = null;
     }
 
-    public static void setComponentToNull(){
+    public static void setComponentToNull()
+    {
         component = null;
     }
 
-    public static ObservableList<String> getAllBrands(){
+    public static ObservableList<String> getAllBrands()
+    {
         return MeltBrand.getAllBrands();
     }
 
-    public static void newCharge(){
+    public static void newCharge()
+    {
         charge = new Charge(currentUser, 0, 0, null, null, null, null, null);
     }
 
-    public static void setChargeBrand(String meltBrand){
+    public static void setChargeBrand(String meltBrand)
+    {
         charge.setChargeBrand(meltBrand);
     }
 
-    public static void setChargeMassAndDelta(double mass, double deltaMass){
+    public static void setChargeMassAndDelta(double mass, double deltaMass)
+    {
         charge.setMass(mass);
         charge.setDeltaMass(deltaMass);
     }
 
-    public static ObservableList<Element> getChargeElements(){
+    public static ObservableList<Element> getChargeElements()
+    {
         return FXCollections.observableList(charge.getElements());
     }
 
-    public static boolean canEditPercent(String element, double percent){
+    public static boolean canEditPercent(String element, double percent)
+    {
         return charge.canEditPercent(element, percent);
     }
 
-    public static void setChargeElements(ObservableList<Element> elements){
+    public static void setChargeElements(ObservableList<Element> elements)
+    {
         charge.setElements(elements);
     }
 
-    public static ObservableList<String> getAllMandatoryComponentsString(){
+    public static ObservableList<String> getAllMandatoryComponentsString()
+    {
         return Component.getAllMandatoryComponentsString();
     }
 
-    public static ObservableList<String> getAllOptionalComponentsString(){
+    public static ObservableList<String> getAllOptionalComponentsString()
+    {
         return Component.getAllOptionalComponentsString();
     }
 
-    public static void setMandatoryComponents(ObservableList<String> components){
+    public static void setMandatoryComponents(ObservableList<String> components)
+    {
         charge.setMandatoryComponents(components);
         charge.setOptionalComponents();
     }
 
-    public static ObservableList<CompInCharge> getChargeMandatoryComps(){
+    public static ObservableList<CompInCharge> getChargeMandatoryComps()
+    {
         return FXCollections.observableList(charge.getMandatoryComponents());
     }
 
-    public static ObservableList<CompInCharge> getChargeOptionalComps(){
+    public static ObservableList<CompInCharge> getChargeOptionalComps()
+    {
         return FXCollections.observableList(charge.getOptionalComponents());
     }
 
-    public static boolean isChargePossible(){
+    public static boolean isChargePossible()
+    {
         return charge.isPossible();
     }
-    public static void calculateCheapCharge(){
+    public static void calculateCheapCharge()
+    {
         charge.calculateCheapCharge();
     }
 
-    public static ObservableList<CompInCharge> getChargeResultComps(){
+    public static ObservableList<CompInCharge> getChargeResultComps()
+    {
         return FXCollections.observableList(charge.getChargeResultComps());
     }
 
-    public static String getChargeMeltBrand(){
+    public static String getChargeMeltBrand()
+    {
         return charge.getMeltBrand().getName();
     }
 
-    public static String getChargeMass(){
+    public static String getChargeMass()
+    {
         return String.valueOf(charge.getMass());
     }
 
-    public static ObservableList<Component> getAllMandatoryComponents(){
+    public static ObservableList<Component> getAllMandatoryComponents()
+    {
         return Component.getAllMandatoryComponents();
     }
 
-    public static ObservableList<Component> getAllOptionalComponents(){
+    public static ObservableList<Component> getAllOptionalComponents()
+    {
         return FXCollections.observableArrayList(Component.getAllOptionalComponents());
     }
 
-    public static void updateComponentData(Component component){
+    public static void updateComponentData(Component component)
+    {
         Component.updateComponentData(component);
     }
 
-    public static void deleteComponent(String name){
+    public static void deleteComponent(String name)
+    {
         Component.deleteComponent(name);
     }
 
-    public static Component findComponent(String name){
+    public static Component findComponent(String name)
+    {
         return Component.findComponent(name);
     }
 
-    public static void saveCharge(){
+    public static void saveCharge()
+    {
         charge.setDateCharge(new Date());
         charge.setUser(currentUser);
         charge.saveToDB();

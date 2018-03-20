@@ -81,8 +81,8 @@
                   </Button>
                </children>
             </GridPane>
-            <ListView fx:id="AllElementsList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" style="-fx-font: NORMAL 18 System;"/>
-            <ListView fx:id="SelectedElementsList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" style="-fx-font: NORMAL 18 System;"/>
+            <ListView fx:id="allElementsList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" style="-fx-font: NORMAL 18 System;"/>
+            <ListView fx:id="selectedElementsList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" style="-fx-font: NORMAL 18 System;"/>
          </children>
       </GridPane>
    </children>

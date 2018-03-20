@@ -2,13 +2,16 @@ package Controllers;
 
 import javafx.fxml.FXML;
 
-public class MeltInfoController {
+public class MeltInfoController
+{
     @FXML
-    private void backButtonClicked(){
+    private void backButtonClicked()
+    {
 
     }
 
-    @FXML private void nextButtonClicked(){
+    @FXML private void nextButtonClicked()
+    {
 
     }
 }

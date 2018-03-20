@@ -66,8 +66,8 @@
                   <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                </rowConstraints>
             </GridPane>
-            <ListView fx:id="AllComponentsList" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;" GridPane.rowIndex="1" />
-            <ListView fx:id="SelectedComponentsList" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ListView fx:id="allComponentsList" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;" GridPane.rowIndex="1" />
+            <ListView fx:id="selectedComponentsList" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
          <columnConstraints>
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="254.0" minWidth="10.0" prefWidth="254.0" />

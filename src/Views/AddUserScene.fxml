@@ -29,7 +29,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="AddNameField" layoutX="185.0" layoutY="126.0" GridPane.columnIndex="1">
+            <TextField fx:id="addNameField" layoutX="185.0" layoutY="126.0" GridPane.columnIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
@@ -42,7 +42,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="AddLastnameField" layoutX="185.0" layoutY="183.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="addLastnameField" layoutX="185.0" layoutY="183.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
@@ -55,7 +55,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="AddPasswordField" layoutX="185.0" layoutY="240.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TextField fx:id="addPasswordField" layoutX="185.0" layoutY="240.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font size="20.0" />
                </font>
@@ -68,7 +68,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="RoleBox" layoutX="185.0" layoutY="304.0" prefHeight="44.0" prefWidth="290.0" GridPane.columnIndex="1" GridPane.rowIndex="3" value="">
+            <ChoiceBox fx:id="roleChoiceBox" layoutX="185.0" layoutY="304.0" prefHeight="44.0" prefWidth="290.0" GridPane.columnIndex="1" GridPane.rowIndex="3" value="">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>

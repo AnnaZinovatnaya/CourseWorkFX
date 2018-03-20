@@ -20,7 +20,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="AddUserButton" layoutX="110.0" layoutY="76.0" mnemonicParsing="false" onAction="#addUserButtonClicked" prefHeight="95.0" prefWidth="370.0" text="Добавить пользователя">
+            <Button fx:id="addUserButton" layoutX="110.0" layoutY="76.0" mnemonicParsing="false" onAction="#addUserButtonClicked" prefHeight="95.0" prefWidth="370.0" text="Добавить пользователя">
                <font>
                   <Font size="24.0" />
                </font>

@@ -1,10 +1,11 @@
 package Controllers;
 
-public class ShowMeltsController {
-    MenuController menuController;
+public class ShowMeltsController
+{
+    private MenuController menuController;
 
-
-    public void setMenuController(MenuController menuController){
+    public void setMenuController(MenuController menuController)
+    {
         this.menuController = menuController;
     }
 }

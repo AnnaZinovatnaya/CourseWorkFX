@@ -6,14 +6,16 @@ import util.DBUtil;
 
 import java.sql.ResultSet;
 
-public class Element {
+public class Element
+{
     private String name;
     private double minPercent;
     private double maxPercent;
     private double percent;
     private double adopt;
 
-    public Element(String name, double minPercent, double maxPercent, double percent, double adopt) {
+    public Element(String name, double minPercent, double maxPercent, double percent, double adopt)
+    {
         this.name = name;
         this.minPercent = minPercent;
         this.maxPercent = maxPercent;
@@ -21,7 +23,8 @@ public class Element {
         this.adopt = adopt;
     }
 
-    public Element(Element element) {
+    public Element(Element element)
+    {
         this.name = element.getName();
         this.minPercent = element.getMinPercentDouble();
         this.maxPercent = element.getMaxPercentDouble();
@@ -29,86 +32,110 @@ public class Element {
         this.adopt = element.getAdopt();
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public String getMinPercent() {
+    public String getMinPercent()
+    {
         return String.valueOf(minPercent);
     }
 
-    public String getMaxPercent() {
+    public String getMaxPercent()
+    {
         return String.valueOf(maxPercent);
     }
 
-    public double getMinPercentDouble() {
+    public double getMinPercentDouble()
+    {
         return minPercent;
     }
 
-    public void setMinPercent(double minPercent) {
+    public void setMinPercent(double minPercent)
+    {
         this.minPercent = minPercent;
     }
 
-    public double getMaxPercentDouble() {
+    public double getMaxPercentDouble()
+    {
         return maxPercent;
     }
 
-    public void setMaxPercent(double maxPercent) {
+    public void setMaxPercent(double maxPercent)
+    {
         this.maxPercent = maxPercent;
     }
 
-    public double getPercent() {
+    public double getPercent()
+    {
         return percent;
     }
 
-    public void setPercent(double percent) {
+    public void setPercent(double percent)
+    {
         this.percent = percent;
     }
 
-    public double getAdopt() {
+    public double getAdopt()
+    {
         return adopt;
     }
 
-    public void setAdopt(double adopt) {
+    public void setAdopt(double adopt)
+    {
         this.adopt = adopt;
     }
 
-    public static ObservableList<String> getAllElements(){
+    public static ObservableList<String> getAllElements()
+    {
         ObservableList<String> list = FXCollections.observableArrayList ();
-        try{
+        try
+        {
             ResultSet rs;
             rs = DBUtil.dbExecuteQuery("SELECT name FROM mydb.element");
-            while(rs.next()){
+            while(rs.next())
+            {
                 list.add(rs.getString("name"));
             }
 
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
 
         return list;
     }
 
-    public void saveElementInComponent(int idComponent){
+    public void saveElementInComponent(int idComponent)
+    {
         ResultSet rs;
         int idElement = 0;
-        try{
+        try
+        {
             rs = DBUtil.dbExecuteQuery("SELECT idElement FROM mydb.element WHERE name = '"+name+"'");
             if(rs.next())
                 idElement = rs.getInt("idElement");
 
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
 
-        try {
+        try
+        {
             DBUtil.dbExecuteUpdate("INSERT INTO mydb.elementincomponent (procent, Element_idElement, Component_idComponent, adopt) " +
-                    "VALUES ('" + percent + "', '" + idElement + "', '" + idComponent + "', '" + adopt + "')");
-        } catch (Exception ex) {
+                                   "VALUES ('" + percent + "', '" + idElement + "', '" + idComponent + "', '" + adopt + "')");
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
     }

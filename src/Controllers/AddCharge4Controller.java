@@ -1,9 +1,8 @@
 package Controllers;
 
 import Models.CompInCharge;
-import Models.Register;
+import Models.Manager;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,151 +12,194 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import util.ErrorMessage;
 
-public class AddCharge4Controller {
+public class AddCharge4Controller
+{
 
-    AddCharge3Controller addCharge3Controller;
+    private AddCharge3Controller                    addCharge3Controller;
+    private Stage                                   primaryStage;
+    private Alert                                   alert;
 
-    @FXML private TableColumn<CompInCharge, String> ComponentColumn = new TableColumn<>();
-    @FXML private TableColumn<CompInCharge, String> MinPercentColumn = new TableColumn<>();
-    @FXML private TableColumn<CompInCharge, String> MaxPercentColumn = new TableColumn<>();
-    @FXML private TableView<CompInCharge> ComponentsTable = new TableView<>();
-    Stage primaryStage;
+    @FXML private TableColumn<CompInCharge, String> componentColumn = new TableColumn<>();
+    @FXML private TableColumn<CompInCharge, String> minComponentPercentColumn = new TableColumn<>();
+    @FXML private TableColumn<CompInCharge, String> maxComponentPercentColumn = new TableColumn<>();
+    @FXML private TableView<CompInCharge>           componentsTable = new TableView<>();
+    private ObservableList<CompInCharge>            components;
 
-    private ObservableList<CompInCharge> data;
+    @FXML public  void init()
+    {
+        this.primaryStage = this.addCharge3Controller.getPrimaryStage();
+        this.alert = new Alert(Alert.AlertType.ERROR);
 
-    private Alert alert = new Alert(Alert.AlertType.ERROR);
+        this.components = Manager.getChargeMandatoryComps();
+        this.componentsTable.setEditable(true);
+        this.componentColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        this.minComponentPercentColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        this.minComponentPercentColumn.setOnEditCommit(
+            t ->
+        {
+            double percent;
+            boolean b= true;
+            try
+            {
+                percent = Double.parseDouble(t.getNewValue());
+            }
+            catch (Exception ex)
+            {
+                alert.setContentText(ErrorMessage.INCORRECT_MIN_PERCENT);
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
 
-    @FXML
-    public  void init(){
-        this.primaryStage = this.addCharge3Controller.primaryStage;
-        data = Register.getChargeMandatoryComps();
+                b=false;
+            }
 
-
-        this.ComponentsTable.setEditable(true);
-
-        this.ComponentColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        this.MinPercentColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        this.MinPercentColumn.setOnEditCommit(
-                t -> {
-                    double percent;
-                    boolean b= true;
-                    try {
-                        percent = Double.parseDouble(t.getNewValue());
-                    } catch (Exception ex){
-                        alert.setContentText("Минимальный процент задан некорректно!");
-                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                        alert.showAndWait();
-
-                        b=false;
-                    }
-
-                    if(b) {
-                        t.getTableView().getItems().get(
-                                t.getTablePosition().getRow()).setMinPercent(Double.parseDouble(t.getNewValue()));
-                    } else{
-                        t.getTableView().getItems().get(
-                                t.getTablePosition().getRow()).setMinPercent(0);
-                    }
-                }
+            if(b)
+            {
+                t.getTableView().getItems().get(
+                    t.getTablePosition().getRow()).setMinPercent(Double.parseDouble(t.getNewValue()));
+            }
+            else
+            {
+                t.getTableView().getItems().get(
+                    t.getTablePosition().getRow()).setMinPercent(0);
+            }
+        }
         );
 
-        this.MaxPercentColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        this.MaxPercentColumn.setOnEditCommit(
-                t -> {
-                    double percent;
-                    boolean b= true;
-                    try {
-                        percent = Double.parseDouble(t.getNewValue());
-                    } catch (Exception ex){
-                        alert.setContentText("Максимальный процент задан некорректно!");
-                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                        alert.showAndWait();
+        this.maxComponentPercentColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        this.maxComponentPercentColumn.setOnEditCommit(
+            t ->
+        {
+            double percent;
+            boolean b= true;
+            try
+            {
+                percent = Double.parseDouble(t.getNewValue());
+            }
+            catch (Exception ex)
+            {
+                alert.setContentText(ErrorMessage.INCORRECT_MAX_PERCENT);
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
 
-                        b=false;
-                    }
+                b=false;
+            }
 
-                    if(b) {
-                        t.getTableView().getItems().get(
-                                t.getTablePosition().getRow()).setMaxPercent(Double.parseDouble(t.getNewValue()));
-                    } else{
-                        t.getTableView().getItems().get(
-                                t.getTablePosition().getRow()).setMaxPercent(0);
-                    }
-                }
+            if(b)
+            {
+                t.getTableView().getItems().get(
+                    t.getTablePosition().getRow()).setMaxPercent(Double.parseDouble(t.getNewValue()));
+            }
+            else
+            {
+                t.getTableView().getItems().get(
+                    t.getTablePosition().getRow()).setMaxPercent(0);
+            }
+        }
         );
-        this.ComponentsTable.setItems(data);
-        this.ComponentsTable.getColumns().clear();
-        this.ComponentsTable.getColumns().addAll(ComponentColumn, MinPercentColumn, MaxPercentColumn);
+        this.componentsTable.setItems(components);
+        this.componentsTable.getColumns().clear();
+        this.componentsTable.getColumns().addAll(componentColumn, minComponentPercentColumn, maxComponentPercentColumn);
     }
 
     @FXML
-    private void backButtonClicked(){
+    private void backButtonClicked()
+    {
         addCharge3Controller.backToScene();
     }
-    @FXML private void nextButtonClicked(){
+    @FXML private void nextButtonClicked()
+    {
 
-        for(CompInCharge aComp: data){
-            if(aComp.getMaxPercent()==0||aComp.getMaxPercent()==0){
-                alert.setContentText("Все поля должны быть заполнены!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+        for(CompInCharge aComp: components)
+        {
+            if(aComp.getMaxPercent()==0||aComp.getMaxPercent()==0)
+            {
+                alert.setContentText(ErrorMessage.EMPTY_FIELDS);
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
                 return;
             }
         }
 
-        for(CompInCharge aComp: data){
-            if(aComp.getMaxPercent()<aComp.getMinPercent()){
-                alert.setContentText("Максимальное значение не может быть меньше минимального: "+aComp.getName());
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+        for(CompInCharge aComp: components)
+        {
+            if(aComp.getMaxPercent()<aComp.getMinPercent())
+            {
+                alert.setContentText("Максимальное значение не может быть меньше минимального: " + aComp.getName());
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
                 return;
             }
         }
         double min=0;
         double max=0;
-        for(CompInCharge aComp: data){
+        for(CompInCharge aComp: components)
+        {
             min+=aComp.getMinPercent();
             max+=aComp.getMaxPercent();
         }
 
-        if(min>100){
+        if(min>100)
+        {
             alert.setContentText("Сумма минимальных значений не может превышать 100%!");
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
             return;
         }
 
-        if(max<100){
+        if(max<100)
+        {
             alert.setContentText("Сумма максимальных значений не может быть меньше 100%!");
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
             return;
         }
 
-        if(Register.isChargePossible()){
-            Register.calculateCheapCharge();
-            try {
+        if(Manager.isChargePossible())
+        {
+            Manager.calculateCheapCharge();
+            try
+            {
                 FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("/Views/ChargeResultScene.fxml")
+                    getClass().getResource("/Views/ChargeResultScene.fxml")
                 );
                 Parent root = loader.load();
                 ChargeResultController chargeResultController = loader.getController();
-                chargeResultController.addCharge4Controller = this;
+                chargeResultController.setAddCharge4Controller(this);
                 chargeResultController.init();
                 primaryStage.setScene(new Scene(root));
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 ex.printStackTrace();
             }
-        } else{
+        }
+        else
+        {
             alert.setContentText("Набор шихты невозможен");
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
         }
     }
 
-    public void backToScene(){
-        this.primaryStage.setScene(this.ComponentsTable.getScene());
+    public void backToScene()
+    {
+        this.primaryStage.setScene(this.componentsTable.getScene());
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setAddCharge3Controller(AddCharge3Controller addCharge3Controller) {
+        this.addCharge3Controller = addCharge3Controller;
     }
 }

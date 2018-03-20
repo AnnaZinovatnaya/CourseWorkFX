@@ -11,12 +11,12 @@
         <tabs>
           <Tab fx:id="mandatoryTab" style="-fx-font: NORMAL 18 System; -fx-padding: 5px 10px 5px 10px; -fx-border-radius: 5px;-fx-focus-color: transparent;" text="Основные">
                <content>
-                  <ListView fx:id="MandatoryView" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;"/>
+                  <ListView fx:id="mandatoryView" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;"/>
                </content>
             </Tab>
           <Tab fx:id="optionalTab" style="-fx-font: NORMAL 18 System; -fx-padding: 5px 10px 5px 10px; -fx-border-radius: 5px;-fx-focus-color: transparent;" text="Корректирующие">
                <content>
-                  <ListView fx:id="OptionalView" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;"/>
+                  <ListView fx:id="optionalView" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;"/>
                </content>
             </Tab>
         </tabs>

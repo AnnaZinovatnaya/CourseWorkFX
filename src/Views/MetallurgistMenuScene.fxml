@@ -18,22 +18,22 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="AddMeltButton" layoutX="234.0" layoutY="91.0" mnemonicParsing="false" onAction="#addMeltButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Добавление плавки">
+            <Button fx:id="addMeltButton" layoutX="234.0" layoutY="91.0" mnemonicParsing="false" onAction="#addMeltButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Добавление плавки">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="ShowMeltsButton" layoutX="234.0" layoutY="145.0" mnemonicParsing="false" onAction="#showMeltsButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Просмотр плавок" GridPane.rowIndex="1">
+            <Button layoutX="234.0" layoutY="145.0" mnemonicParsing="false" onAction="#showMeltsButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Просмотр плавок" GridPane.rowIndex="1">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="MetShowComponentsButton" layoutX="210.0" layoutY="214.0" mnemonicParsing="false" onAction="#showComponentsButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Просмотр компонентов" GridPane.rowIndex="2">
+            <Button layoutX="210.0" layoutY="214.0" mnemonicParsing="false" onAction="#showComponentsButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Просмотр компонентов" GridPane.rowIndex="2">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="MetAddComponentButton" layoutX="231.0" layoutY="272.0" mnemonicParsing="false" onAction="#addComponentButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Новый конпонент" GridPane.rowIndex="3">
+            <Button layoutX="231.0" layoutY="272.0" mnemonicParsing="false" onAction="#addComponentButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Новый конпонент" GridPane.rowIndex="3">
                <font>
                   <Font size="24.0" />
                </font>

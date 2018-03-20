@@ -1,6 +1,6 @@
 package Controllers;
 
-import Models.Register;
+import Models.Manager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,19 +8,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class MenuController {
-    Stage primaryStage;
-    private String windowTitle;
+public class MenuController
+{
+    private Stage                    primaryStage;
+    private String                   windowTitle;
 
-    @FXML private Button AddUserButton;
-    @FXML private Button AddMeltButton;
-    @FXML private Button ReportButton;
+    @FXML private Button             addUserButton;
+    @FXML private Button             addMeltButton;
+    @FXML private Button             reportButton;
 
-    AddComponentController addComponentController;
-    AddCharge1Controller addCharge1Controller;
-    ShowComponentsController showComponentsController;
-    ShowMeltsController showMeltsController;
-    ReportController reportController;
+    private AddComponentController   addComponentController;
+    private AddCharge1Controller     addCharge1Controller;
+    private ShowComponentsController showComponentsController;
+    private ShowMeltsController      showMeltsController;
+    private ReportController         reportController;
 
     public void init(Stage primaryStage, String windowTitle)
     {
@@ -33,7 +34,7 @@ public class MenuController {
         try
         {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/Views/AddUserScene.fxml")
+                getClass().getResource("/Views/AddUserScene.fxml")
             );
             Parent root = loader.load();
 
@@ -57,13 +58,13 @@ public class MenuController {
         try
         {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/Views/FindUserScene.fxml")
+                getClass().getResource("/Views/FindUserScene.fxml")
             );
             Parent root = loader.load();
 
             UserController userController = loader.getController();
             userController.setMenuController(this);
-            Register.setUserToNull();
+            Manager.setUserToNull();
             primaryStage.setScene(new Scene(root));
             primaryStage.setTitle("Поиск пользователя");
             primaryStage.show();
@@ -76,27 +77,29 @@ public class MenuController {
 
     public void backToMenu()
     {
-        if (null != this.AddUserButton)
+        if (null != this.addUserButton)
         {
-            primaryStage.setScene(this.AddUserButton.getScene());
+            primaryStage.setScene(this.addUserButton.getScene());
         }
-        else if (null != this.ReportButton)
+        else if (null != this.reportButton)
         {
-            primaryStage.setScene(this.ReportButton.getScene());
+            primaryStage.setScene(this.reportButton.getScene());
         }
-        else if (null != this.AddMeltButton)
+        else if (null != this.addMeltButton)
         {
-            primaryStage.setScene(this.AddMeltButton.getScene());
+            primaryStage.setScene(this.addMeltButton.getScene());
         }
 
         primaryStage.setTitle(windowTitle);
         primaryStage.show();
     }
 
-    @FXML private void addComponentButtonClicked(){
-        try {
+    @FXML private void addComponentButtonClicked()
+    {
+        try
+        {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/Views/AddComponentScene.fxml")
+                getClass().getResource("/Views/AddComponentScene.fxml")
             );
             Parent root = loader.load();
             addComponentController = loader.getController();
@@ -104,16 +107,20 @@ public class MenuController {
             primaryStage.setScene(new Scene(root));
             primaryStage.setTitle("Новый компонент");
             primaryStage.show();
-        } catch (Exception ex){
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
 
     }
 
-    @FXML private void showComponentsButtonClicked(){
-        try {
+    @FXML private void showComponentsButtonClicked()
+    {
+        try
+        {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/Views/ShowComponentsScene.fxml")
+                getClass().getResource("/Views/ShowComponentsScene.fxml")
             );
             Parent root = loader.load();
             ShowComponentsController showComponentsController = loader.getController();
@@ -122,15 +129,19 @@ public class MenuController {
             primaryStage.setScene(new Scene(root));
             primaryStage.setTitle("Просмотр компонентов");
             primaryStage.show();
-        } catch (Exception ex){
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
     }
 
-    @FXML private void reportButtonClicked(){
-        try {
+    @FXML private void reportButtonClicked()
+    {
+        try
+        {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/Views/ReportScene.fxml")
+                getClass().getResource("/Views/ReportScene.fxml")
             );
             Parent root = loader.load();
             reportController = loader.getController();
@@ -138,15 +149,19 @@ public class MenuController {
             primaryStage.setScene(new Scene(root));
             primaryStage.setTitle("Отчет по плавкам");
             primaryStage.show();
-        } catch (Exception ex){
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
     }
 
-    @FXML private void addMeltButtonClicked(){
-        try {
+    @FXML private void addMeltButtonClicked()
+    {
+        try
+        {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/Views/AddCharge1Scene.fxml")
+                getClass().getResource("/Views/AddCharge1Scene.fxml")
             );
             Parent root = loader.load();
             addCharge1Controller = loader.getController();
@@ -154,12 +169,19 @@ public class MenuController {
             primaryStage.setScene(new Scene(root));
             primaryStage.setTitle("Новая плавка");
             primaryStage.show();
-        } catch (Exception ex){
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
     }
 
-    @FXML private void showMeltsButtonClicked(){
+    @FXML private void showMeltsButtonClicked()
+    {
 
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
 }

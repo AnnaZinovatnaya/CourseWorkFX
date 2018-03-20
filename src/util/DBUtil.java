@@ -7,10 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
 
-public class DBUtil {
-
+public class DBUtil
+{
     private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
-    private static String driverClass = "com.mysql.jdbc.Driver";
 
     private static Connection conn = null;
 
@@ -24,14 +23,14 @@ public class DBUtil {
         try
         {
             FileReader fileReader = new FileReader("C:\\Users\\Анюта\\IdeaProjects\\CourseWorkFX\\src\\configuration.txt");
-            String str = "";
+            StringBuilder str = new StringBuilder();
             int c;
             while ((c = fileReader.read()) != -1)
             {
-                str += (char)c;
+                str.append((char) c);
             }
 
-            isConfigurationOK = parseData(str);
+            isConfigurationOK = parseData(str.toString());
 
         }
         catch (FileNotFoundException e)
@@ -43,11 +42,11 @@ public class DBUtil {
             throw new RuntimeException(ErrorMessage.CANNOT_READ_FILE);
         }
 
-        if (true == isConfigurationOK)
+        if (isConfigurationOK)
         {
             try
             {
-                Class.forName(driverClass);
+                Class.forName("com.mysql.jdbc.Driver");
                 conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             }
             catch (Exception e)
@@ -80,7 +79,7 @@ public class DBUtil {
     {
         Statement stmt = null;
         ResultSet resultSet = null;
-        CachedRowSetImpl crs = null;
+        CachedRowSetImpl crs;
         try
         {
             if (null == conn || conn.isClosed())
@@ -108,7 +107,8 @@ public class DBUtil {
         {
             if (resultSet != null)
             {
-                try {
+                try
+                {
                     resultSet.close();
                 }
                 catch (SQLException e)
@@ -118,7 +118,8 @@ public class DBUtil {
             }
             if (stmt != null)
             {
-                try {
+                try
+                {
                     stmt.close();
                 }
                 catch (SQLException e)
@@ -168,7 +169,8 @@ public class DBUtil {
         {
             if (stmt != null)
             {
-                try {
+                try
+                {
                     stmt.close();
                 }
                 catch (SQLException e)
@@ -193,8 +195,8 @@ public class DBUtil {
         String strings[] = string.split("\n");
 
         if (!(strings[0].split("\""))[0].contains("username") ||
-            !(strings[1].split("\""))[0].contains("password") ||
-            !(strings[2].split("\""))[0].contains("url"))
+                !(strings[1].split("\""))[0].contains("password") ||
+                !(strings[2].split("\""))[0].contains("url"))
         {
             return false;
         }

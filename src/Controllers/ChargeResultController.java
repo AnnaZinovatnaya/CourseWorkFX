@@ -1,7 +1,7 @@
 package Controllers;
 
 import Models.CompInCharge;
-import Models.Register;
+import Models.Manager;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,50 +11,55 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-public class ChargeResultController {
-    AddCharge4Controller addCharge4Controller;
+public class ChargeResultController
+{
+    private AddCharge4Controller                    addCharge4Controller;
 
-    @FXML private TableColumn<CompInCharge, String> NameColumn = new TableColumn<>();
-    @FXML private TableColumn<CompInCharge, String> AmountColumn = new TableColumn<>();
-    @FXML private TableView<CompInCharge> ComponentsTable = new TableView<>();
-    @FXML private TextField AmountField;
-    @FXML private TextField MeltField;
-    @FXML private TextField NumberField;
-    @FXML private Button BackButton;
-    @FXML private Button DoneButton;
+    @FXML private TableColumn<CompInCharge, String> nameColumn = new TableColumn<>();
+    @FXML private TableColumn<CompInCharge, String> amountColumn = new TableColumn<>();
+    @FXML private TableView<CompInCharge>           componentsTable = new TableView<>();
+    @FXML private TextField                         amountField;
+    @FXML private TextField                         meltField;
+    @FXML private TextField                         numberField;
+    @FXML private Button                            backButton;
+    @FXML private Button                            doneButton;
 
-    Stage primaryStage;
+    private Stage                                   primaryStage;
+    private ObservableList<CompInCharge>            components;
 
-    ObservableList<CompInCharge> data;
+    public void init()
+    {
+        this.primaryStage = this.addCharge4Controller.getPrimaryStage();
+        this.numberField.setText("1");
+        this.amountField.setText(Manager.getChargeMass());
+        this.meltField.setText(Manager.getChargeMeltBrand());
+        components = Manager.getChargeResultComps();
 
-    public void init(){
+        this.componentsTable.setEditable(true);
 
-        this.primaryStage = this.addCharge4Controller.primaryStage;
-        this.NumberField.setText("1");
-        this.AmountField.setText(Register.getChargeMass());
-        this.MeltField.setText(Register.getChargeMeltBrand());
-        data = Register.getChargeResultComps();
+        this.nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        this.amountColumn.setCellValueFactory(new PropertyValueFactory<>("currentMass"));
 
-        this.ComponentsTable.setEditable(true);
-
-        this.NameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        this.AmountColumn.setCellValueFactory(new PropertyValueFactory<>("currentMass"));
-
-        this.ComponentsTable.setItems(data);
-        this.ComponentsTable.getColumns().clear();
-        this.ComponentsTable.getColumns().addAll(NameColumn, AmountColumn);
+        this.componentsTable.setItems(components);
+        this.componentsTable.getColumns().clear();
+        this.componentsTable.getColumns().addAll(nameColumn, amountColumn);
         this.primaryStage.setResizable(true);
         this.primaryStage.setMinHeight(400);
         this.primaryStage.setMinWidth(600);
-
     }
 
-    @FXML
-    private void backButtonClicked(){
+    @FXML private void backButtonClicked()
+    {
         this.primaryStage.setResizable(false);
         addCharge4Controller.backToScene();
     }
-    @FXML private void doneButtonClicked(){
-        Register.saveCharge();
+
+    @FXML private void doneButtonClicked()
+    {
+        Manager.saveCharge();
+    }
+
+    public void setAddCharge4Controller(AddCharge4Controller addCharge4Controller) {
+        this.addCharge4Controller = addCharge4Controller;
     }
 }

@@ -1,8 +1,7 @@
 package Controllers;
 
-import Models.Register;
+import Models.Manager;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,42 +12,43 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import util.ErrorMessage;
 
-public class UserController {
-    private Alert alert = new Alert(Alert.AlertType.ERROR);
+public class UserController
+{
+    private Alert                   alert = new Alert(Alert.AlertType.ERROR);
 
-    @FXML private Pane PrimaryPane;
-    Stage primaryStage;
+    @FXML private Pane              primaryPane;
+    private Stage                   primaryStage;
 
-    @FXML private TextField LoginNameField;
-    @FXML private TextField LoginLastnameField;
-    @FXML private javafx.scene.control.PasswordField LoginPasswordField;
+    @FXML private TextField         loginNameField;
+    @FXML private TextField         loginLastnameField;
+    @FXML private PasswordField     loginPasswordField;
+    @FXML private TextField         addNameField;
+    @FXML private TextField         addLastnameField;
+    @FXML private TextField         addPasswordField;
+    @FXML private ChoiceBox<String> roleChoiceBox;
+    @FXML private TextField         searchNameField;
+    @FXML private TextField         searchLastnameField;
+    @FXML public TextArea           resultArea;
 
-    @FXML private TextField AddNameField;
-    @FXML private TextField AddLastnameField;
-    @FXML private TextField AddPasswordField;
-    @FXML private ChoiceBox<String> RoleBox;
-
-    @FXML private TextField SearchNameField;
-    @FXML private TextField SearchLastnameField;
-    @FXML public TextArea ResultArea;
-
-    MenuController menuController;
+    private MenuController          menuController;
 
     public void init(Stage primaryStage)
     {
         this.primaryStage = primaryStage;
-        this.PrimaryPane.setOnKeyPressed(key -> {
+        this.primaryPane.setOnKeyPressed(key ->
+        {
             if (key.getCode() == KeyCode.ENTER)
             {
-                LoginButtonClicked();
+                loginButtonClicked();
             }
         });
     }
 
     @FXML public void init()
     {
-        this.RoleBox.setItems(FXCollections.observableArrayList("","руководитель",  "металлург", "плавильщик"));
+        this.roleChoiceBox.setItems(FXCollections.observableArrayList("","руководитель",  "металлург", "плавильщик"));
     }
 
     public void setMenuController(MenuController menuController)
@@ -56,44 +56,46 @@ public class UserController {
         this.menuController = menuController;
     }
 
-    @FXML private void menuButtonClicked(){
+    @FXML private void menuButtonClicked()
+    {
         menuController.backToMenu();
     }
 
-    @FXML private void LoginButtonClicked(){
+    @FXML private void loginButtonClicked()
+    {
 
-        if(this.LoginNameField.getText().isEmpty() ||
-           this.LoginLastnameField.getText().isEmpty() ||
-           this.LoginPasswordField.getText().isEmpty())
+        if(this.loginNameField.getText().isEmpty() ||
+                this.loginLastnameField.getText().isEmpty() ||
+                this.loginPasswordField.getText().isEmpty())
         {
-            alert.setContentText("Все поля должны быть заполнены!");
+            alert.setContentText(ErrorMessage.EMPTY_FIELDS);
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                     .forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
         }
         else
         {
-            boolean isLoginSuccessful = false;
+            boolean isLoginSuccessful;
             try
             {
-                isLoginSuccessful = Register.login(LoginNameField.getText(),
-                                                   LoginLastnameField.getText(),
-                                                   LoginPasswordField.getText());
-
-                if(false == isLoginSuccessful)
+                isLoginSuccessful = Manager.login(loginNameField.getText(),
+                                                   loginLastnameField.getText(),
+                                                   loginPasswordField.getText());
+                if(!isLoginSuccessful)
                 {
-                    alert.setContentText("Неверное имя или пароль!");
+                    alert.setContentText(ErrorMessage.WRONG_LOGIN_OR_PASSWORD);
                     alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                             .forEach(node -> ((Label)node).setFont(Font.font(16)));
                     alert.showAndWait();
-                } else
+                }
+                else
                 {
                     try
                     {
-                        if (Register.getRole().equals("администратор"))
+                        if (Manager.getRole().equals("администратор"))
                         {
                             FXMLLoader loader = new FXMLLoader(
-                                    getClass().getResource("/Views/AdminMenuScene.fxml")
+                                getClass().getResource("/Views/AdminMenuScene.fxml")
                             );
                             Parent root = loader.load();
                             MenuController menuController = loader.getController();
@@ -101,37 +103,39 @@ public class UserController {
                             primaryStage.setScene(new Scene(root));
 
                         }
-                        else if (Register.getRole().equals("металлург"))
+                        else if (Manager.getRole().equals("металлург"))
                         {
                             FXMLLoader loader = new FXMLLoader(
-                                    getClass().getResource("/Views/MetallurgistMenuScene.fxml")
+                                getClass().getResource("/Views/MetallurgistMenuScene.fxml")
                             );
                             Parent root = loader.load();
                             MenuController menuController = loader.getController();
                             menuController.init(primaryStage, "Меню - Металлург");
                             primaryStage.setScene(new Scene(root));
                         }
-                        else if (Register.getRole().equals("плавильщик"))
+                        else if (Manager.getRole().equals("плавильщик"))
                         {
                             FXMLLoader loader = new FXMLLoader(
-                                    getClass().getResource("/Views/FounderMenuScene.fxml")
+                                getClass().getResource("/Views/MakeMelt1Scene.fxml")
                             );
                             Parent root = loader.load();
-                            MenuController menuController = loader.getController();
-                            menuController.init(primaryStage, "Меню - Плавильщик");
+                            MeltController meltController = loader.getController();
+                            meltController.init(primaryStage);
                             primaryStage.setScene(new Scene(root));
                         }
-                        else if (Register.getRole().equals("руководитель"))
+                        else if (Manager.getRole().equals("руководитель"))
                         {
                             FXMLLoader loader = new FXMLLoader(
-                                    getClass().getResource("/Views/DirectorMenuScene.fxml")
+                                getClass().getResource("/Views/DirectorMenuScene.fxml")
                             );
                             Parent root = loader.load();
                             MenuController menuController = loader.getController();
                             menuController.init(primaryStage, "Меню - Руководитель");
                             primaryStage.setScene(new Scene(root));
                         }
-                    }catch (Exception ex){
+                    }
+                    catch (Exception ex)
+                    {
                         ex.printStackTrace();
                     }
                     primaryStage.show();
@@ -149,12 +153,12 @@ public class UserController {
 
     @FXML private void addUserButtonClicked()
     {
-        if(AddNameField.getText().isEmpty()     ||
-           AddLastnameField.getText().isEmpty() ||
-           AddPasswordField.getText().isEmpty() ||
-           RoleBox.getValue().isEmpty())
+        if(addNameField.getText().isEmpty()     ||
+                addLastnameField.getText().isEmpty() ||
+                addPasswordField.getText().isEmpty() ||
+                roleChoiceBox.getValue().isEmpty())
         {
-            alert.setContentText("Все поля должны быть заполнены!");
+            alert.setContentText(ErrorMessage.EMPTY_FIELDS);
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                     .forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
@@ -162,10 +166,11 @@ public class UserController {
         }
         else
         {
-            Register.newUser();
-            if(Register.setNameLastname(AddNameField.getText(), AddLastnameField.getText())){
-                Register.setPasswordRole(AddPasswordField.getText(), RoleBox.getValue());
-                Register.saveUser();
+            Manager.newUser();
+            if(Manager.setNameLastname(addNameField.getText(), addLastnameField.getText()))
+            {
+                Manager.setPasswordRole(addPasswordField.getText(), roleChoiceBox.getValue());
+                Manager.saveUser();
 
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setTitle("Information");
@@ -176,12 +181,14 @@ public class UserController {
                 alert.showAndWait();
                 alert.setAlertType(Alert.AlertType.ERROR);
 
-                this.AddNameField.setText("");
-                this.AddLastnameField.setText("");
-                this.AddPasswordField.setText("");
-                this.RoleBox.setValue("");
-            } else{
-                alert.setContentText("Пользователь с таким именем уже есть!");
+                this.addNameField.setText("");
+                this.addLastnameField.setText("");
+                this.addPasswordField.setText("");
+                this.roleChoiceBox.setValue("");
+            }
+            else
+            {
+                alert.setContentText(ErrorMessage.USER_ALREADY_EXISTS);
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                         .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
@@ -191,9 +198,9 @@ public class UserController {
 
     @FXML private void searchButtonClicked()
     {
-        if(SearchNameField.getText().isEmpty() || SearchLastnameField.getText().isEmpty())
+        if(searchNameField.getText().isEmpty() || searchLastnameField.getText().isEmpty())
         {
-            alert.setContentText("Все поля должны быть заполнены!");
+            alert.setContentText(ErrorMessage.EMPTY_FIELDS);
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                     .forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
@@ -201,46 +208,47 @@ public class UserController {
         }
         else
         {
-            if(Register.findUser(SearchNameField.getText(), SearchLastnameField.getText()))
+            if(Manager.findUser(searchNameField.getText(), searchLastnameField.getText()))
             {
-                this.ResultArea.setText("Имя - " + Register.getFoundName() + "\nФамилия - " +
-                        Register.getFoundLastname() + "\nПароль - " + Register.getFoundPassword() +
-                        "\nРоль - " + Register.getFoundRole());
+                this.resultArea.setText("Имя - " + Manager.getFoundName() + "\nФамилия - " +
+                                        Manager.getFoundLastname() + "\nПароль - " + Manager.getFoundPassword() +
+                                        "\nРоль - " + Manager.getFoundRole());
             }
             else
             {
-                this.ResultArea.setText("Такого пользователя нет!");
+                this.resultArea.setText(ErrorMessage.USER_DOES_NOT_EXIST);
             }
         }
     }
 
     @FXML private void deleteButtonClicked()
     {
-        if(true == Register.canDelete())
+        if(Manager.canDelete())
         {
             try
             {
                 Stage stage = new Stage();
                 stage.setTitle("Удаление пользователя");
                 FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("/Views/DeleteUserScene.fxml")
+                    getClass().getResource("/Views/DeleteUserScene.fxml")
                 );
 
                 Parent root = loader.load();
                 DeleteUserController deleteUserController = loader.getController();
-                deleteUserController.userController=this;
+                deleteUserController.setUserController(this);
                 stage.setScene(new Scene(root));
                 stage.initModality(Modality.APPLICATION_MODAL);
-                stage.initOwner(this.SearchLastnameField.getScene().getWindow());
+                stage.initOwner(this.searchLastnameField.getScene().getWindow());
                 stage.showAndWait();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 ex.printStackTrace();
             }
         }
         else
         {
-            this.ResultArea.setText("Выберите пользователя для удаления!");
+            this.resultArea.setText(ErrorMessage.EMPTY_USER_CHOICE);
         }
     }
 }

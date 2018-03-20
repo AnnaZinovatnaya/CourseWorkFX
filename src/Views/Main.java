@@ -9,16 +9,16 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
-public class Main extends Application {
+public class Main extends Application
+{
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception
+    {
 
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("/Views/LoginScene.fxml")
-        );
+                                          );
         Parent root = loader.load();
-//        LoginController loginController = loader.getController();
-//        loginController.init(primaryStage);
 
         UserController userController = loader.getController();
         userController.init(primaryStage);
@@ -31,7 +31,8 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         launch(args);
     }
 }

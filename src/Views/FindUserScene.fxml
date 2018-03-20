@@ -21,7 +21,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="SearchNameField" layoutX="251.0" layoutY="32.0" GridPane.columnIndex="1">
+            <TextField fx:id="searchNameField" layoutX="251.0" layoutY="32.0" GridPane.columnIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
@@ -31,7 +31,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="SearchLastnameField" layoutX="251.0" layoutY="81.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="searchLastnameField" layoutX="251.0" layoutY="81.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
@@ -48,7 +48,7 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <TextArea fx:id="ResultArea" editable="false" layoutX="10.0" layoutY="171.0" prefHeight="160.0" prefWidth="581.0">
+      <TextArea fx:id="resultArea" editable="false" layoutX="10.0" layoutY="171.0" prefHeight="160.0" prefWidth="581.0">
          <font>
             <Font size="20.0" />
          </font>

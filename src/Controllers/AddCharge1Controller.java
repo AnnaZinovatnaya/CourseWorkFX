@@ -1,6 +1,6 @@
 package Controllers;
 
-import Models.Register;
+import Models.Manager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,92 +13,113 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import util.ErrorMessage;
 
-public class AddCharge1Controller {
-    MenuController menuController;
-    @FXML private ChoiceBox<String> BrandBox;
-    @FXML private TextField MassField;
-    @FXML private TextField DeltaMassField;
-    private ObservableList<String> data;
-    private Alert alert = new Alert(Alert.AlertType.ERROR);
-    Stage primaryStage;
+public class AddCharge1Controller
+{
+    private MenuController          menuController;
+    private Stage                   primaryStage;
+    private Alert                   alert;
 
-    public void init(MenuController menuController){
+    @FXML private ChoiceBox<String> brandChoiceBox;
+    @FXML private TextField         massField;
+    @FXML private TextField         deltaMassField;
+    private ObservableList<String>  brandNames;
+
+    public void init(MenuController menuController)
+    {
         this.menuController = menuController;
-        this.primaryStage = this.menuController.primaryStage;
-        this.data = FXCollections.observableArrayList ("");
-        ObservableList<String> temp = Register.getAllBrands();
-        for (String aTemp : temp) {
-            this.data.add(aTemp);
-        }
+        this.primaryStage = this.menuController.getPrimaryStage();
+        this.alert = new Alert(Alert.AlertType.ERROR);
 
-        this.BrandBox.setItems(this.data);
-        this.BrandBox.setValue("");
+        this.brandNames = FXCollections.observableArrayList ("");
+        this.brandNames.addAll(Manager.getAllBrands());
+        this.brandChoiceBox.setItems(this.brandNames);
+        this.brandChoiceBox.setValue("");
     }
 
-    @FXML public void menuButtonClicked(){
+    @FXML public void menuButtonClicked()
+    {
         menuController.backToMenu();
     }
 
-    @FXML public void nextButtonClicked(){
+    @FXML public void nextButtonClicked()
+    {
         boolean b=true;
         double mass=0;
         double deltaMass=0;
-        if(BrandBox.getValue().isEmpty()||MassField.getText().isEmpty()||DeltaMassField.getText().isEmpty()){
-            alert.setContentText("Все поля должны быть заполнены!");
+        if(brandChoiceBox.getValue().isEmpty() || massField.getText().isEmpty() || deltaMassField.getText().isEmpty())
+        {
+            alert.setContentText(ErrorMessage.EMPTY_FIELDS);
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                     .forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
             b=false;
         }
-        if(b) {
-
-
-            try {
-                mass = Double.parseDouble(MassField.getText());
-            } catch (Exception ex) {
+        if(b)
+        {
+            try
+            {
+                mass = Double.parseDouble(massField.getText());
+            }
+            catch (Exception ex)
+            {
                 ex.printStackTrace();
-                alert.setContentText("Масса задана некорректно!");
+                alert.setContentText(ErrorMessage.INCORRECT_MASS);
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                         .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
                 b = false;
             }
         }
-        if(b){
-            try{
-                deltaMass = Double.parseDouble(DeltaMassField.getText());
-            } catch (Exception ex){
+        if(b)
+        {
+            try
+            {
+                deltaMass = Double.parseDouble(deltaMassField.getText());
+            }
+            catch (Exception ex)
+            {
                 ex.printStackTrace();
-                alert.setContentText("Отклонение по массе задано некорректно!");
+                alert.setContentText(ErrorMessage.INCORRECT_DELTA_MASS);
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                         .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
                 b=false;
             }
         }
-        if(b){
-            Register.newCharge();
-            Register.setChargeBrand(BrandBox.getValue());
-            Register.setChargeMassAndDelta(mass, deltaMass);
+        if(b)
+        {
+            Manager.newCharge();
+            Manager.setChargeBrand(brandChoiceBox.getValue());
+            Manager.setChargeMassAndDelta(mass, deltaMass);
 
-            try {
+            try
+            {
                 FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("/Views/AddCharge2Scene.fxml")
+                    getClass().getResource("/Views/AddCharge2Scene.fxml")
                 );
                 Parent root = loader.load();
                 AddCharge2Controller addCharge2Controller = loader.getController();
-                addCharge2Controller.addCharge1Controller = this;
+                addCharge2Controller.setAddCharge1Controller(this);
                 addCharge2Controller.init();
                 primaryStage.setScene(new Scene(root));
-            } catch (Exception ex){
+            }
+            catch (Exception ex)
+            {
                 ex.printStackTrace();
             }
         }
     }
 
-    public void backToScene(){
-        this.primaryStage.setScene(this.BrandBox.getScene());
+    public void backToScene()
+    {
+        this.primaryStage.setScene(this.brandChoiceBox.getScene());
+    }
+
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
 }
 

@@ -52,17 +52,17 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="MassField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="massField" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="DeltaMassField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <TextField fx:id="deltaMassField" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </TextField>
-                  <ChoiceBox fx:id="BrandBox" prefHeight="44.0" prefWidth="249.0" GridPane.columnIndex="1" />
+                  <ChoiceBox fx:id="brandChoiceBox" prefHeight="44.0" prefWidth="249.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <GridPane minHeight="44.0" VBox.vgrow="ALWAYS">

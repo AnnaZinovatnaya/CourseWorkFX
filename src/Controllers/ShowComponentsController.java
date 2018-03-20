@@ -1,6 +1,6 @@
 package Controllers;
 
-import Models.Register;
+import Models.Manager;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,106 +11,139 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 
-public class ShowComponentsController {
-    MenuController menuController;
-    @FXML public ListView <String> MandatoryView= new ListView<>();
-    @FXML public ListView <String> OptionalView= new ListView<>();
+public class ShowComponentsController
+{
+    private MenuController          menuController;
+    @FXML private ListView <String> mandatoryView = new ListView<>();
+    @FXML private ListView <String> optionalView = new ListView<>();
+    @FXML private Tab               mandatoryTab = new Tab();
+    @FXML private Tab               optionalTab = new Tab();
+    private ObservableList<String>  mandatoryComps;
+    private ObservableList<String>  optionalComps;
 
+    private Alert                   alert = new Alert(Alert.AlertType.ERROR);
 
-    @FXML private Tab mandatoryTab = new Tab();
-    @FXML private Tab optionalTab = new Tab();
-
-    ObservableList<String> mandatoryComps;
-    ObservableList<String> optionalComps;
-
-    private Alert alert = new Alert(Alert.AlertType.ERROR);
-
-    public void setMenuController(MenuController menuController){
+    public void setMenuController(MenuController menuController)
+    {
         this.menuController = menuController;
     }
 
-    public void init(){
+    public void init()
+    {
 
-        this.mandatoryComps = Register.getAllMandatoryComponentsString();
-        this.optionalComps = Register.getAllOptionalComponentsString();
+        this.mandatoryComps = Manager.getAllMandatoryComponentsString();
+        this.optionalComps = Manager.getAllOptionalComponentsString();
 
-        this.MandatoryView.setItems(mandatoryComps);
-        this.OptionalView.setItems(optionalComps);
+        this.mandatoryView.setItems(mandatoryComps);
+        this.optionalView.setItems(optionalComps);
 
-        this.MandatoryView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        this.mandatoryView.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
             @Override
-            public void handle(MouseEvent click) {
+            public void handle(MouseEvent click)
+            {
 
-                if (click.getClickCount() == 2) {
-                    String currentItemSelected = MandatoryView.getSelectionModel().getSelectedItem();
-                    if(currentItemSelected!=null){
+                if (click.getClickCount() == 2)
+                {
+                    String currentItemSelected = mandatoryView.getSelectionModel().getSelectedItem();
+                    if(currentItemSelected!=null)
+                    {
                         selectButtonClicked();
                     }
                 }
             }
         });
 
-        this.OptionalView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        this.optionalView.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
             @Override
-            public void handle(MouseEvent click) {
+            public void handle(MouseEvent click)
+            {
 
-                if (click.getClickCount() == 2) {
-                    String currentItemSelected = OptionalView.getSelectionModel().getSelectedItem();
-                    if(currentItemSelected!=null){
+                if (click.getClickCount() == 2)
+                {
+                    String currentItemSelected = optionalView.getSelectionModel().getSelectedItem();
+                    if(currentItemSelected!=null)
+                    {
                         selectButtonClicked();
 
                     }
                 }
             }
         });
-        this.OptionalView.getSelectionModel().clearSelection();
+        this.optionalView.getSelectionModel().clearSelection();
 
     }
 
-    @FXML private void menuButtonClicked(){
+    @FXML private void menuButtonClicked()
+    {
 
         menuController.backToMenu();
 
     }
 
-    @FXML private void selectButtonClicked() {
+    @FXML private void selectButtonClicked()
+    {
         String temp;
-        if(this.mandatoryTab.isSelected()) {
-            temp = this.MandatoryView.getSelectionModel().getSelectedItem();
-        }else {
-            temp = this.OptionalView.getSelectionModel().getSelectedItem();
+        if(this.mandatoryTab.isSelected())
+        {
+            temp = this.mandatoryView.getSelectionModel().getSelectedItem();
         }
-        if (temp != null) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(
-                            getClass().getResource("/Views/ShowComponentScene.fxml")
-                    );
-                    Parent root = loader.load();
-                    ShowComponentController showComponentController = loader.getController();
-                    showComponentController.init(this, temp);
+        else
+        {
+            temp = this.optionalView.getSelectionModel().getSelectedItem();
+        }
+        if (temp != null)
+        {
+            try
+            {
+                FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Views/ShowComponentScene.fxml")
+                );
+                Parent root = loader.load();
+                ShowComponentController showComponentController = loader.getController();
+                showComponentController.init(this, temp);
 
-                    this.menuController.primaryStage.setScene(new Scene(root));
-                    this.menuController.primaryStage.setTitle("Просмотр компонента");
+                this.menuController.getPrimaryStage().setScene(new Scene(root));
+                this.menuController.getPrimaryStage().setTitle("Просмотр компонента");
 
-                } catch (Exception ex){
-                    ex.printStackTrace();
-                }
-
-            } else{
-                alert.setContentText("Выберите компонент!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
             }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+
+        }
+        else
+        {
+            alert.setContentText("Выберите компонент!");
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
+        }
     }
 
-    public void refreshItems(){
+    public void refreshItems()
+    {
         this.mandatoryComps.removeAll();
         this.optionalComps.removeAll();
 
-        this.mandatoryComps = Register.getAllMandatoryComponentsString();
-        this.optionalComps = Register.getAllOptionalComponentsString();
+        this.mandatoryComps = Manager.getAllMandatoryComponentsString();
+        this.optionalComps = Manager.getAllOptionalComponentsString();
 
-        this.MandatoryView.setItems(mandatoryComps);
-        this.OptionalView.setItems(optionalComps);
+        this.mandatoryView.setItems(mandatoryComps);
+        this.optionalView.setItems(optionalComps);
+    }
+
+    public MenuController getMenuController() {
+        return menuController;
+    }
+
+    public ListView<String> getMandatoryView() {
+        return mandatoryView;
+    }
+
+    public ListView<String> getOptionalView() {
+        return optionalView;
     }
 }
