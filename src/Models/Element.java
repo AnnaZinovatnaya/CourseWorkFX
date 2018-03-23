@@ -3,8 +3,10 @@ package Models;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import util.DBUtil;
+import util.ErrorMessage;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Element
 {
@@ -92,51 +94,59 @@ public class Element
         this.adopt = adopt;
     }
 
-    public static ObservableList<String> getAllElements()
+    public static ObservableList<String> getAllElements() throws RuntimeException
     {
         ObservableList<String> list = FXCollections.observableArrayList ();
+        String query = "";
+
         try
         {
             ResultSet rs;
-            rs = DBUtil.dbExecuteQuery("SELECT name FROM mydb.element");
+            query = "SELECT name FROM mydb.element";
+            rs = DBUtil.dbExecuteQuery(query);
             while(rs.next())
             {
                 list.add(rs.getString("name"));
             }
 
         }
-        catch (Exception e)
+        catch (RuntimeException ex)
         {
-            e.printStackTrace();
+            throw ex;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
         return list;
     }
 
-    public void saveElementInComponent(int idComponent)
+    public void saveElementInComponent(int idComponent) throws RuntimeException
     {
         ResultSet rs;
         int idElement = 0;
+        String query = "";
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT idElement FROM mydb.element WHERE name = '"+name+"'");
+            query = "SELECT idElement FROM mydb.element WHERE name = '" + name + "'";
+            rs = DBUtil.dbExecuteQuery(query);
             if(rs.next())
+            {
                 idElement = rs.getInt("idElement");
+            }
 
+            query = "INSERT INTO mydb.elementincomponent (procent, Element_idElement, Component_idComponent, adopt) " +
+                    "VALUES ('" + percent + "', '" + idElement + "', '" + idComponent + "', '" + adopt + "')";
+            DBUtil.dbExecuteUpdate(query);
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
         }
-
-        try
+        catch (SQLException e)
         {
-            DBUtil.dbExecuteUpdate("INSERT INTO mydb.elementincomponent (procent, Element_idElement, Component_idComponent, adopt) " +
-                                   "VALUES ('" + percent + "', '" + idElement + "', '" + idComponent + "', '" + adopt + "')");
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
     }
 }

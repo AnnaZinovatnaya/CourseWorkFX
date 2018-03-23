@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
+import util.ErrorMessage;
 
 public class ShowComponentsController
 {
@@ -30,56 +31,61 @@ public class ShowComponentsController
 
     public void init()
     {
-
-        this.mandatoryComps = Manager.getAllMandatoryComponentsString();
-        this.optionalComps = Manager.getAllOptionalComponentsString();
-
-        this.mandatoryView.setItems(mandatoryComps);
-        this.optionalView.setItems(optionalComps);
-
-        this.mandatoryView.setOnMouseClicked(new EventHandler<MouseEvent>()
+        try
         {
-            @Override
-            public void handle(MouseEvent click)
-            {
+            this.mandatoryComps = Manager.getAllMandatoryComponentsString();
+            this.optionalComps = Manager.getAllOptionalComponentsString();
 
-                if (click.getClickCount() == 2)
+            this.mandatoryView.setItems(mandatoryComps);
+            this.optionalView.setItems(optionalComps);
+
+            this.mandatoryView.setOnMouseClicked(new EventHandler<MouseEvent>()
+            {
+                @Override
+                public void handle(MouseEvent click)
                 {
-                    String currentItemSelected = mandatoryView.getSelectionModel().getSelectedItem();
-                    if(currentItemSelected!=null)
+
+                    if (click.getClickCount() == 2)
                     {
-                        selectButtonClicked();
+                        String currentItemSelected = mandatoryView.getSelectionModel().getSelectedItem();
+                        if(currentItemSelected!=null)
+                        {
+                            selectButtonClicked();
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        this.optionalView.setOnMouseClicked(new EventHandler<MouseEvent>()
-        {
-            @Override
-            public void handle(MouseEvent click)
+            this.optionalView.setOnMouseClicked(new EventHandler<MouseEvent>()
             {
-
-                if (click.getClickCount() == 2)
+                @Override
+                public void handle(MouseEvent click)
                 {
-                    String currentItemSelected = optionalView.getSelectionModel().getSelectedItem();
-                    if(currentItemSelected!=null)
-                    {
-                        selectButtonClicked();
 
+                    if (click.getClickCount() == 2)
+                    {
+                        String currentItemSelected = optionalView.getSelectionModel().getSelectedItem();
+                        if(currentItemSelected!=null)
+                        {
+                            selectButtonClicked();
+                        }
                     }
                 }
-            }
-        });
-        this.optionalView.getSelectionModel().clearSelection();
-
+            });
+            this.optionalView.getSelectionModel().clearSelection();
+        }
+        catch (RuntimeException e)
+        {
+            alert.setContentText(e.getLocalizedMessage());
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
+        }
     }
 
     @FXML private void menuButtonClicked()
     {
-
         menuController.backToMenu();
-
     }
 
     @FXML private void selectButtonClicked()
@@ -110,9 +116,11 @@ public class ShowComponentsController
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
+                alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
             }
-
         }
         else
         {
@@ -128,11 +136,21 @@ public class ShowComponentsController
         this.mandatoryComps.removeAll();
         this.optionalComps.removeAll();
 
-        this.mandatoryComps = Manager.getAllMandatoryComponentsString();
-        this.optionalComps = Manager.getAllOptionalComponentsString();
+        try
+        {
+            this.mandatoryComps = Manager.getAllMandatoryComponentsString();
+            this.optionalComps = Manager.getAllOptionalComponentsString();
 
-        this.mandatoryView.setItems(mandatoryComps);
-        this.optionalView.setItems(optionalComps);
+            this.mandatoryView.setItems(mandatoryComps);
+            this.optionalView.setItems(optionalComps);
+        }
+        catch (RuntimeException e)
+        {
+            alert.setContentText(e.getLocalizedMessage());
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
+        }
     }
 
     public MenuController getMenuController() {

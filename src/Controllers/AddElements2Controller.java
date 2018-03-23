@@ -57,13 +57,19 @@ public class AddElements2Controller
             t ->
         {
             boolean b= true;
+            double percent = 0;
             try
             {
-                Double.parseDouble(t.getNewValue());
+                percent = Double.parseDouble(t.getNewValue());
+
+                if (percent < 0)
+                {
+                    throw new RuntimeException(ErrorMessage.INCORRECT_PERCENT);
+                }
             }
             catch (Exception ex)
             {
-                alert.setContentText("Процент задан некорректно!");
+                alert.setContentText(ErrorMessage.INCORRECT_PERCENT);
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                         .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
@@ -90,13 +96,18 @@ public class AddElements2Controller
             t ->
         {
             boolean b= true;
+            double adapt = 0;
             try
             {
-                Double.parseDouble(t.getNewValue());
+                adapt = Double.parseDouble(t.getNewValue());
+                if (adapt < 0)
+                {
+                    throw new RuntimeException(ErrorMessage.INCORRECT_ADAPT);
+                }
             }
             catch (Exception ex)
             {
-                alert.setContentText("Усвоение задано некорректно!");
+                alert.setContentText(ErrorMessage.INCORRECT_ADAPT);
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                         .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
@@ -139,19 +150,28 @@ public class AddElements2Controller
                                              elementsTable.getItems().get(i).getPercent(),
                                              elementsTable.getItems().get(i).getAdopt());
             }
-            Manager.saveComponentParam();
-            Manager.saveComponentElements();
+            try
+            {
+                Manager.saveComponentParam();
+                Manager.saveComponentElements();
 
-            alert.setAlertType(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information");
-            alert.setHeaderText("Information");
-            alert.setContentText("Компонент сохранен!");
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+                alert.setAlertType(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information");
+                alert.setHeaderText("Information");
+                alert.setContentText("Компонент сохранен!");
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label) node).setFont(Font.font(16)));
+                alert.showAndWait();
 
-            this.addComponentController.getMenuController().backToMenu();
-
+                this.addComponentController.getMenuController().backToMenu();
+            }
+            catch (RuntimeException e)
+            {
+                alert.setContentText(e.getLocalizedMessage());
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+            }
         }
         else
         {

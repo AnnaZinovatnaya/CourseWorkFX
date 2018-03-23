@@ -23,16 +23,27 @@ public class DeleteComponentController
     @FXML private void deleteButtonClicked(ActionEvent e)
     {
         Stage stage;
-        Manager.deleteComponent(componentName);
+        try
+        {
+            Manager.deleteComponent(componentName);
 
-        alert.setAlertType(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Удаление компонента");
-        alert.setTitle("Удаление компонента");
-        alert.setContentText("Компонент удален!");
-        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-        alert.showAndWait();
-        alert.setAlertType(Alert.AlertType.ERROR);
-        this.showComponentController.setDeleted(true);
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Удаление компонента");
+            alert.setTitle("Удаление компонента");
+            alert.setContentText("Компонент удален!");
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
+            alert.setAlertType(Alert.AlertType.ERROR);
+            this.showComponentController.setDeleted(true);
+        }
+        catch (RuntimeException ex)
+        {
+            alert.setContentText(ex.getLocalizedMessage());
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
+        }
+
         stage = (Stage)((Button) e.getSource()).getScene().getWindow();
         stage.close();
     }

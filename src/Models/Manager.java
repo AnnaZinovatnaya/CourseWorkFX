@@ -7,16 +7,15 @@ import java.util.*;
 
 public class Manager
 {
-    public static User            currentUser;
-    public static User            user;
-    public static Component       component;
-    public static List<Component> components;
-    public static Charge          charge;
-    public static List<Charge>    charges;
-    public static List<Melt>      melts;
-    public static List<MeltBrand> meltBrands;
-
-
+    private static User            currentUser;
+    private static User            user;
+    private static Component       component;
+    private static List<Component> components;
+    private static Charge          charge;
+    private static List<Charge>    charges;
+    private static List<Melt>      melts;
+    private static List<MeltBrand> meltBrands;
+    
     public static void newUser()
     {
         user = new User("", "", "", "");
@@ -24,7 +23,7 @@ public class Manager
 
     public static boolean setNameLastname(String name, String lastname)
     {
-        if(!user.isUser(name, lastname))
+        if(!user.userExists(name, lastname))
         {
             user.setName(name);
             user.setLastname(lastname);
@@ -40,14 +39,29 @@ public class Manager
         user.setRole(role);
     }
 
-    public static void saveUser()
+    public static void saveUser() throws RuntimeException
     {
-        user.saveUser();
+        try
+        {
+            user.saveUser();
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
     }
 
-    public static boolean findUser(String name, String lastname)
+    public static boolean findUser(String name, String lastname) throws RuntimeException
     {
-        user = User.findUser(name, lastname);
+        try
+        {
+            user = User.findUser(name, lastname);
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+
         return user != null;
     }
 
@@ -76,9 +90,17 @@ public class Manager
         return user != null;
     }
 
-    public static void deleteUser()
+    public static void deleteUser() throws RuntimeException
     {
-        user.deleteUser();
+        try
+        {
+            user.deleteUser();
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+
         user = null;
     }
 
@@ -111,9 +133,16 @@ public class Manager
         component = new Component("", "", 0, 0, 0, 0, 0, new ArrayList<>());
     }
 
-    public static boolean componentExists(String name)
+    public static boolean componentExists(String name) throws RuntimeException
     {
-        return component.componentExists(name);
+        try
+        {
+            return component.componentExists(name);
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
     }
 
     public static void setComponentParam(String name, String brand,double adopt,double amount,double price,int mandatory)
@@ -126,14 +155,28 @@ public class Manager
         component.setMandatory(mandatory);
     }
 
-    public static ObservableList<String> getAllElements()
+    public static ObservableList<String> getAllElements() throws RuntimeException
     {
-        return Element.getAllElements();
+        try
+        {
+            return Element.getAllElements();
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
     }
 
-    public static void saveComponentParam()
+    public static void saveComponentParam() throws RuntimeException
     {
-        component.saveComponentParam();
+        try
+        {
+            component.saveComponentParam();
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
     }
 
     public static void setComponentElement(String name, double percent, double adopt)
@@ -141,9 +184,17 @@ public class Manager
         component.setComponentElement(name, percent, adopt);
     }
 
-    public static void saveComponentElements()
+    public static void saveComponentElements() throws RuntimeException
     {
-        component.saveComponentElements();
+        try
+        {
+            component.saveComponentElements();
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+
         component = null;
     }
 
@@ -152,9 +203,16 @@ public class Manager
         component = null;
     }
 
-    public static ObservableList<String> getAllBrands()
+    public static ObservableList<String> getAllBrands() throws RuntimeException
     {
-        return MeltBrand.getAllBrands();
+        try
+        {
+            return MeltBrand.getAllBrands();
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
     }
 
     public static void newCharge()
@@ -188,14 +246,28 @@ public class Manager
         charge.setElements(elements);
     }
 
-    public static ObservableList<String> getAllMandatoryComponentsString()
+    public static ObservableList<String> getAllMandatoryComponentsString() throws RuntimeException
     {
-        return Component.getAllMandatoryComponentsString();
+        try
+        {
+            return Component.getAllMandatoryComponentsString();
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
     }
 
-    public static ObservableList<String> getAllOptionalComponentsString()
+    public static ObservableList<String> getAllOptionalComponentsString() throws RuntimeException
     {
-        return Component.getAllOptionalComponentsString();
+        try
+        {
+            return Component.getAllOptionalComponentsString();
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
     }
 
     public static void setMandatoryComponents(ObservableList<String> components)
@@ -238,35 +310,104 @@ public class Manager
         return String.valueOf(charge.getMass());
     }
 
-    public static ObservableList<Component> getAllMandatoryComponents()
+    public static ObservableList<Component> getAllMandatoryComponents()  throws RuntimeException
     {
-        return Component.getAllMandatoryComponents();
+        try
+        {
+            return Component.getAllMandatoryComponents();
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
     }
 
-    public static ObservableList<Component> getAllOptionalComponents()
+    public static ObservableList<Component> getAllOptionalComponents()  throws RuntimeException
     {
-        return FXCollections.observableArrayList(Component.getAllOptionalComponents());
+        try
+        {
+            return FXCollections.observableArrayList(Component.getAllOptionalComponents());
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
     }
 
-    public static void updateComponentData(Component component)
+    public static void updateComponentData(Component component) throws RuntimeException
     {
-        Component.updateComponentData(component);
+        try
+        {
+            Component.updateComponentData(component);
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
     }
 
-    public static void deleteComponent(String name)
+    public static void deleteComponent(String name) throws RuntimeException
     {
-        Component.deleteComponent(name);
+        try
+        {
+            Component.deleteComponent(name);
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
     }
 
-    public static Component findComponent(String name)
+    public static Component findComponent(String name) throws RuntimeException
     {
-        return Component.findComponent(name);
+        try
+        {
+            return Component.findComponent(name);
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
     }
 
-    public static void saveCharge()
+    public static void saveCharge() throws RuntimeException
     {
         charge.setDateCharge(new Date());
         charge.setUser(currentUser);
-        charge.saveToDB();
+        try
+        {
+            charge.saveToDB();
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+    }
+
+    public static int getMaxChargeIndex() throws RuntimeException
+    {
+        int res = 0;
+
+        try
+        {
+            res = charge.getMaxIndexFromDB();
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+
+        return res;
+    }
+
+    public static void logout()
+    {
+        currentUser = null;
+        component = null;
+        components = null;
+        charge = null;
+        charges = null;
+        melts = null;
+        meltBrands = null;
     }
 }

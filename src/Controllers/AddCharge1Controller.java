@@ -33,8 +33,19 @@ public class AddCharge1Controller
         this.alert = new Alert(Alert.AlertType.ERROR);
 
         this.brandNames = FXCollections.observableArrayList ("");
-        this.brandNames.addAll(Manager.getAllBrands());
-        this.brandChoiceBox.setItems(this.brandNames);
+        try
+        {
+            this.brandNames.addAll(Manager.getAllBrands());
+            this.brandChoiceBox.setItems(this.brandNames);
+        }
+        catch (RuntimeException e)
+        {
+            alert.setContentText(e.getLocalizedMessage());
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
+        }
+
         this.brandChoiceBox.setValue("");
     }
 
@@ -45,26 +56,30 @@ public class AddCharge1Controller
 
     @FXML public void nextButtonClicked()
     {
-        boolean b=true;
-        double mass=0;
-        double deltaMass=0;
+        boolean b = true;
+        double mass = 0;
+        double deltaMass = 0;
         if(brandChoiceBox.getValue().isEmpty() || massField.getText().isEmpty() || deltaMassField.getText().isEmpty())
         {
             alert.setContentText(ErrorMessage.EMPTY_FIELDS);
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                     .forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
-            b=false;
+            b = false;
         }
         if(b)
         {
             try
             {
                 mass = Double.parseDouble(massField.getText());
+
+                if (mass <= 0)
+                {
+                    throw new RuntimeException(ErrorMessage.INCORRECT_DELTA_MASS);
+                }
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
                 alert.setContentText(ErrorMessage.INCORRECT_MASS);
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                         .forEach(node -> ((Label)node).setFont(Font.font(16)));
@@ -77,15 +92,19 @@ public class AddCharge1Controller
             try
             {
                 deltaMass = Double.parseDouble(deltaMassField.getText());
+
+                if (deltaMass <= 0)
+                {
+                    throw new RuntimeException(ErrorMessage.INCORRECT_DELTA_MASS);
+                }
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
                 alert.setContentText(ErrorMessage.INCORRECT_DELTA_MASS);
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                         .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
-                b=false;
+                b = false;
             }
         }
         if(b)
@@ -107,7 +126,10 @@ public class AddCharge1Controller
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
+                alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label) node).setFont(Font.font(16)));
+                alert.showAndWait();
             }
         }
     }
@@ -116,7 +138,6 @@ public class AddCharge1Controller
     {
         this.primaryStage.setScene(this.brandChoiceBox.getScene());
     }
-
 
     public Stage getPrimaryStage() {
         return primaryStage;

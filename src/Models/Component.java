@@ -3,7 +3,10 @@ package Models;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import util.DBUtil;
+import util.ErrorMessage;
+
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,37 +123,44 @@ public class Component
         this.elements = elements;
     }
 
-    public boolean componentExists(String name)
+    public boolean componentExists(String name) throws RuntimeException
     {
+        String query = "SELECT * FROM mydb.component WHERE `name` = '"+name+"'";
+
         try
         {
-            ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name` = '"+name+"'");
+            ResultSet rs = DBUtil.dbExecuteQuery(query);
 
             if(rs.next())
             {
                 return true;
             }
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
         }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+        }
+
         return  false;
     }
 
-    public void saveComponentParam()
+    public void saveComponentParam() throws RuntimeException
     {
         this.calculateAdopt();
 
+        String query = "INSERT INTO mydb.component (`name`, brand, adoptBase, currentAmount, currentPrice, mandatory, adoptComp) " +
+                "VALUES ('" + name + "', '" + brand + "', '" + adoptBase + "', '" + amount + "', '" + price + "', '" + mandatory +"', '" +adoptComp+ "')";
         try
         {
-
-            DBUtil.dbExecuteUpdate("INSERT INTO mydb.component (`name`, brand, adoptBase, currentAmount, currentPrice, mandatory, adoptComp) " +
-                                   "VALUES ('" + name + "', '" + brand + "', '" + adoptBase + "', '" + amount + "', '" + price + "', '" + mandatory +"', '" +adoptComp+ "')");
+            DBUtil.dbExecuteUpdate(query);
         }
-        catch (Exception ex)
+        catch (RuntimeException e)
         {
-            ex.printStackTrace();
+            throw e;
         }
     }
 
@@ -159,21 +169,29 @@ public class Component
         elements.add(new Element(name, 0, 0, percent, adopt));
     }
 
-    public void saveComponentElements()
+    public void saveComponentElements() throws RuntimeException
     {
         ResultSet rs;
         int id = 0;
+        String query = "SELECT idComponent FROM mydb.component WHERE `name` = '" + name + "'";
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT idComponent FROM mydb.component WHERE `name` = '" + name + "'");
+            rs = DBUtil.dbExecuteQuery(query);
             if (rs.next())
+            {
                 id = rs.getInt("idComponent");
+            }
 
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
         }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+        }
+
 
         for (Element element : elements)
         {
@@ -182,69 +200,81 @@ public class Component
 
     }
 
-    public static ObservableList<String> getAllMandatoryComponentsString()
+    public static ObservableList<String> getAllMandatoryComponentsString() throws RuntimeException
     {
         ObservableList<String> list = FXCollections.observableArrayList ();
 
         String temp;
         ResultSet rs;
-
-
+        String query = "SELECT name FROM mydb.component WHERE mandatory=1";
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT name FROM mydb.component WHERE mandatory=1");
+            rs = DBUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = rs.getString("name");
                 list.add(temp);
             }
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
         }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+        }
+
         return list;
     }
 
-    public static ObservableList<String> getAllOptionalComponentsString()
+    public static ObservableList<String> getAllOptionalComponentsString() throws RuntimeException
     {
         ObservableList<String> list = FXCollections.observableArrayList ();
 
         String temp;
         ResultSet rs;
-
+        String query = "SELECT name FROM mydb.component WHERE mandatory=0";
 
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT name FROM mydb.component WHERE mandatory=0");
+            rs = DBUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = rs.getString("name");
                 list.add(temp);
             }
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
         }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+        }
+
         return list;
     }
 
-    public static ObservableList<Component> getAllMandatoryComponents()
+    public static ObservableList<Component> getAllMandatoryComponents() throws RuntimeException
     {
         ObservableList<Component> list = FXCollections.observableArrayList ();
 
         ResultSet rs;
         ResultSet rs2;
         int i=0;
+        String query = "";
 
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE mandatory=1");
+            query = "SELECT * FROM mydb.component WHERE mandatory=1";
+            rs = DBUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 list.add(new Component(rs.getString("name"), rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), 1, rs.getDouble("adoptComp"), new ArrayList<>()));
-                rs2 = DBUtil.dbExecuteQuery("SELECT name, procent, adopt FROM mydb.elementincomponent JOIN mydb.element ON idElement = Element_idElement WHERE Component_idComponent = "+rs.getString("idComponent"));
+                query = "SELECT name, procent, adopt FROM mydb.elementincomponent JOIN mydb.element ON idElement = Element_idElement WHERE Component_idComponent = " + rs.getString("idComponent");
+                rs2 = DBUtil.dbExecuteQuery(query);
                 while (rs2.next())
                 {
                     list.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
@@ -252,28 +282,36 @@ public class Component
                 i++;
             }
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
         }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+        }
+
         return list;
     }
 
-    public static ArrayList<Component> getAllOptionalComponents()
+    public static ArrayList<Component> getAllOptionalComponents() throws RuntimeException
     {
         ArrayList<Component> list = new ArrayList<>();
 
         ResultSet rs;
         ResultSet rs2;
         int i=0;
+        String query = "";
 
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE mandatory=0");
+            query = "SELECT * FROM mydb.component WHERE mandatory=0";
+            rs = DBUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 list.add(new Component(rs.getString("name"), rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), 0, rs.getDouble("adoptComp"), new ArrayList<>()));
-                rs2 = DBUtil.dbExecuteQuery("SELECT name, procent, adopt FROM mydb.elementincomponent JOIN mydb.element ON idElement = Element_idElement WHERE Component_idComponent = "+rs.getString("idComponent"));
+                query = "SELECT name, procent, adopt FROM mydb.elementincomponent JOIN mydb.element ON idElement = Element_idElement WHERE Component_idComponent = "+rs.getString("idComponent");
+                rs2 = DBUtil.dbExecuteQuery(query);
                 while (rs2.next())
                 {
                     list.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
@@ -281,10 +319,15 @@ public class Component
                 i++;
             }
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
         }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+        }
+
         return list;
     }
 
@@ -305,33 +348,43 @@ public class Component
         adoptComp = 1/temp;
     }
 
-    public static void deleteComponent(String name)
+    public static void deleteComponent(String name) throws RuntimeException
     {
-
+        String query = "";
         try
         {
-            ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name` = '" + name +"';");
+            query = "SELECT * FROM mydb.component WHERE `name` = '" + name +"';";
+            ResultSet rs = DBUtil.dbExecuteQuery(query);
             rs.next();
-            DBUtil.dbExecuteUpdate("DELETE FROM `mydb`.`elementincomponent` WHERE `Component_idComponent`='"+rs.getInt("idComponent")+"';");
-            DBUtil.dbExecuteUpdate("DELETE FROM mydb.component WHERE `name` = '" + name + "';");
+            query = "DELETE FROM `mydb`.`elementincomponent` WHERE `Component_idComponent`='"+rs.getInt("idComponent")+"';";
+            DBUtil.dbExecuteUpdate(query);
+            query = "DELETE FROM mydb.component WHERE `name` = '" + name + "';";
+            DBUtil.dbExecuteUpdate(query);
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
     }
 
-    public static Component findComponent(String name)
+    public static Component findComponent(String name) throws RuntimeException
     {
         Component temp = null;
         int idComponent;
+        String query = "";
         try
         {
-            ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name` = '"+name+"'");
+            query = "SELECT * FROM mydb.component WHERE `name` = '"+name+"'";
+            ResultSet rs = DBUtil.dbExecuteQuery(query);
             rs.next();
             temp = new Component(name, rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), rs.getInt("mandatory"), rs.getDouble("adoptComp"), new ArrayList<>());
             idComponent = rs.getInt("idComponent");
-            ResultSet rs2 = DBUtil.dbExecuteQuery("SELECT `name`, procent, adopt FROM mydb.element E JOIN mydb.elementincomponent EC ON E.idElement=EC.Element_idElement WHERE EC.Component_idComponent='"+idComponent+"';");
+            query = "SELECT `name`, procent, adopt FROM mydb.element E JOIN mydb.elementincomponent EC ON E.idElement=EC.Element_idElement WHERE EC.Component_idComponent='"+idComponent+"';";
+            ResultSet rs2 = DBUtil.dbExecuteQuery(query);
 
             while(rs2.next())
             {
@@ -339,56 +392,71 @@ public class Component
             }
 
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
         return temp;
     }
 
-    public static void updateComponentData(Component component)
+    public static void updateComponentData(Component component) throws RuntimeException
     {
         ResultSet rs;
         int idComponent;
         int idElement;
+        String query = "";
         try
         {
-            DBUtil.dbExecuteUpdate("UPDATE mydb.component SET currentAmount='"+component.getAmount()+"',currentPrice='"+component.getPrice()+"', adoptBase='"+component.getAdoptBase()+"', brand='"+component.getBrand()+"' WHERE `name`='"+component.getName()+"';");
-            rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name`='"+component.getName()+"'");
+            query = "UPDATE mydb.component SET currentAmount='"+component.getAmount()+"',currentPrice='"+component.getPrice()+"', adoptBase='"+component.getAdoptBase()+"', brand='"+component.getBrand()+"' WHERE `name`='"+component.getName()+"';";
+            DBUtil.dbExecuteUpdate(query);
+            query = "SELECT * FROM mydb.component WHERE `name`='"+component.getName()+"'";
+            rs = DBUtil.dbExecuteQuery(query);
             rs.next();
             idComponent = rs.getInt("idComponent");
             for(Element aElement: component.getElements())
             {
                 if(aElement.getName().equals("C"))
                 {
-
-                    rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='C'");
+                    query = "SELECT * FROM mydb.element WHERE `name`='C'";
+                    rs = DBUtil.dbExecuteQuery(query);
                     rs.next();
                     idElement = rs.getInt("idElement");
-                    DBUtil.dbExecuteUpdate("UPDATE mydb.elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';");
+                    query = "UPDATE mydb.elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';";
+                    DBUtil.dbExecuteUpdate(query);
                 }
                 if(aElement.getName().equals("Si"))
                 {
-
-                    rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='Si'");
+                    query = "SELECT * FROM mydb.element WHERE `name`='Si'";
+                    rs = DBUtil.dbExecuteQuery(query);
                     rs.next();
                     idElement = rs.getInt("idElement");
-                    DBUtil.dbExecuteUpdate("UPDATE mydb.elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';");
+
+                    query = "UPDATE mydb.elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';";
+                    DBUtil.dbExecuteUpdate(query);
                 }
                 if(aElement.getName().equals("S"))
                 {
-
-                    rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='S'");
+                    query = "SELECT * FROM mydb.element WHERE `name`='S'";
+                    rs = DBUtil.dbExecuteQuery(query);
                     rs.next();
                     idElement = rs.getInt("idElement");
-                    DBUtil.dbExecuteUpdate("UPDATE mydb.elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';");
+                    query = "UPDATE mydb.elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';";
+                    DBUtil.dbExecuteUpdate(query);
                 }
             }
         }
-        catch(Exception e)
+        catch (RuntimeException ex)
         {
-            e.printStackTrace();
+            throw ex;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
     }
 }

@@ -9,6 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
+import util.ErrorMessage;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
@@ -56,13 +58,23 @@ public class ReportController
                 return property;
             }
         });
-        reportTable.setPlaceholder(new Label("В этот период не было плавок"));
+        reportTable.setPlaceholder(new Label(ErrorMessage.NO_MELTS_FOUND));
         reportTable.getColumns().clear();
         reportTable.getColumns().addAll(brandColumn, amountColumn, dateColumn);
 
         if(firstDate.getValue()==null&& secondDate.getValue()==null)
         {
-            melts = MeltForView.getAllMelts();
+            try {
+                melts = MeltForView.getAllMelts();
+            }
+            catch (RuntimeException e)
+            {
+                alert.setContentText(e.getLocalizedMessage());
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+            }
+
             if (melts != null)
             {
                 reportTable.setItems(melts);
@@ -70,7 +82,17 @@ public class ReportController
         }
         else if(secondDate.getValue()==null)
         {
-            melts = MeltForView.getMeltsFrom(Date.from(firstDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            try {
+                melts = MeltForView.getMeltsFrom(Date.from(firstDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            }
+            catch (RuntimeException e)
+            {
+                alert.setContentText(e.getLocalizedMessage());
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+            }
+
             if (melts != null)
             {
                 reportTable.setItems(melts);
@@ -78,7 +100,17 @@ public class ReportController
         }
         else if(firstDate.getValue()==null)
         {
-            melts = MeltForView.getMeltsTill(Date.from(secondDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            try {
+                melts = MeltForView.getMeltsTill(Date.from(secondDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            }
+            catch (RuntimeException e)
+            {
+                alert.setContentText(e.getLocalizedMessage());
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+            }
+
             if (melts != null)
             {
                 reportTable.setItems(melts);
@@ -86,13 +118,23 @@ public class ReportController
         }
         else if(firstDate.getValue().isAfter(secondDate.getValue()))
         {
-            alert.setContentText("Даты заданы некорректно!");
+            alert.setContentText(ErrorMessage.INCORRECT_DATES);
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
         }
         else
         {
-            melts = MeltForView.getMeltsFromTill(Date.from(this.firstDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(this.secondDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            try {
+                melts = MeltForView.getMeltsFromTill(Date.from(this.firstDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(this.secondDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            }
+            catch (RuntimeException e)
+            {
+                alert.setContentText(e.getLocalizedMessage());
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+            }
+
             if (melts != null)
             {
                 reportTable.setItems(melts);

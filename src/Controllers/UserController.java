@@ -23,14 +23,14 @@ public class UserController
 
     @FXML private TextField         loginNameField;
     @FXML private TextField         loginLastnameField;
-    @FXML private PasswordField     loginPasswordField;
+    @FXML private TextField         loginPasswordField;
     @FXML private TextField         addNameField;
     @FXML private TextField         addLastnameField;
     @FXML private TextField         addPasswordField;
     @FXML private ChoiceBox<String> roleChoiceBox;
     @FXML private TextField         searchNameField;
     @FXML private TextField         searchLastnameField;
-    @FXML public TextArea           resultArea;
+    @FXML private TextArea          resultArea;
 
     private MenuController          menuController;
 
@@ -65,8 +65,8 @@ public class UserController
     {
 
         if(this.loginNameField.getText().isEmpty() ||
-                this.loginLastnameField.getText().isEmpty() ||
-                this.loginPasswordField.getText().isEmpty())
+           this.loginLastnameField.getText().isEmpty() ||
+           this.loginPasswordField.getText().isEmpty())
         {
             alert.setContentText(ErrorMessage.EMPTY_FIELDS);
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
@@ -79,8 +79,8 @@ public class UserController
             try
             {
                 isLoginSuccessful = Manager.login(loginNameField.getText(),
-                                                   loginLastnameField.getText(),
-                                                   loginPasswordField.getText());
+                                                  loginLastnameField.getText(),
+                                                  loginPasswordField.getText());
                 if(!isLoginSuccessful)
                 {
                     alert.setContentText(ErrorMessage.WRONG_LOGIN_OR_PASSWORD);
@@ -99,7 +99,8 @@ public class UserController
                             );
                             Parent root = loader.load();
                             MenuController menuController = loader.getController();
-                            menuController.init(primaryStage, "Меню - Администратор");
+                            menuController.init(primaryStage, "Меню - Администратор", this);
+                            this.primaryStage.setTitle("Меню - Администратор");
                             primaryStage.setScene(new Scene(root));
 
                         }
@@ -110,7 +111,8 @@ public class UserController
                             );
                             Parent root = loader.load();
                             MenuController menuController = loader.getController();
-                            menuController.init(primaryStage, "Меню - Металлург");
+                            menuController.init(primaryStage, "Меню - Металлург", this);
+                            this.primaryStage.setTitle("Меню - Металлург");
                             primaryStage.setScene(new Scene(root));
                         }
                         else if (Manager.getRole().equals("плавильщик"))
@@ -130,14 +132,19 @@ public class UserController
                             );
                             Parent root = loader.load();
                             MenuController menuController = loader.getController();
-                            menuController.init(primaryStage, "Меню - Руководитель");
+                            menuController.init(primaryStage, "Меню - Руководитель", this);
+                            this.primaryStage.setTitle("Меню - Руководитель");
                             primaryStage.setScene(new Scene(root));
                         }
                     }
                     catch (Exception ex)
                     {
-                        ex.printStackTrace();
+                        alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                                .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                        alert.showAndWait();
                     }
+
                     primaryStage.show();
                 }
             }
@@ -170,21 +177,29 @@ public class UserController
             if(Manager.setNameLastname(addNameField.getText(), addLastnameField.getText()))
             {
                 Manager.setPasswordRole(addPasswordField.getText(), roleChoiceBox.getValue());
-                Manager.saveUser();
+                try {
+                    Manager.saveUser();
 
-                alert.setAlertType(Alert.AlertType.INFORMATION);
-                alert.setTitle("Information");
-                alert.setHeaderText("Information");
-                alert.setContentText("Пользователь добавлен!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-                alert.setAlertType(Alert.AlertType.ERROR);
+                    alert.setAlertType(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information");
+                    alert.setHeaderText("Information");
+                    alert.setContentText("Пользователь добавлен!");
+                    alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                            .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                    alert.showAndWait();
+                    alert.setAlertType(Alert.AlertType.ERROR);
 
-                this.addNameField.setText("");
-                this.addLastnameField.setText("");
-                this.addPasswordField.setText("");
-                this.roleChoiceBox.setValue("");
+                    this.addNameField.setText("");
+                    this.addLastnameField.setText("");
+                    this.addPasswordField.setText("");
+                    this.roleChoiceBox.setValue("");
+                }
+                catch (RuntimeException e) {
+                    alert.setContentText(e.getLocalizedMessage());
+                    alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                            .forEach(node -> ((Label) node).setFont(Font.font(16)));
+                    alert.showAndWait();
+                }
             }
             else
             {
@@ -208,15 +223,24 @@ public class UserController
         }
         else
         {
-            if(Manager.findUser(searchNameField.getText(), searchLastnameField.getText()))
-            {
-                this.resultArea.setText("Имя - " + Manager.getFoundName() + "\nФамилия - " +
-                                        Manager.getFoundLastname() + "\nПароль - " + Manager.getFoundPassword() +
-                                        "\nРоль - " + Manager.getFoundRole());
+            try {
+                if(Manager.findUser(searchNameField.getText(), searchLastnameField.getText()))
+                {
+                    this.resultArea.setText("Имя - " + Manager.getFoundName() + "\nФамилия - " +
+                            Manager.getFoundLastname() + "\nПароль - " + Manager.getFoundPassword() +
+                            "\nРоль - " + Manager.getFoundRole());
+                }
+                else
+                {
+                    this.resultArea.setText(ErrorMessage.USER_DOES_NOT_EXIST);
+                }
             }
-            else
+            catch (RuntimeException e)
             {
-                this.resultArea.setText(ErrorMessage.USER_DOES_NOT_EXIST);
+                alert.setContentText(e.getLocalizedMessage());
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
             }
         }
     }
@@ -243,12 +267,29 @@ public class UserController
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
+                alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
             }
         }
         else
         {
             this.resultArea.setText(ErrorMessage.EMPTY_USER_CHOICE);
         }
+    }
+
+    public TextArea getResultArea() {
+        return resultArea;
+    }
+
+    public void backToScene()
+    {
+        Manager.logout();
+        this.loginNameField.setText("");
+        this.loginLastnameField.setText("");
+        this.loginPasswordField.setText("");
+        this.primaryStage.setTitle("Вход в систему");
+        this.primaryStage.setScene(this.loginLastnameField.getScene());
     }
 }

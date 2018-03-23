@@ -57,6 +57,7 @@ public class AddComponentController
     @FXML private void nextButtonClicked()
     {
         Manager.newComponent();
+
         if(nameField.getText().isEmpty()  || brandField.getText().isEmpty()  ||
            adoptField.getText().isEmpty() || amountField.getText().isEmpty() ||
            priceField.getText().isEmpty() || !mandatoryButton.isSelected()   &&
@@ -73,35 +74,32 @@ public class AddComponentController
             double amount = -1;
             double price = -1;
             boolean b = true;
-            if(Manager.componentExists(nameField.getText()))
+
+            try
             {
-                alert.setContentText("Компонент с таким названием уже есть!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-                b=false;
-            }
-            if(b)
-            {
-                try
+                if (Manager.componentExists(nameField.getText()))
                 {
-                    adopt = Double.parseDouble(adoptField.getText());
-                }
-                catch (Exception ex)
-                {
-                    alert.setContentText("Усвоение базового элемента задано некорректно!");
+                    alert.setContentText(ErrorMessage.COMPONENT_ALREADY_EXISTS);
                     alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                            .forEach(node -> ((Label) node).setFont(Font.font(16)));
                     alert.showAndWait();
-                    b=false;
+                    b = false;
                 }
-                if(b)
+                if (b)
                 {
-                    if (adopt < -1 || adopt > 100)
+                    try
                     {
-                        alert.setContentText("Усвоение базового элемента задано некорректно!");
+                        adopt = Double.parseDouble(adoptField.getText());
+
+                        if (adopt <= 0 || adopt > 100)
+                        {
+                            throw new RuntimeException(ErrorMessage.INCORRECT_ADAPT);
+                        }
+                    } catch (Exception ex)
+                    {
+                        alert.setContentText(ErrorMessage.INCORRECT_ADAPT);
                         alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                                .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                                .forEach(node -> ((Label) node).setFont(Font.font(16)));
                         alert.showAndWait();
                         b = false;
                     }
@@ -110,80 +108,77 @@ public class AddComponentController
                         try
                         {
                             amount = Double.parseDouble(amountField.getText());
-                        }
-                        catch (Exception ex)
+                            if (amount <= 0)
+                            {
+                                throw new RuntimeException(ErrorMessage.INCORRECT_AMOUNT);
+                            }
+                        } catch (Exception ex)
                         {
-                            alert.setContentText("Количество на складе задано некорректно!");
+                            alert.setContentText(ErrorMessage.INCORRECT_AMOUNT);
                             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                                    .forEach(node -> ((Label) node).setFont(Font.font(16)));
                             alert.showAndWait();
                             b = false;
                         }
                         if (b)
                         {
-                            if (adopt < -1)
+                            try
                             {
-                                alert.setContentText("Количество на складе задано некорректно!");
+                                price = Double.parseDouble(priceField.getText());
+
+                                if (price < 0)
+                                {
+                                    throw new RuntimeException(ErrorMessage.INCORRECT_PRICE);
+                                }
+                            } catch (Exception ex)
+                            {
+                                alert.setContentText(ErrorMessage.INCORRECT_PRICE);
                                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                                        .forEach(node -> ((Label) node).setFont(Font.font(16)));
                                 alert.showAndWait();
                                 b = false;
                             }
                             if (b)
                             {
+                                int mandatory = 0;
+                                if (this.mandatoryButton.isSelected())
+                                {
+                                    mandatory = 1;
+                                }
+                                Manager.setComponentParam(nameField.getText(),
+                                        brandField.getText(),
+                                        adopt, amount, price,
+                                        mandatory);
                                 try
                                 {
-                                    price = Double.parseDouble(priceField.getText());
+                                    FXMLLoader loader = new FXMLLoader(
+                                            getClass().getResource("/Views/AddElements2Scene.fxml")
+                                    );
+                                    Parent root = loader.load();
+
+                                    AddElements2Controller addElements2Controller = loader.getController();
+                                    addElements2Controller.setPreviousController(this);
+                                    addElements2Controller.init(FXCollections.observableArrayList("C", "S", "Si"));
+                                    primaryStage.setScene(new Scene(root));
                                 }
                                 catch (Exception ex)
                                 {
-                                    alert.setContentText("Цена задана некорректно!");
+                                    alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
                                     alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                                            .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                                            .forEach(node -> ((Label) node).setFont(Font.font(16)));
                                     alert.showAndWait();
-                                    b = false;
-                                }
-                                if (b)
-                                {
-                                    if (price < -1)
-                                    {
-                                        alert.setContentText("Цена задана некорректно!");
-                                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                                                .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                                        alert.showAndWait();
-                                        b=false;
-                                    }
-                                    if(b)
-                                    {
-                                        int mandatory=0;
-                                        if(this.mandatoryButton.isSelected())
-                                            mandatory=1;
-                                        Manager.setComponentParam(nameField.getText(),
-                                                                   brandField.getText(),
-                                                                   adopt, amount, price,
-                                                                   mandatory);
-                                        try
-                                        {
-                                            FXMLLoader loader = new FXMLLoader(
-                                                getClass().getResource("/Views/AddElements2Scene.fxml")
-                                            );
-                                            Parent root = loader.load();
-
-                                            AddElements2Controller addElements2Controller = loader.getController();
-                                            addElements2Controller.setPreviousController(this);
-                                            addElements2Controller.init(FXCollections.observableArrayList("C", "S", "Si"));
-                                            primaryStage.setScene(new Scene(root));
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            ex.printStackTrace();
-                                        }
-                                    }
                                 }
                             }
                         }
                     }
                 }
+            }
+            catch (RuntimeException e)
+            {
+                alert.setContentText(e.getLocalizedMessage());
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
             }
         }
     }

@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import util.ErrorMessage;
 
 public class AddElementsController
 {
@@ -21,6 +22,7 @@ public class AddElementsController
     private ObservableList<String> items;
     private ObservableList<String> selectedItems;
     private Stage                  primaryStage;
+    private Alert                  alert = new Alert(Alert.AlertType.ERROR);
 
     public void setPreviousController(AddComponentController addComponentController)
     {
@@ -29,10 +31,20 @@ public class AddElementsController
 
     @FXML public  void init()
     {
-        items = Manager.getAllElements();
-        selectedItems =FXCollections.observableArrayList ();
-        this.allElementsList.setItems(items);
-        this.selectedElementsList.setItems(selectedItems);
+        try
+        {
+            items = Manager.getAllElements();
+            selectedItems = FXCollections.observableArrayList();
+            this.allElementsList.setItems(items);
+            this.selectedElementsList.setItems(selectedItems);
+        }
+        catch (RuntimeException e)
+        {
+            alert.setContentText(e.getLocalizedMessage());
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
+        }
     }
 
     @FXML private void oneForwardButtonClicked()
@@ -90,14 +102,17 @@ public class AddElementsController
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
+                alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
             }
         }
         else
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Ни один элемент не выбран!");
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.setContentText(ErrorMessage.EMPTY_COMPONENT_CHOICE);
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
         }
     }

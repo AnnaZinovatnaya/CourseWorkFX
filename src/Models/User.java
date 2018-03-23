@@ -74,13 +74,16 @@ public class User
         }
     }
 
-    public boolean isUser(String name, String lastname) throws RuntimeException
+    public boolean userExists(String name, String lastname) throws RuntimeException
     {
         ResultSet rs;
+        String query = "";
+
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.user WHERE `name` = '" + name +
-                                       "' AND lastname = '" + lastname + "'");
+            query = "SELECT * FROM mydb.user WHERE `name` = '" + name +
+                    "' AND lastname = '" + lastname + "'";
+            rs = DBUtil.dbExecuteQuery(query);
             return rs.next();
         }
         catch (RuntimeException e)
@@ -89,8 +92,7 @@ public class User
         }
         catch (SQLException e)
         {
-            //TODO: change error message
-            throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
     }
 
@@ -98,10 +100,12 @@ public class User
     {
         User tempUser=null;
         ResultSet rs;
+        String query = "";
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT name, lastname, password, role FROM mydb.user WHERE `name` = '" +
-                                       name + "' AND lastname = '" + lastname + "'");
+            query = "SELECT name, lastname, password, role FROM mydb.user WHERE `name` = '" +
+                    name + "' AND lastname = '" + lastname + "'";
+            rs = DBUtil.dbExecuteQuery(query);
             if(rs.next())
             {
                 tempUser = new User(rs.getString("name"), rs.getString("lastname"),
@@ -114,9 +118,9 @@ public class User
         }
         catch (SQLException e)
         {
-            //TODO: change error message
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
+
         return tempUser;
     }
 
@@ -137,24 +141,25 @@ public class User
     {
         User tempUser=null;
         ResultSet rs;
+        String query = "";
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT name, lastname, password, role FROM mydb.user WHERE `name` = '" +
-                                       name + "' AND lastname = '" + lastname + "' AND `password` ='" + password + "'");
+            query = "SELECT name, lastname, password, role FROM mydb.user WHERE `name` = '" +
+                    name + "' AND lastname = '" + lastname + "' AND `password` ='" + password + "'";
+            rs = DBUtil.dbExecuteQuery(query);
             if(rs.next())
             {
                 tempUser = new User(rs.getString("name"), rs.getString("lastname"),
                                     rs.getString("password"), rs.getString("role"));
             }
         }
-        catch (SQLException e)
-        {
-            //TODO: change error message
-            throw new RuntimeException(e.getMessage());
-        }
         catch (RuntimeException e)
         {
             throw e;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
         return tempUser;
     }

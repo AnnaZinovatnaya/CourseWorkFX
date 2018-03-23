@@ -49,19 +49,24 @@ public class AddCharge2Controller
             t ->
         {
             double minPercent;
-            boolean b= true;
+            boolean b = true;
             try
             {
                 minPercent = Double.parseDouble(t.getNewValue());
+
+                if (minPercent < 0)
+                {
+                    throw new RuntimeException(ErrorMessage.INCORRECT_AMOUNT);
+                }
             }
             catch (Exception ex)
             {
                 alert.setContentText(ErrorMessage.INCORRECT_MIN_PERCENT);
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
 
-                b=false;
+                b = false;
             }
 
             if(b)
@@ -83,14 +88,19 @@ public class AddCharge2Controller
             try
             {
                 maxPercent = Double.parseDouble(t.getNewValue());
+
+                if (maxPercent < 0)
+                {
+                    throw new RuntimeException(ErrorMessage.INCORRECT_AMOUNT);
+                }
             }
             catch (Exception ex)
             {
                 alert.setContentText(ErrorMessage.INCORRECT_MAX_PERCENT);
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
-                b=false;
+                b = false;
             }
 
             if(b)
@@ -119,7 +129,7 @@ public class AddCharge2Controller
             {
                 alert.setContentText(ErrorMessage.MIN_BIGGER_THAN_MAX);
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
                 b=false;
                 break;
@@ -142,7 +152,10 @@ public class AddCharge2Controller
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
+                alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label) node).setFont(Font.font(16)));
+                alert.showAndWait();
             }
         }
     }

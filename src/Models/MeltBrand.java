@@ -3,7 +3,10 @@ package Models;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import util.DBUtil;
+import util.ErrorMessage;
+
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,63 +41,68 @@ public class MeltBrand
         this.elements = elements;
     }
 
-    public static ObservableList<String> getAllBrands()
+    public static ObservableList<String> getAllBrands() throws RuntimeException
     {
         ObservableList<String> list = FXCollections.observableArrayList ();
 
         String temp;
         ResultSet rs;
-
+        String query = "";
 
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT name FROM mydb.meltbrand");
+            query = "SELECT name FROM mydb.meltbrand";
+            rs = DBUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = rs.getString("name");
                 list.add(temp);
             }
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
         }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+        }
+
         return list;
     }
 
-    public static MeltBrand getMeltBrand(String name)
+    public static MeltBrand getMeltBrand(String name) throws RuntimeException
     {
         MeltBrand temp = new MeltBrand("", new ArrayList<>());
         ResultSet rs;
         ResultSet rs2;
         int idMeltBrand=0;
+        String query = "";
 
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT idMeltBrand, name FROM mydb.meltbrand  WHERE name = '"+name+"'");
+            query = "SELECT idMeltBrand, name FROM mydb.meltbrand  WHERE name = '" + name + "'";
+            rs = DBUtil.dbExecuteQuery(query);
             if (rs.next())
             {
                 temp.setName(rs.getString("name"));
                 idMeltBrand = rs.getInt("idMeltBrand");
             }
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
 
-
-        try
-        {
-            rs2 = DBUtil.dbExecuteQuery("SELECT name, minProcent, maxProcent FROM mydb.element E JOIN mydb.elementinbrand EB ON E.idElement = EB.Element_idElement WHERE EB.MeltBrand_idMeltBrand = "+idMeltBrand);
+            query = "SELECT name, minProcent, maxProcent FROM mydb.element E JOIN mydb.elementinbrand EB ON E.idElement = EB.Element_idElement WHERE EB.MeltBrand_idMeltBrand = " + idMeltBrand;
+            rs2 = DBUtil.dbExecuteQuery(query);
             while (rs2.next())
             {
                 temp.elements.add(new Element(rs2.getString("name"), rs2.getDouble("minProcent"), rs2.getDouble("maxProcent"), 0, 0));
             }
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
         return temp;

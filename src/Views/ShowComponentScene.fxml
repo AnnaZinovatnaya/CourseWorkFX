@@ -10,7 +10,7 @@
          <children>
             <Label fx:id="nameLabel" text="Название">
                <font>
-                  <Font size="20.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
          </children>
@@ -75,46 +75,6 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="brandField" layoutX="84.0" layoutY="83.0" prefHeight="39.0" prefWidth="150.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="adoptField" layoutX="468.0" layoutY="83.0" prefHeight="39.0" prefWidth="82.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="CPercentField" layoutX="62.0" layoutY="194.0" prefHeight="25.0" prefWidth="82.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="CAdoptField" layoutX="190.0" layoutY="194.0" prefHeight="25.0" prefWidth="82.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="SiAdoptField" layoutX="190.0" layoutY="240.0" prefHeight="25.0" prefWidth="82.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="SiPercentField" layoutX="62.0" layoutY="240.0" prefHeight="25.0" prefWidth="82.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="SAdoptField" layoutX="190.0" layoutY="286.0" prefHeight="25.0" prefWidth="82.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="SPercentField" layoutX="62.0" layoutY="286.0" prefHeight="25.0" prefWidth="82.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextField>
       <TextField fx:id="priceField" layoutX="467.0" layoutY="194.0" prefHeight="25.0" prefWidth="82.0">
          <font>
             <Font size="18.0" />
@@ -148,6 +108,46 @@
       <Label layoutX="562.0" layoutY="89.0" text="\%">
          <font>
             <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="brandLabel" layoutX="89.0" layoutY="89.0" prefHeight="27.0" prefWidth="210.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="adoptLabel" layoutX="493.0" layoutY="89.0" prefHeight="27.0" prefWidth="54.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="cPercentLabel" layoutX="69.0" layoutY="200.0" prefHeight="27.0" prefWidth="82.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="siPercentLabel" layoutX="69.0" layoutY="246.0" prefHeight="27.0" prefWidth="82.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="sPercentLabel" layoutX="69.0" layoutY="292.0" prefHeight="27.0" prefWidth="82.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="sAdoptLabel" layoutX="188.0" layoutY="295.0" prefHeight="27.0" prefWidth="82.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="siAdoptLabel" layoutX="188.0" layoutY="249.0" prefHeight="27.0" prefWidth="82.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="cAdoptLabel" layoutX="188.0" layoutY="203.0" prefHeight="27.0" prefWidth="82.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
    </children>

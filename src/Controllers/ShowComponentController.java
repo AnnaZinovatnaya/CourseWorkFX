@@ -15,19 +15,19 @@ import util.ErrorMessage;
 
 public class ShowComponentController
 {
-    @FXML private TextField          brandField;
-    @FXML private TextField          adoptField;
-    @FXML private TextField          CAdoptField;
-    @FXML private TextField          SiAdoptField;
-    @FXML private TextField          SAdoptField;
-    @FXML private TextField          CPercentField;
-    @FXML private TextField          SiPercentField;
-    @FXML private TextField          SPercentField;
-    @FXML private TextField          priceField;
-    @FXML private TextField          amountField;
-    @FXML private Label              nameLabel;
+    @FXML private Label     brandLabel;
+    @FXML private Label     adoptLabel;
+    @FXML private Label     cAdoptLabel;
+    @FXML private Label     siAdoptLabel;
+    @FXML private Label     sAdoptLabel;
+    @FXML private Label     cPercentLabel;
+    @FXML private Label     siPercentLabel;
+    @FXML private Label     sPercentLabel;
+    @FXML private TextField priceField;
+    @FXML private TextField amountField;
+    @FXML private Label     nameLabel;
 
-    private Alert                    alert = new Alert(Alert.AlertType.ERROR);
+    private Alert           alert = new Alert(Alert.AlertType.ERROR);
 
     private ShowComponentsController showComponentsController;
     private Component                component;
@@ -38,27 +38,27 @@ public class ShowComponentController
         this.showComponentsController = showComponentsController;
         this.component = Manager.findComponent(name);
         this.nameLabel.setText(name);
-        this.brandField.setText(this.component.getBrand());
+        this.brandLabel.setText(this.component.getBrand());
         this.priceField.setText(String.valueOf(this.component.getPrice()));
         this.amountField.setText(String.valueOf(this.component.getAmount()));
-        this.adoptField.setText(String.valueOf(this.component.getAdoptBase()));
+        this.adoptLabel.setText(String.valueOf(this.component.getAdoptBase()));
 
         for(Element aElement: component.getElements())
         {
             if(aElement.getName().equals("C"))
             {
-                this.CAdoptField.setText(String.valueOf(aElement.getAdopt()));
-                this.CPercentField.setText(String.valueOf(aElement.getPercent()));
+                this.cAdoptLabel.setText(String.valueOf(aElement.getAdopt()));
+                this.cPercentLabel.setText(String.valueOf(aElement.getPercent()));
             }
             if(aElement.getName().equals("Si"))
             {
-                this.SiAdoptField.setText(String.valueOf(aElement.getAdopt()));
-                this.SiPercentField.setText(String.valueOf(aElement.getPercent()));
+                this.siAdoptLabel.setText(String.valueOf(aElement.getAdopt()));
+                this.siPercentLabel.setText(String.valueOf(aElement.getPercent()));
             }
             if(aElement.getName().equals("S"))
             {
-                this.SAdoptField.setText(String.valueOf(aElement.getAdopt()));
-                this.SPercentField.setText(String.valueOf(aElement.getPercent()));
+                this.sAdoptLabel.setText(String.valueOf(aElement.getAdopt()));
+                this.sPercentLabel.setText(String.valueOf(aElement.getPercent()));
             }
         }
 
@@ -87,7 +87,7 @@ public class ShowComponentController
             deleteComponentController.init(this.nameLabel.getText());
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(this.brandField.getScene().getWindow());
+            stage.initOwner(this.brandLabel.getScene().getWindow());
             stage.showAndWait();
             if(isDeleted)
             {
@@ -98,224 +98,88 @@ public class ShowComponentController
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
         }
     }
     @FXML
     private void saveButtonClicked()
     {
-        boolean b=true;
+        boolean validPrice = false;
+        boolean validAmount = false;
         double temp=0;
 
-        if(brandField.getText().isEmpty()|| adoptField.getText().isEmpty()||priceField.getText().isEmpty()||amountField.getText().isEmpty()||CAdoptField.getText().isEmpty()||CPercentField.getText().isEmpty()||SiAdoptField.getText().isEmpty()||SiPercentField.getText().isEmpty()||SAdoptField.getText().isEmpty()||SPercentField.getText().isEmpty())
+        if(priceField.getText().isEmpty()||amountField.getText().isEmpty())
         {
             alert.setContentText(ErrorMessage.EMPTY_FIELDS);
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                     .forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
-            b=false;
         }
-        if(b)
-        {
-            component.setBrand(brandField.getText());
-            try
-            {
-                temp = Double.parseDouble(adoptField.getText());
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-                alert.setContentText("Усвоение базового элемента задано некорректно!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-                b = false;
-            }
-            component.setAdoptBase(temp);
-        }
-
-        if(b)
+        else
         {
             try
             {
                 temp = Double.parseDouble(priceField.getText());
+
+                if (temp <= 0)
+                {
+                    throw new RuntimeException(ErrorMessage.INCORRECT_PRICE);
+                }
+
+                validPrice = true;
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
-                alert.setContentText("Цена задана некорректно!");
+                alert.setContentText(ErrorMessage.INCORRECT_PRICE);
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                         .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
-                b = false;
             }
-            component.setPrice(temp);
-        }
-        if(b)
-        {
-            try
-            {
-                temp = Double.parseDouble(amountField.getText());
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-                alert.setContentText("Количество на складе задано некорректно!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-                b = false;
-            }
-            component.setAmount(temp);
-        }
 
-        if(b)
-        {
-            try
-            {
-                temp = Double.parseDouble(CAdoptField.getText());
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-                alert.setContentText("Усвоение С задано некорректно!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-                b = false;
-            }
-            for(Element aElement: component.getElements())
-            {
-                if(aElement.getName().equals("C"))
-                {
-                    aElement.setAdopt(temp);
+            if (validPrice) {
+                component.setPrice(temp);
+
+                try {
+                    temp = Double.parseDouble(amountField.getText());
+
+                    if (temp <= 0) {
+                        throw new RuntimeException(ErrorMessage.INCORRECT_PRICE);
+                    }
+
+                    validAmount = true;
+                } catch (Exception ex) {
+                    alert.setContentText(ErrorMessage.INCORRECT_AMOUNT);
+                    alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                            .forEach(node -> ((Label) node).setFont(Font.font(16)));
+                    alert.showAndWait();
+                }
+
+                if (validAmount) {
+                    component.setAmount(temp);
+
+                    try {
+                        Manager.updateComponentData(component);
+
+                        alert.setAlertType(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Сохранение");
+                        alert.setHeaderText("Сохранение");
+                        alert.setContentText("Изменения сохранены!");
+                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                                .forEach(node -> ((Label) node).setFont(Font.font(16)));
+                        alert.showAndWait();
+                    }
+                    catch (RuntimeException e)
+                    {
+                        alert.setContentText(e.getLocalizedMessage());
+                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                                .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                        alert.showAndWait();
+                    }
                 }
             }
-        }
-
-        if(b)
-        {
-            try
-            {
-                temp = Double.parseDouble(SiAdoptField.getText());
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-                alert.setContentText("Усвоение Si задано некорректно!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-                b = false;
-            }
-            for(Element aElement: component.getElements())
-            {
-                if(aElement.getName().equals("Si"))
-                {
-                    aElement.setAdopt(temp);
-                }
-            }
-        }
-
-        if(b)
-        {
-            try
-            {
-                temp = Double.parseDouble(SAdoptField.getText());
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-                alert.setContentText("Усвоение S задано некорректно!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-                b = false;
-            }
-            for(Element aElement: component.getElements())
-            {
-                if(aElement.getName().equals("S"))
-                {
-                    aElement.setAdopt(temp);
-                }
-            }
-        }
-
-        if(b)
-        {
-            try
-            {
-                temp = Double.parseDouble(CPercentField.getText());
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-                alert.setContentText("Вхождение С задано некорректно!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-                b = false;
-            }
-            for(Element aElement: component.getElements())
-            {
-                if(aElement.getName().equals("C"))
-                {
-                    aElement.setPercent(temp);
-                }
-            }
-        }
-
-        if(b)
-        {
-            try
-            {
-                temp = Double.parseDouble(SiPercentField.getText());
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-                alert.setContentText("Вхождение Si задано некорректно!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-                b = false;
-            }
-            for(Element aElement: component.getElements())
-            {
-                if(aElement.getName().equals("Si"))
-                {
-                    aElement.setPercent(temp);
-                }
-            }
-        }
-
-        if(b)
-        {
-            try
-            {
-                temp = Double.parseDouble(SPercentField.getText());
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-                alert.setContentText("Вхождение S задано некорректно!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-                b = false;
-            }
-            for(Element aElement: component.getElements())
-            {
-                if(aElement.getName().equals("S"))
-                {
-                    aElement.setPercent(temp);
-                }
-            }
-        }
-        if(b)
-        {
-            Manager.updateComponentData(component);
-            alert.setAlertType(Alert.AlertType.INFORMATION);
-            alert.setTitle("Сохранение");
-            alert.setHeaderText("Сохранение");
-            alert.setContentText("Изменения сохранены!");
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
         }
     }
 

@@ -23,14 +23,25 @@ public class AddCharge3Controller
     @FXML private ListView<String> selectedComponentsList = new ListView<>();
     private ObservableList<String> items;
     private ObservableList<String> selectedItems;
+    private Alert                  alert = new Alert(Alert.AlertType.ERROR);
 
     public void init()
     {
         this.primaryStage = this.addCharge2Controller.getPrimaryStage();
-        items = Manager.getAllMandatoryComponentsString();
-        selectedItems = FXCollections.observableArrayList ();
-        this.allComponentsList.setItems(items);
-        this.selectedComponentsList.setItems(selectedItems);
+        try
+        {
+            items = Manager.getAllMandatoryComponentsString();
+            selectedItems = FXCollections.observableArrayList ();
+            this.allComponentsList.setItems(items);
+            this.selectedComponentsList.setItems(selectedItems);
+        }
+        catch (RuntimeException e)
+        {
+            alert.setContentText(e.getLocalizedMessage());
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
+        }
     }
 
     @FXML private void backButtonClicked()
@@ -39,7 +50,7 @@ public class AddCharge3Controller
     }
     @FXML private void nextButtonClicked()
     {
-        if(selectedItems.size()>0)
+        if(selectedItems.size() > 0)
         {
             Manager.setMandatoryComponents(selectedItems);
             try
@@ -55,7 +66,10 @@ public class AddCharge3Controller
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
+                alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label) node).setFont(Font.font(16)));
+                alert.showAndWait();
             }
         }
         else
@@ -71,7 +85,7 @@ public class AddCharge3Controller
     @FXML private void oneForwardButtonClicked()
     {
         String temp = allComponentsList.getSelectionModel().getSelectedItem();
-        if(!selectedItems.contains(temp)&&temp!=null)
+        if(!selectedItems.contains(temp) && temp != null)
         {
             this.selectedComponentsList.getItems().add(temp);
         }
@@ -89,7 +103,7 @@ public class AddCharge3Controller
     @FXML private void oneBackButtonClicked()
     {
         String temp = selectedComponentsList.getSelectionModel().getSelectedItem();
-        if(temp!=null)
+        if(temp != null)
         {
             this.selectedComponentsList.getItems().remove(temp);
         }

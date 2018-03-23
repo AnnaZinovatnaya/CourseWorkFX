@@ -3,8 +3,10 @@ package Models;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import util.DBUtil;
+import util.ErrorMessage;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -216,8 +218,8 @@ public class Charge
         {
             if(massET[i]> (elements.get(i).getMaxPercentDouble()*mass/100))
             {
-                System.out.println("Строка 185");
-                System.out.println(elements.get(i).getName()+"\t"+(elements.get(i).getMaxPercentDouble()*mass/100)+"\t"+massET[i]);
+                //System.out.println("Строка 185");
+                //System.out.println(elements.get(i).getName()+"\t"+(elements.get(i).getMaxPercentDouble()*mass/100)+"\t"+massET[i]);
                 return false;
             }
         }
@@ -288,7 +290,7 @@ public class Charge
                 p++;
                 if (p >= mandatoryComponents.size())
                 {
-                    System.out.println("Строка 245");
+                    //System.out.println("Строка 245");
                     return false;
                 }
             }
@@ -304,14 +306,6 @@ public class Charge
         }
 
         //massChTemp=(double)Math.round(massChTemp*10)/10;
-
-
-        System.out.println("Результаты:");
-        for(CompInCharge aComponent: mandatoryComponents)
-        {
-            System.out.println(aComponent.getName()+"\t"+aComponent.getCurrentMass()+"кг");
-        }
-
         return true;
 
     }
@@ -709,11 +703,6 @@ public class Charge
         mandatoryComponents = mandatoryCompsTemp;
         massChTemp=(double)Math.round(massChTemp*10)/10;
 
-        System.out.println("\n***\nРезультаты 2:");
-        for(CompInCharge aComponent: mandatoryCompsTemp)
-        {
-            System.out.println(aComponent.getName()+"\t"+aComponent.getCurrentMass()+"кг");
-        }
         correctCharge();
     }
 
@@ -749,21 +738,10 @@ public class Charge
             delta[i] = massETmin[i] - massET[i];
             if(delta[i]>0)
             {
-                System.out.println("\nНе хватает " + elements.get(i).getName());
-                System.out.println("В расплаве только - " + (massET[i] / mass * 100) + " процентов");
-
                 optionalComponents = sortByElement(elements.get(i));
 
                 optionalComponents.get(0).setCurrentMass((double) Math.round(((elements.get(i).getMinPercentDouble()/100*mass-massET[i])/(optionalComponents.get(0).getComponent().getElements().get(i).getAdopt()/100*(optionalComponents.get(0).getComponent().getElements().get(i).getPercent()/100-elements.get(0).getMinPercentDouble()/100))*100))/100);
-                System.out.println(optionalComponents.get(0).getName()+" - "+optionalComponents.get(0).getCurrentMass()+" кг");
                 massET = checkElements();
-                for(int j=0; j<elements.size(); j++)
-                {
-                    System.out.println(elements.get(j).getName());
-                    System.out.println("В расплаве - " + (massET[j] / mass * 100) + " процентов");
-                }
-
-
             }
         }
     }
@@ -782,7 +760,7 @@ public class Charge
         return list;
     }
 
-    public void saveToDB()
+    public void saveToDB() throws RuntimeException
     {
         int idUser;
         int idMeltBrand;
@@ -857,9 +835,35 @@ public class Charge
             }
 
         }
-        catch (Exception e)
+        catch (RuntimeException e)
         {
-            e.printStackTrace();
+            throw e;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY);
         }
     }
+
+    public int getMaxIndexFromDB() throws RuntimeException
+    {
+        int res = 0;
+        try
+        {
+            ResultSet rs = DBUtil.dbExecuteQuery("SELECT max(idCharge) FROM mydb.charge;");
+            rs.next();
+            res = rs.getInt("max(idCharge)");
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + "SELECT max(idCharge) FROM mydb.charge;");
+        }
+
+        return res;
+    }
+
 }

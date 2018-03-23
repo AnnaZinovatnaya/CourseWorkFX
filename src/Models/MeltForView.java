@@ -3,8 +3,10 @@ package Models;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import util.DBUtil;
+import util.ErrorMessage;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class MeltForView
@@ -50,16 +52,17 @@ public class MeltForView
         this.date = date;
     }
 
-    public static ObservableList<MeltForView> getMeltsFromTill(Date firstDate, Date secondDate)
+    public static ObservableList<MeltForView> getMeltsFromTill(Date firstDate, Date secondDate)  throws RuntimeException
     {
         ObservableList<MeltForView> list = FXCollections.observableArrayList ();
 
         MeltForView temp;
         ResultSet rs;
-
+        String query = "";
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"' AND `date` <= '"+new java.sql.Date(secondDate.getTime())+"'");
+            query = "SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"' AND `date` <= '"+new java.sql.Date(secondDate.getTime())+"'";
+            rs = DBUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
@@ -67,25 +70,30 @@ public class MeltForView
             }
 
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
         return list;
     }
 
-    public static ObservableList<MeltForView> getAllMelts()
+    public static ObservableList<MeltForView> getAllMelts()  throws RuntimeException
     {
         ObservableList<MeltForView> list = FXCollections.observableArrayList ();
 
         MeltForView temp;
         ResultSet rs;
-
+        String query = "";
 
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand");
+            query = "SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand";
+            rs = DBUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
@@ -93,25 +101,30 @@ public class MeltForView
             }
 
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
         return list;
     }
 
-    public static ObservableList<MeltForView> getMeltsFrom(Date firstDate)
+    public static ObservableList<MeltForView> getMeltsFrom(Date firstDate)  throws RuntimeException
     {
         ObservableList<MeltForView> list = FXCollections.observableArrayList ();
 
         MeltForView temp;
         ResultSet rs;
-
+        String query = "";
 
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge  JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"'");
+            query = "SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge  JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"'";
+            rs = DBUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
@@ -119,36 +132,45 @@ public class MeltForView
             }
 
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
         return list;
     }
 
-    public static ObservableList<MeltForView> getMeltsTill(Date secondDate)
+    public static ObservableList<MeltForView> getMeltsTill(Date secondDate)  throws RuntimeException
     {
         ObservableList<MeltForView> list = FXCollections.observableArrayList ();
 
         MeltForView temp;
         ResultSet rs;
-
+        String query = "";
 
         try
         {
-            rs = DBUtil.dbExecuteQuery("SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand  WHERE `date`<='"+new java.sql.Date(secondDate.getTime())+"'");
+            query = "SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand  WHERE `date`<='"+new java.sql.Date(secondDate.getTime())+"'";
+            rs = DBUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
                 list.add(temp);
             }
-
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            throw ex;
         }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+        }
+
 
         return list;
     }

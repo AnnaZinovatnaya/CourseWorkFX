@@ -1,6 +1,7 @@
 package Controllers;
 
 import Models.Manager;
+import Models.MeltForView;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import util.ErrorMessage;
 
 public class MeltController {
     @FXML private ListView<String> brandListView = new ListView<>();
@@ -23,40 +25,58 @@ public class MeltController {
 
     public void init(Stage primaryStage){
         this.primaryStage = primaryStage;
-        this.brands = Manager.getAllBrands();
-        this.brandListView.setItems(brands);
-
-        this.brandListView.setOnMouseClicked(new EventHandler<MouseEvent>()
+        try
         {
-            @Override
-            public void handle(MouseEvent click)
-            {
+            this.brands = Manager.getAllBrands();
 
-                if (click.getClickCount() == 2)
+            this.brandListView.setItems(brands);
+
+            this.brandListView.setOnMouseClicked(new EventHandler<MouseEvent>()
+            {
+                @Override
+                public void handle(MouseEvent click)
                 {
-                    String currentItemSelected = brandListView.getSelectionModel().getSelectedItem();
-                    if(currentItemSelected!=null)
+                    if (click.getClickCount() == 2)
                     {
-                        selectBrandButtonClicked();
+                        String currentItemSelected = brandListView.getSelectionModel().getSelectedItem();
+                        if(currentItemSelected!=null)
+                        {
+                            selectBrandButtonClicked();
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
+        catch (RuntimeException e)
+        {
+            alert.setContentText(e.getLocalizedMessage());
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
+        }
     }
 
     @FXML public void selectBrandButtonClicked()
     {
         chosenBrand = this.brandListView.getSelectionModel().getSelectedItem();
-        if (null != chosenBrand) {
-            try {
+        if (null != chosenBrand)
+        {
+            try
+            {
                 FXMLLoader loader = new FXMLLoader(
                         getClass().getResource("/Views/MakeMelt2Scene.fxml")
                 );
                 Parent root = loader.load();
                 primaryStage.setScene(new Scene(root));
-            } catch (Exception ex) {
-                ex.printStackTrace();
             }
+            catch (Exception ex)
+            {
+                alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                alert.showAndWait();
+            }
+
             primaryStage.show();
         }
         else

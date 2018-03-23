@@ -44,6 +44,11 @@ public class AddCharge4Controller
             try
             {
                 percent = Double.parseDouble(t.getNewValue());
+
+                if (percent < 0)
+                {
+                    throw new RuntimeException(ErrorMessage.INCORRECT_MIN_PERCENT);
+                }
             }
             catch (Exception ex)
             {
@@ -77,6 +82,11 @@ public class AddCharge4Controller
             try
             {
                 percent = Double.parseDouble(t.getNewValue());
+
+                if (percent < 0)
+                {
+                    throw new RuntimeException(ErrorMessage.INCORRECT_MAX_PERCENT);
+                }
             }
             catch (Exception ex)
             {
@@ -115,7 +125,7 @@ public class AddCharge4Controller
 
         for(CompInCharge aComp: components)
         {
-            if(aComp.getMaxPercent()==0||aComp.getMaxPercent()==0)
+            if(aComp.getMaxPercent() == 0 || aComp.getMaxPercent() == 0)
             {
                 alert.setContentText(ErrorMessage.EMPTY_FIELDS);
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
@@ -127,9 +137,9 @@ public class AddCharge4Controller
 
         for(CompInCharge aComp: components)
         {
-            if(aComp.getMaxPercent()<aComp.getMinPercent())
+            if(aComp.getMaxPercent() < aComp.getMinPercent())
             {
-                alert.setContentText("Максимальное значение не может быть меньше минимального: " + aComp.getName());
+                alert.setContentText(ErrorMessage.MIN_BIGGER_THAN_MAX);
                 alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                         .forEach(node -> ((Label)node).setFont(Font.font(16)));
                 alert.showAndWait();
@@ -140,22 +150,22 @@ public class AddCharge4Controller
         double max=0;
         for(CompInCharge aComp: components)
         {
-            min+=aComp.getMinPercent();
-            max+=aComp.getMaxPercent();
+            min += aComp.getMinPercent();
+            max += aComp.getMaxPercent();
         }
 
-        if(min>100)
+        if(min > 100)
         {
-            alert.setContentText("Сумма минимальных значений не может превышать 100%!");
+            alert.setContentText(ErrorMessage.MIN_SUM_BIGGER_THAN_100);
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                     .forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
             return;
         }
 
-        if(max<100)
+        if(max < 100)
         {
-            alert.setContentText("Сумма максимальных значений не может быть меньше 100%!");
+            alert.setContentText(ErrorMessage.MAX_SUM_BIGGER_THAN_100);
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
                     .forEach(node -> ((Label)node).setFont(Font.font(16)));
             alert.showAndWait();
@@ -178,7 +188,10 @@ public class AddCharge4Controller
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
+                alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                        .forEach(node -> ((Label) node).setFont(Font.font(16)));
+                alert.showAndWait();
             }
         }
         else

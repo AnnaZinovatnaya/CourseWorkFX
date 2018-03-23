@@ -4,12 +4,11 @@ import Models.CompInCharge;
 import Models.Manager;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import util.ErrorMessage;
 
 public class ChargeResultController
 {
@@ -30,7 +29,7 @@ public class ChargeResultController
     public void init()
     {
         this.primaryStage = this.addCharge4Controller.getPrimaryStage();
-        this.numberField.setText("1");
+        this.numberField.setText(String.valueOf(Manager.getMaxChargeIndex() + 1));
         this.amountField.setText(Manager.getChargeMass());
         this.meltField.setText(Manager.getChargeMeltBrand());
         components = Manager.getChargeResultComps();
@@ -56,7 +55,26 @@ public class ChargeResultController
 
     @FXML private void doneButtonClicked()
     {
-        Manager.saveCharge();
+        try
+        {
+            Manager.saveCharge();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Сохранение");
+            alert.setHeaderText("Сохранение");
+            alert.setContentText("Шихта успешно сохранена!");
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
+
+        }
+        catch (RuntimeException e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText(e.getLocalizedMessage());
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
+        }
     }
 
     public void setAddCharge4Controller(AddCharge4Controller addCharge4Controller) {

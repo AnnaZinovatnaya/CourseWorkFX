@@ -5,8 +5,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import util.ErrorMessage;
 
 public class MenuController
 {
@@ -22,11 +26,15 @@ public class MenuController
     private ShowComponentsController showComponentsController;
     private ShowMeltsController      showMeltsController;
     private ReportController         reportController;
+    private UserController           userController;
 
-    public void init(Stage primaryStage, String windowTitle)
+    private Alert alert = new Alert(Alert.AlertType.ERROR);
+
+    public void init(Stage primaryStage, String windowTitle, UserController userController)
     {
         this.primaryStage = primaryStage;
         this.windowTitle = windowTitle;
+        this.userController = userController;
     }
 
     @FXML private void addUserButtonClicked()
@@ -49,7 +57,10 @@ public class MenuController
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
         }
     }
 
@@ -71,7 +82,10 @@ public class MenuController
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
         }
     }
 
@@ -110,9 +124,11 @@ public class MenuController
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
         }
-
     }
 
     @FXML private void showComponentsButtonClicked()
@@ -132,7 +148,10 @@ public class MenuController
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
         }
     }
 
@@ -152,7 +171,10 @@ public class MenuController
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
         }
     }
 
@@ -172,7 +194,10 @@ public class MenuController
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+            alert.showAndWait();
         }
     }
 
@@ -183,5 +208,10 @@ public class MenuController
 
     public Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    @FXML public void logoutButtonClicked()
+    {
+        this.userController.backToScene();
     }
 }

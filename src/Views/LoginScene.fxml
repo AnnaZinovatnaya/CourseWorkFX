@@ -72,7 +72,7 @@
             <Insets />
          </opaqueInsets>
       </GridPane>
-      <Button layoutX="208.0" layoutY="306.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="59.0" prefWidth="185.0" text="Подтвердить">
+      <Button layoutX="208.0" layoutY="312.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="59.0" prefWidth="185.0" text="Подтвердить">
          <font>
             <Font size="24.0" />
          </font>
