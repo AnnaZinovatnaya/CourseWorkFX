@@ -2,8 +2,8 @@ package Models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import util.DBUtil;
 import util.ErrorMessage;
+import util.SQLiteUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -61,8 +61,8 @@ public class MeltForView
         String query = "";
         try
         {
-            query = "SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"' AND `date` <= '"+new java.sql.Date(secondDate.getTime())+"'";
-            rs = DBUtil.dbExecuteQuery(query);
+            query = "SELECT `name`, mass, `date` FROM melt M join charge C on M.Charge_idCharge=C.idCharge JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"' AND `date` <= '"+new java.sql.Date(secondDate.getTime())+"'";
+            rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
@@ -92,8 +92,8 @@ public class MeltForView
 
         try
         {
-            query = "SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand";
-            rs = DBUtil.dbExecuteQuery(query);
+            query = "SELECT `name`, mass, `date` FROM melt M join charge C on M.Charge_idCharge=C.idCharge JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand";
+            rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
@@ -123,8 +123,8 @@ public class MeltForView
 
         try
         {
-            query = "SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge  JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"'";
-            rs = DBUtil.dbExecuteQuery(query);
+            query = "SELECT `name`, mass, `date` FROM melt M join charge C on M.Charge_idCharge=C.idCharge  JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"'";
+            rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
@@ -154,8 +154,8 @@ public class MeltForView
 
         try
         {
-            query = "SELECT `name`, mass, `date` FROM mydb.melt M join mydb.charge C on M.Charge_idCharge=C.idCharge JOIN mydb.meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand  WHERE `date`<='"+new java.sql.Date(secondDate.getTime())+"'";
-            rs = DBUtil.dbExecuteQuery(query);
+            query = "SELECT `name`, mass, `date` FROM melt M join charge C on M.Charge_idCharge=C.idCharge JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand  WHERE `date`<='"+new java.sql.Date(secondDate.getTime())+"'";
+            rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));

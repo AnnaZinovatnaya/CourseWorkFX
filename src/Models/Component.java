@@ -2,8 +2,8 @@ package Models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import util.DBUtil;
 import util.ErrorMessage;
+import util.SQLiteUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -125,11 +125,11 @@ public class Component
 
     public boolean componentExists(String name) throws RuntimeException
     {
-        String query = "SELECT * FROM mydb.component WHERE `name` = '"+name+"'";
+        String query = "SELECT * FROM component WHERE `name` = '"+name+"'";
 
         try
         {
-            ResultSet rs = DBUtil.dbExecuteQuery(query);
+            ResultSet rs = SQLiteUtil.dbExecuteQuery(query);
 
             if(rs.next())
             {
@@ -152,11 +152,11 @@ public class Component
     {
         this.calculateAdopt();
 
-        String query = "INSERT INTO mydb.component (`name`, brand, adoptBase, currentAmount, currentPrice, mandatory, adoptComp) " +
+        String query = "INSERT INTO component (`name`, brand, adoptBase, currentAmount, currentPrice, mandatory, adoptComp) " +
                 "VALUES ('" + name + "', '" + brand + "', '" + adoptBase + "', '" + amount + "', '" + price + "', '" + mandatory +"', '" +adoptComp+ "')";
         try
         {
-            DBUtil.dbExecuteUpdate(query);
+            SQLiteUtil.dbExecuteUpdate(query);
         }
         catch (RuntimeException e)
         {
@@ -173,10 +173,10 @@ public class Component
     {
         ResultSet rs;
         int id = 0;
-        String query = "SELECT idComponent FROM mydb.component WHERE `name` = '" + name + "'";
+        String query = "SELECT idComponent FROM component WHERE `name` = '" + name + "'";
         try
         {
-            rs = DBUtil.dbExecuteQuery(query);
+            rs = SQLiteUtil.dbExecuteQuery(query);
             if (rs.next())
             {
                 id = rs.getInt("idComponent");
@@ -206,10 +206,10 @@ public class Component
 
         String temp;
         ResultSet rs;
-        String query = "SELECT name FROM mydb.component WHERE mandatory=1";
+        String query = "SELECT name FROM component WHERE mandatory=1";
         try
         {
-            rs = DBUtil.dbExecuteQuery(query);
+            rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = rs.getString("name");
@@ -234,11 +234,11 @@ public class Component
 
         String temp;
         ResultSet rs;
-        String query = "SELECT name FROM mydb.component WHERE mandatory=0";
+        String query = "SELECT name FROM component WHERE mandatory=0";
 
         try
         {
-            rs = DBUtil.dbExecuteQuery(query);
+            rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = rs.getString("name");
@@ -268,13 +268,13 @@ public class Component
 
         try
         {
-            query = "SELECT * FROM mydb.component WHERE mandatory=1";
-            rs = DBUtil.dbExecuteQuery(query);
+            query = "SELECT * FROM component WHERE mandatory=1";
+            rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 list.add(new Component(rs.getString("name"), rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), 1, rs.getDouble("adoptComp"), new ArrayList<>()));
-                query = "SELECT name, procent, adopt FROM mydb.elementincomponent JOIN mydb.element ON idElement = Element_idElement WHERE Component_idComponent = " + rs.getString("idComponent");
-                rs2 = DBUtil.dbExecuteQuery(query);
+                query = "SELECT name, procent, adopt FROM elementincomponent JOIN element ON idElement = Element_idElement WHERE Component_idComponent = " + rs.getString("idComponent");
+                rs2 = SQLiteUtil.dbExecuteQuery(query);
                 while (rs2.next())
                 {
                     list.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
@@ -305,13 +305,13 @@ public class Component
 
         try
         {
-            query = "SELECT * FROM mydb.component WHERE mandatory=0";
-            rs = DBUtil.dbExecuteQuery(query);
+            query = "SELECT * FROM component WHERE mandatory=0";
+            rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 list.add(new Component(rs.getString("name"), rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), 0, rs.getDouble("adoptComp"), new ArrayList<>()));
-                query = "SELECT name, procent, adopt FROM mydb.elementincomponent JOIN mydb.element ON idElement = Element_idElement WHERE Component_idComponent = "+rs.getString("idComponent");
-                rs2 = DBUtil.dbExecuteQuery(query);
+                query = "SELECT name, procent, adopt FROM elementincomponent JOIN element ON idElement = Element_idElement WHERE Component_idComponent = "+rs.getString("idComponent");
+                rs2 = SQLiteUtil.dbExecuteQuery(query);
                 while (rs2.next())
                 {
                     list.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
@@ -353,13 +353,13 @@ public class Component
         String query = "";
         try
         {
-            query = "SELECT * FROM mydb.component WHERE `name` = '" + name +"';";
-            ResultSet rs = DBUtil.dbExecuteQuery(query);
+            query = "SELECT * FROM component WHERE `name` = '" + name +"';";
+            ResultSet rs = SQLiteUtil.dbExecuteQuery(query);
             rs.next();
-            query = "DELETE FROM `mydb`.`elementincomponent` WHERE `Component_idComponent`='"+rs.getInt("idComponent")+"';";
-            DBUtil.dbExecuteUpdate(query);
-            query = "DELETE FROM mydb.component WHERE `name` = '" + name + "';";
-            DBUtil.dbExecuteUpdate(query);
+            query = "DELETE FROM elementincomponent WHERE `Component_idComponent`='"+rs.getInt("idComponent")+"';";
+            SQLiteUtil.dbExecuteUpdate(query);
+            query = "DELETE FROM component WHERE `name` = '" + name + "';";
+            SQLiteUtil.dbExecuteUpdate(query);
         }
         catch (RuntimeException ex)
         {
@@ -378,13 +378,13 @@ public class Component
         String query = "";
         try
         {
-            query = "SELECT * FROM mydb.component WHERE `name` = '"+name+"'";
-            ResultSet rs = DBUtil.dbExecuteQuery(query);
+            query = "SELECT * FROM component WHERE `name` = '"+name+"'";
+            ResultSet rs = SQLiteUtil.dbExecuteQuery(query);
             rs.next();
             temp = new Component(name, rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), rs.getInt("mandatory"), rs.getDouble("adoptComp"), new ArrayList<>());
             idComponent = rs.getInt("idComponent");
-            query = "SELECT `name`, procent, adopt FROM mydb.element E JOIN mydb.elementincomponent EC ON E.idElement=EC.Element_idElement WHERE EC.Component_idComponent='"+idComponent+"';";
-            ResultSet rs2 = DBUtil.dbExecuteQuery(query);
+            query = "SELECT `name`, procent, adopt FROM element E JOIN elementincomponent EC ON E.idElement=EC.Element_idElement WHERE EC.Component_idComponent='"+idComponent+"';";
+            ResultSet rs2 = SQLiteUtil.dbExecuteQuery(query);
 
             while(rs2.next())
             {
@@ -412,41 +412,41 @@ public class Component
         String query = "";
         try
         {
-            query = "UPDATE mydb.component SET currentAmount='"+component.getAmount()+"',currentPrice='"+component.getPrice()+"', adoptBase='"+component.getAdoptBase()+"', brand='"+component.getBrand()+"' WHERE `name`='"+component.getName()+"';";
-            DBUtil.dbExecuteUpdate(query);
-            query = "SELECT * FROM mydb.component WHERE `name`='"+component.getName()+"'";
-            rs = DBUtil.dbExecuteQuery(query);
+            query = "UPDATE component SET currentAmount='"+component.getAmount()+"',currentPrice='"+component.getPrice()+"', adoptBase='"+component.getAdoptBase()+"', brand='"+component.getBrand()+"' WHERE `name`='"+component.getName()+"';";
+            SQLiteUtil.dbExecuteUpdate(query);
+            query = "SELECT * FROM component WHERE `name`='"+component.getName()+"'";
+            rs = SQLiteUtil.dbExecuteQuery(query);
             rs.next();
             idComponent = rs.getInt("idComponent");
             for(Element aElement: component.getElements())
             {
                 if(aElement.getName().equals("C"))
                 {
-                    query = "SELECT * FROM mydb.element WHERE `name`='C'";
-                    rs = DBUtil.dbExecuteQuery(query);
+                    query = "SELECT * FROM element WHERE `name`='C'";
+                    rs = SQLiteUtil.dbExecuteQuery(query);
                     rs.next();
                     idElement = rs.getInt("idElement");
-                    query = "UPDATE mydb.elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';";
-                    DBUtil.dbExecuteUpdate(query);
+                    query = "UPDATE elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';";
+                    SQLiteUtil.dbExecuteUpdate(query);
                 }
                 if(aElement.getName().equals("Si"))
                 {
-                    query = "SELECT * FROM mydb.element WHERE `name`='Si'";
-                    rs = DBUtil.dbExecuteQuery(query);
+                    query = "SELECT * FROM element WHERE `name`='Si'";
+                    rs = SQLiteUtil.dbExecuteQuery(query);
                     rs.next();
                     idElement = rs.getInt("idElement");
 
-                    query = "UPDATE mydb.elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';";
-                    DBUtil.dbExecuteUpdate(query);
+                    query = "UPDATE elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';";
+                    SQLiteUtil.dbExecuteUpdate(query);
                 }
                 if(aElement.getName().equals("S"))
                 {
-                    query = "SELECT * FROM mydb.element WHERE `name`='S'";
-                    rs = DBUtil.dbExecuteQuery(query);
+                    query = "SELECT * FROM element WHERE `name`='S'";
+                    rs = SQLiteUtil.dbExecuteQuery(query);
                     rs.next();
                     idElement = rs.getInt("idElement");
-                    query = "UPDATE mydb.elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';";
-                    DBUtil.dbExecuteUpdate(query);
+                    query = "UPDATE elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';";
+                    SQLiteUtil.dbExecuteUpdate(query);
                 }
             }
         }

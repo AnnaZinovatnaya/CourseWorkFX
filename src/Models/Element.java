@@ -2,8 +2,8 @@ package Models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import util.DBUtil;
 import util.ErrorMessage;
+import util.SQLiteUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -102,8 +102,8 @@ public class Element
         try
         {
             ResultSet rs;
-            query = "SELECT name FROM mydb.element";
-            rs = DBUtil.dbExecuteQuery(query);
+            query = "SELECT name FROM element";
+            rs = SQLiteUtil.dbExecuteQuery(query);
             while(rs.next())
             {
                 list.add(rs.getString("name"));
@@ -129,16 +129,16 @@ public class Element
         String query = "";
         try
         {
-            query = "SELECT idElement FROM mydb.element WHERE name = '" + name + "'";
-            rs = DBUtil.dbExecuteQuery(query);
+            query = "SELECT idElement FROM element WHERE name = '" + name + "'";
+            rs = SQLiteUtil.dbExecuteQuery(query);
             if(rs.next())
             {
                 idElement = rs.getInt("idElement");
             }
 
-            query = "INSERT INTO mydb.elementincomponent (procent, Element_idElement, Component_idComponent, adopt) " +
+            query = "INSERT INTO elementincomponent (procent, Element_idElement, Component_idComponent, adopt) " +
                     "VALUES ('" + percent + "', '" + idElement + "', '" + idComponent + "', '" + adopt + "')";
-            DBUtil.dbExecuteUpdate(query);
+            SQLiteUtil.dbExecuteUpdate(query);
         }
         catch (RuntimeException ex)
         {

@@ -2,8 +2,8 @@ package Models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import util.DBUtil;
 import util.ErrorMessage;
+import util.SQLiteUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -769,55 +769,55 @@ public class Charge
         int idComponent;
         try
         {
-            ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.user WHERE `name`='"+user.getName()+"' AND lastname = '"+user.getLastname()+"';");
+            ResultSet rs = SQLiteUtil.dbExecuteQuery("SELECT * FROM user WHERE `name`='"+user.getName()+"' AND lastname = '"+user.getLastname()+"';");
             rs.next();
             idUser = rs.getInt("idUser");
-            rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.meltbrand WHERE `name`='"+meltBrand.getName()+"';");
+            rs = SQLiteUtil.dbExecuteQuery("SELECT * FROM meltbrand WHERE `name`='"+meltBrand.getName()+"';");
             rs.next();
             idMeltBrand = rs.getInt("idMeltBrand");
             java.sql.Date sqlDate = new java.sql.Date(dateCharge.getTime());
 
-            DBUtil.dbExecuteUpdate("INSERT INTO mydb.charge (mass, deltaMass, dateCharge, User_idUser, MeltBrand_idMeltBrand)\n" +
+            SQLiteUtil.dbExecuteUpdate("INSERT INTO charge (mass, deltaMass, dateCharge, User_idUser, MeltBrand_idMeltBrand)\n" +
                                    "VALUES ('"+mass+"', '"+deltaMass+"', '"+sqlDate+"', '"+idUser+"', '"+idMeltBrand+"');");
-            rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.charge WHERE dateCharge='"+sqlDate+"'");
+            rs = SQLiteUtil.dbExecuteQuery("SELECT * FROM charge WHERE dateCharge='"+sqlDate+"'");
             rs.next();
             idCharge = rs.getInt("idCharge");
             for(Element aElement: elements)
             {
                 if(aElement.getName().equals("C"))
                 {
-                    rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='C'");
+                    rs = SQLiteUtil.dbExecuteQuery("SELECT * FROM element WHERE `name`='C'");
                     rs.next();
                     idElement = rs.getInt("idElement");
-                    DBUtil.dbExecuteUpdate("INSERT INTO mydb.elementincharge (minProcent, maxProcent, Charge_idCharge, Element_idElement)\n" +
+                    SQLiteUtil.dbExecuteUpdate("INSERT INTO elementincharge (minProcent, maxProcent, Charge_idCharge, Element_idElement)\n" +
                                            "VALUES ('"+aElement.getMinPercentDouble()+"', '"+aElement.getMaxPercentDouble()+"', '"+idCharge+"', '"+idElement+"');");
                 }
                 if(aElement.getName().equals("Si"))
                 {
 
-                    rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='Si'");
+                    rs = SQLiteUtil.dbExecuteQuery("SELECT * FROM element WHERE `name`='Si'");
                     rs.next();
                     idElement = rs.getInt("idElement");
-                    DBUtil.dbExecuteUpdate("INSERT INTO mydb.elementincharge (minProcent, maxProcent, Charge_idCharge, Element_idElement)\n" +
+                    SQLiteUtil.dbExecuteUpdate("INSERT INTO elementincharge (minProcent, maxProcent, Charge_idCharge, Element_idElement)\n" +
                                            "VALUES ('"+aElement.getMinPercentDouble()+"', '"+aElement.getMaxPercentDouble()+"', '"+idCharge+"', '"+idElement+"');");
                 }
                 if(aElement.getName().equals("S"))
                 {
 
-                    rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.element WHERE `name`='S'");
+                    rs = SQLiteUtil.dbExecuteQuery("SELECT * FROM element WHERE `name`='S'");
                     rs.next();
                     idElement = rs.getInt("idElement");
-                    DBUtil.dbExecuteUpdate("INSERT INTO mydb.elementincharge (minProcent, maxProcent, Charge_idCharge, Element_idElement)\n" +
+                    SQLiteUtil.dbExecuteUpdate("INSERT INTO elementincharge (minProcent, maxProcent, Charge_idCharge, Element_idElement)\n" +
                                            "VALUES ('"+aElement.getMinPercentDouble()+"', '"+aElement.getMaxPercentDouble()+"', '"+idCharge+"', '"+idElement+"');");
                 }
             }
             for(CompInCharge aComp: mandatoryComponents)
             {
 
-                rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name` = '"+aComp.getName()+"';");
+                rs = SQLiteUtil.dbExecuteQuery("SELECT * FROM component WHERE `name` = '"+aComp.getName()+"';");
                 rs.next();
                 idComponent = rs.getInt("idComponent");
-                DBUtil.dbExecuteUpdate("INSERT INTO mydb.componentincharge (currentMass, minProcent, maxProcent, Charge_idCharge, Component_idComponent)\n" +
+                SQLiteUtil.dbExecuteUpdate("INSERT INTO componentincharge (currentMass, minProcent, maxProcent, Charge_idCharge, Component_idComponent)\n" +
                                        "VALUES ('"+aComp.getCurrentMass()+"', '"+aComp.getMinPercent()+"', '"+aComp.getMaxPercent()+"', '"+idCharge+"', '"+idComponent+"');");
             }
 
@@ -826,10 +826,10 @@ public class Charge
                 if (aComp.getCurrentMass() != 0)
                 {
 
-                    rs = DBUtil.dbExecuteQuery("SELECT * FROM mydb.component WHERE `name` = '" + aComp.getName() + "';");
+                    rs = SQLiteUtil.dbExecuteQuery("SELECT * FROM component WHERE `name` = '" + aComp.getName() + "';");
                     rs.next();
                     idComponent = rs.getInt("idComponent");
-                    DBUtil.dbExecuteUpdate("INSERT INTO mydb.componentincharge (currentMass, minProcent, maxProcent, Charge_idCharge, Component_idComponent)\n" +
+                    SQLiteUtil.dbExecuteUpdate("INSERT INTO componentincharge (currentMass, minProcent, maxProcent, Charge_idCharge, Component_idComponent)\n" +
                                            "VALUES ('" + aComp.getCurrentMass() + "', '" + aComp.getMinPercent() + "', '" + aComp.getMaxPercent() + "', '" + idCharge + "', '" + idComponent + "');");
                 }
             }
@@ -850,7 +850,7 @@ public class Charge
         int res = 0;
         try
         {
-            ResultSet rs = DBUtil.dbExecuteQuery("SELECT max(idCharge) FROM mydb.charge;");
+            ResultSet rs = SQLiteUtil.dbExecuteQuery("SELECT max(idCharge) FROM charge;");
             rs.next();
             res = rs.getInt("max(idCharge)");
         }
@@ -860,7 +860,7 @@ public class Charge
         }
         catch (SQLException e)
         {
-            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + "SELECT max(idCharge) FROM mydb.charge;");
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + "SELECT max(idCharge) FROM charge;");
         }
 
         return res;

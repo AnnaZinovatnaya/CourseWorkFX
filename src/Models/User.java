@@ -1,7 +1,7 @@
 package Models;
 
-import util.DBUtil;
 import util.ErrorMessage;
+import util.SQLiteUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,7 +65,7 @@ public class User
     {
         try
         {
-            DBUtil.dbExecuteUpdate("INSERT INTO mydb.user (`name`, lastname, `password`, role) " +
+            SQLiteUtil.dbExecuteUpdate("INSERT INTO user (`name`, lastname, `password`, role) " +
                                    "VALUES ('" + name + "', '" + lastname + "', '" + password + "', '" + role + "')");
         }
         catch (RuntimeException e)
@@ -81,9 +81,9 @@ public class User
 
         try
         {
-            query = "SELECT * FROM mydb.user WHERE `name` = '" + name +
+            query = "SELECT * FROM user WHERE `name` = '" + name +
                     "' AND lastname = '" + lastname + "'";
-            rs = DBUtil.dbExecuteQuery(query);
+            rs = SQLiteUtil.dbExecuteQuery(query);
             return rs.next();
         }
         catch (RuntimeException e)
@@ -103,9 +103,9 @@ public class User
         String query = "";
         try
         {
-            query = "SELECT name, lastname, password, role FROM mydb.user WHERE `name` = '" +
+            query = "SELECT name, lastname, password, role FROM user WHERE `name` = '" +
                     name + "' AND lastname = '" + lastname + "'";
-            rs = DBUtil.dbExecuteQuery(query);
+            rs = SQLiteUtil.dbExecuteQuery(query);
             if(rs.next())
             {
                 tempUser = new User(rs.getString("name"), rs.getString("lastname"),
@@ -128,7 +128,7 @@ public class User
     {
         try
         {
-            DBUtil.dbExecuteUpdate("DELETE FROM mydb.user WHERE name = '" + name + "' AND lastname = '" +
+            SQLiteUtil.dbExecuteUpdate("DELETE FROM user WHERE name = '" + name + "' AND lastname = '" +
                                    lastname + "' AND password = '" + password + "'");
         }
         catch (RuntimeException e)
@@ -144,9 +144,9 @@ public class User
         String query = "";
         try
         {
-            query = "SELECT name, lastname, password, role FROM mydb.user WHERE `name` = '" +
+            query = "SELECT name, lastname, password, role FROM user WHERE `name` = '" +
                     name + "' AND lastname = '" + lastname + "' AND `password` ='" + password + "'";
-            rs = DBUtil.dbExecuteQuery(query);
+            rs = SQLiteUtil.dbExecuteQuery(query);
             if(rs.next())
             {
                 tempUser = new User(rs.getString("name"), rs.getString("lastname"),

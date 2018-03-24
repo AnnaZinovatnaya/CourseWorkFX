@@ -2,8 +2,8 @@ package Models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import util.DBUtil;
 import util.ErrorMessage;
+import util.SQLiteUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,8 +51,8 @@ public class MeltBrand
 
         try
         {
-            query = "SELECT name FROM mydb.meltbrand";
-            rs = DBUtil.dbExecuteQuery(query);
+            query = "SELECT name FROM meltbrand";
+            rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = rs.getString("name");
@@ -81,16 +81,16 @@ public class MeltBrand
 
         try
         {
-            query = "SELECT idMeltBrand, name FROM mydb.meltbrand  WHERE name = '" + name + "'";
-            rs = DBUtil.dbExecuteQuery(query);
+            query = "SELECT idMeltBrand, name FROM meltbrand  WHERE name = '" + name + "'";
+            rs = SQLiteUtil.dbExecuteQuery(query);
             if (rs.next())
             {
                 temp.setName(rs.getString("name"));
                 idMeltBrand = rs.getInt("idMeltBrand");
             }
 
-            query = "SELECT name, minProcent, maxProcent FROM mydb.element E JOIN mydb.elementinbrand EB ON E.idElement = EB.Element_idElement WHERE EB.MeltBrand_idMeltBrand = " + idMeltBrand;
-            rs2 = DBUtil.dbExecuteQuery(query);
+            query = "SELECT name, minProcent, maxProcent FROM element E JOIN elementinbrand EB ON E.idElement = EB.Element_idElement WHERE EB.MeltBrand_idMeltBrand = " + idMeltBrand;
+            rs2 = SQLiteUtil.dbExecuteQuery(query);
             while (rs2.next())
             {
                 temp.elements.add(new Element(rs2.getString("name"), rs2.getDouble("minProcent"), rs2.getDouble("maxProcent"), 0, 0));

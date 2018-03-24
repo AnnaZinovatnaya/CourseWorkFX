@@ -15,7 +15,7 @@ public class Manager
     private static List<Charge>    charges;
     private static List<Melt>      melts;
     private static List<MeltBrand> meltBrands;
-    
+
     public static void newUser()
     {
         user = new User("", "", "", "");
