@@ -1,50 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<Pane fx:controller="Controllers.MeltController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Melt2Controller">
    <children>
-      <BorderPane layoutX="-1.0" prefHeight="400.0" prefWidth="600.0">
-         <top>
-            <Label text="Выберите массу сплава" BorderPane.alignment="CENTER">
-               <font>
-                  <Font size="20.0" />
-               </font>
-               <BorderPane.margin>
-                  <Insets top="7.0" />
-               </BorderPane.margin>
-            </Label>
-         </top>
-         <center>
-            <ListView fx:id="BransListView" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="7.0" left="13.0" right="13.0" top="13.0" />
-               </BorderPane.margin>
-            </ListView>
-         </center>
-         <bottom>
-            <Button fx:id="SelectBrandButton" mnemonicParsing="false" onAction="#selectBrandButtonClicked" text="Выбрать" BorderPane.alignment="CENTER_RIGHT">
-               <font>
-                  <Font size="20.0" />
-               </font>
-               <BorderPane.margin>
-                  <Insets bottom="7.0" right="13.0" top="7.0" />
-               </BorderPane.margin>
-            </Button>
-            <Button fx:id="BackButton" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад" BorderPane.alignment="CENTER_LEFT">
-               <font>
-                  <Font size="20.0" />
-               </font>
-               <BorderPane.margin>
-                  <Insets bottom="7.0" left="13.0" top="7.0" />
-               </BorderPane.margin>
-            </Button>
-         </bottom>
-      </BorderPane>
+      <Label alignment="TOP_CENTER" text="Выберите шихту" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="selectBrandButton" mnemonicParsing="false" onAction="#selectButtonClicked" text="Выбрать" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="7.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="backButton" layoutX="14.0" layoutY="349.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <ListView fx:id="chargesListView" style="-fx-font: NORMAL 18 System;" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
    </children>
-</Pane>
+</AnchorPane>

@@ -410,4 +410,9 @@ public class Manager
         melts = null;
         meltBrands = null;
     }
+
+    public static ObservableList<Charge> getCharges(String meltBrand)
+    {
+        return Charge.getCharges(meltBrand);
+    }
 }

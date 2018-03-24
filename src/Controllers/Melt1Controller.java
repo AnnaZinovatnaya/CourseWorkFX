@@ -16,15 +16,17 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import util.ErrorMessage;
 
-public class MeltController {
+public class Melt1Controller {
     @FXML private ListView<String> brandListView = new ListView<>();
     private ObservableList<String> brands;
     private String                 chosenBrand;
     private Alert                  alert = new Alert(Alert.AlertType.ERROR);
     private Stage                  primaryStage;
+    private UserController         userController;
 
-    public void init(Stage primaryStage){
+    public void init(Stage primaryStage, UserController userController){
         this.primaryStage = primaryStage;
+        this.userController = userController;
         try
         {
             this.brands = Manager.getAllBrands();
@@ -67,6 +69,8 @@ public class MeltController {
                         getClass().getResource("/Views/MakeMelt2Scene.fxml")
                 );
                 Parent root = loader.load();
+                Melt2Controller melt2Controller = loader.getController();
+                melt2Controller.init(this.primaryStage, this, chosenBrand);
                 primaryStage.setScene(new Scene(root));
             }
             catch (Exception ex)
@@ -88,8 +92,13 @@ public class MeltController {
         }
     }
 
-    @FXML public void backButtonClicked()
+    public void backToScene()
     {
         this.primaryStage.setScene(this.brandListView.getScene());
+    }
+
+    @FXML public void logoutButtonClicked()
+    {
+        this.userController.backToScene();
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Charge
 {
-
+    private int                id;
     private User               user;
     private double             mass;
     private double             deltaMass;
@@ -25,6 +25,7 @@ public class Charge
 
     public Charge(User user, double mass, double deltaMass, Date dateCharge, MeltBrand meltBrand, List<CompInCharge> mandatoryComponents, List<CompInCharge> optionalComponents, List<Element> elements)
     {
+        this.id = 0;
         this.user = user;
         this.mass = mass;
         this.deltaMass = deltaMass;
@@ -39,7 +40,33 @@ public class Charge
         {
             this.optionalComponents.add(new CompInCharge(aComponent, 0, 0, 0));
         }
+    }
 
+    public Charge(int id, User user, double mass, double deltaMass, Date dateCharge, MeltBrand meltBrand, List<CompInCharge> mandatoryComponents, List<CompInCharge> optionalComponents, List<Element> elements)
+    {
+        this.id = id;
+        this.user = user;
+        this.mass = mass;
+        this.deltaMass = deltaMass;
+        this.dateCharge = dateCharge;
+        this.meltBrand = meltBrand;
+        this.mandatoryComponents = mandatoryComponents;
+        this.optionalComponents = optionalComponents;
+        this.elements = elements;
+
+        this.optionalComponents = new ArrayList<>();
+        for(Component aComponent: Component.getAllOptionalComponents())
+        {
+            this.optionalComponents.add(new CompInCharge(aComponent, 0, 0, 0));
+        }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public User getUser()
@@ -779,9 +806,10 @@ public class Charge
 
             SQLiteUtil.dbExecuteUpdate("INSERT INTO charge (mass, deltaMass, dateCharge, User_idUser, MeltBrand_idMeltBrand)\n" +
                                    "VALUES ('"+mass+"', '"+deltaMass+"', '"+sqlDate+"', '"+idUser+"', '"+idMeltBrand+"');");
-            rs = SQLiteUtil.dbExecuteQuery("SELECT * FROM charge WHERE dateCharge='"+sqlDate+"'");
-            rs.next();
-            idCharge = rs.getInt("idCharge");
+            //rs = SQLiteUtil.dbExecuteQuery("SELECT * FROM charge WHERE dateCharge='"+sqlDate+"'");
+            //rs.next();
+            idCharge = Manager.getMaxChargeIndex();
+            //idCharge = rs.getInt("idCharge");
             for(Element aElement: elements)
             {
                 if(aElement.getName().equals("C"))
@@ -866,4 +894,54 @@ public class Charge
         return res;
     }
 
+
+    public static ObservableList<Charge> getCharges(String meltBrand)
+    {
+        ObservableList<Charge> resCharges = FXCollections.observableArrayList();;
+
+        int idMeltBrand;
+        String query = "";
+        try
+        {
+            query = "SELECT * FROM meltbrand WHERE `name`='" + meltBrand + "';";
+            ResultSet rs = SQLiteUtil.dbExecuteQuery(query);
+            rs.next();
+            idMeltBrand = rs.getInt("idMeltBrand");
+
+            query = "SELECT * FROM charge WHERE `MeltBrand_idMeltBrand`='" + idMeltBrand + "';";
+            rs = SQLiteUtil.dbExecuteQuery(query);
+            while (rs.next())
+            {
+                Charge tempCharge = new Charge(rs.getInt("idCharge"), null, rs.getDouble("mass"), rs.getDouble("deltaMass"), null, new MeltBrand(meltBrand, null), null, null, new ArrayList<>());
+
+                query = "SELECT * FROM elementincharge WHERE `Charge_idCharge`='" + rs.getInt("idCharge") + "';";
+                ResultSet rs2 = SQLiteUtil.dbExecuteQuery(query);
+
+                while (rs2.next())
+                {
+                    query = "SELECT * FROM element WHERE `idElement`='" + rs2.getInt("Element_idElement") + "';";
+                    ResultSet rs3 = SQLiteUtil.dbExecuteQuery(query);
+
+                    if(rs3.next())
+                    {
+                        tempCharge.getElements().add(new Element(rs3.getString("name"), rs2.getDouble("minProcent"), rs2.getDouble("maxProcent"), 0, 0));
+                    }
+                }
+
+                resCharges.add(tempCharge);
+            }
+
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+        }
+
+
+        return resCharges;
+    }
 }

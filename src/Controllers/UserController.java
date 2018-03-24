@@ -121,8 +121,8 @@ public class UserController
                                 getClass().getResource("/Views/MakeMelt1Scene.fxml")
                             );
                             Parent root = loader.load();
-                            MeltController meltController = loader.getController();
-                            meltController.init(primaryStage);
+                            Melt1Controller melt1Controller = loader.getController();
+                            melt1Controller.init(primaryStage, this);
                             primaryStage.setScene(new Scene(root));
                         }
                         else if (Manager.getRole().equals("руководитель"))
