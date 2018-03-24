@@ -113,8 +113,8 @@ public class DbStructure {
                 "  idElementInBrand INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                 "  minProcent REAL NOT NULL,\n" +
                 "  maxProcent REAL NOT NULL,\n" +
-                "  Element_idElement INTEGER NOT NULL REFERENCES element(idElement) ON DELETE CASCADE ON UPDATE CASCADE,\n" +
-                "  MeltBrand_idMeltBrand INTEGER NOT NULL REFERENCES meltbrand(idMeltBrand) ON DELETE CASCADE ON UPDATE CASCADE" +
+                "  MeltBrand_idMeltBrand INTEGER NOT NULL REFERENCES meltbrand(idMeltBrand) ON DELETE CASCADE ON UPDATE CASCADE," +
+                "  Element_idElement INTEGER NOT NULL REFERENCES element(idElement) ON DELETE CASCADE ON UPDATE CASCADE\n" +
                 ");\n");
         dbStructure.add("INSERT INTO elementinbrand VALUES (1,3.6,3.8,1,1),(3,0,0.05,1,3),(4,1.5,1.7,1,2);");
 
@@ -125,8 +125,8 @@ public class DbStructure {
                 "  mass REAL NOT NULL,\n" +
                 "  deltaMass REAL NOT NULL,\n" +
                 "  dateCharge VARCHAR(10) NOT NULL,\n" +
-                "  MeltBrand_idMeltBrand INTEGER NOT NULL REFERENCES meltbrand(idMeltBrand) ON DELETE CASCADE ON UPDATE CASCADE,\n" +
-                "  User_idUser INTEGER NOT NULL REFERENCES user(idUser) ON DELETE CASCADE ON UPDATE CASCADE" +
+                "  User_idUser INTEGER NOT NULL REFERENCES user(idUser) ON DELETE CASCADE ON UPDATE CASCADE," +
+                "  MeltBrand_idMeltBrand INTEGER NOT NULL REFERENCES meltbrand(idMeltBrand) ON DELETE CASCADE ON UPDATE CASCADE\n" +
                 ");\n");
 
         dbStructure.add("DROP TABLE IF EXISTS melt;");

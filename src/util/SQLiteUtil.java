@@ -44,13 +44,10 @@ public class SQLiteUtil {
 
             stmt.close();
         } catch ( Exception e ) {
-            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY);
+            throw new RuntimeException(ErrorMessage.CANNOT_CREATE_DB);
         }
     }
 
-
-
-    //TODO make private
     private static void dbConnect() throws RuntimeException
     {
         boolean isConfigurationOK;
@@ -87,6 +84,10 @@ public class SQLiteUtil {
                 {
                     createStructure();
                 }
+            }
+            catch (RuntimeException e)
+            {
+                throw e;
             }
             catch (Exception e)
             {

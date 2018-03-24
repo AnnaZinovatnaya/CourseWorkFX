@@ -5,6 +5,7 @@ public class ErrorMessage
     public static final String BAD_CONF_FILE            = "Некорректный файл конфигурации (configuration.txt)!";
     public static final String CANNOT_CLOSE_CONNECTION  = "Невозможно закрыть базу данных!";
     public static final String CANNOT_CONNECT_TO_DB     = "Невозможно подключиться к базе данных!";
+    public static final String CANNOT_CREATE_DB         = "Невозможно создать базу данных!";
     public static final String CANNOT_EXECUTE_QUERY     = "Невозможно выполнить запрос: ";
     public static final String CANNOT_LOAD_SCENE        = "Невозможно открыть окно!";
     public static final String CANNOT_READ_FILE         = "Невозможно прочитать configuration.txt!";
