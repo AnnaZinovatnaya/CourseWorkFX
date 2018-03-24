@@ -43,9 +43,8 @@ public class SQLiteUtil {
             }
 
             stmt.close();
-            System.out.println("Created db successfully!");;
         } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY);
         }
     }
 
