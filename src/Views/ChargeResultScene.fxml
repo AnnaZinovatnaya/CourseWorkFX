@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.layout.*?>
-
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ChargeResultController">
    <children>
@@ -41,21 +41,21 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="numberField" editable="false" GridPane.rowIndex="1">
+                  <Label fx:id="numberLabel" text="Шихта №" GridPane.rowIndex="1">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
-                  </TextField>
-                  <TextField fx:id="meltField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  </Label>
+                  <Label fx:id="meltLabel" text="Шихта №" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
-                  </TextField>
-                  <TextField fx:id="amountField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  </Label>
+                  <Label fx:id="amountLabel" text="Шихта №" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
-                  </TextField>
+                  </Label>
                </children>
                <opaqueInsets>
                   <Insets />
@@ -71,8 +71,8 @@
             </Label>
             <TableView fx:id="componentsTable" prefHeight="136.0" prefWidth="580.0" VBox.vgrow="ALWAYS">
               <columns>
-                <TableColumn fx:id="nameColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="290.0" prefWidth="-1.0" text="Название" style="-fx-font: NORMAL 18 System;"/>
-                <TableColumn fx:id="amountColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="290.0" prefWidth="-1.0" text="Количество, кг" style="-fx-font: NORMAL 18 System;" />
+                <TableColumn fx:id="nameColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="290.0" prefWidth="-1.0" style="-fx-font: NORMAL 18 System;" text="Название" />
+                <TableColumn fx:id="amountColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="290.0" prefWidth="-1.0" style="-fx-font: NORMAL 18 System;" text="Количество, кг" />
               </columns>
             </TableView>
             <GridPane>

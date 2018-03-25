@@ -17,7 +17,7 @@ public class MeltForView
     private double mass;
     private Date date;
     private String lastname;
-    private static SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     public MeltForView(String brand, double mass, Date date, String lastname)
     {
@@ -74,7 +74,7 @@ public class MeltForView
         String query = "";
         try
         {
-            query = "SELECT MB.name, mass, `date`, U.lastname " +
+            query = "SELECT MB.name, mass, date, U.lastname " +
                     "FROM melt M join charge C on M.Charge_idCharge=C.idCharge " +
                     "JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand " +
                     "JOIN user U ON U.idUser = M.User_idUser " +

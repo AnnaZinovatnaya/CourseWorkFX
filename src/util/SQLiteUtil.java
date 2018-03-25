@@ -2,7 +2,6 @@ package util;
 import com.sun.rowset.CachedRowSetImpl;
 
 import java.io.*;
-import java.net.URISyntaxException;
 import java.sql.*;
 
 public class SQLiteUtil {

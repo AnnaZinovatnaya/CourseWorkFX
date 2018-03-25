@@ -25,12 +25,12 @@
          <children>
             <GridPane alignment="CENTER" prefHeight="303.0" prefWidth="600.0" vgap="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
                <children>
-                  <Button fx:id="addMeltButton" layoutX="234.0" layoutY="91.0" mnemonicParsing="false" onAction="#addMeltButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Добавление плавки">
+                  <Button fx:id="addMeltButton" layoutX="234.0" layoutY="91.0" mnemonicParsing="false" onAction="#addMeltButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Расчет шихты">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button layoutX="234.0" layoutY="145.0" mnemonicParsing="false" onAction="#showMeltsButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Просмотр плавок" GridPane.rowIndex="1">
+                  <Button layoutX="234.0" layoutY="145.0" mnemonicParsing="false" onAction="#showMeltsButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Просмотр шихт" GridPane.rowIndex="1">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -40,7 +40,7 @@
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button layoutX="231.0" layoutY="272.0" mnemonicParsing="false" onAction="#addComponentButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Новый конпонент" GridPane.rowIndex="3">
+                  <Button layoutX="231.0" layoutY="272.0" mnemonicParsing="false" onAction="#addComponentButtonClicked" prefHeight="70.0" prefWidth="320.0" text="Добавить компонент" GridPane.rowIndex="3">
                      <font>
                         <Font size="24.0" />
                      </font>

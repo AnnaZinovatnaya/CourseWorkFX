@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import util.ErrorMessage;
 
 public class ChargeResultController
 {
@@ -17,9 +16,9 @@ public class ChargeResultController
     @FXML private TableColumn<CompInCharge, String> nameColumn = new TableColumn<>();
     @FXML private TableColumn<CompInCharge, String> amountColumn = new TableColumn<>();
     @FXML private TableView<CompInCharge>           componentsTable = new TableView<>();
-    @FXML private TextField                         amountField;
-    @FXML private TextField                         meltField;
-    @FXML private TextField                         numberField;
+    @FXML private Label                             amountLabel;
+    @FXML private Label                             meltLabel;
+    @FXML private Label                             numberLabel;
 
     private Stage                                   primaryStage;
     private ObservableList<CompInCharge>            components;
@@ -27,9 +26,9 @@ public class ChargeResultController
     public void init()
     {
         this.primaryStage = this.addCharge4Controller.getPrimaryStage();
-        this.numberField.setText(String.valueOf(Manager.getMaxChargeIndex() + 1));
-        this.amountField.setText(Manager.getChargeMass());
-        this.meltField.setText(Manager.getChargeMeltBrand());
+        this.numberLabel.setText(String.valueOf(Manager.getMaxChargeIndex() + 1));
+        this.amountLabel.setText(Manager.getChargeMass());
+        this.meltLabel.setText(Manager.getChargeMeltBrand());
         components = Manager.getChargeResultComps();
 
         this.componentsTable.setEditable(true);

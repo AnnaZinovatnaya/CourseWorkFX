@@ -48,17 +48,12 @@ public class ReportController
         brandColumn.setCellValueFactory(new PropertyValueFactory<MeltForView, String>("brand"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<MeltForView, String>("mass"));
         dateColumn.setCellValueFactory(
-            new Callback<TableColumn.CellDataFeatures<MeltForView, String>, ObservableValue<String>>()
-        {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<MeltForView, String> meltForView)
-            {
-                SimpleStringProperty property = new SimpleStringProperty();
-                DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                property.setValue(dateFormat.format(meltForView.getValue().getDate()));
-                return property;
-            }
-        });
+                (Callback<TableColumn.CellDataFeatures<MeltForView, String>, ObservableValue<String>>) meltForView -> {
+                    SimpleStringProperty property = new SimpleStringProperty();
+                    DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+                    property.setValue(dateFormat.format(meltForView.getValue().getDate()));
+                    return property;
+                });
         lastnameColumn.setCellValueFactory(new PropertyValueFactory<MeltForView, String>("lastname"));
         reportTable.setPlaceholder(new Label(ErrorMessage.NO_MELTS_FOUND));
         reportTable.getColumns().clear();

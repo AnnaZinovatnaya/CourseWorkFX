@@ -58,10 +58,10 @@ public class AddComponentController
     {
         Manager.newComponent();
 
-        if(nameField.getText().isEmpty()  || brandField.getText().isEmpty()  ||
-           adoptField.getText().isEmpty() || amountField.getText().isEmpty() ||
-           priceField.getText().isEmpty() || !mandatoryButton.isSelected()   &&
-           !optionalButton.isSelected())
+        if(this.nameField.getText().isEmpty()  || this.brandField.getText().isEmpty()  ||
+           this.adoptField.getText().isEmpty() || this.amountField.getText().isEmpty() ||
+           this.priceField.getText().isEmpty() || !this.mandatoryButton.isSelected()   &&
+           !this.optionalButton.isSelected())
         {
             alert.setContentText(ErrorMessage.EMPTY_FIELDS);
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)

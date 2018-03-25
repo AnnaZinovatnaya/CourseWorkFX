@@ -25,7 +25,7 @@
          <children>
             <GridPane alignment="CENTER" vgap="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
                <children>
-                  <Button fx:id="DirShowComponentsButton" layoutX="219.0" layoutY="149.0" mnemonicParsing="false" onAction="#showComponentsButtonClicked" prefHeight="85.0" prefWidth="370.0" text="Просмотреть компоненты" GridPane.rowIndex="1">
+                  <Button fx:id="DirShowComponentsButton" layoutX="219.0" layoutY="149.0" mnemonicParsing="false" onAction="#showComponentsButtonClicked" prefHeight="85.0" prefWidth="370.0" text="Просмотр компонентов" GridPane.rowIndex="1">
                      <font>
                         <Font size="24.0" />
                      </font>
