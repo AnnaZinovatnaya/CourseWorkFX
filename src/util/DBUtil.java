@@ -19,7 +19,7 @@ public class DBUtil
 
     private static void dbConnect() throws RuntimeException
     {
-        boolean isConfigurationOK;
+        boolean isConfigurationOK = false;
         try
         {
             FileReader fileReader = new FileReader("C:\\Users\\Анюта\\IdeaProjects\\CourseWorkFX\\src\\configuration.txt");
@@ -35,11 +35,11 @@ public class DBUtil
         }
         catch (FileNotFoundException e)
         {
-            throw new RuntimeException(ErrorMessage.FILE_NOT_FOUND);
+            //throw new RuntimeException(ErrorMessage.FILE_NOT_FOUND);
         }
         catch (IOException e)
         {
-            throw new RuntimeException(ErrorMessage.CANNOT_READ_FILE);
+            //throw new RuntimeException(ErrorMessage.CANNOT_READ_FILE);
         }
 
         if (isConfigurationOK)
@@ -56,7 +56,7 @@ public class DBUtil
         }
         else
         {
-            throw new RuntimeException(ErrorMessage.BAD_CONF_FILE);
+            //throw new RuntimeException(ErrorMessage.BAD_CONF_FILE);
         }
     }
 

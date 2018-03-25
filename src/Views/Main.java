@@ -25,7 +25,7 @@ public class Main extends Application
 
         primaryStage.setTitle("Вход в систему");
         primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(true);
+        primaryStage.setResizable(false);
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
 
         primaryStage.show();

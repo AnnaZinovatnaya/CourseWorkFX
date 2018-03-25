@@ -25,6 +25,7 @@ public class ReportController
     @FXML private TableColumn           brandColumn = new TableColumn<>();
     @FXML private TableColumn           amountColumn = new TableColumn<>();
     @FXML private TableColumn           dateColumn = new TableColumn<>();
+    @FXML private TableColumn           lastnameColumn = new TableColumn<>();
     private ObservableList<MeltForView> melts;
     private Alert                       alert = new Alert(Alert.AlertType.ERROR);
 
@@ -58,9 +59,10 @@ public class ReportController
                 return property;
             }
         });
+        lastnameColumn.setCellValueFactory(new PropertyValueFactory<MeltForView, String>("lastname"));
         reportTable.setPlaceholder(new Label(ErrorMessage.NO_MELTS_FOUND));
         reportTable.getColumns().clear();
-        reportTable.getColumns().addAll(brandColumn, amountColumn, dateColumn);
+        reportTable.getColumns().addAll(brandColumn, amountColumn, dateColumn, lastnameColumn);
 
         if(firstDate.getValue()==null&& secondDate.getValue()==null)
         {

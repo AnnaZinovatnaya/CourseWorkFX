@@ -164,5 +164,15 @@ public class User
         return tempUser;
     }
 
-
+    public boolean isDefaultAdmin()
+    {
+        if (name.equals("Администратор") && lastname.equals("Администратор") && role.equals("администратор"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
@@ -18,7 +19,7 @@ public class UserController
 {
     private Alert                   alert = new Alert(Alert.AlertType.ERROR);
 
-    @FXML private Pane              primaryPane;
+    @FXML private AnchorPane        primaryPane;
     private Stage                   primaryStage;
 
     @FXML private TextField         loginNameField;
@@ -102,7 +103,6 @@ public class UserController
                             menuController.init(primaryStage, "Меню - Администратор", this);
                             this.primaryStage.setTitle("Меню - Администратор");
                             primaryStage.setScene(new Scene(root));
-
                         }
                         else if (Manager.getRole().equals("металлург"))
                         {
@@ -123,6 +123,7 @@ public class UserController
                             Parent root = loader.load();
                             Melt1Controller melt1Controller = loader.getController();
                             melt1Controller.init(primaryStage, this);
+                            this.primaryStage.setTitle("Выполнение плавки");
                             primaryStage.setScene(new Scene(root));
                         }
                         else if (Manager.getRole().equals("руководитель"))
@@ -249,28 +250,34 @@ public class UserController
     {
         if(Manager.canDelete())
         {
-            try
-            {
-                Stage stage = new Stage();
-                stage.setTitle("Удаление пользователя");
-                FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/Views/DeleteUserScene.fxml")
-                );
+            if (!Manager.isDefaultAdmin()) {
+                try {
+                    Stage stage = new Stage();
+                    stage.setTitle("Удаление пользователя");
+                    FXMLLoader loader = new FXMLLoader(
+                            getClass().getResource("/Views/DeleteUserScene.fxml")
+                    );
 
-                Parent root = loader.load();
-                DeleteUserController deleteUserController = loader.getController();
-                deleteUserController.setUserController(this);
-                stage.setScene(new Scene(root));
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.initOwner(this.searchLastnameField.getScene().getWindow());
-                stage.showAndWait();
+                    Parent root = loader.load();
+                    DeleteUserController deleteUserController = loader.getController();
+                    deleteUserController.setUserController(this);
+                    stage.setScene(new Scene(root));
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.initOwner(this.searchLastnameField.getScene().getWindow());
+                    stage.showAndWait();
+                } catch (Exception ex) {
+                    alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
+                    alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                            .forEach(node -> ((Label) node).setFont(Font.font(16)));
+                    alert.showAndWait();
+                }
             }
-            catch (Exception ex)
+            else
             {
-                alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                    alert.setContentText(ErrorMessage.CANNOT_DELETE_ADMIN);
+                    alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                            .forEach(node -> ((Label) node).setFont(Font.font(16)));
+                    alert.showAndWait();
             }
         }
         else

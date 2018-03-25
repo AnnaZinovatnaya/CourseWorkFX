@@ -2,18 +2,17 @@ package util;
 
 public class ErrorMessage
 {
-    public static final String BAD_CONF_FILE            = "Некорректный файл конфигурации (configuration.txt)!";
     public static final String CANNOT_CLOSE_CONNECTION  = "Невозможно закрыть базу данных!";
     public static final String CANNOT_CONNECT_TO_DB     = "Невозможно подключиться к базе данных!";
     public static final String CANNOT_CREATE_DB         = "Невозможно создать базу данных!";
+    public static final String CANNOT_DELETE_ADMIN      = "Нельзя удалять администратора!";
     public static final String CANNOT_EXECUTE_QUERY     = "Невозможно выполнить запрос: ";
     public static final String CANNOT_LOAD_SCENE        = "Невозможно открыть окно!";
-    public static final String CANNOT_READ_FILE         = "Невозможно прочитать configuration.txt!";
+    public static final String CANNOT_PARSE_DATE        = "Невозможно прочитать дату плавки!";
     public static final String COMPONENT_ALREADY_EXISTS = "Компонент с таким названием уже есть!";
     public static final String EMPTY_COMPONENT_CHOICE   = "Ни один компонент не выбран!";
     public static final String EMPTY_FIELDS             = "Все поля должны быть заполнены!";
     public static final String EMPTY_USER_CHOICE        = "Выберите пользователя для удаления!";
-    public static final String FILE_NOT_FOUND           = "Файл configuration.txt не найден!";
     public static final String INCORRECT_ADAPT          = "Усвоение задано некорректно!";
     public static final String INCORRECT_AMOUNT         = "Количество на складе задано некорректно!";
     public static final String INCORRECT_DATES          = "Даты заданы некорректно!";

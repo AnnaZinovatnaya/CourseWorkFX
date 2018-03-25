@@ -1,4 +1,0 @@
-username = "root"
-password = "MySQLPassword"
-url = "jdbc:mysql://localhost:3306/mydb"
-sqliteurl = "//D://Charge 2.0//charge2.0.db"

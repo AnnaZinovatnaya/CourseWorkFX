@@ -1,15 +1,13 @@
 package util;
 import com.sun.rowset.CachedRowSetImpl;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.URISyntaxException;
 import java.sql.*;
 
 public class SQLiteUtil {
 
     private static Connection conn = null;
-    private static String  DB_URL;
     static Statement stmt = null;
 
     private static boolean structureCreated() {
@@ -50,54 +48,32 @@ public class SQLiteUtil {
 
     private static void dbConnect() throws RuntimeException
     {
-        boolean isConfigurationOK;
         try
         {
-            FileReader fileReader = new FileReader("D:\\Charge 2.0\\CourseWorkFX\\src\\configuration.txt");
-            StringBuilder str = new StringBuilder();
-            int c;
-            while ((c = fileReader.read()) != -1)
-            {
-                str.append((char) c);
-            }
+            String url = "jdbc:sqlite://";
+            url += new File(".").getAbsoluteFile();
+            url = url.replace("\\", "//");
+            url = url.substring(0, url.length() - 1);
+            url += "charge2.0.db";
 
-            isConfigurationOK = parseData(str.toString());
+            Class.forName("org.sqlite.JDBC");
 
-        }
-        catch (FileNotFoundException e)
-        {
-            throw new RuntimeException(ErrorMessage.FILE_NOT_FOUND);
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(ErrorMessage.CANNOT_READ_FILE);
-        }
+            conn = DriverManager.getConnection(url);
 
-        if (isConfigurationOK)
-        {
-            try
+            if (!structureCreated())
             {
-                Class.forName("org.sqlite.JDBC");
-                conn = DriverManager.getConnection("jdbc:sqlite:" + DB_URL);
-
-                if (!structureCreated())
-                {
-                    createStructure();
-                }
-            }
-            catch (RuntimeException e)
-            {
-                throw e;
-            }
-            catch (Exception e)
-            {
-                throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
+                createStructure();
             }
         }
-        else
+        catch (RuntimeException e)
         {
-            throw new RuntimeException(ErrorMessage.BAD_CONF_FILE);
+            throw e;
         }
+        catch (Exception e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
+        }
+
     }
 
     private static void dbDisconnect() throws RuntimeException
@@ -228,22 +204,5 @@ public class SQLiteUtil {
                 throw e;
             }
         }
-    }
-
-    private static boolean parseData(String string)
-    {
-        String strings[] = string.split("\n");
-
-        if (!(strings[0].split("\""))[0].contains("username") ||
-            !(strings[1].split("\""))[0].contains("password") ||
-            !(strings[2].split("\""))[0].contains("url")      ||
-            !(strings[3].split("\""))[0].contains("sqliteurl"))
-        {
-            return false;
-        }
-
-        DB_URL   = (strings[3].split("\""))[1];
-
-        return true;
     }
 }

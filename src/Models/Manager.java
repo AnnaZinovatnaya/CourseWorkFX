@@ -13,7 +13,7 @@ public class Manager
     private static List<Component> components;
     private static Charge          charge;
     private static List<Charge>    charges;
-    private static List<Melt>      melts;
+    private static Melt            melt;
     private static List<MeltBrand> meltBrands;
 
     public static void newUser()
@@ -400,6 +400,22 @@ public class Manager
         return res;
     }
 
+    public static int getMaxMeltIndex() throws RuntimeException
+    {
+        int res = 0;
+
+        try
+        {
+            res = Melt.getMaxIndexFromDB();
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+
+        return res;
+    }
+
     public static void logout()
     {
         currentUser = null;
@@ -407,12 +423,32 @@ public class Manager
         components = null;
         charge = null;
         charges = null;
-        melts = null;
+        melt = null;
         meltBrands = null;
     }
 
     public static ObservableList<Charge> getCharges(String meltBrand)
     {
         return Charge.getCharges(meltBrand);
+    }
+
+    public static boolean isDefaultAdmin()
+    {
+        return user.isDefaultAdmin();
+    }
+
+    public static void newMelt()
+    {
+        melt = new Melt(currentUser, null, null);
+    }
+    public static void setMeltCharge(Charge charge)
+    {
+        melt.setCharge(charge);
+    }
+
+    public static void saveMelt()
+    {
+        melt.setDate(new Date());
+        melt.saveToDB();
     }
 }

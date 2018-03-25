@@ -1,5 +1,10 @@
 package Models;
 
+import util.ErrorMessage;
+import util.SQLiteUtil;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 
@@ -44,5 +49,54 @@ public class Melt
     public void setDate(Date date)
     {
         this.date = date;
+    }
+
+    public static int getMaxIndexFromDB() throws RuntimeException
+    {
+        int res = 0;
+        try
+        {
+            ResultSet rs = SQLiteUtil.dbExecuteQuery("SELECT max(idMelt) FROM melt;");
+            rs.next();
+            res = rs.getInt("max(idMelt)");
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + "SELECT max(idMelt) FROM melt;");
+        }
+
+        return res;
+    }
+
+
+
+
+    public void saveToDB() throws RuntimeException
+    {
+        int idUser;
+        try
+        {
+            ResultSet rs = SQLiteUtil.dbExecuteQuery("SELECT * FROM user WHERE `name`='" + user.getName()+"' AND lastname = '" + user.getLastname() + "';");
+            rs.next();
+            idUser = rs.getInt("idUser");
+
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
+            SQLiteUtil.dbExecuteUpdate("INSERT INTO melt (date, Charge_idCharge, User_idUser)\n" +
+                    "VALUES ('" + sqlDate+"', '" + this.charge.getId() + "', '" + idUser+"');");
+
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY);
+        }
     }
 }

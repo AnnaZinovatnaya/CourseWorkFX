@@ -20,8 +20,6 @@ public class ChargeResultController
     @FXML private TextField                         amountField;
     @FXML private TextField                         meltField;
     @FXML private TextField                         numberField;
-    @FXML private Button                            backButton;
-    @FXML private Button                            doneButton;
 
     private Stage                                   primaryStage;
     private ObservableList<CompInCharge>            components;
@@ -63,9 +61,8 @@ public class ChargeResultController
             alert.setHeaderText("Сохранение");
             alert.setContentText("Шихта успешно сохранена!");
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
+                    .forEach(node -> ((Label) node).setFont(Font.font(16)));
             alert.showAndWait();
-
         }
         catch (RuntimeException e)
         {

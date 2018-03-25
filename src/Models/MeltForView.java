@@ -7,19 +7,24 @@ import util.SQLiteUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MeltForView
 {
     private String brand;
     private double mass;
-    private Date   date;
+    private Date date;
+    private String lastname;
+    private static SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
 
-    public MeltForView(String brand, double mass, Date date)
+    public MeltForView(String brand, double mass, Date date, String lastname)
     {
         this.brand = brand;
         this.mass = mass;
         this.date = date;
+        this.lastname = lastname;
     }
 
     public String getBrand()
@@ -52,6 +57,14 @@ public class MeltForView
         this.date = date;
     }
 
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
     public static ObservableList<MeltForView> getMeltsFromTill(Date firstDate, Date secondDate)  throws RuntimeException
     {
         ObservableList<MeltForView> list = FXCollections.observableArrayList ();
@@ -61,14 +74,22 @@ public class MeltForView
         String query = "";
         try
         {
-            query = "SELECT `name`, mass, `date` FROM melt M join charge C on M.Charge_idCharge=C.idCharge JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"' AND `date` <= '"+new java.sql.Date(secondDate.getTime())+"'";
+            query = "SELECT MB.name, mass, `date`, U.lastname " +
+                    "FROM melt M join charge C on M.Charge_idCharge=C.idCharge " +
+                    "JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand " +
+                    "JOIN user U ON U.idUser = M.User_idUser " +
+                    "WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"' AND `date` <= '"+new java.sql.Date(secondDate.getTime())+"'";
             rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
-                temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
+                temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), format.parse(rs.getString("date")), rs.getString("lastname"));
                 list.add(temp);
             }
 
+        }
+        catch (ParseException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_PARSE_DATE);
         }
         catch (RuntimeException ex)
         {
@@ -92,14 +113,21 @@ public class MeltForView
 
         try
         {
-            query = "SELECT `name`, mass, `date` FROM melt M join charge C on M.Charge_idCharge=C.idCharge JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand";
+            query = "SELECT MB.name, mass, M.date, U.lastname " +
+                    "FROM melt M join charge C on M.Charge_idCharge=C.idCharge " +
+                    "JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand " +
+                    "JOIN user U ON U.idUser = M.User_idUser;";
             rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
-                temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
+                temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), format.parse(rs.getString("date")), rs.getString("lastname"));
                 list.add(temp);
             }
 
+        }
+        catch (ParseException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_PARSE_DATE);
         }
         catch (RuntimeException ex)
         {
@@ -123,14 +151,22 @@ public class MeltForView
 
         try
         {
-            query = "SELECT `name`, mass, `date` FROM melt M join charge C on M.Charge_idCharge=C.idCharge  JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"'";
+            query = "SELECT MB.name, mass, `date`, U.lastname " +
+                    "FROM melt M join charge C on M.Charge_idCharge=C.idCharge " +
+                    "JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand " +
+                    "JOIN user U ON U.idUser = M.User_idUser " +
+                    "WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"'";
             rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
-                temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
+                temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), format.parse(rs.getString("date")), rs.getString("lastname"));
                 list.add(temp);
             }
 
+        }
+        catch (ParseException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_PARSE_DATE);
         }
         catch (RuntimeException ex)
         {
@@ -154,13 +190,21 @@ public class MeltForView
 
         try
         {
-            query = "SELECT `name`, mass, `date` FROM melt M join charge C on M.Charge_idCharge=C.idCharge JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand  WHERE `date`<='"+new java.sql.Date(secondDate.getTime())+"'";
+            query = "SELECT MB.name, mass, `date`, U.lastname " +
+                    "FROM melt M join charge C on M.Charge_idCharge=C.idCharge " +
+                    "JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand " +
+                    "JOIN user U ON U.idUser = M.User_idUser " +
+                    "WHERE `date`<='"+new java.sql.Date(secondDate.getTime())+"'";
             rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
-                temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), rs.getDate("date"));
+                temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), format.parse(rs.getString("date")), rs.getString("lastname"));
                 list.add(temp);
             }
+        }
+        catch (ParseException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_PARSE_DATE);
         }
         catch (RuntimeException ex)
         {

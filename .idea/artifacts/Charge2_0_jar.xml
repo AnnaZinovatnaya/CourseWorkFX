@@ -1,9 +1,10 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="CourseWorkFX:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/CourseWorkFX_jar</output-path>
+  <artifact type="jar" build-on-make="true" name="Charge2.0:jar">
+    <output-path>$PROJECT_DIR$</output-path>
     <root id="archive" name="CourseWorkFX.jar">
       <element id="module-output" name="CourseWorkFX" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/mysql/mysql-connector-java/5.1.6/mysql-connector-java-5.1.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../sqlite-jdbc-3.21.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

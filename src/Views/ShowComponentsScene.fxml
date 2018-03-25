@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ShowComponentsController">
+<AnchorPane prefHeight="400.0" fx:controller="Controllers.ShowComponentsController" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TabPane fx:id="AdoptCColumnO" layoutY="36.0" prefHeight="305.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab fx:id="mandatoryTab" style="-fx-font: NORMAL 18 System; -fx-padding: 5px 10px 5px 10px; -fx-border-radius: 5px;-fx-focus-color: transparent;" text="Основные">
-               <content>
-                  <ListView fx:id="mandatoryView" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;"/>
-               </content>
-            </Tab>
-          <Tab fx:id="optionalTab" style="-fx-font: NORMAL 18 System; -fx-padding: 5px 10px 5px 10px; -fx-border-radius: 5px;-fx-focus-color: transparent;" text="Корректирующие">
-               <content>
-                  <ListView fx:id="optionalView" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;"/>
-               </content>
-            </Tab>
-        </tabs>
+      <TabPane fx:id="AdoptCColumnO" prefHeight="305.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
+         <tabs>
+            <Tab fx:id="mandatoryTab" style="-fx-font: NORMAL 18 System; -fx-padding: 5px 10px 5px 10px; -fx-border-radius: 5px;-fx-focus-color: transparent;" text="Основные">
+               <content>
+                  <ListView fx:id="mandatoryView" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;" />
+               </content>
+            </Tab>
+            <Tab fx:id="optionalTab" style="-fx-font: NORMAL 18 System; -fx-padding: 5px 10px 5px 10px; -fx-border-radius: 5px;-fx-focus-color: transparent;" text="Корректирующие">
+               <content>
+                  <ListView fx:id="optionalView" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;" />
+               </content>
+            </Tab>
+         </tabs>
       </TabPane>
-      <Label layoutX="242.0" layoutY="4.0" text="Компоненты">
+      <Label alignment="CENTER" text="Компоненты" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Button layoutX="6.0" layoutY="349.0" mnemonicParsing="false" onAction="#menuButtonClicked" text="Меню">
+      <Button mnemonicParsing="false" onAction="#menuButtonClicked" text="Меню" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="487.0" layoutY="349.0" mnemonicParsing="false" onAction="#selectButtonClicked" text="Выбрать">
+      <Button mnemonicParsing="false" onAction="#selectButtonClicked" text="Выбрать" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
    </children>
-</Pane>
+</AnchorPane>

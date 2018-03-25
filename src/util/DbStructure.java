@@ -1,5 +1,7 @@
 package util;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class DbStructure {
@@ -29,6 +31,7 @@ public class DbStructure {
         dbStructure.add("INSERT INTO user VALUES (1,'Металлург','Металлург','металлург','металлург');");
         dbStructure.add("INSERT INTO user VALUES (2,'Руководитель','Руководитель','руководитель','руководитель');");
         dbStructure.add("INSERT INTO user VALUES (3,'Администратор','Администратор','администратор','администратор');");
+        dbStructure.add("INSERT INTO user VALUES (4,'Плавильщик','Плавильщик','плавильщик','плавильщик');");
 
         dbStructure.add("DROP TABLE IF EXISTS component;");
         dbStructure.add("" +
@@ -105,7 +108,7 @@ public class DbStructure {
                 "CREATE TABLE meltbrand (\n" +
                 "  idMeltBrand INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                 "  name VARCHAR(45) NOT NULL);\n");
-        dbStructure.add("INSERT INTO meltbrand VALUES (1,'марка');");
+        dbStructure.add("INSERT INTO meltbrand VALUES (1,'Марка');");
 
         dbStructure.add("DROP TABLE IF EXISTS elementinbrand;");
         dbStructure.add("" +
@@ -124,7 +127,7 @@ public class DbStructure {
                 "  idCharge INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                 "  mass REAL NOT NULL,\n" +
                 "  deltaMass REAL NOT NULL,\n" +
-                "  dateCharge VARCHAR(10) NOT NULL,\n" +
+                "  dateCharge DATE NOT NULL,\n" +
                 "  User_idUser INTEGER NOT NULL REFERENCES user(idUser) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "  MeltBrand_idMeltBrand INTEGER NOT NULL REFERENCES meltbrand(idMeltBrand) ON DELETE CASCADE ON UPDATE CASCADE\n" +
                 ");\n");
@@ -133,7 +136,7 @@ public class DbStructure {
         dbStructure.add("" +
                 "CREATE TABLE melt (\n" +
                 "  idMelt INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                "  date VARCHAR(10) NOT NULL,\n" +
+                "  date DATE NOT NULL,\n" +
                 "  Charge_idCharge INTEGER NOT NULL REFERENCES charge(idCharge) ON DELETE CASCADE ON UPDATE CASCADE,\n" +
                 "  User_idUser INTEGER NOT NULL REFERENCES user(idUser) ON DELETE CASCADE ON UPDATE CASCADE" +
                 ");\n");

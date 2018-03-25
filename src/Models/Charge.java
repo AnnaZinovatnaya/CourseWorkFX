@@ -912,8 +912,9 @@ public class Charge
             rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
-                Charge tempCharge = new Charge(rs.getInt("idCharge"), null, rs.getDouble("mass"), rs.getDouble("deltaMass"), null, new MeltBrand(meltBrand, null), null, null, new ArrayList<>());
+                Charge tempCharge = new Charge(rs.getInt("idCharge"), null, rs.getDouble("mass"), rs.getDouble("deltaMass"), null, new MeltBrand(meltBrand, null), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
+                tempCharge.getOptionalComponents().clear();
                 query = "SELECT * FROM elementincharge WHERE `Charge_idCharge`='" + rs.getInt("idCharge") + "';";
                 ResultSet rs2 = SQLiteUtil.dbExecuteQuery(query);
 
@@ -927,6 +928,21 @@ public class Charge
                         tempCharge.getElements().add(new Element(rs3.getString("name"), rs2.getDouble("minProcent"), rs2.getDouble("maxProcent"), 0, 0));
                     }
                 }
+
+                query = "SELECT name, currentMass, mandatory FROM componentincharge CIC JOIN component C ON C.idComponent = CIC.Component_idComponent WHERE `Charge_idCharge`='" + rs.getInt("idCharge") + "';";
+                ResultSet rs4 = SQLiteUtil.dbExecuteQuery(query);
+                while (rs4.next())
+                {
+                    if (rs4.getInt("mandatory") == 1)
+                    {
+                        tempCharge.getMandatoryComponents().add(new CompInCharge(new Component(rs4.getString("name"), null, 0, 0, 0, 0, 0, new ArrayList<>()), rs4.getDouble("currentMass"), 0, 0));
+                    }
+                    else
+                    {
+                        tempCharge.getOptionalComponents().add(new CompInCharge(new Component(rs4.getString("name"), null, 0, 0, 0, 0, 0, new ArrayList<>()), rs4.getDouble("currentMass"), 0, 0));
+                    }
+                }
+
 
                 resCharges.add(tempCharge);
             }
