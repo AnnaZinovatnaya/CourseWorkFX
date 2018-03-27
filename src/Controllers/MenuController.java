@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import util.ErrorMessage;
@@ -20,6 +21,7 @@ public class MenuController
     @FXML private Button             addUserButton;
     @FXML private Button             addMeltButton;
     @FXML private Button             reportButton;
+    @FXML private Button             showMeltsButton;
 
     private AddComponentController   addComponentController;
     private AddCharge1Controller     addCharge1Controller;
@@ -35,6 +37,8 @@ public class MenuController
         this.primaryStage = primaryStage;
         this.windowTitle = windowTitle;
         this.userController = userController;
+
+        this.showMeltsButton.setDisable(true);
     }
 
     @FXML private void addUserButtonClicked()

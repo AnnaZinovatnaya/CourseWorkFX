@@ -28,10 +28,10 @@ public class DbStructure {
                     "password VARCHAR(45) NOT NULL,\n" +
                     "role VARCHAR(45) NOT NULL\n" +
                 ");\n");
-        dbStructure.add("INSERT INTO user VALUES (1,'Металлург','Металлург','металлург','металлург');");
-        dbStructure.add("INSERT INTO user VALUES (2,'Руководитель','Руководитель','руководитель','руководитель');");
-        dbStructure.add("INSERT INTO user VALUES (3,'Администратор','Администратор','администратор','администратор');");
-        dbStructure.add("INSERT INTO user VALUES (4,'Плавильщик','Плавильщик','плавильщик','плавильщик');");
+        dbStructure.add("INSERT INTO user VALUES (1,'Металлург','Металлург','Металлург','металлург');");
+        dbStructure.add("INSERT INTO user VALUES (2,'Руководитель','Руководитель','Руководитель','руководитель');");
+        dbStructure.add("INSERT INTO user VALUES (3,'Администратор','Администратор','Администратор','администратор');");
+        dbStructure.add("INSERT INTO user VALUES (4,'Плавильщик','Плавильщик','Плавильщик','плавильщик');");
 
         dbStructure.add("DROP TABLE IF EXISTS component;");
         dbStructure.add("" +

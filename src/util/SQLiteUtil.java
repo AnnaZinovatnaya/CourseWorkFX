@@ -25,6 +25,7 @@ public class SQLiteUtil {
             stmt.close();
             return true;
         } catch ( Exception e ) {
+            System.out.println("3");
             return false;
         }
     }

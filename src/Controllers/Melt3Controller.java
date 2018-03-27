@@ -13,9 +13,9 @@ import javafx.stage.Stage;
 public class Melt3Controller {
     private Melt2Controller melt2Controller;
     private Stage primaryStage;
-    @FXML private TextField indexField;
-    @FXML private TextField meltBrandField;
-    @FXML private TextField amountField;
+    @FXML private Label indexLabel;
+    @FXML private Label meltBrandLabel;
+    @FXML private Label amountLabel;
     private Charge charge;
 
     @FXML private TableView<CompInCharge> componentsTable = new TableView<>();
@@ -29,10 +29,10 @@ public class Melt3Controller {
         this.primaryStage = primaryStage;
         this.melt2Controller = melt2Controller;
         this.charge = charge;
-        this.meltBrandField.setText(this.charge.getMeltBrand().getName());
-        this.amountField.setText(String.valueOf(this.charge.getMass()));
+        this.meltBrandLabel.setText(this.charge.getMeltBrand().getName());
+        this.amountLabel.setText(String.valueOf(this.charge.getMass()));
 
-        this.indexField.setText(String.valueOf(Manager.getMaxMeltIndex() + 1));
+        this.indexLabel.setText(String.valueOf(Manager.getMaxMeltIndex() + 1));
 
         this.components = FXCollections.observableArrayList();
         this.components.addAll(this.charge.getMandatoryComponents());
