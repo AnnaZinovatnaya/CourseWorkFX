@@ -38,7 +38,10 @@ public class MenuController
         this.windowTitle = windowTitle;
         this.userController = userController;
 
-        this.showMeltsButton.setDisable(true);
+        if (this.showMeltsButton != null)
+        {
+            this.showMeltsButton.setDisable(true);
+        }
     }
 
     @FXML private void addUserButtonClicked()
