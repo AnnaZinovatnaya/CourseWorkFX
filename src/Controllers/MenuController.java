@@ -53,8 +53,6 @@ public class MenuController
             UserController userController = loader.getController();
             userController.setMenuController(this);
             userController.init();
-
-            userController.init();
             primaryStage.setScene(new Scene(root));
             primaryStage.setTitle("Добавление пользователя");
             primaryStage.show();

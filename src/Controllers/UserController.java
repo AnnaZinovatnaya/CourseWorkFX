@@ -21,22 +21,25 @@ public class UserController
     @FXML private AnchorPane        primaryPane;
     private Stage                   primaryStage;
 
-    @FXML private TextField         loginNameField;
-    @FXML private TextField         loginLastnameField;
-    @FXML private TextField         loginPasswordField;
-    @FXML private TextField         addNameField;
-    @FXML private TextField         addLastnameField;
-    @FXML private TextField         addPasswordField;
-    @FXML private ChoiceBox<String> roleChoiceBox;
-    @FXML private TextField         searchNameField;
-    @FXML private TextField         searchLastnameField;
-    @FXML private TextArea          resultArea;
+    @FXML private TextField         loginName;
+    @FXML private TextField         loginLastname;
+    @FXML private TextField         loginPassword;
+
+    @FXML private TextField         nameToAdd;
+    @FXML private TextField         lastnameToAdd;
+    @FXML private TextField         passwordToAdd;
+    @FXML private ChoiceBox<String> roles;
+
+    @FXML private TextField         nameToSearch;
+    @FXML private TextField         lastnameToSearch;
+    @FXML private TextArea          searchResult;
 
     private MenuController          menuController;
 
     public void init(Stage primaryStage)
     {
         this.primaryStage = primaryStage;
+
         this.primaryPane.setOnKeyPressed(key ->
         {
             if (key.getCode() == KeyCode.ENTER)
@@ -48,7 +51,7 @@ public class UserController
 
     @FXML public void init()
     {
-        this.roleChoiceBox.setItems(FXCollections.observableArrayList("","руководитель",  "металлург", "плавильщик"));
+        this.roles.setItems(FXCollections.observableArrayList("","руководитель",  "металлург", "плавильщик"));
     }
 
     public void setMenuController(MenuController menuController)
@@ -64,29 +67,23 @@ public class UserController
     @FXML private void loginButtonClicked()
     {
 
-        if(this.loginNameField.getText().isEmpty() ||
-           this.loginLastnameField.getText().isEmpty() ||
-           this.loginPasswordField.getText().isEmpty())
+        if(this.loginName.getText().isEmpty()     ||
+           this.loginLastname.getText().isEmpty() ||
+           this.loginPassword.getText().isEmpty())
         {
-            alert.setContentText(ErrorMessage.EMPTY_FIELDS);
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            showErrorMessage(ErrorMessage.EMPTY_FIELDS);
         }
         else
         {
             boolean isLoginSuccessful;
             try
             {
-                isLoginSuccessful = Manager.login(loginNameField.getText(),
-                                                  loginLastnameField.getText(),
-                                                  loginPasswordField.getText());
+                isLoginSuccessful = Manager.login(loginName.getText(),
+                                                  loginLastname.getText(),
+                                                  loginPassword.getText());
                 if(!isLoginSuccessful)
                 {
-                    alert.setContentText(ErrorMessage.WRONG_LOGIN_OR_PASSWORD);
-                    alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                            .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                    alert.showAndWait();
+                    showErrorMessage(ErrorMessage.WRONG_LOGIN_OR_PASSWORD);
                 }
                 else
                 {
@@ -139,10 +136,7 @@ public class UserController
                     }
                     catch (Exception ex)
                     {
-                        alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
-                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                                .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                        alert.showAndWait();
+                        showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
                     }
 
                     primaryStage.show();
@@ -150,97 +144,73 @@ public class UserController
             }
             catch (RuntimeException e)
             {
-                alert.setContentText(e.getLocalizedMessage());
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                showErrorMessage(e.getLocalizedMessage());
             }
         }
     }
 
     @FXML private void addUserButtonClicked()
     {
-        if(addNameField.getText().isEmpty()     ||
-                addLastnameField.getText().isEmpty() ||
-                addPasswordField.getText().isEmpty() ||
-                roleChoiceBox.getValue().isEmpty())
+        if(nameToAdd.getText().isEmpty()     ||
+                lastnameToAdd.getText().isEmpty() ||
+                passwordToAdd.getText().isEmpty() ||
+                roles.getValue().isEmpty())
         {
-            alert.setContentText(ErrorMessage.EMPTY_FIELDS);
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            showErrorMessage(ErrorMessage.EMPTY_FIELDS);
 
         }
         else
         {
             Manager.newUser();
-            if(Manager.setNameLastname(addNameField.getText(), addLastnameField.getText()))
+            if(Manager.setNameLastname(nameToAdd.getText(), lastnameToAdd.getText()))
             {
-                Manager.setPasswordRole(addPasswordField.getText(), roleChoiceBox.getValue());
-                try {
+                Manager.setPasswordRole(passwordToAdd.getText(), roles.getValue());
+                try
+                {
                     Manager.saveUser();
 
-                    alert.setAlertType(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information");
-                    alert.setHeaderText("Information");
-                    alert.setContentText("Пользователь добавлен!");
-                    alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                            .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                    alert.showAndWait();
-                    alert.setAlertType(Alert.AlertType.ERROR);
+                    showInformationMessage("Пользователь добавлен!");
 
-                    this.addNameField.setText("");
-                    this.addLastnameField.setText("");
-                    this.addPasswordField.setText("");
-                    this.roleChoiceBox.setValue("");
+                    this.nameToAdd.setText("");
+                    this.lastnameToAdd.setText("");
+                    this.passwordToAdd.setText("");
+                    this.roles.setValue("");
                 }
-                catch (RuntimeException e) {
-                    alert.setContentText(e.getLocalizedMessage());
-                    alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                            .forEach(node -> ((Label) node).setFont(Font.font(16)));
-                    alert.showAndWait();
+                catch (RuntimeException e)
+                {
+                    showErrorMessage(e.getLocalizedMessage());
                 }
             }
             else
             {
-                alert.setContentText(ErrorMessage.USER_ALREADY_EXISTS);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                showErrorMessage(ErrorMessage.USER_ALREADY_EXISTS);
             }
         }
     }
 
     @FXML private void searchButtonClicked()
     {
-        if(searchNameField.getText().isEmpty() || searchLastnameField.getText().isEmpty())
+        if(nameToSearch.getText().isEmpty() || lastnameToSearch.getText().isEmpty())
         {
-            alert.setContentText(ErrorMessage.EMPTY_FIELDS);
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
-
+            showErrorMessage(ErrorMessage.EMPTY_FIELDS);
         }
         else
         {
             try {
-                if(Manager.findUser(searchNameField.getText(), searchLastnameField.getText()))
+                if(Manager.findUser(nameToSearch.getText(), lastnameToSearch.getText()))
                 {
-                    this.resultArea.setText("Имя - " + Manager.getFoundName() + "\nФамилия - " +
+                    this.searchResult.setText("Имя - " + Manager.getFoundName() + "\nФамилия - " +
                             Manager.getFoundLastname() + "\nПароль - " + Manager.getFoundPassword() +
                             "\nРоль - " + Manager.getFoundRole());
                 }
                 else
                 {
-                    this.resultArea.setText(ErrorMessage.USER_DOES_NOT_EXIST);
+                    this.searchResult.setText(ErrorMessage.USER_DOES_NOT_EXIST);
                 }
             }
             catch (RuntimeException e)
             {
-                alert.setContentText(e.getLocalizedMessage());
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                showErrorMessage(e.getLocalizedMessage());
             }
         }
     }
@@ -262,40 +232,54 @@ public class UserController
                     deleteUserController.setUserController(this);
                     stage.setScene(new Scene(root));
                     stage.initModality(Modality.APPLICATION_MODAL);
-                    stage.initOwner(this.searchLastnameField.getScene().getWindow());
+                    stage.initOwner(this.lastnameToSearch.getScene().getWindow());
                     stage.showAndWait();
                 } catch (Exception ex) {
-                    alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
-                    alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                            .forEach(node -> ((Label) node).setFont(Font.font(16)));
-                    alert.showAndWait();
+                    showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
                 }
             }
             else
             {
-                    alert.setContentText(ErrorMessage.CANNOT_DELETE_ADMIN);
-                    alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                            .forEach(node -> ((Label) node).setFont(Font.font(16)));
-                    alert.showAndWait();
+                showErrorMessage(ErrorMessage.CANNOT_DELETE_ADMIN);
             }
         }
         else
         {
-            this.resultArea.setText(ErrorMessage.EMPTY_USER_CHOICE);
+            this.searchResult.setText(ErrorMessage.EMPTY_USER_CHOICE);
         }
     }
 
-    public TextArea getResultArea() {
-        return resultArea;
+    public TextArea getSearchResult() {
+        return searchResult;
     }
 
     public void backToScene()
     {
         Manager.logout();
-        this.loginNameField.setText("");
-        this.loginLastnameField.setText("");
-        this.loginPasswordField.setText("");
+        this.loginName.setText("");
+        this.loginLastname.setText("");
+        this.loginPassword.setText("");
         this.primaryStage.setTitle("Вход в систему");
-        this.primaryStage.setScene(this.loginLastnameField.getScene());
+        this.primaryStage.setScene(this.loginLastname.getScene());
+    }
+
+    private void showErrorMessage(String message)
+    {
+        this.alert.setAlertType(Alert.AlertType.ERROR);
+        this.alert.setContentText(message);
+        this.alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                .forEach(node -> ((Label)node).setFont(Font.font(16)));
+        this.alert.showAndWait();
+    }
+
+    private void showInformationMessage(String message)
+    {
+        this.alert.setAlertType(Alert.AlertType.INFORMATION);
+        this.alert.setTitle("Information");
+        this.alert.setHeaderText("Information");
+        this.alert.setContentText(message);
+        this.alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
+                .forEach(node -> ((Label)node).setFont(Font.font(16)));
+        this.alert.showAndWait();
     }
 }

@@ -20,7 +20,7 @@ public class DeleteUserController
         try
         {
             Manager.deleteUser();
-            userController.getResultArea().appendText("\nПользователь удален!");
+            userController.getSearchResult().appendText("\nПользователь удален!");
         }
         catch (RuntimeException ex)
         {

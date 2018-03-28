@@ -16,7 +16,7 @@
       </Label>
       <GridPane alignment="TOP_CENTER" prefHeight="181.0" prefWidth="349.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="70.0">
          <children>
-            <TextField fx:id="loginNameField" layoutX="266.0" layoutY="60.0" prefHeight="51.0" prefWidth="227.0" GridPane.columnIndex="1">
+            <TextField fx:id="loginName" layoutX="266.0" layoutY="60.0" prefHeight="51.0" prefWidth="227.0" GridPane.columnIndex="1">
                <font>
                   <Font size="24.0" />
                </font>
@@ -24,7 +24,7 @@
                   <Insets bottom="5.0" top="5.0" />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="loginLastnameField" layoutX="266.0" layoutY="127.0" prefHeight="51.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="loginLastname" layoutX="266.0" layoutY="127.0" prefHeight="51.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="24.0" />
                </font>
@@ -48,7 +48,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <PasswordField fx:id="loginPasswordField" layoutX="266.0" layoutY="185.0" prefHeight="40.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <PasswordField fx:id="loginPassword" layoutX="266.0" layoutY="185.0" prefHeight="40.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font size="24.0" />
                </font>
