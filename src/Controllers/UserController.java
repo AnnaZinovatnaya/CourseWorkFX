@@ -59,204 +59,256 @@ public class UserController
 
     @FXML private void menuButtonClicked()
     {
-        menuController.backToMenu();
+        this.menuController.backToMenu();
     }
 
     @FXML private void loginButtonClicked()
     {
-
         if(this.loginName.getText().isEmpty()     ||
            this.loginLastname.getText().isEmpty() ||
            this.loginPassword.getText().isEmpty())
         {
             Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            return;
         }
-        else
-        {
-            boolean isLoginSuccessful;
-            try
-            {
-                isLoginSuccessful = Manager.login(loginName.getText(),
-                                                  loginLastname.getText(),
-                                                  loginPassword.getText());
-                if(!isLoginSuccessful)
-                {
-                    Helper.showErrorMessage(ErrorMessage.WRONG_LOGIN_OR_PASSWORD);
-                }
-                else
-                {
-                    try
-                    {
-                        if (Manager.getRole().equals("администратор"))
-                        {
-                            FXMLLoader loader = new FXMLLoader(
-                                getClass().getResource("/Views/AdminMenuScene.fxml")
-                            );
-                            Parent root = loader.load();
-                            MenuController menuController = loader.getController();
-                            menuController.init(primaryStage, "Меню - Администратор", this);
-                            this.primaryStage.setTitle("Меню - Администратор");
-                            primaryStage.setScene(new Scene(root));
-                        }
-                        else if (Manager.getRole().equals("металлург"))
-                        {
-                            FXMLLoader loader = new FXMLLoader(
-                                getClass().getResource("/Views/MetallurgistMenuScene.fxml")
-                            );
-                            Parent root = loader.load();
-                            MenuController menuController = loader.getController();
-                            menuController.init(primaryStage, "Меню - Металлург", this);
-                            this.primaryStage.setTitle("Меню - Металлург");
-                            primaryStage.setScene(new Scene(root));
-                        }
-                        else if (Manager.getRole().equals("плавильщик"))
-                        {
-                            FXMLLoader loader = new FXMLLoader(
-                                getClass().getResource("/Views/MakeMelt1Scene.fxml")
-                            );
-                            Parent root = loader.load();
-                            Melt1Controller melt1Controller = loader.getController();
-                            melt1Controller.init(primaryStage, this);
-                            this.primaryStage.setTitle("Выполнение плавки");
-                            primaryStage.setScene(new Scene(root));
-                        }
-                        else if (Manager.getRole().equals("руководитель"))
-                        {
-                            FXMLLoader loader = new FXMLLoader(
-                                getClass().getResource("/Views/DirectorMenuScene.fxml")
-                            );
-                            Parent root = loader.load();
-                            MenuController menuController = loader.getController();
-                            menuController.init(primaryStage, "Меню - Руководитель", this);
-                            this.primaryStage.setTitle("Меню - Руководитель");
-                            primaryStage.setScene(new Scene(root));
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
-                    }
 
-                    primaryStage.show();
-                }
-            }
-            catch (RuntimeException e)
-            {
-                Helper.showErrorMessage(e.getLocalizedMessage());
-            }
+        boolean isLoginSuccessful = false;
+
+        try
+        {
+            isLoginSuccessful = Manager.login(this.loginName.getText(),
+                                              this.loginLastname.getText(),
+                                              this.loginPassword.getText());
+        }
+        catch (RuntimeException e)
+        {
+            Helper.showErrorMessage(e.getLocalizedMessage());
+            return;
+        }
+
+        if(!isLoginSuccessful)
+        {
+            Helper.showErrorMessage(ErrorMessage.WRONG_LOGIN_OR_PASSWORD);
+            return;
+        }
+
+        switch (Manager.getRole())
+        {
+            case "администратор":
+                loadAdminMenu();
+                break;
+            case "металлург":
+                loadMetallurgistMenu();
+                break;
+            case "плавильщик":
+                loadMakeMeltScene();
+                break;
+            case "руководитель":
+                loadDirectorMenu();
+                break;
         }
     }
 
     @FXML private void addUserButtonClicked()
     {
-        if(nameToAdd.getText().isEmpty()     ||
-                lastnameToAdd.getText().isEmpty() ||
-                passwordToAdd.getText().isEmpty() ||
-                roles.getValue().isEmpty())
+        if (this.nameToAdd.getText().isEmpty()     ||
+            this.lastnameToAdd.getText().isEmpty() ||
+            this.passwordToAdd.getText().isEmpty() ||
+            this.roles.getValue().isEmpty())
         {
             Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            return;
         }
-        else
+
+        try
         {
-            Manager.newUser();
-            if(Manager.setNameLastname(nameToAdd.getText(), lastnameToAdd.getText()))
-            {
-                Manager.setPasswordRole(passwordToAdd.getText(), roles.getValue());
-                try
-                {
-                    Manager.saveUser();
-
-                    Helper.showInformationMessage("Пользователь добавлен!");
-
-                    this.nameToAdd.setText("");
-                    this.lastnameToAdd.setText("");
-                    this.passwordToAdd.setText("");
-                    this.roles.setValue("");
-                }
-                catch (RuntimeException e)
-                {
-                    Helper.showErrorMessage(e.getLocalizedMessage());
-                }
-            }
-            else
+            if (Manager.userExists(this.nameToAdd.getText(), this.lastnameToAdd.getText()))
             {
                 Helper.showErrorMessage(ErrorMessage.USER_ALREADY_EXISTS);
+                return;
             }
+
+            Manager.saveNewUser(this.nameToAdd.getText(),
+                                this.lastnameToAdd.getText(),
+                                this.passwordToAdd.getText(),
+                                this.roles.getValue());
+
+            Helper.showInformationMessage("Пользователь добавлен!");
+
+            clearAddUserFields();
+        }
+        catch (RuntimeException e)
+        {
+            Helper.showErrorMessage(e.getLocalizedMessage());
         }
     }
 
     @FXML private void searchButtonClicked()
     {
-        if(nameToSearch.getText().isEmpty() || lastnameToSearch.getText().isEmpty())
+        if (this.nameToSearch.getText().isEmpty() || this.lastnameToSearch.getText().isEmpty())
         {
             Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            return;
         }
-        else
+
+
+        try
         {
-            try {
-                if(Manager.findUser(nameToSearch.getText(), lastnameToSearch.getText()))
-                {
-                    this.searchResult.setText("Имя - " + Manager.getFoundName() + "\nФамилия - " +
-                            Manager.getFoundLastname() + "\nПароль - " + Manager.getFoundPassword() +
-                            "\nРоль - " + Manager.getFoundRole());
-                }
-                else
-                {
-                    this.searchResult.setText(ErrorMessage.USER_DOES_NOT_EXIST);
-                }
-            }
-            catch (RuntimeException e)
+            if (Manager.findUser(nameToSearch.getText(), lastnameToSearch.getText()))
             {
-                Helper.showErrorMessage(e.getLocalizedMessage());
+                this.searchResult.setText("Имя - "     + Manager.getFoundName()     + "\n" +
+                                          "Фамилия - " + Manager.getFoundLastname() + "\n" +
+                                          "Пароль - "  + Manager.getFoundPassword() + "\n" +
+                                          "Роль - "    + Manager.getFoundRole());
             }
+            else
+            {
+                this.searchResult.setText(ErrorMessage.USER_DOES_NOT_EXIST);
+            }
+        }
+        catch (RuntimeException e)
+        {
+            Helper.showErrorMessage(e.getLocalizedMessage());
         }
     }
 
     @FXML private void deleteButtonClicked()
     {
-        if(Manager.canDelete())
-        {
-            if (!Manager.isDefaultAdmin()) {
-                try {
-                    Stage stage = new Stage();
-                    stage.setTitle("Удаление пользователя");
-                    FXMLLoader loader = new FXMLLoader(
-                            getClass().getResource("/Views/DeleteUserScene.fxml")
-                    );
-
-                    Parent root = loader.load();
-                    DeleteUserController deleteUserController = loader.getController();
-                    deleteUserController.setUserController(this);
-                    stage.setScene(new Scene(root));
-                    stage.initModality(Modality.APPLICATION_MODAL);
-                    stage.initOwner(this.lastnameToSearch.getScene().getWindow());
-                    stage.showAndWait();
-                } catch (Exception ex) {
-                    Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
-                }
-            }
-            else
-            {
-                Helper.showErrorMessage(ErrorMessage.CANNOT_DELETE_ADMIN);
-            }
-        }
-        else
+        if (Manager.getUser() == null)
         {
             this.searchResult.setText(ErrorMessage.EMPTY_USER_CHOICE);
+            return;
+        }
+
+        if (Manager.isUserDefaultAdmin())
+        {
+            Helper.showErrorMessage(ErrorMessage.CANNOT_DELETE_ADMIN);
+            return;
+        }
+
+        try
+        {
+            Stage stage = new Stage();
+            stage.setTitle("Удаление пользователя");
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Views/DeleteUserScene.fxml")
+            );
+
+            Parent root = loader.load();
+            DeleteUserController deleteUserController = loader.getController();
+            deleteUserController.setUserController(this);
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.lastnameToSearch.getScene().getWindow());
+            stage.showAndWait();
+        }
+        catch (Exception ex)
+        {
+            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 
-    public TextArea getSearchResult() {
+    public TextArea getSearchResult()
+    {
         return searchResult;
     }
 
     public void backToScene()
     {
         Manager.logout();
+
         this.loginName.setText("");
         this.loginLastname.setText("");
         this.loginPassword.setText("");
         this.primaryStage.setTitle("Вход в систему");
         this.primaryStage.setScene(this.loginLastname.getScene());
+    }
+
+    private void loadAdminMenu()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Views/AdminMenuScene.fxml")
+            );
+            Parent root = loader.load();
+            MenuController menuController = loader.getController();
+            menuController.init(this.primaryStage, "Меню - Администратор", this);
+            this.primaryStage.setTitle("Меню - Администратор");
+            this.primaryStage.setScene(new Scene(root));
+            this.primaryStage.show();
+        }
+        catch (Exception e)
+        {
+            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+        }
+    }
+
+    private void loadMetallurgistMenu()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Views/MetallurgistMenuScene.fxml")
+            );
+            Parent root = loader.load();
+            MenuController menuController = loader.getController();
+            menuController.init(this.primaryStage, "Меню - Металлург", this);
+            this.primaryStage.setTitle("Меню - Металлург");
+            this.primaryStage.setScene(new Scene(root));
+            this.primaryStage.show();
+        }
+        catch (Exception e)
+        {
+            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+        }
+    }
+
+    private void loadMakeMeltScene()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Views/MakeMelt1Scene.fxml")
+            );
+            Parent root = loader.load();
+            Melt1Controller melt1Controller = loader.getController();
+            melt1Controller.init(this.primaryStage, this);
+            this.primaryStage.setTitle("Выполнение плавки");
+            this.primaryStage.setScene(new Scene(root));
+            this.primaryStage.show();
+        }
+        catch (Exception e)
+        {
+            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+        }
+    }
+
+    private void loadDirectorMenu()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Views/DirectorMenuScene.fxml")
+            );
+            Parent root = loader.load();
+            MenuController menuController = loader.getController();
+            menuController.init(this.primaryStage, "Меню - Руководитель", this);
+            this.primaryStage.setTitle("Меню - Руководитель");
+            this.primaryStage.setScene(new Scene(root));
+            this.primaryStage.show();
+        }
+        catch (Exception e)
+        {
+            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+        }
+    }
+
+    private void clearAddUserFields()
+    {
+        this.nameToAdd.setText("");
+        this.lastnameToAdd.setText("");
+        this.passwordToAdd.setText("");
+        this.roles.setValue("");
     }
 }

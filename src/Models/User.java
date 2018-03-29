@@ -74,7 +74,7 @@ public class User
         }
     }
 
-    public boolean userExists(String name, String lastname) throws RuntimeException
+    public static boolean userExists(String name, String lastname) throws RuntimeException
     {
         ResultSet rs;
         String query = "";

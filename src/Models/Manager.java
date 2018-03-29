@@ -18,33 +18,23 @@ public class Manager
     private static Melt            melt;
     private static List<MeltBrand> meltBrands;
 
-    public static void newUser()
-    {
-        user = new User("", "", "", "");
-    }
-
-    public static boolean setNameLastname(String name, String lastname)
-    {
-        if(!user.userExists(name, lastname))
-        {
-            user.setName(name);
-            user.setLastname(lastname);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    public static void setPasswordRole(String password, String role)
-    {
-        user.setPassword(password);
-        user.setRole(role);
-    }
-
-    public static void saveUser() throws RuntimeException
+    public static boolean userExists(String name, String lastname) throws RuntimeException
     {
         try
         {
+            return User.userExists(name, lastname);
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+    }
+
+    public static void saveNewUser(String name, String lastname, String password, String role) throws RuntimeException
+    {
+        try
+        {
+            user = new User(name, lastname, password, role);
             user.saveUser();
         }
         catch (RuntimeException e)
@@ -85,11 +75,6 @@ public class Manager
     public static String getFoundRole()
     {
         return user.getRole();
-    }
-
-    public static boolean canDelete()
-    {
-        return user != null;
     }
 
     public static void deleteUser() throws RuntimeException
@@ -434,7 +419,7 @@ public class Manager
         return Charge.getCharges(meltBrand);
     }
 
-    public static boolean isDefaultAdmin()
+    public static boolean isUserDefaultAdmin()
     {
         return user.isDefaultAdmin();
     }
@@ -452,5 +437,9 @@ public class Manager
     {
         melt.setDate(new Date());
         melt.saveToDB();
+    }
+
+    public static User getUser() {
+        return user;
     }
 }
