@@ -5,18 +5,14 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class Manager
 {
     private static User            currentUser;
     private static User            user;
     private static Component       component;
-    private static List<Component> components;
     private static Charge          charge;
-    private static List<Charge>    charges;
     private static Melt            melt;
-    private static List<MeltBrand> meltBrands;
 
     public static boolean userExists(String name, String lastname) throws RuntimeException
     {
@@ -397,11 +393,8 @@ public class Manager
     {
         currentUser = null;
         component = null;
-        components = null;
         charge = null;
-        charges = null;
         melt = null;
-        meltBrands = null;
     }
 
     public static ObservableList<Charge> getCharges(String meltBrand)

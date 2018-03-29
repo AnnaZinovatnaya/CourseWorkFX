@@ -58,6 +58,8 @@ public class MeltBrand
                 temp = rs.getString("name");
                 list.add(temp);
             }
+
+            rs.close();
         }
         catch (RuntimeException ex)
         {
@@ -73,7 +75,7 @@ public class MeltBrand
 
     public static MeltBrand getMeltBrand(String name) throws RuntimeException
     {
-        MeltBrand temp = new MeltBrand("", new ArrayList<>());
+        MeltBrand meltBrand = new MeltBrand(name, new ArrayList<>());
         ResultSet rs;
         ResultSet rs2;
         int idMeltBrand=0;
@@ -81,20 +83,23 @@ public class MeltBrand
 
         try
         {
-            query = "SELECT idMeltBrand, name FROM meltbrand  WHERE name = '" + name + "'";
+            query = "SELECT idMeltBrand FROM meltbrand  WHERE name = '" + name + "'";
             rs = SQLiteUtil.dbExecuteQuery(query);
             if (rs.next())
             {
-                temp.setName(rs.getString("name"));
                 idMeltBrand = rs.getInt("idMeltBrand");
             }
+
+            rs.close();
 
             query = "SELECT name, minProcent, maxProcent FROM element E JOIN elementinbrand EB ON E.idElement = EB.Element_idElement WHERE EB.MeltBrand_idMeltBrand = " + idMeltBrand;
             rs2 = SQLiteUtil.dbExecuteQuery(query);
             while (rs2.next())
             {
-                temp.elements.add(new Element(rs2.getString("name"), rs2.getDouble("minProcent"), rs2.getDouble("maxProcent"), 0, 0));
+                meltBrand.elements.add(new Element(rs2.getString("name"), rs2.getDouble("minProcent"), rs2.getDouble("maxProcent"), 0, 0));
             }
+
+            rs2.close();
         }
         catch (RuntimeException ex)
         {
@@ -105,6 +110,6 @@ public class MeltBrand
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
-        return temp;
+        return meltBrand;
     }
 }

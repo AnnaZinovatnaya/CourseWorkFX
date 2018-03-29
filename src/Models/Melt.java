@@ -53,12 +53,17 @@ public class Melt
 
     public static int getMaxIndexFromDB() throws RuntimeException
     {
-        int res = 0;
+        int index = 0;
         try
         {
             ResultSet rs = SQLiteUtil.dbExecuteQuery("SELECT max(idMelt) FROM melt;");
-            rs.next();
-            res = rs.getInt("max(idMelt)");
+            if (rs.next())
+            {
+                index = rs.getInt("max(idMelt)");
+            }
+
+            rs.close();
+
         }
         catch (RuntimeException e)
         {
@@ -69,7 +74,7 @@ public class Melt
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + "SELECT max(idMelt) FROM melt;");
         }
 
-        return res;
+        return index;
     }
 
     public void saveToDB() throws RuntimeException
@@ -80,7 +85,6 @@ public class Melt
 
             SQLiteUtil.dbExecuteUpdate("INSERT INTO melt (date, Charge_idCharge, User_idUser)\n" +
                     "VALUES ('" + sqlDate + "', '" + this.charge.getId() + "', '" + this.user.getId() +"');");
-
         }
         catch (RuntimeException e)
         {

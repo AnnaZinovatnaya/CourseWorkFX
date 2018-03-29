@@ -125,13 +125,13 @@ public class Component
 
     public boolean componentExists(String name) throws RuntimeException
     {
-        String query = "SELECT * FROM component WHERE `name` = '"+name+"'";
+        String query = "SELECT * FROM component WHERE name = '" + name + "'";
 
         try
         {
             ResultSet rs = SQLiteUtil.dbExecuteQuery(query);
 
-            if(rs.next())
+            if (rs.next())
             {
                 return true;
             }
@@ -153,7 +153,7 @@ public class Component
         this.calculateAdopt();
 
         String query = "INSERT INTO component (`name`, brand, adoptBase, currentAmount, currentPrice, mandatory, adoptComp) " +
-                "VALUES ('" + name + "', '" + brand + "', '" + adoptBase + "', '" + amount + "', '" + price + "', '" + mandatory +"', '" +adoptComp+ "')";
+                "VALUES ('" + name + "', '" + brand + "', '" + adoptBase + "', '" + amount + "', '" + price + "', '" + mandatory +"', '" + adoptComp + "')";
         try
         {
             SQLiteUtil.dbExecuteUpdate(query);

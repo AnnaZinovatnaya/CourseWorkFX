@@ -96,7 +96,7 @@ public class Element
 
     public static ObservableList<String> getAllElements() throws RuntimeException
     {
-        ObservableList<String> list = FXCollections.observableArrayList ();
+        ObservableList<String> elementNames = FXCollections.observableArrayList ();
         String query = "";
 
         try
@@ -106,9 +106,9 @@ public class Element
             rs = SQLiteUtil.dbExecuteQuery(query);
             while(rs.next())
             {
-                list.add(rs.getString("name"));
+                elementNames.add(rs.getString("name"));
             }
-
+            rs.close();
         }
         catch (RuntimeException ex)
         {
@@ -119,7 +119,7 @@ public class Element
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
-        return list;
+        return elementNames;
     }
 
     public void saveElementInComponent(int idComponent) throws RuntimeException
@@ -127,6 +127,7 @@ public class Element
         ResultSet rs;
         int idElement = 0;
         String query = "";
+
         try
         {
             query = "SELECT idElement FROM element WHERE name = '" + name + "'";
@@ -135,6 +136,8 @@ public class Element
             {
                 idElement = rs.getInt("idElement");
             }
+
+            rs.close();
 
             query = "INSERT INTO elementincomponent (procent, Element_idElement, Component_idComponent, adopt) " +
                     "VALUES ('" + percent + "', '" + idElement + "', '" + idComponent + "', '" + adopt + "')";
