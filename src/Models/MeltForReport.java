@@ -11,15 +11,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MeltForView
+public class MeltForReport
 {
     private String brand;
     private double mass;
-    private Date date;
+    private Date   date;
     private String lastname;
+
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-    public MeltForView(String brand, double mass, Date date, String lastname)
+    public MeltForReport(String brand, double mass, Date date, String lastname)
     {
         this.brand = brand;
         this.mass = mass;
@@ -65,19 +66,18 @@ public class MeltForView
         this.lastname = lastname;
     }
 
-    public static ObservableList<MeltForView> getMeltsFromTill(Date startDate, Date endDate)  throws RuntimeException
+    public static ObservableList<MeltForReport> getMelts(Date startDate, Date endDate)  throws RuntimeException
     {
-        ObservableList<MeltForView> melts = FXCollections.observableArrayList ();
-
-        ResultSet rs;
+        ObservableList<MeltForReport> melts = FXCollections.observableArrayList ();
         String query = formQuery(startDate, endDate);
+
         try
         {
-            rs = SQLiteUtil.dbExecuteQuery(query);
+            ResultSet rs = SQLiteUtil.dbExecuteQuery(query);
 
             while (rs.next())
             {
-                melts.add(new MeltForView(rs.getString("name"), rs.getDouble("mass"), format.parse(rs.getString("date")), rs.getString("lastname")));
+                melts.add(new MeltForReport(rs.getString("name"), rs.getDouble("mass"), format.parse(rs.getString("date")), rs.getString("lastname")));
             }
 
             rs.close();
@@ -109,15 +109,15 @@ public class MeltForView
 
         if (startDate != null && endDate != null)
         {
-            query += "WHERE `date`>='" + new java.sql.Date(startDate.getTime()) + "' AND `date` <= '" + new java.sql.Date(endDate.getTime()) + "'";
+            query += "WHERE date >='" + new java.sql.Date(startDate.getTime()) + "' AND date <= '" + new java.sql.Date(endDate.getTime()) + "'";
         }
         if (startDate != null && endDate == null)
         {
-            query += "WHERE `date`>='" + new java.sql.Date(startDate.getTime()) + "'";
+            query += "WHERE date >='" + new java.sql.Date(startDate.getTime()) + "'";
         }
         if (startDate == null && endDate != null)
         {
-            query += "WHERE `date`<='" + new java.sql.Date(endDate.getTime()) + "'";
+            query += "WHERE date <='" + new java.sql.Date(endDate.getTime()) + "'";
         }
 
         return query;
