@@ -8,10 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import util.ErrorMessage;
+import util.Helper;
 
 public class ShowComponentController
 {
@@ -26,8 +26,6 @@ public class ShowComponentController
     @FXML private TextField priceField;
     @FXML private TextField amountField;
     @FXML private Label     nameLabel;
-
-    private Alert           alert = new Alert(Alert.AlertType.ERROR);
 
     private ShowComponentsController showComponentsController;
     private Component                component;
@@ -98,10 +96,7 @@ public class ShowComponentController
         }
         catch (Exception ex)
         {
-            alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
     @FXML
@@ -113,10 +108,7 @@ public class ShowComponentController
 
         if(priceField.getText().isEmpty()||amountField.getText().isEmpty())
         {
-            alert.setContentText(ErrorMessage.EMPTY_FIELDS);
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
         }
         else
         {
@@ -133,10 +125,7 @@ public class ShowComponentController
             }
             catch (Exception ex)
             {
-                alert.setContentText(ErrorMessage.INCORRECT_PRICE);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(ErrorMessage.INCORRECT_PRICE);
             }
 
             if (validPrice) {
@@ -151,10 +140,7 @@ public class ShowComponentController
 
                     validAmount = true;
                 } catch (Exception ex) {
-                    alert.setContentText(ErrorMessage.INCORRECT_AMOUNT);
-                    alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                            .forEach(node -> ((Label) node).setFont(Font.font(16)));
-                    alert.showAndWait();
+                    Helper.showErrorMessage(ErrorMessage.INCORRECT_AMOUNT);
                 }
 
                 if (validAmount) {
@@ -163,20 +149,11 @@ public class ShowComponentController
                     try {
                         Manager.updateComponentData(component);
 
-                        alert.setAlertType(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Сохранение");
-                        alert.setHeaderText("Сохранение");
-                        alert.setContentText("Изменения сохранены!");
-                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                                .forEach(node -> ((Label) node).setFont(Font.font(16)));
-                        alert.showAndWait();
+                        Helper.showInformationMessage("Изменения сохранены!");
                     }
                     catch (RuntimeException e)
                     {
-                        alert.setContentText(e.getLocalizedMessage());
-                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                                .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                        alert.showAndWait();
+                        Helper.showErrorMessage(e.getLocalizedMessage());
                     }
                 }
             }

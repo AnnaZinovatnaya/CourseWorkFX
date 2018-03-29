@@ -7,12 +7,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import util.ErrorMessage;
+import util.Helper;
 
 public class AddElementsController
 {
@@ -22,7 +20,6 @@ public class AddElementsController
     private ObservableList<String> items;
     private ObservableList<String> selectedItems;
     private Stage                  primaryStage;
-    private Alert                  alert = new Alert(Alert.AlertType.ERROR);
 
     public void setPreviousController(AddComponentController addComponentController)
     {
@@ -40,10 +37,7 @@ public class AddElementsController
         }
         catch (RuntimeException e)
         {
-            alert.setContentText(e.getLocalizedMessage());
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(e.getLocalizedMessage());
         }
     }
 
@@ -102,18 +96,12 @@ public class AddElementsController
             }
             catch (Exception ex)
             {
-                alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
             }
         }
         else
         {
-            alert.setContentText(ErrorMessage.EMPTY_COMPONENT_CHOICE);
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(ErrorMessage.EMPTY_COMPONENT_CHOICE);
         }
     }
 

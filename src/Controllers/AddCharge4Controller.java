@@ -10,16 +10,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import util.ErrorMessage;
+import util.Helper;
 
 public class AddCharge4Controller
 {
 
     private AddCharge3Controller                    addCharge3Controller;
     private Stage                                   primaryStage;
-    private Alert                                   alert;
 
     @FXML private TableColumn<CompInCharge, String> componentColumn = new TableColumn<>();
     @FXML private TableColumn<CompInCharge, String> minComponentPercentColumn = new TableColumn<>();
@@ -30,7 +29,6 @@ public class AddCharge4Controller
     @FXML public  void init()
     {
         this.primaryStage = this.addCharge3Controller.getPrimaryStage();
-        this.alert = new Alert(Alert.AlertType.ERROR);
 
         this.components = Manager.getChargeMandatoryComps();
         this.componentsTable.setEditable(true);
@@ -52,10 +50,7 @@ public class AddCharge4Controller
             }
             catch (Exception ex)
             {
-                alert.setContentText(ErrorMessage.INCORRECT_MIN_PERCENT);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(ErrorMessage.INCORRECT_MIN_PERCENT);
 
                 b=false;
             }
@@ -90,10 +85,7 @@ public class AddCharge4Controller
             }
             catch (Exception ex)
             {
-                alert.setContentText(ErrorMessage.INCORRECT_MAX_PERCENT);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(ErrorMessage.INCORRECT_MAX_PERCENT);
 
                 b=false;
             }
@@ -127,10 +119,8 @@ public class AddCharge4Controller
         {
             if(aComp.getMaxPercent() == 0 || aComp.getMaxPercent() == 0)
             {
-                alert.setContentText(ErrorMessage.EMPTY_FIELDS);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+
                 return;
             }
         }
@@ -139,10 +129,8 @@ public class AddCharge4Controller
         {
             if(aComp.getMaxPercent() < aComp.getMinPercent())
             {
-                alert.setContentText(ErrorMessage.MIN_BIGGER_THAN_MAX);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(ErrorMessage.MIN_BIGGER_THAN_MAX);
+
                 return;
             }
         }
@@ -156,19 +144,15 @@ public class AddCharge4Controller
 
         if(min > 100)
         {
-            alert.setContentText(ErrorMessage.MIN_SUM_BIGGER_THAN_100);
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(ErrorMessage.MIN_SUM_BIGGER_THAN_100);
+
             return;
         }
 
         if(max < 100)
         {
-            alert.setContentText(ErrorMessage.MAX_SUM_BIGGER_THAN_100);
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(ErrorMessage.MAX_SUM_LESS_THAN_100);
+
             return;
         }
 
@@ -188,18 +172,12 @@ public class AddCharge4Controller
             }
             catch (Exception ex)
             {
-                alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label) node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
             }
         }
         else
         {
-            alert.setContentText("Набор шихты невозможен");
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage("Набор шихты невозможен");
         }
     }
 

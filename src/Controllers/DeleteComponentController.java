@@ -3,17 +3,14 @@ package Controllers;
 import Models.Manager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import util.Helper;
 
 public class DeleteComponentController
 {
     private ShowComponentController showComponentController;
     private String                  componentName;
-    private Alert                   alert = new Alert(Alert.AlertType.ERROR);
 
     public void init(String temp)
     {
@@ -27,21 +24,13 @@ public class DeleteComponentController
         {
             Manager.deleteComponent(componentName);
 
-            alert.setAlertType(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("Удаление компонента");
-            alert.setTitle("Удаление компонента");
-            alert.setContentText("Компонент удален!");
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
-            alert.setAlertType(Alert.AlertType.ERROR);
+            Helper.showInformationMessage("Компонент удален!");
+
             this.showComponentController.setDeleted(true);
         }
         catch (RuntimeException ex)
         {
-            alert.setContentText(ex.getLocalizedMessage());
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(ex.getLocalizedMessage());
         }
 
         stage = (Stage)((Button) e.getSource()).getScene().getWindow();

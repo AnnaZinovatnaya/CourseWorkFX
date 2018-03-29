@@ -7,19 +7,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import util.ErrorMessage;
+import util.Helper;
 
 public class AddCharge1Controller
 {
     private MenuController          menuController;
     private Stage                   primaryStage;
-    private Alert                   alert;
 
     @FXML private ChoiceBox<String> brandChoiceBox;
     @FXML private TextField         massField;
@@ -30,7 +27,6 @@ public class AddCharge1Controller
     {
         this.menuController = menuController;
         this.primaryStage = this.menuController.getPrimaryStage();
-        this.alert = new Alert(Alert.AlertType.ERROR);
 
         this.brandNames = FXCollections.observableArrayList ("");
         try
@@ -40,10 +36,7 @@ public class AddCharge1Controller
         }
         catch (RuntimeException e)
         {
-            alert.setContentText(e.getLocalizedMessage());
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(e.getLocalizedMessage());
         }
 
         this.brandChoiceBox.setValue("");
@@ -61,10 +54,8 @@ public class AddCharge1Controller
         double deltaMass = 0;
         if(brandChoiceBox.getValue().isEmpty() || massField.getText().isEmpty() || deltaMassField.getText().isEmpty())
         {
-            alert.setContentText(ErrorMessage.EMPTY_FIELDS);
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+
             b = false;
         }
         if(b)
@@ -80,10 +71,8 @@ public class AddCharge1Controller
             }
             catch (Exception ex)
             {
-                alert.setContentText(ErrorMessage.INCORRECT_MASS);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(ErrorMessage.INCORRECT_MASS);
+
                 b = false;
             }
         }
@@ -100,10 +89,8 @@ public class AddCharge1Controller
             }
             catch (Exception ex)
             {
-                alert.setContentText(ErrorMessage.INCORRECT_DELTA_MASS);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(ErrorMessage.INCORRECT_DELTA_MASS);
+
                 b = false;
             }
         }
@@ -126,10 +113,7 @@ public class AddCharge1Controller
             }
             catch (Exception ex)
             {
-                alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label) node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
             }
         }
     }

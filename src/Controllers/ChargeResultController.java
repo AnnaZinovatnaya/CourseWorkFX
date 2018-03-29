@@ -6,8 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import util.Helper;
 
 public class ChargeResultController
 {
@@ -55,21 +55,12 @@ public class ChargeResultController
         try
         {
             Manager.saveCharge();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Сохранение");
-            alert.setHeaderText("Сохранение");
-            alert.setContentText("Шихта успешно сохранена!");
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label) node).setFont(Font.font(16)));
-            alert.showAndWait();
+
+            Helper.showInformationMessage("Шихта успешно сохранена!");
         }
         catch (RuntimeException e)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText(e.getLocalizedMessage());
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(e.getLocalizedMessage());
         }
     }
 

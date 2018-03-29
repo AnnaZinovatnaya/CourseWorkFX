@@ -9,15 +9,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.text.Font;
 import util.ErrorMessage;
+import util.Helper;
 
 
 public class AddElements2Controller
 {
     private AddElementsController              addElementsController;
     private AddComponentController             addComponentController;
-    private Alert                              alert = new Alert(Alert.AlertType.ERROR);
     private ObservableList<String>             selectedItems;
     private ObservableList<Element>            elements;
     private Component                          component;
@@ -69,11 +68,7 @@ public class AddElements2Controller
             }
             catch (Exception ex)
             {
-                alert.setContentText(ErrorMessage.INCORRECT_PERCENT);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
-
+                Helper.showErrorMessage(ErrorMessage.INCORRECT_PERCENT);
                 b=false;
             }
 
@@ -107,10 +102,7 @@ public class AddElements2Controller
             }
             catch (Exception ex)
             {
-                alert.setContentText(ErrorMessage.INCORRECT_ADAPT);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(ErrorMessage.INCORRECT_ADAPT);
                 b=false;
             }
 
@@ -155,30 +147,18 @@ public class AddElements2Controller
                 Manager.saveComponentParam();
                 Manager.saveComponentElements();
 
-                alert.setAlertType(Alert.AlertType.INFORMATION);
-                alert.setTitle("Information");
-                alert.setHeaderText("Information");
-                alert.setContentText("Компонент сохранен!");
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label) node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showInformationMessage("Компонент сохранен!");
 
                 this.addComponentController.getMenuController().backToMenu();
             }
             catch (RuntimeException e)
             {
-                alert.setContentText(e.getLocalizedMessage());
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(e.getLocalizedMessage());
             }
         }
         else
         {
-            alert.setContentText(ErrorMessage.EMPTY_FIELDS);
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
         }
     }
 }

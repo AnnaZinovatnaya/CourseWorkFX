@@ -10,15 +10,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import util.ErrorMessage;
+import util.Helper;
 
 public class Melt2Controller {
     private Melt1Controller melt1Controller;
     private Stage           primaryStage;
     private String          meltBrand;
-    private Alert           alert = new Alert(Alert.AlertType.ERROR);
 
     @FXML private ListView<String> chargesListView  = new ListView<>();;
 
@@ -83,20 +82,14 @@ public class Melt2Controller {
             }
             catch (Exception ex)
             {
-                alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
             }
 
             primaryStage.show();
         }
         else
         {
-            alert.setContentText("Выберите шихту!");
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage("Выберите шихту!");
         }
     }
 

@@ -2,15 +2,13 @@ package Controllers;
 
 import Models.Manager;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Font;
 import util.ErrorMessage;
+import util.Helper;
 
 public class ShowComponentsController
 {
@@ -21,8 +19,6 @@ public class ShowComponentsController
     @FXML private Tab               optionalTab = new Tab();
     private ObservableList<String>  mandatoryComps;
     private ObservableList<String>  optionalComps;
-
-    private Alert                   alert = new Alert(Alert.AlertType.ERROR);
 
     public void setMenuController(MenuController menuController)
     {
@@ -39,36 +35,26 @@ public class ShowComponentsController
             this.mandatoryView.setItems(mandatoryComps);
             this.optionalView.setItems(optionalComps);
 
-            this.mandatoryView.setOnMouseClicked(new EventHandler<MouseEvent>()
-            {
-                @Override
-                public void handle(MouseEvent click)
-                {
+            this.mandatoryView.setOnMouseClicked(click -> {
 
-                    if (click.getClickCount() == 2)
+                if (click.getClickCount() == 2)
+                {
+                    String currentItemSelected = mandatoryView.getSelectionModel().getSelectedItem();
+                    if(currentItemSelected!=null)
                     {
-                        String currentItemSelected = mandatoryView.getSelectionModel().getSelectedItem();
-                        if(currentItemSelected!=null)
-                        {
-                            selectButtonClicked();
-                        }
+                        selectButtonClicked();
                     }
                 }
             });
 
-            this.optionalView.setOnMouseClicked(new EventHandler<MouseEvent>()
-            {
-                @Override
-                public void handle(MouseEvent click)
-                {
+            this.optionalView.setOnMouseClicked(click -> {
 
-                    if (click.getClickCount() == 2)
+                if (click.getClickCount() == 2)
+                {
+                    String currentItemSelected = optionalView.getSelectionModel().getSelectedItem();
+                    if(currentItemSelected!=null)
                     {
-                        String currentItemSelected = optionalView.getSelectionModel().getSelectedItem();
-                        if(currentItemSelected!=null)
-                        {
-                            selectButtonClicked();
-                        }
+                        selectButtonClicked();
                     }
                 }
             });
@@ -76,10 +62,7 @@ public class ShowComponentsController
         }
         catch (RuntimeException e)
         {
-            alert.setContentText(e.getLocalizedMessage());
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(e.getLocalizedMessage());
         }
     }
 
@@ -116,18 +99,12 @@ public class ShowComponentsController
             }
             catch (Exception ex)
             {
-                alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
             }
         }
         else
         {
-            alert.setContentText("Выберите компонент!");
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(ErrorMessage.EMPTY_COMPONENT_CHOICE);
         }
     }
 
@@ -146,10 +123,7 @@ public class ShowComponentsController
         }
         catch (RuntimeException e)
         {
-            alert.setContentText(e.getLocalizedMessage());
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(e.getLocalizedMessage());
         }
     }
 

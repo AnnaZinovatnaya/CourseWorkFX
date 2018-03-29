@@ -8,14 +8,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import util.ErrorMessage;
+import util.Helper;
 
 public class AddComponentController
 {
     private MenuController    menuController;
-    private Alert             alert = new Alert(Alert.AlertType.ERROR);
     @FXML private TextField   nameField;
     @FXML private TextField   brandField;
     @FXML private TextField   adoptField;
@@ -63,10 +62,7 @@ public class AddComponentController
            this.priceField.getText().isEmpty() || !this.mandatoryButton.isSelected()   &&
            !this.optionalButton.isSelected())
         {
-            alert.setContentText(ErrorMessage.EMPTY_FIELDS);
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                    .forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
         }
         else
         {
@@ -79,10 +75,8 @@ public class AddComponentController
             {
                 if (Manager.componentExists(nameField.getText()))
                 {
-                    alert.setContentText(ErrorMessage.COMPONENT_ALREADY_EXISTS);
-                    alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                            .forEach(node -> ((Label) node).setFont(Font.font(16)));
-                    alert.showAndWait();
+                    Helper.showErrorMessage(ErrorMessage.COMPONENT_ALREADY_EXISTS);
+
                     b = false;
                 }
                 if (b)
@@ -97,10 +91,8 @@ public class AddComponentController
                         }
                     } catch (Exception ex)
                     {
-                        alert.setContentText(ErrorMessage.INCORRECT_ADAPT);
-                        alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                                .forEach(node -> ((Label) node).setFont(Font.font(16)));
-                        alert.showAndWait();
+                        Helper.showErrorMessage(ErrorMessage.INCORRECT_ADAPT);
+
                         b = false;
                     }
                     if (b)
@@ -114,10 +106,8 @@ public class AddComponentController
                             }
                         } catch (Exception ex)
                         {
-                            alert.setContentText(ErrorMessage.INCORRECT_AMOUNT);
-                            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                                    .forEach(node -> ((Label) node).setFont(Font.font(16)));
-                            alert.showAndWait();
+                            Helper.showErrorMessage(ErrorMessage.INCORRECT_AMOUNT);
+
                             b = false;
                         }
                         if (b)
@@ -132,10 +122,8 @@ public class AddComponentController
                                 }
                             } catch (Exception ex)
                             {
-                                alert.setContentText(ErrorMessage.INCORRECT_PRICE);
-                                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                                        .forEach(node -> ((Label) node).setFont(Font.font(16)));
-                                alert.showAndWait();
+                                Helper.showErrorMessage(ErrorMessage.INCORRECT_PRICE);
+
                                 b = false;
                             }
                             if (b)
@@ -163,10 +151,7 @@ public class AddComponentController
                                 }
                                 catch (Exception ex)
                                 {
-                                    alert.setContentText(ErrorMessage.CANNOT_LOAD_SCENE);
-                                    alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                                            .forEach(node -> ((Label) node).setFont(Font.font(16)));
-                                    alert.showAndWait();
+                                    Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
                                 }
                             }
                         }
@@ -175,10 +160,7 @@ public class AddComponentController
             }
             catch (RuntimeException e)
             {
-                alert.setContentText(e.getLocalizedMessage());
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(e.getLocalizedMessage());
             }
         }
     }

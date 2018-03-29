@@ -7,9 +7,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Font;
 import javafx.util.Callback;
 import util.ErrorMessage;
+import util.Helper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,7 +27,6 @@ public class ReportController
     @FXML private TableColumn           dateColumn = new TableColumn<>();
     @FXML private TableColumn           lastnameColumn = new TableColumn<>();
     private ObservableList<MeltForView> melts;
-    private Alert                       alert = new Alert(Alert.AlertType.ERROR);
 
     private MenuController menuController;
 
@@ -66,10 +65,7 @@ public class ReportController
             }
             catch (RuntimeException e)
             {
-                alert.setContentText(e.getLocalizedMessage());
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(e.getLocalizedMessage());
             }
 
             if (melts != null)
@@ -84,10 +80,7 @@ public class ReportController
             }
             catch (RuntimeException e)
             {
-                alert.setContentText(e.getLocalizedMessage());
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(e.getLocalizedMessage());
             }
 
             if (melts != null)
@@ -102,10 +95,7 @@ public class ReportController
             }
             catch (RuntimeException e)
             {
-                alert.setContentText(e.getLocalizedMessage());
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(e.getLocalizedMessage());
             }
 
             if (melts != null)
@@ -115,9 +105,7 @@ public class ReportController
         }
         else if(firstDate.getValue().isAfter(secondDate.getValue()))
         {
-            alert.setContentText(ErrorMessage.INCORRECT_DATES);
-            alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setFont(Font.font(16)));
-            alert.showAndWait();
+            Helper.showErrorMessage(ErrorMessage.INCORRECT_DATES);
         }
         else
         {
@@ -126,10 +114,7 @@ public class ReportController
             }
             catch (RuntimeException e)
             {
-                alert.setContentText(e.getLocalizedMessage());
-                alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label)
-                        .forEach(node -> ((Label)node).setFont(Font.font(16)));
-                alert.showAndWait();
+                Helper.showErrorMessage(e.getLocalizedMessage());
             }
 
             if (melts != null)
