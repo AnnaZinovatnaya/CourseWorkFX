@@ -42,13 +42,13 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <DatePicker fx:id="firstDate" />
+            <DatePicker fx:id="startDate" />
             <Label alignment="CENTER" text="по">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <DatePicker fx:id="secondDate" />
+            <DatePicker fx:id="endDate" />
          </children>
       </HBox>
    </children>

@@ -19,8 +19,8 @@ import java.util.Date;
 
 public class ReportController
 {
-    @FXML private DatePicker            firstDate;
-    @FXML private DatePicker            secondDate;
+    @FXML private DatePicker            startDate;
+    @FXML private DatePicker            endDate;
     @FXML private TableView             reportTable = new TableView<>();
     @FXML private TableColumn           brandColumn = new TableColumn<>();
     @FXML private TableColumn           amountColumn = new TableColumn<>();
@@ -43,84 +43,118 @@ public class ReportController
 
     @FXML private void selectButtonClicked()
     {
+        initReportTable();
 
-        brandColumn.setCellValueFactory(new PropertyValueFactory<MeltForView, String>("brand"));
-        amountColumn.setCellValueFactory(new PropertyValueFactory<MeltForView, String>("mass"));
-        dateColumn.setCellValueFactory(
+        if (this.startDate.getValue() == null && this.endDate.getValue() == null)
+        {
+            showAllMelts();
+            return;
+        }
+
+        if(this.endDate.getValue() == null)
+        {
+            showMeltsFrom();
+            return;
+        }
+
+        if (this.startDate.getValue() == null)
+        {
+            showMeltsTill();
+            return;
+        }
+
+        if (this.startDate.getValue().isAfter(this.endDate.getValue()))
+        {
+            Helper.showErrorMessage(ErrorMessage.INCORRECT_DATES);
+        }
+        else
+        {
+            showMeltsFromTill();
+        }
+    }
+
+    private void initReportTable()
+    {
+        this.brandColumn.setCellValueFactory(new PropertyValueFactory<MeltForView, String>("brand"));
+        this.amountColumn.setCellValueFactory(new PropertyValueFactory<MeltForView, String>("mass"));
+        this.dateColumn.setCellValueFactory(
                 (Callback<TableColumn.CellDataFeatures<MeltForView, String>, ObservableValue<String>>) meltForView -> {
                     SimpleStringProperty property = new SimpleStringProperty();
                     DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
                     property.setValue(dateFormat.format(meltForView.getValue().getDate()));
                     return property;
                 });
-        lastnameColumn.setCellValueFactory(new PropertyValueFactory<MeltForView, String>("lastname"));
-        reportTable.setPlaceholder(new Label(ErrorMessage.NO_MELTS_FOUND));
-        reportTable.getColumns().clear();
-        reportTable.getColumns().addAll(brandColumn, amountColumn, dateColumn, lastnameColumn);
+        this.lastnameColumn.setCellValueFactory(new PropertyValueFactory<MeltForView, String>("lastname"));
+        this.reportTable.setPlaceholder(new Label(ErrorMessage.NO_MELTS_FOUND));
+        this.reportTable.getColumns().clear();
+        this.reportTable.getColumns().addAll(brandColumn, amountColumn, dateColumn, lastnameColumn);
+    }
 
-        if(firstDate.getValue()==null&& secondDate.getValue()==null)
+    private void showAllMelts()
+    {
+        try
         {
-            try {
-                melts = MeltForView.getAllMelts();
-            }
-            catch (RuntimeException e)
-            {
-                Helper.showErrorMessage(e.getLocalizedMessage());
-            }
-
-            if (melts != null)
-            {
-                reportTable.setItems(melts);
-            }
+            this.melts = MeltForView.getAllMelts();
         }
-        else if(secondDate.getValue()==null)
+        catch (RuntimeException e)
         {
-            try {
-                melts = MeltForView.getMeltsFrom(Date.from(firstDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-            }
-            catch (RuntimeException e)
-            {
-                Helper.showErrorMessage(e.getLocalizedMessage());
-            }
-
-            if (melts != null)
-            {
-                reportTable.setItems(melts);
-            }
+            Helper.showErrorMessage(e.getLocalizedMessage());
         }
-        else if(firstDate.getValue()==null)
-        {
-            try {
-                melts = MeltForView.getMeltsTill(Date.from(secondDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-            }
-            catch (RuntimeException e)
-            {
-                Helper.showErrorMessage(e.getLocalizedMessage());
-            }
 
-            if (melts != null)
-            {
-                reportTable.setItems(melts);
-            }
-        }
-        else if(firstDate.getValue().isAfter(secondDate.getValue()))
+        if (this.melts != null)
         {
-            Helper.showErrorMessage(ErrorMessage.INCORRECT_DATES);
+            this.reportTable.setItems(this.melts);
         }
-        else
-        {
-            try {
-                melts = MeltForView.getMeltsFromTill(Date.from(this.firstDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(this.secondDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-            }
-            catch (RuntimeException e)
-            {
-                Helper.showErrorMessage(e.getLocalizedMessage());
-            }
+    }
 
-            if (melts != null)
-            {
-                reportTable.setItems(melts);
-            }
+    private void showMeltsFrom()
+    {
+        try
+        {
+            this.melts = MeltForView.getMeltsFrom(Date.from(this.startDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        }
+        catch (RuntimeException e)
+        {
+            Helper.showErrorMessage(e.getLocalizedMessage());
+        }
+
+        if (this.melts != null)
+        {
+            this.reportTable.setItems(this.melts);
+        }
+    }
+
+    private void showMeltsTill()
+    {
+        try
+        {
+            this.melts = MeltForView.getMeltsTill(Date.from(this.endDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        }
+        catch (RuntimeException e)
+        {
+            Helper.showErrorMessage(e.getLocalizedMessage());
+        }
+
+        if (this.melts != null)
+        {
+            this.reportTable.setItems(this.melts);
+        }
+    }
+
+    private void showMeltsFromTill()
+    {
+        try
+        {
+            this.melts = MeltForView.getMeltsFromTill(Date.from(this.startDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(this.endDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        }
+        catch (RuntimeException e)
+        {
+            Helper.showErrorMessage(e.getLocalizedMessage());
+        }
+
+        if (this.melts != null)
+        {
+            this.reportTable.setItems(this.melts);
         }
     }
 }

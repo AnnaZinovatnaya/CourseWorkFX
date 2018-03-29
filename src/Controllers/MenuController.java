@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 import util.ErrorMessage;
 import util.Helper;
@@ -14,7 +13,7 @@ import util.Helper;
 public class MenuController
 {
     private Stage                    primaryStage;
-    private String                   windowTitle;
+    private String menuWindowTitle;
 
     @FXML private Button             addUserButton;
     @FXML private Button             addMeltButton;
@@ -23,16 +22,14 @@ public class MenuController
 
     private AddComponentController   addComponentController;
     private AddCharge1Controller     addCharge1Controller;
-    private ShowComponentsController showComponentsController;
-    private ShowMeltsController      showMeltsController;
     private ReportController         reportController;
     private UserController           userController;
 
-    public void init(Stage primaryStage, String windowTitle, UserController userController)
+    public void init(Stage primaryStage, String menuWindowTitle, UserController userController)
     {
-        this.primaryStage = primaryStage;
-        this.windowTitle = windowTitle;
-        this.userController = userController;
+        this.primaryStage    = primaryStage;
+        this.menuWindowTitle = menuWindowTitle;
+        this.userController  = userController;
 
         if (this.showMeltsButton != null)
         {
@@ -99,7 +96,7 @@ public class MenuController
             primaryStage.setScene(this.addMeltButton.getScene());
         }
 
-        primaryStage.setTitle(windowTitle);
+        primaryStage.setTitle(menuWindowTitle);
         primaryStage.show();
     }
 
