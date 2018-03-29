@@ -16,168 +16,82 @@ import util.Helper;
 
 public class AddCharge4Controller
 {
-
     private AddCharge3Controller                    addCharge3Controller;
     private Stage                                   primaryStage;
 
-    @FXML private TableColumn<CompInCharge, String> componentColumn = new TableColumn<>();
+    private ObservableList<CompInCharge>            components;
+
+    @FXML private TableColumn<CompInCharge, String> componentNameColumn = new TableColumn<>();
     @FXML private TableColumn<CompInCharge, String> minComponentPercentColumn = new TableColumn<>();
     @FXML private TableColumn<CompInCharge, String> maxComponentPercentColumn = new TableColumn<>();
     @FXML private TableView<CompInCharge>           componentsTable = new TableView<>();
-    private ObservableList<CompInCharge>            components;
 
-    @FXML public  void init()
+    private static final int                        INVALID_VALUE = -1;
+
+    @FXML public  void init(AddCharge3Controller addCharge3Controller)
     {
+        this.addCharge3Controller = addCharge3Controller;
         this.primaryStage = this.addCharge3Controller.getPrimaryStage();
 
         this.components = Manager.getChargeMandatoryComps();
+        for (CompInCharge aComp: this.components)
+        {
+            aComp.setMinPercent(INVALID_VALUE);
+            aComp.setMaxPercent(INVALID_VALUE);
+        }
+
+        this.componentNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        initMinPercentColumn();
+        initMaxPercentColumn();
+
         this.componentsTable.setEditable(true);
-        this.componentColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        this.minComponentPercentColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        this.minComponentPercentColumn.setOnEditCommit(
-            t ->
-        {
-            double percent;
-            boolean b= true;
-            try
-            {
-                percent = Double.parseDouble(t.getNewValue());
-
-                if (percent < 0)
-                {
-                    throw new RuntimeException(ErrorMessage.INCORRECT_MIN_PERCENT);
-                }
-            }
-            catch (Exception ex)
-            {
-                Helper.showErrorMessage(ErrorMessage.INCORRECT_MIN_PERCENT);
-
-                b=false;
-            }
-
-            if(b)
-            {
-                t.getTableView().getItems().get(
-                    t.getTablePosition().getRow()).setMinPercent(Double.parseDouble(t.getNewValue()));
-            }
-            else
-            {
-                t.getTableView().getItems().get(
-                    t.getTablePosition().getRow()).setMinPercent(0);
-            }
-        }
-        );
-
-        this.maxComponentPercentColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        this.maxComponentPercentColumn.setOnEditCommit(
-            t ->
-        {
-            double percent;
-            boolean b= true;
-            try
-            {
-                percent = Double.parseDouble(t.getNewValue());
-
-                if (percent < 0)
-                {
-                    throw new RuntimeException(ErrorMessage.INCORRECT_MAX_PERCENT);
-                }
-            }
-            catch (Exception ex)
-            {
-                Helper.showErrorMessage(ErrorMessage.INCORRECT_MAX_PERCENT);
-
-                b=false;
-            }
-
-            if(b)
-            {
-                t.getTableView().getItems().get(
-                    t.getTablePosition().getRow()).setMaxPercent(Double.parseDouble(t.getNewValue()));
-            }
-            else
-            {
-                t.getTableView().getItems().get(
-                    t.getTablePosition().getRow()).setMaxPercent(0);
-            }
-        }
-        );
-        this.componentsTable.setItems(components);
+        this.componentsTable.setItems(this.components);
         this.componentsTable.getColumns().clear();
-        this.componentsTable.getColumns().addAll(componentColumn, minComponentPercentColumn, maxComponentPercentColumn);
+        this.componentsTable.getColumns().addAll(this.componentNameColumn,
+                                                 this.minComponentPercentColumn,
+                                                 this.maxComponentPercentColumn);
     }
 
-    @FXML
-    private void backButtonClicked()
+    @FXML private void backButtonClicked()
     {
         addCharge3Controller.backToScene();
     }
+
     @FXML private void nextButtonClicked()
     {
-
-        for(CompInCharge aComp: components)
+        if (!areAllFieldsFilled())
         {
-            if(aComp.getMaxPercent() == 0 || aComp.getMaxPercent() == 0)
-            {
-                Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
-
-                return;
-            }
+            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            return;
         }
 
-        for(CompInCharge aComp: components)
+        if (minPercentIsBiggerThanMax())
         {
-            if(aComp.getMaxPercent() < aComp.getMinPercent())
-            {
-                Helper.showErrorMessage(ErrorMessage.MIN_BIGGER_THAN_MAX);
-
-                return;
-            }
-        }
-        double min=0;
-        double max=0;
-        for(CompInCharge aComp: components)
-        {
-            min += aComp.getMinPercent();
-            max += aComp.getMaxPercent();
+            Helper.showErrorMessage(ErrorMessage.MIN_BIGGER_THAN_MAX);
+            return;
         }
 
-        if(min > 100)
+        if (sumOfMinIsBiggerThan100())
         {
             Helper.showErrorMessage(ErrorMessage.MIN_SUM_BIGGER_THAN_100);
-
             return;
         }
 
-        if(max < 100)
+        if (sumOfMaxIsLessThan100())
         {
             Helper.showErrorMessage(ErrorMessage.MAX_SUM_LESS_THAN_100);
-
             return;
         }
 
-        if(Manager.isChargePossible())
+        if (Manager.isChargePossible())
         {
             Manager.calculateCheapCharge();
-            try
-            {
-                FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/Views/ChargeResultScene.fxml")
-                );
-                Parent root = loader.load();
-                ChargeResultController chargeResultController = loader.getController();
-                chargeResultController.setAddCharge4Controller(this);
-                chargeResultController.init();
-                primaryStage.setScene(new Scene(root));
-            }
-            catch (Exception ex)
-            {
-                Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
-            }
+            loadChargeResult();
         }
         else
         {
-            Helper.showErrorMessage("Набор шихты невозможен");
+            Helper.showErrorMessage(ErrorMessage.CANNOT_CALCULATE_CHARGE);
         }
     }
 
@@ -187,10 +101,146 @@ public class AddCharge4Controller
     }
 
     public Stage getPrimaryStage() {
-        return primaryStage;
+        return this.primaryStage;
     }
 
-    public void setAddCharge3Controller(AddCharge3Controller addCharge3Controller) {
-        this.addCharge3Controller = addCharge3Controller;
+    private void initMinPercentColumn()
+    {
+        this.minComponentPercentColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        this.minComponentPercentColumn.setOnEditCommit(
+                t ->
+                {
+                    double percent;
+
+                    try
+                    {
+                        percent = Double.parseDouble(t.getNewValue());
+
+                        if (percent < 0)
+                        {
+                            throw new RuntimeException(ErrorMessage.INCORRECT_MIN_PERCENT);
+                        }
+
+                        t.getTableView().getItems().get(
+                                t.getTablePosition().getRow()).setMinPercent(percent);
+                    }
+                    catch (Exception ex)
+                    {
+                        Helper.showErrorMessage(ErrorMessage.INCORRECT_MIN_PERCENT);
+
+                        t.getTableView().getItems().get(
+                                t.getTablePosition().getRow()).setMinPercent(INVALID_VALUE);
+                    }
+                }
+        );
+    }
+
+    private void initMaxPercentColumn()
+    {
+        this.maxComponentPercentColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        this.maxComponentPercentColumn.setOnEditCommit(
+                t ->
+                {
+                    double percent;
+
+                    try
+                    {
+                        percent = Double.parseDouble(t.getNewValue());
+
+                        if (percent < 0 || percent > 100)
+                        {
+                            throw new RuntimeException(ErrorMessage.INCORRECT_MAX_PERCENT);
+                        }
+
+                        t.getTableView().getItems().get(
+                                t.getTablePosition().getRow()).setMaxPercent(percent);
+                    }
+                    catch (Exception ex)
+                    {
+                        Helper.showErrorMessage(ErrorMessage.INCORRECT_MAX_PERCENT);
+
+                        t.getTableView().getItems().get(
+                                t.getTablePosition().getRow()).setMaxPercent(INVALID_VALUE);
+                    }
+                }
+        );
+    }
+
+    private void loadChargeResult()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Views/ChargeResultScene.fxml")
+            );
+            Parent root = loader.load();
+            ChargeResultController chargeResultController = loader.getController();
+            chargeResultController.init(this);
+            this.primaryStage.setScene(new Scene(root));
+        }
+        catch (Exception ex)
+        {
+            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+        }
+    }
+
+    private boolean areAllFieldsFilled()
+    {
+        for (CompInCharge aComp: this.components)
+        {
+            if (aComp.getMinPercent() == INVALID_VALUE || aComp.getMaxPercent() == INVALID_VALUE)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean minPercentIsBiggerThanMax()
+    {
+        for (CompInCharge aComp: this.components)
+        {
+            if (aComp.getMinPercent() > aComp.getMaxPercent())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean sumOfMinIsBiggerThan100()
+    {
+        double sumOfMinPercents = 0;
+
+        for (CompInCharge aComp: this.components)
+        {
+            sumOfMinPercents += aComp.getMinPercent();
+        }
+
+        if (sumOfMinPercents > 100)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean sumOfMaxIsLessThan100()
+    {
+        double sumOfMaxPercents = 0;
+
+        for (CompInCharge aComp: this.components)
+        {
+            sumOfMaxPercents += aComp.getMaxPercent();
+        }
+
+        if (sumOfMaxPercents < 100)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -45,6 +45,12 @@ public class UserController
                 loginButtonClicked();
             }
         });
+
+
+        //FOR TEST
+        this.loginName.setText("Металлург");
+        this.loginLastname.setText("Металлург");
+        this.loginPassword.setText("Металлург");
     }
 
     @FXML public void init()

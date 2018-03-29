@@ -202,20 +202,10 @@ public class Manager
         }
     }
 
-    public static void newCharge()
+    public static void createNewCharge(double mass, double deltaMass, String meltBrand)
     {
-        charge = new Charge(currentUser, 0, 0, null, null, null, null, null);
-    }
-
-    public static void setChargeBrand(String meltBrand)
-    {
+        charge = new Charge(currentUser, mass, deltaMass, null, null, null, null, null);
         charge.setChargeBrand(meltBrand);
-    }
-
-    public static void setChargeMassAndDelta(double mass, double deltaMass)
-    {
-        charge.setMass(mass);
-        charge.setDeltaMass(deltaMass);
     }
 
     public static ObservableList<Element> getChargeElements()

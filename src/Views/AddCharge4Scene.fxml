@@ -29,7 +29,7 @@
       </Label>
       <TableView fx:id="componentsTable" layoutX="14.0" layoutY="94.0" prefHeight="233.0" prefWidth="569.0">
          <columns>
-            <TableColumn fx:id="componentColumn" editable="false" prefWidth="175.0" style="-fx-font: NORMAL 16 System;" text="Компонент" />
+            <TableColumn fx:id="componentNameColumn" editable="false" prefWidth="175.0" style="-fx-font: NORMAL 16 System;" text="Компонент" />
             <TableColumn fx:id="minComponentPercentColumn" prefWidth="197.0" style="-fx-font: NORMAL 16 System;" text="Мин. вхождение, %" />
             <TableColumn fx:id="maxComponentPercentColumn" prefWidth="197.0" style="-fx-font: NORMAL 16 System;" text="Макс. вхождение, %" />
          </columns>

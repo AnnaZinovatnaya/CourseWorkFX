@@ -2,6 +2,7 @@ package util;
 
 public class ErrorMessage
 {
+    public static final String CANNOT_CALCULATE_CHARGE  = "Набор шихты невозможен";
     public static final String CANNOT_CLOSE_CONNECTION  = "Невозможно закрыть базу данных!";
     public static final String CANNOT_CONNECT_TO_DB     = "Невозможно подключиться к базе данных!";
     public static final String CANNOT_CREATE_DB         = "Невозможно создать базу данных!";

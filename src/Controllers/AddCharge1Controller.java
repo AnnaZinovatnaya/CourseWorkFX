@@ -49,73 +49,50 @@ public class AddCharge1Controller
 
     @FXML public void nextButtonClicked()
     {
-        boolean b = true;
         double mass = 0;
         double deltaMass = 0;
-        if(brandChoiceBox.getValue().isEmpty() || massField.getText().isEmpty() || deltaMassField.getText().isEmpty())
+
+        if (this.brandChoiceBox.getValue().isEmpty() ||
+            this.massField.getText().isEmpty()       ||
+            this.deltaMassField.getText().isEmpty())
         {
             Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
-
-            b = false;
+            return;
         }
-        if(b)
+
+        try
         {
-            try
-            {
-                mass = Double.parseDouble(massField.getText());
+            mass = Double.parseDouble(this.massField.getText());
 
-                if (mass <= 0)
-                {
-                    throw new RuntimeException(ErrorMessage.INCORRECT_DELTA_MASS);
-                }
-            }
-            catch (Exception ex)
+            if (mass <= 0)
             {
-                Helper.showErrorMessage(ErrorMessage.INCORRECT_MASS);
-
-                b = false;
+                throw new RuntimeException(ErrorMessage.INCORRECT_DELTA_MASS);
             }
         }
-        if(b)
+        catch (Exception ex)
         {
-            try
-            {
-                deltaMass = Double.parseDouble(deltaMassField.getText());
-
-                if (deltaMass <= 0)
-                {
-                    throw new RuntimeException(ErrorMessage.INCORRECT_DELTA_MASS);
-                }
-            }
-            catch (Exception ex)
-            {
-                Helper.showErrorMessage(ErrorMessage.INCORRECT_DELTA_MASS);
-
-                b = false;
-            }
+            Helper.showErrorMessage(ErrorMessage.INCORRECT_MASS);
+            return;
         }
-        if(b)
+
+        try
         {
-            Manager.newCharge();
-            Manager.setChargeBrand(brandChoiceBox.getValue());
-            Manager.setChargeMassAndDelta(mass, deltaMass);
+            deltaMass = Double.parseDouble(this.deltaMassField.getText());
 
-            try
+            if (deltaMass <= 0)
             {
-                FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/Views/AddCharge2Scene.fxml")
-                );
-                Parent root = loader.load();
-                AddCharge2Controller addCharge2Controller = loader.getController();
-                addCharge2Controller.setAddCharge1Controller(this);
-                addCharge2Controller.init();
-                primaryStage.setScene(new Scene(root));
-            }
-            catch (Exception ex)
-            {
-                Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+                throw new RuntimeException(ErrorMessage.INCORRECT_DELTA_MASS);
             }
         }
+        catch (Exception ex)
+        {
+            Helper.showErrorMessage(ErrorMessage.INCORRECT_DELTA_MASS);
+            return;
+        }
+
+        Manager.createNewCharge(mass, deltaMass, this.brandChoiceBox.getValue());
+
+        loadAddCharge2Scene();
     }
 
     public void backToScene()
@@ -123,8 +100,27 @@ public class AddCharge1Controller
         this.primaryStage.setScene(this.brandChoiceBox.getScene());
     }
 
-    public Stage getPrimaryStage() {
-        return primaryStage;
+    public Stage getPrimaryStage()
+    {
+        return this.primaryStage;
+    }
+
+    private void loadAddCharge2Scene()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Views/AddCharge2Scene.fxml")
+            );
+            Parent root = loader.load();
+            AddCharge2Controller addCharge2Controller = loader.getController();
+            addCharge2Controller.init(this);
+            this.primaryStage.setScene(new Scene(root));
+        }
+        catch (Exception ex)
+        {
+            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+        }
     }
 }
 

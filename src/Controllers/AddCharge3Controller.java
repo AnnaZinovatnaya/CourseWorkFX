@@ -17,20 +17,23 @@ public class AddCharge3Controller
     private AddCharge2Controller   addCharge2Controller;
     private Stage                  primaryStage;
 
-    @FXML private ListView<String> allComponentsList = new ListView<>();
-    @FXML private ListView<String> selectedComponentsList = new ListView<>();
     private ObservableList<String> items;
     private ObservableList<String> selectedItems;
 
-    public void init()
+    @FXML private ListView<String> allComponentsList = new ListView<>();
+    @FXML private ListView<String> selectedComponentsList = new ListView<>();
+
+    public void init(AddCharge2Controller addCharge2Controller)
     {
+        this.addCharge2Controller = addCharge2Controller;
         this.primaryStage = this.addCharge2Controller.getPrimaryStage();
+
         try
         {
-            items = Manager.getAllMandatoryComponentsString();
-            selectedItems = FXCollections.observableArrayList ();
-            this.allComponentsList.setItems(items);
-            this.selectedComponentsList.setItems(selectedItems);
+            this.items = Manager.getAllMandatoryComponentsString();
+            this.selectedItems = FXCollections.observableArrayList ();
+            this.allComponentsList.setItems(this.items);
+            this.selectedComponentsList.setItems(this.selectedItems);
         }
         catch (RuntimeException e)
         {
@@ -40,13 +43,14 @@ public class AddCharge3Controller
 
     @FXML private void backButtonClicked()
     {
-        addCharge2Controller.backToScene();
+        this.addCharge2Controller.backToScene();
     }
+
     @FXML private void nextButtonClicked()
     {
-        if(selectedItems.size() > 0)
+        if (this.selectedItems.size() != 0)
         {
-            Manager.setMandatoryComponents(selectedItems);
+            Manager.setMandatoryComponents(this.selectedItems);
             try
             {
                 FXMLLoader loader = new FXMLLoader(
@@ -54,9 +58,8 @@ public class AddCharge3Controller
                 );
                 Parent root = loader.load();
                 AddCharge4Controller addCharge4Controller = loader.getController();
-                addCharge4Controller.setAddCharge3Controller(this);
-                addCharge4Controller.init();
-                primaryStage.setScene(new Scene(root));
+                addCharge4Controller.init(this);
+                this.primaryStage.setScene(new Scene(root));
             }
             catch (Exception ex)
             {
@@ -71,28 +74,25 @@ public class AddCharge3Controller
 
     @FXML private void oneForwardButtonClicked()
     {
-        String temp = allComponentsList.getSelectionModel().getSelectedItem();
-        if(!selectedItems.contains(temp) && temp != null)
+        String selectedComponent = this.allComponentsList.getSelectionModel().getSelectedItem();
+        if (!this.selectedItems.contains(selectedComponent) && selectedComponent != null)
         {
-            this.selectedComponentsList.getItems().add(temp);
+            this.selectedComponentsList.getItems().add(selectedComponent);
         }
     }
 
     @FXML private void allForwardButtonClicked()
     {
         this.selectedComponentsList.getItems().clear();
-        for (String item : items)
-        {
-            this.selectedComponentsList.getItems().add(item);
-        }
+        this.selectedComponentsList.getItems().addAll(items);
     }
 
     @FXML private void oneBackButtonClicked()
     {
-        String temp = selectedComponentsList.getSelectionModel().getSelectedItem();
-        if(temp != null)
+        String selectedComponent = this.selectedComponentsList.getSelectionModel().getSelectedItem();
+        if (selectedComponent != null)
         {
-            this.selectedComponentsList.getItems().remove(temp);
+            this.selectedComponentsList.getItems().remove(selectedComponent);
         }
     }
 
@@ -101,17 +101,12 @@ public class AddCharge3Controller
         this.selectedComponentsList.getItems().clear();
     }
 
-
     public void backToScene()
     {
         this.primaryStage.setScene(this.allComponentsList.getScene());
     }
 
     public Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
-    public void setAddCharge2Controller(AddCharge2Controller addCharge2Controller) {
-        this.addCharge2Controller = addCharge2Controller;
+        return this.primaryStage;
     }
 }
