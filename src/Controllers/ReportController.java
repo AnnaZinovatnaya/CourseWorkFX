@@ -3,6 +3,7 @@ package Controllers;
 import Models.MeltForView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -45,31 +46,39 @@ public class ReportController
     {
         initReportTable();
 
+        if (this.startDate.getValue() != null && this.endDate.getValue() != null)
+        {
+            if (this.startDate.getValue().isAfter(this.endDate.getValue()))
+            {
+                Helper.showErrorMessage(ErrorMessage.INCORRECT_DATES);
+                return;
+            }
+        }
+
+        //TODO: refactor
         if (this.startDate.getValue() == null && this.endDate.getValue() == null)
         {
-            showAllMelts();
-            return;
+            this.melts = getAllMelts();
         }
 
-        if(this.endDate.getValue() == null)
+        if (this.startDate.getValue() != null && this.endDate.getValue() == null)
         {
-            showMeltsFrom();
-            return;
+            this.melts = getMeltFrom();
         }
 
-        if (this.startDate.getValue() == null)
+        if (this.startDate.getValue() == null && this.endDate.getValue() != null)
         {
-            showMeltsTill();
-            return;
+            this.melts = getMeltsTill();
         }
 
-        if (this.startDate.getValue().isAfter(this.endDate.getValue()))
+        if (this.startDate.getValue() != null && this.endDate.getValue() != null)
         {
-            Helper.showErrorMessage(ErrorMessage.INCORRECT_DATES);
+            this.melts = getMeltsFromTill();
         }
-        else
+
+        if (this.melts != null)
         {
-            showMeltsFromTill();
+            this.reportTable.setItems(this.melts);
         }
     }
 
@@ -90,71 +99,60 @@ public class ReportController
         this.reportTable.getColumns().addAll(brandColumn, amountColumn, dateColumn, lastnameColumn);
     }
 
-    private void showAllMelts()
+    private ObservableList<MeltForView> getAllMelts()
     {
         try
         {
-            this.melts = MeltForView.getAllMelts();
+            return MeltForView.getAllMelts();
         }
         catch (RuntimeException e)
         {
             Helper.showErrorMessage(e.getLocalizedMessage());
         }
 
-        if (this.melts != null)
-        {
-            this.reportTable.setItems(this.melts);
-        }
+        return FXCollections.observableArrayList ();
     }
 
-    private void showMeltsFrom()
+    private ObservableList<MeltForView> getMeltFrom()
     {
         try
         {
-            this.melts = MeltForView.getMeltsFrom(Date.from(this.startDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            return MeltForView.getMeltsFrom(Date.from(this.startDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         }
         catch (RuntimeException e)
         {
             Helper.showErrorMessage(e.getLocalizedMessage());
         }
 
-        if (this.melts != null)
-        {
-            this.reportTable.setItems(this.melts);
-        }
+        return FXCollections.observableArrayList ();
     }
 
-    private void showMeltsTill()
+    private ObservableList<MeltForView> getMeltsTill()
     {
         try
         {
-            this.melts = MeltForView.getMeltsTill(Date.from(this.endDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            return MeltForView.getMeltsTill(Date.from(this.endDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         }
         catch (RuntimeException e)
         {
             Helper.showErrorMessage(e.getLocalizedMessage());
         }
 
-        if (this.melts != null)
-        {
-            this.reportTable.setItems(this.melts);
-        }
+        return FXCollections.observableArrayList ();
     }
 
-    private void showMeltsFromTill()
+    private ObservableList<MeltForView> getMeltsFromTill()
     {
         try
         {
-            this.melts = MeltForView.getMeltsFromTill(Date.from(this.startDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(this.endDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            return MeltForView.getMeltsFromTill(Date.from(this.startDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                                                Date.from(this.endDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         }
         catch (RuntimeException e)
         {
             Helper.showErrorMessage(e.getLocalizedMessage());
         }
 
-        if (this.melts != null)
-        {
-            this.reportTable.setItems(this.melts);
-        }
+        return FXCollections.observableArrayList ();
     }
 }
