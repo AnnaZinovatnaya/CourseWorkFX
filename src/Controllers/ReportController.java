@@ -61,11 +61,18 @@ public class ReportController
         try
         {
             startDate = Date.from(this.startDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            endDate = Date.from(this.endDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
         }
         catch (Exception e)
         {
             startDate = null;
+        }
+
+        try
+        {
+            endDate = Date.from(this.endDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        }
+        catch (Exception e)
+        {
             endDate = null;
         }
 
