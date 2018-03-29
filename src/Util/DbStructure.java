@@ -1,7 +1,5 @@
-package util;
+package Util;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class DbStructure {

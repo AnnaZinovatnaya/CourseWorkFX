@@ -2,8 +2,8 @@ package Models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import util.ErrorMessage;
-import util.SQLiteUtil;
+import Util.ErrorMessage;
+import Util.SQLiteUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

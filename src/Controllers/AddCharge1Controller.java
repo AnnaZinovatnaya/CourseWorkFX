@@ -10,8 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import util.ErrorMessage;
-import util.Helper;
+import Util.ErrorMessage;
+import Util.Helper;
 
 public class AddCharge1Controller
 {

@@ -1,7 +1,7 @@
 package Models;
 
-import util.ErrorMessage;
-import util.SQLiteUtil;
+import Util.ErrorMessage;
+import Util.SQLiteUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -72,31 +72,19 @@ public class Melt
         return res;
     }
 
-
-
-
     public void saveToDB() throws RuntimeException
     {
-        int idUser;
         try
         {
-            ResultSet rs = SQLiteUtil.dbExecuteQuery("SELECT * FROM user WHERE `name`='" + user.getName()+"' AND lastname = '" + user.getLastname() + "';");
-            rs.next();
-            idUser = rs.getInt("idUser");
-
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
             SQLiteUtil.dbExecuteUpdate("INSERT INTO melt (date, Charge_idCharge, User_idUser)\n" +
-                    "VALUES ('" + sqlDate+"', '" + this.charge.getId() + "', '" + idUser+"');");
+                    "VALUES ('" + sqlDate + "', '" + this.charge.getId() + "', '" + this.user.getId() +"');");
 
         }
         catch (RuntimeException e)
         {
             throw e;
-        }
-        catch (SQLException e)
-        {
-            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY);
         }
     }
 }

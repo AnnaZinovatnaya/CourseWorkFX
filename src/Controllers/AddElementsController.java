@@ -9,8 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-import util.ErrorMessage;
-import util.Helper;
+import Util.ErrorMessage;
+import Util.Helper;
 
 public class AddElementsController
 {

@@ -8,8 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
-import util.ErrorMessage;
-import util.Helper;
+import Util.ErrorMessage;
+import Util.Helper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

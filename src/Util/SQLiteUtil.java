@@ -1,4 +1,4 @@
-package util;
+package Util;
 import com.sun.rowset.CachedRowSetImpl;
 
 import java.io.*;

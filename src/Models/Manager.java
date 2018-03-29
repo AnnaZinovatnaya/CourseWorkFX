@@ -34,7 +34,7 @@ public class Manager
     {
         try
         {
-            user = new User(name, lastname, password, role);
+            user = new User(0, name, lastname, password, role);
             user.saveUser();
         }
         catch (RuntimeException e)

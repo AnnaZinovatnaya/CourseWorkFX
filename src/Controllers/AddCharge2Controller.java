@@ -12,8 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import util.ErrorMessage;
-import util.Helper;
+import Util.ErrorMessage;
+import Util.Helper;
 
 public class AddCharge2Controller
 {

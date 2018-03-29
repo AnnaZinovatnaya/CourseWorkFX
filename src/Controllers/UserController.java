@@ -11,8 +11,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import util.ErrorMessage;
-import util.Helper;
+import Util.ErrorMessage;
+import Util.Helper;
 
 public class UserController
 {

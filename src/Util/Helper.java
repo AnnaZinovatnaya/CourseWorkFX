@@ -1,4 +1,4 @@
-package util;
+package Util;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;

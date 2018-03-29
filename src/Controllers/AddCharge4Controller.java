@@ -11,8 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import util.ErrorMessage;
-import util.Helper;
+import Util.ErrorMessage;
+import Util.Helper;
 
 public class AddCharge4Controller
 {
@@ -116,7 +116,7 @@ public class AddCharge4Controller
                     {
                         percent = Double.parseDouble(t.getNewValue());
 
-                        if (percent < 0)
+                        if (percent < 0 || percent > 100)
                         {
                             throw new RuntimeException(ErrorMessage.INCORRECT_MIN_PERCENT);
                         }
