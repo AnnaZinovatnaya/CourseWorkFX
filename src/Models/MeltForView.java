@@ -65,26 +65,22 @@ public class MeltForView
         this.lastname = lastname;
     }
 
-    public static ObservableList<MeltForView> getMeltsFromTill(Date firstDate, Date secondDate)  throws RuntimeException
+    public static ObservableList<MeltForView> getMeltsFromTill(Date startDate, Date endDate)  throws RuntimeException
     {
-        ObservableList<MeltForView> list = FXCollections.observableArrayList ();
+        ObservableList<MeltForView> melts = FXCollections.observableArrayList ();
 
-        MeltForView temp;
         ResultSet rs;
-        String query = "";
+        String query = formQuery(startDate, endDate);
         try
         {
-            query = "SELECT MB.name, mass, date, U.lastname " +
-                    "FROM melt M join charge C on M.Charge_idCharge=C.idCharge " +
-                    "JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand " +
-                    "JOIN user U ON U.idUser = M.User_idUser " +
-                    "WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"' AND `date` <= '"+new java.sql.Date(secondDate.getTime())+"'";
             rs = SQLiteUtil.dbExecuteQuery(query);
+
             while (rs.next())
             {
-                temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), format.parse(rs.getString("date")), rs.getString("lastname"));
-                list.add(temp);
+                melts.add(new MeltForView(rs.getString("name"), rs.getDouble("mass"), format.parse(rs.getString("date")), rs.getString("lastname")));
             }
+
+            rs.close();
 
         }
         catch (ParseException e)
@@ -100,122 +96,30 @@ public class MeltForView
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
-        return list;
+        return melts;
     }
 
-    public static ObservableList<MeltForView> getAllMelts()  throws RuntimeException
+    private static String formQuery(Date startDate, Date endDate)
     {
-        ObservableList<MeltForView> list = FXCollections.observableArrayList ();
+        String query = "SELECT MB.name, C.mass, M.date, U.lastname " +
+                       "FROM melt M " +
+                       "JOIN charge C on M.Charge_idCharge=C.idCharge " +
+                       "JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand " +
+                       "JOIN user U ON U.idUser = M.User_idUser ";
 
-        MeltForView temp;
-        ResultSet rs;
-        String query = "";
-
-        try
+        if (startDate != null && endDate != null)
         {
-            query = "SELECT MB.name, mass, M.date, U.lastname " +
-                    "FROM melt M join charge C on M.Charge_idCharge=C.idCharge " +
-                    "JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand " +
-                    "JOIN user U ON U.idUser = M.User_idUser;";
-            rs = SQLiteUtil.dbExecuteQuery(query);
-            while (rs.next())
-            {
-                temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), format.parse(rs.getString("date")), rs.getString("lastname"));
-                list.add(temp);
-            }
-
+            query += "WHERE `date`>='" + new java.sql.Date(startDate.getTime()) + "' AND `date` <= '" + new java.sql.Date(endDate.getTime()) + "'";
         }
-        catch (ParseException e)
+        if (startDate != null && endDate == null)
         {
-            throw new RuntimeException(ErrorMessage.CANNOT_PARSE_DATE);
+            query += "WHERE `date`>='" + new java.sql.Date(startDate.getTime()) + "'";
         }
-        catch (RuntimeException ex)
+        if (startDate == null && endDate != null)
         {
-            throw ex;
-        }
-        catch (SQLException e)
-        {
-            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+            query += "WHERE `date`<='" + new java.sql.Date(endDate.getTime()) + "'";
         }
 
-        return list;
-    }
-
-    public static ObservableList<MeltForView> getMeltsFrom(Date firstDate)  throws RuntimeException
-    {
-        ObservableList<MeltForView> list = FXCollections.observableArrayList ();
-
-        MeltForView temp;
-        ResultSet rs;
-        String query = "";
-
-        try
-        {
-            query = "SELECT MB.name, mass, `date`, U.lastname " +
-                    "FROM melt M join charge C on M.Charge_idCharge=C.idCharge " +
-                    "JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand " +
-                    "JOIN user U ON U.idUser = M.User_idUser " +
-                    "WHERE `date`>='"+new java.sql.Date(firstDate.getTime())+"'";
-            rs = SQLiteUtil.dbExecuteQuery(query);
-            while (rs.next())
-            {
-                temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), format.parse(rs.getString("date")), rs.getString("lastname"));
-                list.add(temp);
-            }
-
-        }
-        catch (ParseException e)
-        {
-            throw new RuntimeException(ErrorMessage.CANNOT_PARSE_DATE);
-        }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
-        catch (SQLException e)
-        {
-            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
-        }
-
-        return list;
-    }
-
-    public static ObservableList<MeltForView> getMeltsTill(Date secondDate)  throws RuntimeException
-    {
-        ObservableList<MeltForView> list = FXCollections.observableArrayList ();
-
-        MeltForView temp;
-        ResultSet rs;
-        String query = "";
-
-        try
-        {
-            query = "SELECT MB.name, mass, `date`, U.lastname " +
-                    "FROM melt M join charge C on M.Charge_idCharge=C.idCharge " +
-                    "JOIN meltbrand MB ON MB.idMeltBrand=C.MeltBrand_idMeltBrand " +
-                    "JOIN user U ON U.idUser = M.User_idUser " +
-                    "WHERE `date`<='"+new java.sql.Date(secondDate.getTime())+"'";
-            rs = SQLiteUtil.dbExecuteQuery(query);
-            while (rs.next())
-            {
-                temp = new MeltForView(rs.getString("name"), rs.getDouble("mass"), format.parse(rs.getString("date")), rs.getString("lastname"));
-                list.add(temp);
-            }
-        }
-        catch (ParseException e)
-        {
-            throw new RuntimeException(ErrorMessage.CANNOT_PARSE_DATE);
-        }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
-        catch (SQLException e)
-        {
-            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
-        }
-
-
-        return list;
+        return query;
     }
 }
