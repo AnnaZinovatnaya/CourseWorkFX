@@ -45,12 +45,6 @@ public class UserController
                 loginButtonClicked();
             }
         });
-
-
-        //FOR TEST
-        this.loginName.setText("Металлург");
-        this.loginLastname.setText("Металлург");
-        this.loginPassword.setText("Металлург");
     }
 
     @FXML public void init()
@@ -75,29 +69,40 @@ public class UserController
            this.loginPassword.getText().isEmpty())
         {
             Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
-            return;
         }
+        else
+        {
+            login();
+        }
+    }
 
+    private void login()
+    {
         boolean isLoginSuccessful = false;
 
         try
         {
             isLoginSuccessful = Manager.login(this.loginName.getText(),
-                                              this.loginLastname.getText(),
-                                              this.loginPassword.getText());
+                    this.loginLastname.getText(),
+                    this.loginPassword.getText());
+
+            if(!isLoginSuccessful)
+            {
+                Helper.showErrorMessage(ErrorMessage.WRONG_LOGIN_OR_PASSWORD);
+                return;
+            }
+
+            loadMenu();
         }
         catch (RuntimeException e)
         {
             Helper.showErrorMessage(e.getLocalizedMessage());
             return;
         }
+    }
 
-        if(!isLoginSuccessful)
-        {
-            Helper.showErrorMessage(ErrorMessage.WRONG_LOGIN_OR_PASSWORD);
-            return;
-        }
-
+    private void loadMenu()
+    {
         switch (Manager.getRole())
         {
             case "администратор":
@@ -113,121 +118,6 @@ public class UserController
                 loadDirectorMenu();
                 break;
         }
-    }
-
-    @FXML private void addUserButtonClicked()
-    {
-        if (this.nameToAdd.getText().isEmpty()     ||
-            this.lastnameToAdd.getText().isEmpty() ||
-            this.passwordToAdd.getText().isEmpty() ||
-            this.roles.getValue().isEmpty())
-        {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
-            return;
-        }
-
-        try
-        {
-            if (Manager.userExists(this.nameToAdd.getText(), this.lastnameToAdd.getText()))
-            {
-                Helper.showErrorMessage(ErrorMessage.USER_ALREADY_EXISTS);
-                return;
-            }
-
-            Manager.saveNewUser(this.nameToAdd.getText(),
-                                this.lastnameToAdd.getText(),
-                                this.passwordToAdd.getText(),
-                                this.roles.getValue());
-
-            Helper.showInformationMessage("Пользователь добавлен!");
-
-            clearAddUserFields();
-        }
-        catch (RuntimeException e)
-        {
-            Helper.showErrorMessage(e.getLocalizedMessage());
-        }
-    }
-
-    @FXML private void searchButtonClicked()
-    {
-        if (this.nameToSearch.getText().isEmpty() || this.lastnameToSearch.getText().isEmpty())
-        {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
-            return;
-        }
-
-
-        try
-        {
-            if (Manager.findUser(nameToSearch.getText(), lastnameToSearch.getText()))
-            {
-                this.searchResult.setText("Имя - "     + Manager.getFoundName()     + "\n" +
-                                          "Фамилия - " + Manager.getFoundLastname() + "\n" +
-                                          "Пароль - "  + Manager.getFoundPassword() + "\n" +
-                                          "Роль - "    + Manager.getFoundRole());
-            }
-            else
-            {
-                this.searchResult.setText(ErrorMessage.USER_DOES_NOT_EXIST);
-            }
-        }
-        catch (RuntimeException e)
-        {
-            Helper.showErrorMessage(e.getLocalizedMessage());
-        }
-    }
-
-    @FXML private void deleteButtonClicked()
-    {
-        if (Manager.getUser() == null)
-        {
-            this.searchResult.setText(ErrorMessage.EMPTY_USER_CHOICE);
-            return;
-        }
-
-        if (Manager.isUserDefaultAdmin())
-        {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_DELETE_ADMIN);
-            return;
-        }
-
-        try
-        {
-            Stage stage = new Stage();
-            stage.setTitle("Удаление пользователя");
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/Views/DeleteUserScene.fxml")
-            );
-
-            Parent root = loader.load();
-            DeleteUserController deleteUserController = loader.getController();
-            deleteUserController.setUserController(this);
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(this.lastnameToSearch.getScene().getWindow());
-            stage.showAndWait();
-        }
-        catch (Exception ex)
-        {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
-        }
-    }
-
-    public TextArea getSearchResult()
-    {
-        return searchResult;
-    }
-
-    public void backToScene()
-    {
-        Manager.logout();
-
-        this.loginName.setText("");
-        this.loginLastname.setText("");
-        this.loginPassword.setText("");
-        this.primaryStage.setTitle("Вход в систему");
-        this.primaryStage.setScene(this.loginLastname.getScene());
     }
 
     private void loadAdminMenu()
@@ -310,11 +200,161 @@ public class UserController
         }
     }
 
+    @FXML private void addUserButtonClicked()
+    {
+        if (this.nameToAdd.getText().isEmpty()     ||
+            this.lastnameToAdd.getText().isEmpty() ||
+            this.passwordToAdd.getText().isEmpty() ||
+            this.roles.getValue().isEmpty())
+        {
+            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            return;
+        }
+
+        if (!userExists())
+        {
+            addNewUser();
+            Helper.showInformationMessage("Пользователь добавлен!");
+            clearAddUserFields();
+        }
+        else
+        {
+            Helper.showErrorMessage(ErrorMessage.USER_ALREADY_EXISTS);
+        }
+    }
+
+    private boolean userExists()
+    {
+        try
+        {
+            if (Manager.userExists(this.nameToAdd.getText(), this.lastnameToAdd.getText()))
+            {
+                return true;
+            }
+        }
+        catch (RuntimeException e)
+        {
+            Helper.showErrorMessage(e.getLocalizedMessage());
+        }
+
+        return false;
+    }
+
+    private void addNewUser()
+    {
+        try
+        {
+            Manager.saveNewUser(this.nameToAdd.getText(),
+                                this.lastnameToAdd.getText(),
+                                this.passwordToAdd.getText(),
+                                this.roles.getValue());
+        }
+        catch (RuntimeException e)
+        {
+            Helper.showErrorMessage(e.getLocalizedMessage());
+        }
+    }
+
     private void clearAddUserFields()
     {
         this.nameToAdd.setText("");
         this.lastnameToAdd.setText("");
         this.passwordToAdd.setText("");
         this.roles.setValue("");
+    }
+
+    @FXML private void searchButtonClicked()
+    {
+        if (this.nameToSearch.getText().isEmpty() || this.lastnameToSearch.getText().isEmpty())
+        {
+            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+        }
+        else
+        {
+            if (isUserFound())
+            {
+                this.searchResult.setText("Имя - "     + Manager.getFoundName()     + "\n" +
+                                          "Фамилия - " + Manager.getFoundLastname() + "\n" +
+                                          "Пароль - "  + Manager.getFoundPassword() + "\n" +
+                                          "Роль - "    + Manager.getFoundRole());
+            }
+            else
+            {
+                this.searchResult.setText(ErrorMessage.USER_NOT_FOUND);
+            }
+        }
+    }
+
+    private boolean isUserFound()
+    {
+        boolean result = false;
+
+        try
+        {
+            result = Manager.findUser(nameToSearch.getText(), lastnameToSearch.getText());
+        }
+        catch (RuntimeException e)
+        {
+            Helper.showErrorMessage(e.getLocalizedMessage());
+        }
+
+        return result;
+    }
+
+    @FXML private void deleteButtonClicked()
+    {
+        if (Manager.getUser() == null)
+        {
+            this.searchResult.setText(ErrorMessage.EMPTY_USER_CHOICE);
+            return;
+        }
+
+        if (Manager.isUserDefaultAdmin())
+        {
+            Helper.showErrorMessage(ErrorMessage.CANNOT_DELETE_ADMIN);
+            return;
+        }
+
+        loadDeletionConfirmation();
+    }
+
+    private void loadDeletionConfirmation()
+    {
+        try
+        {
+            Stage stage = new Stage();
+            stage.setTitle("Удаление пользователя");
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Views/DeleteUserScene.fxml")
+            );
+
+            Parent root = loader.load();
+            DeleteUserController deleteUserController = loader.getController();
+            deleteUserController.setUserController(this);
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.lastnameToSearch.getScene().getWindow());
+            stage.showAndWait();
+        }
+        catch (Exception ex)
+        {
+            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+        }
+    }
+
+    public TextArea getSearchResult()
+    {
+        return searchResult;
+    }
+
+    public void backToScene()
+    {
+        Manager.logout();
+
+        this.loginName.setText("");
+        this.loginLastname.setText("");
+        this.loginPassword.setText("");
+        this.primaryStage.setTitle("Вход в систему");
+        this.primaryStage.setScene(this.loginLastname.getScene());
     }
 }
