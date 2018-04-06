@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.Component;
 import Models.Manager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,11 +11,11 @@ import Util.Helper;
 public class DeleteComponentController
 {
     private ShowComponentController showComponentController;
-    private String                  componentName;
+    private Component               component;
 
-    public void init(String temp)
+    public void init(Component component)
     {
-        this.componentName = temp;
+        this.component = component;
     }
 
     @FXML private void deleteButtonClicked(ActionEvent e)
@@ -22,7 +23,7 @@ public class DeleteComponentController
         Stage stage;
         try
         {
-            Manager.deleteComponent(componentName);
+            component.deleteFromDB();
 
             Helper.showInformationMessage("Компонент удален!");
 

@@ -31,7 +31,7 @@ public class Manager
         try
         {
             user = new User(0, name, lastname, password, role);
-            user.saveUser();
+            user.saveToDB();
         }
         catch (RuntimeException e)
         {
@@ -190,7 +190,7 @@ public class Manager
     {
         try
         {
-            return MeltBrand.getAllBrands();
+            return MeltBrand.getAllBrandNamesFromDB();
         }
         catch (RuntimeException e)
         {
@@ -219,11 +219,11 @@ public class Manager
         charge.setElements(elements);
     }
 
-    public static ObservableList<String> getAllMandatoryComponentsString() throws RuntimeException
+    public static ObservableList<String> getAllMandatoryComponentNames() throws RuntimeException
     {
         try
         {
-            return Component.getAllMandatoryComponentsString();
+            return Component.getAllMandatoryComponentNames();
         }
         catch (RuntimeException e)
         {
@@ -231,11 +231,11 @@ public class Manager
         }
     }
 
-    public static ObservableList<String> getAllOptionalComponentsString() throws RuntimeException
+    public static ObservableList<String> getAllOptionalComponentNames() throws RuntimeException
     {
         try
         {
-            return Component.getAllOptionalComponentsString();
+            return Component.getAllOptionalComponentNames();
         }
         catch (RuntimeException e)
         {
@@ -307,35 +307,11 @@ public class Manager
         }
     }
 
-    public static void updateComponentData(Component component) throws RuntimeException
+    public static Component readComponentFromDB(String name) throws RuntimeException
     {
         try
         {
-            Component.updateComponentData(component);
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
-    }
-
-    public static void deleteComponent(String name) throws RuntimeException
-    {
-        try
-        {
-            Component.deleteComponent(name);
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
-    }
-
-    public static Component findComponent(String name) throws RuntimeException
-    {
-        try
-        {
-            return Component.findComponent(name);
+            return Component.readComponentFromDB(name);
         }
         catch (RuntimeException e)
         {
@@ -379,7 +355,7 @@ public class Manager
 
         try
         {
-            res = Melt.getMaxIndexFromDB();
+            res = Melt.getMaxIdFromDB();
         }
         catch (RuntimeException e)
         {

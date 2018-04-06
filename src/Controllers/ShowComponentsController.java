@@ -29,8 +29,8 @@ public class ShowComponentsController
     {
         try
         {
-            this.mandatoryComps = Manager.getAllMandatoryComponentsString();
-            this.optionalComps = Manager.getAllOptionalComponentsString();
+            this.mandatoryComps = Manager.getAllMandatoryComponentNames();
+            this.optionalComps = Manager.getAllOptionalComponentNames();
 
             this.mandatoryView.setItems(mandatoryComps);
             this.optionalView.setItems(optionalComps);
@@ -115,8 +115,8 @@ public class ShowComponentsController
 
         try
         {
-            this.mandatoryComps = Manager.getAllMandatoryComponentsString();
-            this.optionalComps = Manager.getAllOptionalComponentsString();
+            this.mandatoryComps = Manager.getAllMandatoryComponentNames();
+            this.optionalComps = Manager.getAllOptionalComponentNames();
 
             this.mandatoryView.setItems(mandatoryComps);
             this.optionalView.setItems(optionalComps);

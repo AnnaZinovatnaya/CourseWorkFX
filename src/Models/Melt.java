@@ -51,15 +51,15 @@ public class Melt
         this.date = date;
     }
 
-    public static int getMaxIndexFromDB() throws RuntimeException
+    public static int getMaxIdFromDB() throws RuntimeException
     {
-        int index = 0;
+        int id = 0;
         try
         {
             ResultSet rs = SQLiteUtil.dbExecuteQuery("SELECT max(idMelt) FROM melt;");
             if (rs.next())
             {
-                index = rs.getInt("max(idMelt)");
+                id = rs.getInt("max(idMelt)");
             }
 
             rs.close();
@@ -74,7 +74,7 @@ public class Melt
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + "SELECT max(idMelt) FROM melt;");
         }
 
-        return index;
+        return id;
     }
 
     public void saveToDB() throws RuntimeException

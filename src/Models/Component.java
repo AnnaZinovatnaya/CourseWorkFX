@@ -12,6 +12,7 @@ import java.util.List;
 
 public class Component
 {
+    private int           id;
     private String        name;
     private String        brand;
     private double        adoptBase;
@@ -31,6 +32,26 @@ public class Component
         this.mandatory = mandatory;
         this.adoptComp = adoptComp;
         this.elements = elements;
+    }
+
+    public Component(int id, String name, String brand, double adoptBase, double amount, double price, int mandatory, double adoptComp, List<Element> elements) {
+        this.id = id;
+        this.name = name;
+        this.brand = brand;
+        this.adoptBase = adoptBase;
+        this.amount = amount;
+        this.price = price;
+        this.mandatory = mandatory;
+        this.adoptComp = adoptComp;
+        this.elements = elements;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName()
@@ -135,6 +156,8 @@ public class Component
             {
                 return true;
             }
+
+            rs.close();
         }
         catch (RuntimeException ex)
         {
@@ -152,7 +175,7 @@ public class Component
     {
         this.calculateAdopt();
 
-        String query = "INSERT INTO component (`name`, brand, adoptBase, currentAmount, currentPrice, mandatory, adoptComp) " +
+        String query = "INSERT INTO component (name, brand, adoptBase, currentAmount, currentPrice, mandatory, adoptComp) " +
                 "VALUES ('" + name + "', '" + brand + "', '" + adoptBase + "', '" + amount + "', '" + price + "', '" + mandatory +"', '" + adoptComp + "')";
         try
         {
@@ -173,7 +196,7 @@ public class Component
     {
         ResultSet rs;
         int id = 0;
-        String query = "SELECT idComponent FROM component WHERE `name` = '" + name + "'";
+        String query = "SELECT idComponent FROM component WHERE name = '" + name + "'";
         try
         {
             rs = SQLiteUtil.dbExecuteQuery(query);
@@ -181,6 +204,12 @@ public class Component
             {
                 id = rs.getInt("idComponent");
             }
+            rs.close();
+
+            for (Element element : elements)
+            {
+                element.saveElementInComponent(id);
+            }
 
         }
         catch (RuntimeException ex)
@@ -191,30 +220,25 @@ public class Component
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
-
-
-        for (Element element : elements)
-        {
-            element.saveElementInComponent(id);
-        }
-
     }
 
-    public static ObservableList<String> getAllMandatoryComponentsString() throws RuntimeException
+    public static ObservableList<String> getAllMandatoryComponentNames() throws RuntimeException
     {
-        ObservableList<String> list = FXCollections.observableArrayList ();
+        ObservableList<String> names = FXCollections.observableArrayList ();
 
         String temp;
         ResultSet rs;
-        String query = "SELECT name FROM component WHERE mandatory=1";
+        String query = "SELECT name FROM component WHERE mandatory = 1";
         try
         {
             rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
                 temp = rs.getString("name");
-                list.add(temp);
+                names.add(temp);
             }
+
+            rs.close();
         }
         catch (RuntimeException ex)
         {
@@ -225,16 +249,16 @@ public class Component
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
-        return list;
+        return names;
     }
 
-    public static ObservableList<String> getAllOptionalComponentsString() throws RuntimeException
+    public static ObservableList<String> getAllOptionalComponentNames() throws RuntimeException
     {
-        ObservableList<String> list = FXCollections.observableArrayList ();
+        ObservableList<String> names = FXCollections.observableArrayList ();
 
         String temp;
         ResultSet rs;
-        String query = "SELECT name FROM component WHERE mandatory=0";
+        String query = "SELECT name FROM component WHERE mandatory = 0";
 
         try
         {
@@ -242,8 +266,9 @@ public class Component
             while (rs.next())
             {
                 temp = rs.getString("name");
-                list.add(temp);
+                names.add(temp);
             }
+            rs.close();
         }
         catch (RuntimeException ex)
         {
@@ -254,30 +279,40 @@ public class Component
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
-        return list;
+        return names;
     }
 
     public static ObservableList<Component> getAllMandatoryComponents() throws RuntimeException
     {
-        ObservableList<Component> list = FXCollections.observableArrayList ();
+        ObservableList<Component> components = FXCollections.observableArrayList ();
 
         ResultSet rs;
         ResultSet rs2;
-        int i=0;
+        int i = 0;
         String query = "";
 
         try
         {
-            query = "SELECT * FROM component WHERE mandatory=1";
+            query = "SELECT * FROM component WHERE mandatory = 1";
             rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
-                list.add(new Component(rs.getString("name"), rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), 1, rs.getDouble("adoptComp"), new ArrayList<>()));
-                query = "SELECT name, procent, adopt FROM elementincomponent JOIN element ON idElement = Element_idElement WHERE Component_idComponent = " + rs.getString("idComponent");
+                Component component = new Component(rs.getInt("idComponent"),
+                                                    rs.getString("name"),
+                                                    rs.getString("brand"),
+                                                    rs.getDouble("adoptBase"),
+                                                    rs.getDouble("currentAmount"),
+                                                    rs.getDouble("currentPrice"),
+                                                    1,
+                                                    rs.getDouble("adoptComp"),
+                                                    new ArrayList<>());
+                components.add(component);
+
+                query = "SELECT * FROM elementincomponent JOIN element ON idElement = Element_idElement WHERE Component_idComponent = " + component.getId();
                 rs2 = SQLiteUtil.dbExecuteQuery(query);
                 while (rs2.next())
                 {
-                    list.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
+                    components.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
                 }
                 i++;
             }
@@ -291,30 +326,41 @@ public class Component
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
-        return list;
+        return components;
     }
 
     public static ArrayList<Component> getAllOptionalComponents() throws RuntimeException
     {
-        ArrayList<Component> list = new ArrayList<>();
+        ArrayList<Component> components = new ArrayList<>();
 
         ResultSet rs;
         ResultSet rs2;
-        int i=0;
+        int i = 0;
         String query = "";
 
         try
         {
-            query = "SELECT * FROM component WHERE mandatory=0";
+            query = "SELECT * FROM component WHERE mandatory = 0";
             rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
-                list.add(new Component(rs.getString("name"), rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), 0, rs.getDouble("adoptComp"), new ArrayList<>()));
-                query = "SELECT name, procent, adopt FROM elementincomponent JOIN element ON idElement = Element_idElement WHERE Component_idComponent = "+rs.getString("idComponent");
+                Component component = new Component(rs.getInt("idComponent"),
+                                                    rs.getString("name"),
+                                                    rs.getString("brand"),
+                                                    rs.getDouble("adoptBase"),
+                                                    rs.getDouble("currentAmount"),
+                                                    rs.getDouble("currentPrice"),
+                                                    0,
+                                                    rs.getDouble("adoptComp"),
+                                                    new ArrayList<>());
+
+                components.add(component);
+
+                query = "SELECT * FROM elementincomponent JOIN element ON idElement = Element_idElement WHERE Component_idComponent = " + component.getId();
                 rs2 = SQLiteUtil.dbExecuteQuery(query);
                 while (rs2.next())
                 {
-                    list.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
+                    components.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
                 }
                 i++;
             }
@@ -328,7 +374,7 @@ public class Component
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
-        return list;
+        return components;
     }
 
     private void calculateAdopt()
@@ -336,29 +382,29 @@ public class Component
         double temp = 100;
         for(Element aElement: elements)
         {
-            temp-=aElement.getPercent();
+            temp -= aElement.getPercent();
         }
         temp /= adoptBase;
 
         for(Element aElement: elements)
         {
-            temp+=aElement.getPercent()/aElement.getAdopt();
+            temp += aElement.getPercent()/aElement.getAdopt();
         }
 
         adoptComp = 1/temp;
     }
 
-    public static void deleteComponent(String name) throws RuntimeException
+    public void deleteFromDB() throws RuntimeException
     {
         String query = "";
         try
         {
-            query = "SELECT * FROM component WHERE `name` = '" + name +"';";
+            query = "SELECT * FROM component WHERE name = '" + this.name +"';";
             ResultSet rs = SQLiteUtil.dbExecuteQuery(query);
             rs.next();
-            query = "DELETE FROM elementincomponent WHERE `Component_idComponent`='"+rs.getInt("idComponent")+"';";
+            query = "DELETE FROM elementincomponent WHERE `Component_idComponent`='" + rs.getInt("idComponent")+"';";
             SQLiteUtil.dbExecuteUpdate(query);
-            query = "DELETE FROM component WHERE `name` = '" + name + "';";
+            query = "DELETE FROM component WHERE `name` = '" + this.name + "';";
             SQLiteUtil.dbExecuteUpdate(query);
         }
         catch (RuntimeException ex)
@@ -371,26 +417,25 @@ public class Component
         }
     }
 
-    public static Component findComponent(String name) throws RuntimeException
+    public static Component readComponentFromDB(String name) throws RuntimeException
     {
-        Component temp = null;
+        Component component = null;
         int idComponent;
         String query = "";
         try
         {
-            query = "SELECT * FROM component WHERE `name` = '"+name+"'";
+            query = "SELECT * FROM component WHERE name = '" + name + "'";
             ResultSet rs = SQLiteUtil.dbExecuteQuery(query);
             rs.next();
-            temp = new Component(name, rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), rs.getInt("mandatory"), rs.getDouble("adoptComp"), new ArrayList<>());
+            component = new Component(name, rs.getString("brand"), rs.getDouble("adoptBase"), rs.getDouble("currentAmount"), rs.getDouble("currentPrice"), rs.getInt("mandatory"), rs.getDouble("adoptComp"), new ArrayList<>());
             idComponent = rs.getInt("idComponent");
             query = "SELECT `name`, procent, adopt FROM element E JOIN elementincomponent EC ON E.idElement=EC.Element_idElement WHERE EC.Component_idComponent='"+idComponent+"';";
             ResultSet rs2 = SQLiteUtil.dbExecuteQuery(query);
 
-            while(rs2.next())
+            while (rs2.next())
             {
-                temp.getElements().add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
+                component.getElements().add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
             }
-
         }
         catch (RuntimeException ex)
         {
@@ -401,62 +446,24 @@ public class Component
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
-        return temp;
+        return component;
     }
 
-    public static void updateComponentData(Component component) throws RuntimeException
+    public void update() throws RuntimeException
     {
-        ResultSet rs;
-        int idComponent;
-        int idElement;
         String query = "";
         try
         {
-            query = "UPDATE component SET currentAmount='"+component.getAmount()+"',currentPrice='"+component.getPrice()+"', adoptBase='"+component.getAdoptBase()+"', brand='"+component.getBrand()+"' WHERE `name`='"+component.getName()+"';";
-            SQLiteUtil.dbExecuteUpdate(query);
-            query = "SELECT * FROM component WHERE `name`='"+component.getName()+"'";
-            rs = SQLiteUtil.dbExecuteQuery(query);
-            rs.next();
-            idComponent = rs.getInt("idComponent");
-            for(Element aElement: component.getElements())
-            {
-                if(aElement.getName().equals("C"))
-                {
-                    query = "SELECT * FROM element WHERE `name`='C'";
-                    rs = SQLiteUtil.dbExecuteQuery(query);
-                    rs.next();
-                    idElement = rs.getInt("idElement");
-                    query = "UPDATE elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';";
-                    SQLiteUtil.dbExecuteUpdate(query);
-                }
-                if(aElement.getName().equals("Si"))
-                {
-                    query = "SELECT * FROM element WHERE `name`='Si'";
-                    rs = SQLiteUtil.dbExecuteQuery(query);
-                    rs.next();
-                    idElement = rs.getInt("idElement");
+            query = "UPDATE component SET " +
+                    "currentAmount = '" + this.amount + "', " +
+                    "currentPrice = '" + this.price + "' " +
+                    "WHERE name = '" + this.name + "';";
 
-                    query = "UPDATE elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';";
-                    SQLiteUtil.dbExecuteUpdate(query);
-                }
-                if(aElement.getName().equals("S"))
-                {
-                    query = "SELECT * FROM element WHERE `name`='S'";
-                    rs = SQLiteUtil.dbExecuteQuery(query);
-                    rs.next();
-                    idElement = rs.getInt("idElement");
-                    query = "UPDATE elementincomponent SET procent='"+aElement.getPercent()+"',adopt='"+aElement.getAdopt()+"' WHERE Element_idElement='"+idElement+"' AND Component_idComponent='"+idComponent+"';";
-                    SQLiteUtil.dbExecuteUpdate(query);
-                }
-            }
+            SQLiteUtil.dbExecuteUpdate(query);
         }
         catch (RuntimeException ex)
         {
             throw ex;
-        }
-        catch (SQLException e)
-        {
-            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
     }
 }

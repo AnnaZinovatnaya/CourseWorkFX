@@ -66,7 +66,7 @@ public class AddCharge1Controller
 
             if (mass <= 0)
             {
-                throw new RuntimeException(ErrorMessage.INCORRECT_DELTA_MASS);
+                throw new RuntimeException(ErrorMessage.INCORRECT_MASS);
             }
         }
         catch (Exception ex)

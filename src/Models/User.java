@@ -72,7 +72,7 @@ public class User
         this.role = role;
     }
 
-    public void saveUser() throws RuntimeException
+    public void saveToDB() throws RuntimeException
     {
         try
         {

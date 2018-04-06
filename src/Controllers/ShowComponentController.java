@@ -34,7 +34,7 @@ public class ShowComponentController
     public void init(ShowComponentsController showComponentsController, String name)
     {
         this.showComponentsController = showComponentsController;
-        this.component = Manager.findComponent(name);
+        this.component = Manager.readComponentFromDB(name);
         this.nameLabel.setText(name);
         this.brandLabel.setText(this.component.getBrand());
         this.priceField.setText(String.valueOf(this.component.getPrice()));
@@ -43,17 +43,17 @@ public class ShowComponentController
 
         for(Element aElement: component.getElements())
         {
-            if(aElement.getName().equals("C"))
+            if (aElement.getName().equals("C"))
             {
                 this.cAdoptLabel.setText(String.valueOf(aElement.getAdopt()));
                 this.cPercentLabel.setText(String.valueOf(aElement.getPercent()));
             }
-            if(aElement.getName().equals("Si"))
+            if (aElement.getName().equals("Si"))
             {
                 this.siAdoptLabel.setText(String.valueOf(aElement.getAdopt()));
                 this.siPercentLabel.setText(String.valueOf(aElement.getPercent()));
             }
-            if(aElement.getName().equals("S"))
+            if (aElement.getName().equals("S"))
             {
                 this.sAdoptLabel.setText(String.valueOf(aElement.getAdopt()));
                 this.sPercentLabel.setText(String.valueOf(aElement.getPercent()));
@@ -82,12 +82,12 @@ public class ShowComponentController
             Parent root = loader.load();
             DeleteComponentController deleteComponentController = loader.getController();
             deleteComponentController.setShowComponentController(this);
-            deleteComponentController.init(this.nameLabel.getText());
+            deleteComponentController.init(this.component);
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.brandLabel.getScene().getWindow());
             stage.showAndWait();
-            if(isDeleted)
+            if (isDeleted)
             {
                 showComponentsController.refreshItems();
                 showComponentsController.getMenuController().getPrimaryStage().setScene(showComponentsController.getMandatoryView().getScene());
@@ -104,57 +104,56 @@ public class ShowComponentController
     {
         boolean validPrice = false;
         boolean validAmount = false;
-        double temp=0;
+        double temp = 0;
 
-        if(priceField.getText().isEmpty()||amountField.getText().isEmpty())
+        if (priceField.getText().isEmpty() || amountField.getText().isEmpty())
         {
             Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            return;
         }
-        else
-        {
-            try
-            {
-                temp = Double.parseDouble(priceField.getText());
 
-                if (temp <= 0)
-                {
+        try
+        {
+            temp = Double.parseDouble(priceField.getText());
+
+            if (temp <= 0)
+            {
+                throw new RuntimeException(ErrorMessage.INCORRECT_PRICE);
+            }
+
+            validPrice = true;
+        }
+        catch (Exception ex)
+        {
+            Helper.showErrorMessage(ErrorMessage.INCORRECT_PRICE);
+        }
+
+        if (validPrice) {
+            component.setPrice(temp);
+
+            try {
+                temp = Double.parseDouble(amountField.getText());
+
+                if (temp <= 0) {
                     throw new RuntimeException(ErrorMessage.INCORRECT_PRICE);
                 }
 
-                validPrice = true;
-            }
-            catch (Exception ex)
-            {
-                Helper.showErrorMessage(ErrorMessage.INCORRECT_PRICE);
+                validAmount = true;
+            } catch (Exception ex) {
+                Helper.showErrorMessage(ErrorMessage.INCORRECT_AMOUNT);
             }
 
-            if (validPrice) {
-                component.setPrice(temp);
+            if (validAmount) {
+                component.setAmount(temp);
 
-                try {
-                    temp = Double.parseDouble(amountField.getText());
-
-                    if (temp <= 0) {
-                        throw new RuntimeException(ErrorMessage.INCORRECT_PRICE);
-                    }
-
-                    validAmount = true;
-                } catch (Exception ex) {
-                    Helper.showErrorMessage(ErrorMessage.INCORRECT_AMOUNT);
+                try
+                {
+                    component.update();
+                    Helper.showInformationMessage("Изменения сохранены!");
                 }
-
-                if (validAmount) {
-                    component.setAmount(temp);
-
-                    try {
-                        Manager.updateComponentData(component);
-
-                        Helper.showInformationMessage("Изменения сохранены!");
-                    }
-                    catch (RuntimeException e)
-                    {
-                        Helper.showErrorMessage(e.getLocalizedMessage());
-                    }
+                catch (RuntimeException e)
+                {
+                    Helper.showErrorMessage(e.getLocalizedMessage());
                 }
             }
         }

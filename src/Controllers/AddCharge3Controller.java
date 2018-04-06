@@ -30,7 +30,7 @@ public class AddCharge3Controller
 
         try
         {
-            this.items = Manager.getAllMandatoryComponentsString();
+            this.items = Manager.getAllMandatoryComponentNames();
             this.selectedItems = FXCollections.observableArrayList ();
             this.allComponentsList.setItems(this.items);
             this.selectedComponentsList.setItems(this.selectedItems);

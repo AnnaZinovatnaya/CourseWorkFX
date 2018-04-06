@@ -167,7 +167,7 @@ public class Charge
 
     public void setChargeBrand(String brand)
     {
-        meltBrand = MeltBrand.getMeltBrand(brand);
+        meltBrand = MeltBrand.readMeltBrandFromDB(brand);
         elements = new ArrayList<>();
         elements.addAll(meltBrand.getElements());
     }

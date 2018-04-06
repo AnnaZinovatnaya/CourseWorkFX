@@ -12,13 +12,29 @@ import java.util.List;
 
 public class MeltBrand
 {
+    private int           id;
     private String        name;
     private List<Element> elements;
 
     public MeltBrand(String name, List<Element> elements)
     {
+        this.id = 0;
         this.name = name;
         this.elements = elements;
+    }
+
+    public MeltBrand(int id, String name, List<Element> elements) {
+        this.id = id;
+        this.name = name;
+        this.elements = elements;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName()
@@ -41,7 +57,7 @@ public class MeltBrand
         this.elements = elements;
     }
 
-    public static ObservableList<String> getAllBrands() throws RuntimeException
+    public static ObservableList<String> getAllBrandNamesFromDB() throws RuntimeException
     {
         ObservableList<String> list = FXCollections.observableArrayList ();
 
@@ -73,12 +89,11 @@ public class MeltBrand
         return list;
     }
 
-    public static MeltBrand getMeltBrand(String name) throws RuntimeException
+    public static MeltBrand readMeltBrandFromDB(String name) throws RuntimeException
     {
-        MeltBrand meltBrand = new MeltBrand(name, new ArrayList<>());
+        MeltBrand resultMeltBrand = new MeltBrand(name, new ArrayList<>());
         ResultSet rs;
         ResultSet rs2;
-        int idMeltBrand=0;
         String query = "";
 
         try
@@ -87,16 +102,16 @@ public class MeltBrand
             rs = SQLiteUtil.dbExecuteQuery(query);
             if (rs.next())
             {
-                idMeltBrand = rs.getInt("idMeltBrand");
+                resultMeltBrand.setId(rs.getInt("idMeltBrand"));
             }
 
             rs.close();
 
-            query = "SELECT name, minProcent, maxProcent FROM element E JOIN elementinbrand EB ON E.idElement = EB.Element_idElement WHERE EB.MeltBrand_idMeltBrand = " + idMeltBrand;
+            query = "SELECT name, minProcent, maxProcent FROM element E JOIN elementinbrand EB ON E.idElement = EB.Element_idElement WHERE EB.MeltBrand_idMeltBrand = " + resultMeltBrand.getId();
             rs2 = SQLiteUtil.dbExecuteQuery(query);
             while (rs2.next())
             {
-                meltBrand.elements.add(new Element(rs2.getString("name"), rs2.getDouble("minProcent"), rs2.getDouble("maxProcent"), 0, 0));
+                resultMeltBrand.elements.add(new Element(rs2.getString("name"), rs2.getDouble("minProcent"), rs2.getDouble("maxProcent"), 0, 0));
             }
 
             rs2.close();
@@ -110,6 +125,6 @@ public class MeltBrand
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
-        return meltBrand;
+        return resultMeltBrand;
     }
 }
