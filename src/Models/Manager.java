@@ -43,7 +43,7 @@ public class Manager
     {
         try
         {
-            user = User.findUser(name, lastname);
+            user = User.readUserFromDB(name, lastname);
         }
         catch (RuntimeException e)
         {
@@ -77,7 +77,7 @@ public class Manager
     {
         try
         {
-            user.deleteUser();
+            user.deleteFromDB();
         }
         catch (RuntimeException e)
         {

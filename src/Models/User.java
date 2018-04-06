@@ -109,9 +109,9 @@ public class User
         }
     }
 
-    public static User findUser(String name, String lastname) throws RuntimeException
+    public static User readUserFromDB(String name, String lastname) throws RuntimeException
     {
-        User tempUser = null;
+        User user = null;
         ResultSet rs;
         String query = "";
         try
@@ -121,12 +121,14 @@ public class User
 
             if(rs.next())
             {
-                tempUser = new User(rs.getInt("idUser"),
-                                    rs.getString("name"),
-                                    rs.getString("lastname"),
-                                    rs.getString("password"),
-                                    rs.getString("role"));
+                user = new User(rs.getInt("idUser"),
+                                rs.getString("name"),
+                                rs.getString("lastname"),
+                                rs.getString("password"),
+                                rs.getString("role"));
             }
+
+            rs.close();
         }
         catch (RuntimeException e)
         {
@@ -137,10 +139,10 @@ public class User
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
 
-        return tempUser;
+        return user;
     }
 
-    public void deleteUser() throws RuntimeException
+    public void deleteFromDB() throws RuntimeException
     {
         try
         {

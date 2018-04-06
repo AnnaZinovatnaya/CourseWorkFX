@@ -14,6 +14,7 @@ public class MeltBrand
 {
     private int           id;
     private String        name;
+    private String        standard;
     private List<Element> elements;
 
     public MeltBrand(String name, List<Element> elements)
@@ -26,6 +27,13 @@ public class MeltBrand
     public MeltBrand(int id, String name, List<Element> elements) {
         this.id = id;
         this.name = name;
+        this.elements = elements;
+    }
+
+    public MeltBrand(int id, String name, String standard, List<Element> elements) {
+        this.id = id;
+        this.name = name;
+        this.standard = standard;
         this.elements = elements;
     }
 
@@ -45,6 +53,14 @@ public class MeltBrand
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public String getStandard() {
+        return standard;
+    }
+
+    public void setStandard(String standard) {
+        this.standard = standard;
     }
 
     public List<Element> getElements()
@@ -98,11 +114,12 @@ public class MeltBrand
 
         try
         {
-            query = "SELECT idMeltBrand FROM meltbrand  WHERE name = '" + name + "'";
+            query = "SELECT * FROM meltbrand  WHERE name = '" + name + "'";
             rs = SQLiteUtil.dbExecuteQuery(query);
             if (rs.next())
             {
                 resultMeltBrand.setId(rs.getInt("idMeltBrand"));
+                resultMeltBrand.setStandard(rs.getString("standard"));
             }
 
             rs.close();

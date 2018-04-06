@@ -13,6 +13,7 @@ public class ErrorMessage
     public static final String COMPONENT_ALREADY_EXISTS = "Компонент с таким названием уже есть!";
     public static final String EMPTY_COMPONENT_CHOICE   = "Ни один компонент не выбран!";
     public static final String EMPTY_FIELDS             = "Все поля должны быть заполнены!";
+    public static final String EMPTY_MELT_BRAND_CHOICE  = "Ни одна марка не выбрана!";
     public static final String EMPTY_USER_CHOICE        = "Выберите пользователя для удаления!";
     public static final String INCORRECT_ADAPT          = "Усвоение задано некорректно!";
     public static final String INCORRECT_AMOUNT         = "Количество на складе задано некорректно!";

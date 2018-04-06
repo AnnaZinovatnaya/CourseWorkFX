@@ -105,7 +105,8 @@ public class DbStructure {
         dbStructure.add("" +
                 "CREATE TABLE meltbrand (\n" +
                 "  idMeltBrand INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                "  name VARCHAR(45) NOT NULL);\n");
+                "  name VARCHAR(45) NOT NULL,\n" +
+                "  standard VARCHAR(45) NOT NULL);\n");
         dbStructure.add("INSERT INTO meltbrand VALUES (1,'Марка');");
 
         dbStructure.add("DROP TABLE IF EXISTS elementinbrand;");
