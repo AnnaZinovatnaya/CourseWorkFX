@@ -197,7 +197,22 @@ public class MenuController
 
     @FXML private void addMeltBrandButtonClicked()
     {
-
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Views/AddMeltBrandScene.fxml")
+            );
+            Parent root = loader.load();
+            AddMeltBrandController addMeltBrandController = loader.getController();
+            addMeltBrandController.setMenuController(this);
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setTitle("Добавление марки");
+            primaryStage.show();
+        }
+        catch (Exception ex)
+        {
+            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+        }
     }
 
     @FXML private void showMeltBrandsButtonClicked()

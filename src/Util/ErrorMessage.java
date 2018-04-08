@@ -25,6 +25,7 @@ public class ErrorMessage
     public static final String INCORRECT_PERCENT        = "Процент задан некорректно!";
     public static final String INCORRECT_PRICE          = "Цена задана некорректно!";
     public static final String MAX_SUM_LESS_THAN_100    = "Сумма максимальных значений не может быть меньше 100%!";
+    public static final String MELTBRAND_ALREADY_EXISTS = "Марка с таким названием уже есть!";
     public static final String MIN_BIGGER_THAN_MAX      = "Минимальный процен не может быть больше максимального!";
     public static final String MIN_SUM_BIGGER_THAN_100  = "Сумма минимальных значений не может превышать 100%!";
     public static final String NO_MELTS_FOUND           = "В этот период не было плавок";

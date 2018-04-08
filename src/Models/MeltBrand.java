@@ -172,4 +172,65 @@ public class MeltBrand
             throw ex;
         }
     }
+
+    public static boolean meltBrandExists(String name)throws RuntimeException
+    {
+        ResultSet rs;
+        boolean res = false;
+        String query = "";
+
+        try
+        {
+            query = "SELECT * FROM meltbrand  WHERE name = '" + name + "'";
+            rs = SQLiteUtil.dbExecuteQuery(query);
+            if (rs.next())
+            {
+                res = true;
+            }
+            rs.close();
+        }
+        catch (RuntimeException ex)
+        {
+            throw ex;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+        }
+
+        return res;
+    }
+
+    public void saveToDB() throws RuntimeException
+    {
+        ResultSet rs;
+        String query =  "INSERT INTO meltbrand (name, standard) VALUES ('" + name + "', '" + standard + "');";
+        int idMeltBrand = 0;
+        try
+        {
+            SQLiteUtil.dbExecuteUpdate(query);
+
+            query = "SELECT * FROM meltbrand WHERE name = '" + name + "';";
+            rs = SQLiteUtil.dbExecuteQuery(query);
+            if (rs.next())
+            {
+                idMeltBrand = rs.getInt("idMeltBrand");
+            }
+
+            for (Element el : elements)
+            {
+                query =  "INSERT INTO elementinbrand (minProcent, maxProcent, MeltBrand_idMeltBrand, Element_idElement)\n" +
+                        " VALUES ('" + el.getMinPercentDouble() + "', '" + el.getMaxPercentDouble() + "', '" + idMeltBrand + "', '" + el.getIdFromDB() + "');";
+                SQLiteUtil.dbExecuteUpdate(query);
+            }
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+        }
+    }
 }
