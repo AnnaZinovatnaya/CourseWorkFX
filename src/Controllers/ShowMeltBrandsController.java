@@ -26,7 +26,7 @@ public class ShowMeltBrandsController {
         try
         {
             this.meltBrands = MeltBrand.getAllBrandNamesFromDB();
-            this.meltBrandsView.setItems(meltBrands);
+            this.meltBrandsView.setItems(this.meltBrands);
 
             this.meltBrandsView.setOnMouseClicked(click -> {
 
@@ -39,7 +39,6 @@ public class ShowMeltBrandsController {
                     }
                 }
             });
-
         }
         catch (RuntimeException e)
         {
@@ -73,6 +72,7 @@ public class ShowMeltBrandsController {
             }
             catch (Exception ex)
             {
+                ex.printStackTrace();
                 Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
             }
         }
@@ -99,5 +99,10 @@ public class ShowMeltBrandsController {
 
     public MenuController getMenuController() {
         return menuController;
+    }
+
+    public void backToScene()
+    {
+        this.menuController.getPrimaryStage().setScene(this.meltBrandsView.getScene());
     }
 }

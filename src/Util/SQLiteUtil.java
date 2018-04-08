@@ -41,6 +41,7 @@ public class SQLiteUtil {
 
             stmt.close();
         } catch ( Exception e ) {
+            e.printStackTrace();
             throw new RuntimeException(ErrorMessage.CANNOT_CREATE_DB);
         }
     }

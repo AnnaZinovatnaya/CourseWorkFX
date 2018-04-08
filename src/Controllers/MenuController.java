@@ -194,4 +194,30 @@ public class MenuController
     {
         this.userController.backToScene();
     }
+
+    @FXML private void addMeltBrandButtonClicked()
+    {
+
+    }
+
+    @FXML private void showMeltBrandsButtonClicked()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Views/ShowMeltBrandsScene.fxml")
+            );
+            Parent root = loader.load();
+            ShowMeltBrandsController showMeltBrandsController = loader.getController();
+            showMeltBrandsController.init();
+            showMeltBrandsController.setMenuController(this);
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setTitle("Просмотр марок");
+            primaryStage.show();
+        }
+        catch (Exception ex)
+        {
+            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+        }
+    }
 }
