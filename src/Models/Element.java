@@ -152,4 +152,33 @@ public class Element
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
     }
+
+    public int getIdFromDB()
+    {
+        int id = 0;
+        String query = "";
+        ResultSet rs;
+        try
+        {
+            query = "SELECT idElement FROM element  WHERE name = '" + name + "'";
+            rs = SQLiteUtil.dbExecuteQuery(query);
+            if (rs.next())
+            {
+                id = rs.getInt("idElement");
+            }
+
+            rs.close();
+        }
+        catch (RuntimeException ex)
+        {
+            throw ex;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+        }
+
+        return id;
+    }
+
 }

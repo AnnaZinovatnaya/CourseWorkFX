@@ -144,4 +144,32 @@ public class MeltBrand
 
         return resultMeltBrand;
     }
+
+    public void update()
+    {
+        String query = "";
+        try
+        {
+            query = "UPDATE meltbrand SET " +
+                    "standard = '" + this.standard + "' " +
+                    "WHERE name = '" + this.name + "';";
+
+            SQLiteUtil.dbExecuteUpdate(query);
+
+            for (Element el : this.elements)
+            {
+                query = "UPDATE elementinbrand SET " +
+                        "minProcent = '" + el.getMinPercentDouble() + "', " +
+                        "maxProcent = '" + el.getMaxPercentDouble() + "' " +
+                        "WHERE Element_idElement = '" + el.getIdFromDB() + "' AND " +
+                        "MeltBrand_idMeltBrand = '" + this.id + "';";
+
+                SQLiteUtil.dbExecuteUpdate(query);
+            }
+        }
+        catch (RuntimeException ex)
+        {
+            throw ex;
+        }
+    }
 }
