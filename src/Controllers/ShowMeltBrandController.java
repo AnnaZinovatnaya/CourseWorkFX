@@ -5,9 +5,14 @@ import Models.MeltBrand;
 import Util.ErrorMessage;
 import Util.Helper;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class ShowMeltBrandController {
     private ShowMeltBrandsController showMeltBrandsController;
@@ -58,7 +63,7 @@ public class ShowMeltBrandController {
         }
 
         this.saveButton.setDisable(true);
-        this.deleteButton.setDisable(true);
+        //this.deleteButton.setDisable(true);
     }
 
     @FXML private void backButtonClicked()
@@ -162,6 +167,35 @@ public class ShowMeltBrandController {
 
     @FXML private void deleteButtonClicked()
     {
+        try
+        {
+            Stage stage = new Stage();
+            stage.setTitle("Удаление марки");
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Views/DeleteMeltBrandScene.fxml")
+            );
+            Parent root = loader.load();
+            DeleteMeltBrandController deleteMeltBrandController = loader.getController();
+            deleteMeltBrandController.setShowMeltBrandController(this);
+            deleteMeltBrandController.init(this.meltBrand);
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.standardField.getScene().getWindow());
+            stage.showAndWait();
+            if (isDeleted)
+            {
+                showMeltBrandsController.refreshItems();
+                showMeltBrandsController.getMenuController().getPrimaryStage().setScene(showMeltBrandsController.getMeltBrandsView().getScene());
+            }
 
+        }
+        catch (Exception ex)
+        {
+            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+        }
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }

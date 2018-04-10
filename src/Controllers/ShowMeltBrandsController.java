@@ -105,4 +105,8 @@ public class ShowMeltBrandsController {
     {
         this.menuController.getPrimaryStage().setScene(this.meltBrandsView.getScene());
     }
+
+    public ListView<String> getMeltBrandsView() {
+        return meltBrandsView;
+    }
 }

@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class MeltBrand
 {
@@ -223,6 +224,40 @@ public class MeltBrand
                         " VALUES ('" + el.getMinPercentDouble() + "', '" + el.getMaxPercentDouble() + "', '" + idMeltBrand + "', '" + el.getIdFromDB() + "');";
                 SQLiteUtil.dbExecuteUpdate(query);
             }
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+        }
+    }
+
+    public void deleteFromDB() throws RuntimeException
+    {
+        ArrayList<Integer> chargeIndexes = new ArrayList<>();
+
+        ResultSet rs;
+        String query =  "SELECT * FROM charge WHERE MeltBrand_idMeltBrand = '" + id + "';";
+        try
+        {
+            rs = SQLiteUtil.dbExecuteQuery(query);
+
+            while (rs.next())
+            {
+                String query2 = "DELETE FROM melt WHERE Charge_idCharge = '" + rs.getInt("idCharge") + "'";
+                SQLiteUtil.dbExecuteUpdate(query2);
+
+                chargeIndexes.add(rs.getInt("idCharge"));
+            }
+
+            query = "DELETE FROM charge WHERE MeltBrand_idMeltBrand = '" + id + "';";
+            SQLiteUtil.dbExecuteUpdate(query);
+
+            query = "DELETE FROM meltbrand WHERE idMeltBrand = '" + id + "';";
+            SQLiteUtil.dbExecuteUpdate(query);
         }
         catch (RuntimeException e)
         {

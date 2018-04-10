@@ -32,7 +32,7 @@ public class Melt3Controller {
         this.meltBrandLabel.setText(this.charge.getMeltBrand().getName());
         this.amountLabel.setText(String.valueOf(this.charge.getMass()));
 
-        this.indexLabel.setText(String.valueOf(Manager.getMaxMeltIndex() + 1));
+        this.indexLabel.setText(String.valueOf(Melt.getMaxIdFromDB() + 1));
 
         this.components = FXCollections.observableArrayList();
         this.components.addAll(this.charge.getMandatoryComponents());

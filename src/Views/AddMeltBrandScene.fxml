@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddMeltBrandController">
+   <children>
+      <Button fx:id="BackButton" mnemonicParsing="false" onAction="#menuButtonClicked" text="Меню" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="SaveButton" mnemonicParsing="false" onAction="#saveButtonClicked" text="Сохранить" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="7.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Label layoutX="316.0" layoutY="47.0" text="Стандарт" AnchorPane.leftAnchor="316.0" AnchorPane.topAnchor="47.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nameField" layoutX="113.0" layoutY="41.0" prefWidth="170.0" AnchorPane.leftAnchor="113.0" AnchorPane.topAnchor="41.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <GridPane layoutX="78.0" layoutY="144.0" prefHeight="182.0" prefWidth="586.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="144.0">
+        <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="58.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="408.0" minWidth="10.0" prefWidth="260.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="301.0" minWidth="10.0" prefWidth="260.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Минимальный процент, %" GridPane.columnIndex="1">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label text="Максимальный процент, %" GridPane.columnIndex="2">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label text="С" GridPane.rowIndex="1">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label text="Si" GridPane.rowIndex="2">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label text="S" GridPane.rowIndex="3">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="cMinPercentField" maxWidth="100.0" minWidth="70.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="siMinPercentField" maxWidth="100.0" minWidth="70.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="sMinPercentField" maxWidth="100.0" minWidth="70.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="cMaxPercentField" maxWidth="100.0" minWidth="70.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="siMaxPercentField" maxWidth="100.0" minWidth="70.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="sMaxPercentField" maxWidth="100.0" minWidth="70.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+         </children>
+      </GridPane>
+      <Label layoutX="21.0" layoutY="109.0" text="Химический состав:" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="109.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="24.0" layoutY="47.0" text="Название" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="47.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="standardField" layoutX="406.0" layoutY="41.0" prefHeight="39.0" prefWidth="170.0" AnchorPane.leftAnchor="406.0" AnchorPane.topAnchor="41.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+   </children>
+</AnchorPane>

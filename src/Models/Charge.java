@@ -808,7 +808,7 @@ public class Charge
                                    "VALUES ('"+mass+"', '"+deltaMass+"', '"+sqlDate+"', '"+idUser+"', '"+idMeltBrand+"');");
             //rs = SQLiteUtil.dbExecuteQuery("SELECT * FROM charge WHERE dateCharge='"+sqlDate+"'");
             //rs.next();
-            idCharge = Manager.getMaxChargeIndex();
+            idCharge = getMaxIndexFromDB();
             //idCharge = rs.getInt("idCharge");
             for(Element aElement: elements)
             {
@@ -873,7 +873,7 @@ public class Charge
         }
     }
 
-    public int getMaxIndexFromDB() throws RuntimeException
+    public static int getMaxIndexFromDB() throws RuntimeException
     {
         int res = 0;
         try
@@ -893,7 +893,6 @@ public class Charge
 
         return res;
     }
-
 
     public static ObservableList<Charge> getCharges(String meltBrand)
     {
@@ -943,7 +942,6 @@ public class Charge
                     }
                 }
 
-
                 resCharges.add(tempCharge);
             }
 
@@ -956,7 +954,6 @@ public class Charge
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
-
 
         return resCharges;
     }

@@ -333,38 +333,6 @@ public class Manager
         }
     }
 
-    public static int getMaxChargeIndex() throws RuntimeException
-    {
-        int res = 0;
-
-        try
-        {
-            res = charge.getMaxIndexFromDB();
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
-
-        return res;
-    }
-
-    public static int getMaxMeltIndex() throws RuntimeException
-    {
-        int res = 0;
-
-        try
-        {
-            res = Melt.getMaxIdFromDB();
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
-
-        return res;
-    }
-
     public static void logout()
     {
         currentUser = null;

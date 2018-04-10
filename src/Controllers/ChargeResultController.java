@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.Charge;
 import Models.CompInCharge;
 import Models.Manager;
 import javafx.collections.ObservableList;
@@ -35,7 +36,7 @@ public class ChargeResultController
         this.primaryStage.setMinHeight(400);
         this.primaryStage.setMinWidth(600);
 
-        this.numberLabel.setText(String.valueOf(Manager.getMaxChargeIndex() + 1));
+        this.numberLabel.setText(String.valueOf(Charge.getMaxIndexFromDB() + 1));
         this.meltLabel.setText(Manager.getChargeMeltBrand());
         this.amountLabel.setText(Manager.getChargeMass());
 

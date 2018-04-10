@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ShowMeltBrandsController">
+   <children>
+      <ListView fx:id="meltBrandsView" prefHeight="200.0" prefWidth="200.0" style="-fx-font: NORMAL 18 System;" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+      <Button fx:id="selectBrandButton" mnemonicParsing="false" onAction="#selectButtonClicked" text="Выбрать" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="7.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Выберите марку сплава" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="10.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Button fx:id="menuButton" layoutX="8.0" layoutY="349.0" mnemonicParsing="false" onAction="#menuButtonClicked" text="Меню" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
