@@ -4,7 +4,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddElementsController">
    <children>
       <Label layoutX="199.0" layoutY="10.0" text="Новый компонент">
@@ -12,7 +11,12 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="55.0" text="Выберите химические элементы:">
+      <Label layoutX="14.0" layoutY="57.0" text="Укажите процент элемента в данном">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="96.0" text="компоненте и его усвоение:">
          <font>
             <Font size="20.0" />
          </font>
@@ -22,68 +26,17 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="503.0" layoutY="342.0" mnemonicParsing="false" onAction="#nextButtonClicked" text="Далее">
+      <Button layoutX="494.0" layoutY="342.0" mnemonicParsing="false" onAction="#finishedButtonClicked" text="Готово">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <GridPane hgap="10.0" layoutX="14.0" layoutY="92.0" prefHeight="240.0" prefWidth="573.0">
-         <columnConstraints>
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="254.0" minWidth="10.0" prefWidth="254.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="273.0" minWidth="10.0" prefWidth="254.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <Label layoutX="381.0" layoutY="147.0" text="Выбранные элементы" GridPane.columnIndex="2">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label layoutX="86.0" layoutY="107.0" text="Все элементы">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <GridPane prefHeight="180.0" prefWidth="38.0" vgap="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="46.0" minHeight="6.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="86.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="53.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <Button maxHeight="40.0" maxWidth="40.0" minHeight="40.0" mnemonicParsing="false" onAction="#allForwardButtonClicked" prefHeight="40.0" prefWidth="40.0" text="&gt;&gt;" GridPane.rowIndex="1">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-                  <Button maxHeight="40.0" maxWidth="40.0" minHeight="40.0" mnemonicParsing="false" onAction="#allBackButtonClicked" prefHeight="40.0" prefWidth="40.0" text="&lt;&lt;" GridPane.rowIndex="3">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-                  <Button maxHeight="40.0" maxWidth="40.0" minHeight="40.0" mnemonicParsing="false" onAction="#oneForwardButtonClicked" prefHeight="40.0" prefWidth="40.0" text="&gt;">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-                  <Button maxHeight="40.0" maxWidth="40.0" minHeight="40.0" mnemonicParsing="false" onAction="#oneBackButtonClicked" prefHeight="40.0" prefWidth="40.0" text="&lt;" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-               </children>
-            </GridPane>
-            <ListView fx:id="allElementsList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" style="-fx-font: NORMAL 18 System;"/>
-            <ListView fx:id="selectedElementsList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" style="-fx-font: NORMAL 18 System;"/>
-         </children>
-      </GridPane>
+      <TableView fx:id="elementsTable" layoutX="16.0" layoutY="142.0" prefHeight="184.0" prefWidth="569.0">
+        <columns>
+          <TableColumn fx:id="elementColumn" editable="false" prefWidth="182.0" text="Химический элемент" style="-fx-font: NORMAL 18 System;"/>
+          <TableColumn fx:id="percentColumn" prefWidth="222.0" text="Процентное содержание" style="-fx-font: NORMAL 18 System;"/>
+            <TableColumn fx:id="adoptColumn" prefWidth="164.0" text="Процент усвоения" style="-fx-font: NORMAL 18 System;"/>
+        </columns>
+      </TableView>
    </children>
 </Pane>

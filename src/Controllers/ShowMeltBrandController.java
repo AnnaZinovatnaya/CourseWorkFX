@@ -45,20 +45,19 @@ public class ShowMeltBrandController {
 
         for (Element el : this.meltBrand.getElements())
         {
-            if (el.getName().equals("C"))
-            {
-                this.cMinPercentField.setText(el.getMinPercent());
-                this.cMaxPercentField.setText(el.getMaxPercent());
-            }
-            else if (el.getName().equals("Si"))
-            {
-                this.siMinPercentField.setText(el.getMinPercent());
-                this.siMaxPercentField.setText(el.getMaxPercent());
-            }
-            else if (el.getName().equals("S"))
-            {
-                this.sMinPercentField.setText(el.getMinPercent());
-                this.sMaxPercentField.setText(el.getMaxPercent());
+            switch (el.getName()) {
+                case "C":
+                    this.cMinPercentField.setText(el.getMinPercent());
+                    this.cMaxPercentField.setText(el.getMaxPercent());
+                    break;
+                case "Si":
+                    this.siMinPercentField.setText(el.getMinPercent());
+                    this.siMaxPercentField.setText(el.getMaxPercent());
+                    break;
+                case "S":
+                    this.sMinPercentField.setText(el.getMinPercent());
+                    this.sMaxPercentField.setText(el.getMaxPercent());
+                    break;
             }
         }
 
@@ -141,17 +140,19 @@ public class ShowMeltBrandController {
             }
 
             for (Element el : this.meltBrand.getElements()) {
-                if (el.getName().equals("C")) {
-                    el.setMinPercent(cMinPercent);
-                    el.setMaxPercent(cMaxPercent);
-                }
-                else if (el.getName().equals("Si")) {
-                    el.setMinPercent(siMinPercent);
-                    el.setMaxPercent(siMaxPercent);
-                }
-                else if (el.getName().equals("S")) {
-                    el.setMinPercent(sMinPercent);
-                    el.setMaxPercent(sMaxPercent);
+                switch (el.getName()) {
+                    case "C":
+                        el.setMinPercent(cMinPercent);
+                        el.setMaxPercent(cMaxPercent);
+                        break;
+                    case "Si":
+                        el.setMinPercent(siMinPercent);
+                        el.setMaxPercent(siMaxPercent);
+                        break;
+                    case "S":
+                        el.setMinPercent(sMinPercent);
+                        el.setMaxPercent(sMaxPercent);
+                        break;
                 }
             }
         }

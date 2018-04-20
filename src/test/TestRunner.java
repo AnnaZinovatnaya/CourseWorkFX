@@ -31,7 +31,7 @@ public class TestRunner {
         } catch (IOException ex) {
         } finally {
             System.setOut(oldPrintStream);
-            System.out.println("Tests finished.");
+            System.out.println("Tests finished " + (result.wasSuccessful()?"successfully":" - failed") + ".");
         }
     }
 

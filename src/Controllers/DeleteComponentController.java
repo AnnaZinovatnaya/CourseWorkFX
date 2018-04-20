@@ -1,7 +1,6 @@
 package Controllers;
 
 import Models.Component;
-import Models.Manager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

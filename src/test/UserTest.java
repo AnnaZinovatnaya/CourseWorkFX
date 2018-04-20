@@ -3,8 +3,7 @@ package test;
 import Models.User;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.*;
 
 public class UserTest {
     @Test
@@ -20,7 +19,7 @@ public class UserTest {
         assertEquals("Password is not correctly saved", "new password", foundUser.getPassword());
         assertEquals("Role is not correctly saved", "металлург", foundUser.getRole());
 
-        assertEquals("Existing user not found by userExists()", true, User.userExists("new name", "new lastname"));
+        assertTrue("Existing user not found by userExists()", User.userExists("new name", "new lastname"));
 
         User loggedInUser = User.loginAndReturnUser("new name", "new lastname", "new password");
         assertNotNull("User cannot loginAndReturnUser", loggedInUser);
@@ -30,8 +29,8 @@ public class UserTest {
         assertEquals("Login role is not correctly received", "металлург", loggedInUser.getRole());
 
         user.deleteFromDB();
-        assertEquals("User wasn't deleted", null, User.readUserFromDB("new name", "new lastname"));
-        assertEquals("Non-existing user found by userExists()", false, User.userExists("new name", "new lastname"));
+        assertNull("User wasn't deleted", User.readUserFromDB("new name", "new lastname"));
+        assertFalse("Non-existing user found by userExists()", User.userExists("new name", "new lastname"));
     }
 
     @Test
@@ -39,14 +38,14 @@ public class UserTest {
         User nonAdmin = new User(0, "new name", "new lastname", "new password", "металлург");
         User admin = new User(0, "Администратор", "Администратор", "Администратор", "администратор");
 
-        assertEquals("Not default admin was marked as default admin", false, nonAdmin.isDefaultAdmin());
-        assertEquals("Default admin wasn't marked as default admin", true, admin.isDefaultAdmin());
+        assertFalse("Not default admin was marked as default admin", nonAdmin.isDefaultAdmin());
+        assertTrue("Default admin wasn't marked as default admin", admin.isDefaultAdmin());
     }
 
     @Test
     public void nonExistingUserCannotBeLoggedIn() {
         User loggedInUser = User.loginAndReturnUser("bla", "bla", "bla");
-        assertEquals("Non existing user logged in", null, loggedInUser);
+        assertNull("Non existing user logged in", loggedInUser);
     }
 
     @Test

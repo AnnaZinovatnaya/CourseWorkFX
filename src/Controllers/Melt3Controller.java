@@ -12,7 +12,6 @@ import Util.Helper;
 
 public class Melt3Controller {
     private Melt2Controller melt2Controller;
-    private Stage primaryStage;
     @FXML private Label indexLabel;
     @FXML private Label meltBrandLabel;
     @FXML private Label amountLabel;
@@ -22,11 +21,8 @@ public class Melt3Controller {
     @FXML private TableColumn<CompInCharge, String> componentNameColumn = new TableColumn<>();
     @FXML private TableColumn<CompInCharge, String> componentMassColumn = new TableColumn<>();
 
-    private ObservableList<CompInCharge> components;
-
-    public void init(Stage primaryStage, Melt2Controller melt2Controller, Charge charge)
+    public void init(Melt2Controller melt2Controller, Charge charge)
     {
-        this.primaryStage = primaryStage;
         this.melt2Controller = melt2Controller;
         this.charge = charge;
         this.meltBrandLabel.setText(this.charge.getMeltBrand().getName());
@@ -34,9 +30,9 @@ public class Melt3Controller {
 
         this.indexLabel.setText(String.valueOf(Melt.getMaxIdFromDB() + 1));
 
-        this.components = FXCollections.observableArrayList();
-        this.components.addAll(this.charge.getMandatoryComponents());
-        this.components.addAll(this.charge.getOptionalComponents());
+        ObservableList<CompInCharge> components = FXCollections.observableArrayList();
+        components.addAll(this.charge.getMandatoryComponents());
+        components.addAll(this.charge.getOptionalComponents());
 
         this.componentNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         this.componentNameColumn.setEditable(false);

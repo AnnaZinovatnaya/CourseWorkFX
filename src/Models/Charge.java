@@ -896,7 +896,7 @@ public class Charge
 
     public static ObservableList<Charge> getCharges(String meltBrand)
     {
-        ObservableList<Charge> resCharges = FXCollections.observableArrayList();;
+        ObservableList<Charge> resCharges = FXCollections.observableArrayList();
 
         int idMeltBrand;
         String query = "";

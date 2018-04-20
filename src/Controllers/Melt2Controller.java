@@ -17,9 +17,8 @@ import Util.Helper;
 public class Melt2Controller {
     private Melt1Controller melt1Controller;
     private Stage           primaryStage;
-    private String          meltBrand;
 
-    @FXML private ListView<String> chargesListView  = new ListView<>();;
+    @FXML private ListView<String> chargesListView  = new ListView<>();
 
     private ObservableList<Charge> charges;
     private ObservableList<String> chargesString;
@@ -28,7 +27,6 @@ public class Melt2Controller {
     {
         this.primaryStage = primaryStage;
         this.melt1Controller = melt1Controller;
-        this.meltBrand = meltBrand;
 
         this.charges = FXCollections.observableArrayList();
         this.chargesString = FXCollections.observableArrayList();
@@ -77,7 +75,7 @@ public class Melt2Controller {
                 );
                 Parent root = loader.load();
                 Melt3Controller melt3Controller = loader.getController();
-                melt3Controller.init(this.primaryStage, this, this.charges.get(this.chargesString.indexOf(chosenCharge)));
+                melt3Controller.init(this, this.charges.get(this.chargesString.indexOf(chosenCharge)));
                 primaryStage.setScene(new Scene(root));
             }
             catch (Exception ex)

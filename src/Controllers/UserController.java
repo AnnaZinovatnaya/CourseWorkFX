@@ -97,7 +97,6 @@ public class UserController
         catch (RuntimeException e)
         {
             Helper.showErrorMessage(e.getLocalizedMessage());
-            return;
         }
     }
 

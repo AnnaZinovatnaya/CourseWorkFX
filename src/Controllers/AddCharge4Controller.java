@@ -219,12 +219,7 @@ public class AddCharge4Controller
             sumOfMinPercents += aComp.getMinPercent();
         }
 
-        if (sumOfMinPercents > 100)
-        {
-            return true;
-        }
-
-        return false;
+        return sumOfMinPercents > 100;
     }
 
     private boolean sumOfMaxIsLessThan100()
@@ -236,11 +231,6 @@ public class AddCharge4Controller
             sumOfMaxPercents += aComp.getMaxPercent();
         }
 
-        if (sumOfMaxPercents < 100)
-        {
-            return true;
-        }
-
-        return false;
+        return sumOfMaxPercents < 100;
     }
 }

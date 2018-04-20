@@ -1,76 +1,113 @@
 package Controllers;
 
+import Models.Component;
+import Models.Element;
 import Models.Manager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.ListView;
-import javafx.stage.Stage;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import Util.ErrorMessage;
 import Util.Helper;
 
+
 public class AddElementsController
 {
-    private AddComponentController addComponentController;
-    @FXML private ListView<String> allElementsList = new ListView<>();
-    @FXML private ListView<String> selectedElementsList = new ListView<>();
-    private ObservableList<String> items;
-    private ObservableList<String> selectedItems;
-    private Stage                  primaryStage;
+    private AddComponentController             addComponentController;
+    private ObservableList<String>             selectedItems;
+    private ObservableList<Element>            elements;
+
+    @FXML private TableColumn<Element, String> elementColumn = new TableColumn<>();
+    @FXML private TableColumn<Element, String> percentColumn = new TableColumn<>();
+    @FXML private TableColumn<Element, String> adoptColumn = new TableColumn<>();
+    @FXML private TableView<Element>           elementsTable = new TableView<>();
 
     public void setPreviousController(AddComponentController addComponentController)
     {
         this.addComponentController = addComponentController;
     }
 
-    @FXML public  void init()
+    @FXML public  void init(ObservableList<String> selectedItems)
     {
-        try
-        {
-            items = Manager.getAllElements();
-            selectedItems = FXCollections.observableArrayList();
-            this.allElementsList.setItems(items);
-            this.selectedElementsList.setItems(selectedItems);
-        }
-        catch (RuntimeException e)
-        {
-            Helper.showErrorMessage(e.getLocalizedMessage());
-        }
-    }
+        this.elementsTable.setEditable(true);
 
-    @FXML private void oneForwardButtonClicked()
-    {
-        String temp = allElementsList.getSelectionModel().getSelectedItem();
-        if(!selectedItems.contains(temp)&&temp!=null)
+        elements = FXCollections.observableArrayList ();
+        this.selectedItems = selectedItems;
+        for (String selectedItem : selectedItems)
         {
-            this.selectedElementsList.getItems().add(temp);
+            elements.add(new Element(selectedItem, 0, 0, 0, 0));
         }
-    }
 
-    @FXML private void allForwardButtonClicked()
-    {
-        this.selectedElementsList.getItems().clear();
-        for (String item : items)
+        this.elementColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        this.percentColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        this.percentColumn.setOnEditCommit(
+            t ->
         {
-            this.selectedElementsList.getItems().add(item);
-        }
-    }
+            boolean b= true;
+            double percent = 0;
+            try
+            {
+                percent = Double.parseDouble(t.getNewValue());
 
-    @FXML private void oneBackButtonClicked()
-    {
-        String temp = selectedElementsList.getSelectionModel().getSelectedItem();
-        if(temp!=null)
+                if (percent < 0)
+                {
+                    throw new RuntimeException(ErrorMessage.INCORRECT_PERCENT);
+                }
+            }
+            catch (Exception ex)
+            {
+                Helper.showErrorMessage(ErrorMessage.INCORRECT_PERCENT);
+                b=false;
+            }
+
+            if(b)
+            {
+                t.getTableView().getItems().get(
+                    t.getTablePosition().getRow()).setPercent(Double.parseDouble(t.getNewValue()));
+            }
+            else
+            {
+                t.getTableView().getItems().get(
+                    t.getTablePosition().getRow()).setPercent(0);
+
+            }
+        }
+        );
+
+        this.adoptColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        this.adoptColumn.setOnEditCommit(
+            t ->
         {
-            this.selectedElementsList.getItems().remove(temp);
-        }
-    }
+            boolean b= true;
+            double adapt = 0;
+            try
+            {
+                adapt = Double.parseDouble(t.getNewValue());
+                if (adapt < 0)
+                {
+                    throw new RuntimeException(ErrorMessage.INCORRECT_ADAPT);
+                }
+            }
+            catch (Exception ex)
+            {
+                Helper.showErrorMessage(ErrorMessage.INCORRECT_ADAPT);
+                b=false;
+            }
 
-    @FXML private void allBackButtonClicked()
-    {
-        this.selectedElementsList.getItems().clear();
+            if(b)
+            {
+                t.getTableView().getItems().get(
+                    t.getTablePosition().getRow()).setAdopt(Double.parseDouble(t.getNewValue()));
+            }
+        }
+        );
+        this.elementsTable.setItems(elements);
+        this.elementsTable.getColumns().clear();
+        this.elementsTable.getColumns().addAll(elementColumn, percentColumn, adoptColumn);
+
     }
 
     @FXML private void backButtonClicked()
@@ -78,39 +115,41 @@ public class AddElementsController
         addComponentController.backToScene();
     }
 
-    @FXML private void nextButtonClicked()
+    @FXML private void finishedButtonClicked()
     {
-        if(selectedItems.size()>0)
+        boolean b=true;
+        for(Element aElement: elementsTable.getItems())
         {
+            if(aElement.getPercent()==0)
+                b=false;
+            if(aElement.getAdopt()==0)
+                b=false;
+        }
+        if (b)
+        {
+            for (int i = 0; i < selectedItems.size(); i++)
+            {
+                Manager.setComponentElement(selectedItems.get(i),
+                                             elementsTable.getItems().get(i).getPercent(),
+                                             elementsTable.getItems().get(i).getAdopt());
+            }
             try
             {
-                FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/Views/AddElements2Scene.fxml")
-                );
-                Parent root = loader.load();
-                AddElements2Controller addElements2Controller = loader.getController();
-                addElements2Controller.setPreviousController(this);
-                addElements2Controller.init(items);
-                primaryStage = addComponentController.getPrimaryStage();
-                primaryStage.setScene(new Scene(root));
+                Manager.saveComponentParam();
+                Manager.saveComponentElements();
+
+                Helper.showInformationMessage("Компонент сохранен!");
+
+                this.addComponentController.getMenuController().backToMenu();
             }
-            catch (Exception ex)
+            catch (RuntimeException e)
             {
-                Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+                Helper.showErrorMessage(e.getLocalizedMessage());
             }
         }
         else
         {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_COMPONENT_CHOICE);
+            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
         }
-    }
-
-    public void backToScene()
-    {
-        primaryStage.setScene(this.allElementsList.getScene());
-    }
-
-    public AddComponentController getAddComponentController() {
-        return addComponentController;
     }
 }

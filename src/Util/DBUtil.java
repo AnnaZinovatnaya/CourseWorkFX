@@ -39,7 +39,7 @@ public class DBUtil
         }
         catch (IOException e)
         {
-            //throw new RuntimeException(ErrorMessage.CANNOT_READ_FILE);
+
         }
 
         if (isConfigurationOK)

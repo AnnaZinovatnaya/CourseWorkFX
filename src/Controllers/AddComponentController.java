@@ -140,13 +140,13 @@ public class AddComponentController
                                 try
                                 {
                                     FXMLLoader loader = new FXMLLoader(
-                                            getClass().getResource("/Views/AddElements2Scene.fxml")
+                                            getClass().getResource("/Views/AddElementsScene.fxml")
                                     );
                                     Parent root = loader.load();
 
-                                    AddElements2Controller addElements2Controller = loader.getController();
-                                    addElements2Controller.setPreviousController(this);
-                                    addElements2Controller.init(FXCollections.observableArrayList("C", "S", "Si"));
+                                    AddElementsController addElementsController = loader.getController();
+                                    addElementsController.setPreviousController(this);
+                                    addElementsController.init(FXCollections.observableArrayList("C", "S", "Si"));
                                     primaryStage.setScene(new Scene(root));
                                 }
                                 catch (Exception ex)

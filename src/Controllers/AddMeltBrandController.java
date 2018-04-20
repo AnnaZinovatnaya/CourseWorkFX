@@ -4,9 +4,7 @@ import Models.Element;
 import Models.MeltBrand;
 import Util.ErrorMessage;
 import Util.Helper;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
@@ -135,7 +133,6 @@ public class AddMeltBrandController
         catch (RuntimeException e)
         {
             Helper.showErrorMessage(e.getLocalizedMessage());
-            return;
         }
     }
 

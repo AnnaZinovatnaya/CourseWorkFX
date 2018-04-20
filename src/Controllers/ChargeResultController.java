@@ -20,8 +20,6 @@ public class ChargeResultController
     @FXML private Label                             meltLabel;
     @FXML private Label                             amountLabel;
 
-    private ObservableList<CompInCharge>            components;
-
     @FXML private TableColumn<CompInCharge, String> nameColumn = new TableColumn<>();
     @FXML private TableColumn<CompInCharge, String> amountColumn = new TableColumn<>();
 
@@ -40,7 +38,7 @@ public class ChargeResultController
         this.meltLabel.setText(Manager.getChargeMeltBrand());
         this.amountLabel.setText(Manager.getChargeMass());
 
-        this.components = Manager.getChargeResultComps();
+        ObservableList<CompInCharge> components = Manager.getChargeResultComps();
 
         this.nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         this.amountColumn.setCellValueFactory(new PropertyValueFactory<>("currentMass"));
@@ -48,7 +46,7 @@ public class ChargeResultController
         this.componentsTable.setEditable(true);
         this.componentsTable.getColumns().clear();
         this.componentsTable.getColumns().addAll(this.nameColumn, this.amountColumn);
-        this.componentsTable.setItems(this.components);
+        this.componentsTable.setItems(components);
     }
 
     @FXML private void backButtonClicked()

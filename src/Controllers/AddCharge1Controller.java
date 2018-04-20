@@ -21,18 +21,17 @@ public class AddCharge1Controller
     @FXML private ChoiceBox<String> brandChoiceBox;
     @FXML private TextField         massField;
     @FXML private TextField         deltaMassField;
-    private ObservableList<String>  brandNames;
 
     public void init(MenuController menuController)
     {
         this.menuController = menuController;
         this.primaryStage = this.menuController.getPrimaryStage();
 
-        this.brandNames = FXCollections.observableArrayList ("");
+        ObservableList<String> brandNames = FXCollections.observableArrayList("");
         try
         {
-            this.brandNames.addAll(Manager.getAllBrands());
-            this.brandChoiceBox.setItems(this.brandNames);
+            brandNames.addAll(Manager.getAllBrands());
+            this.brandChoiceBox.setItems(brandNames);
         }
         catch (RuntimeException e)
         {

@@ -13,8 +13,6 @@ import Util.Helper;
 
 public class Melt1Controller {
     @FXML private ListView<String> brandListView = new ListView<>();
-    private ObservableList<String> brands;
-    private String                 chosenBrand;
     private Stage                  primaryStage;
     private UserController         userController;
 
@@ -23,7 +21,7 @@ public class Melt1Controller {
         this.userController = userController;
         try
         {
-            this.brands = Manager.getAllBrands();
+            ObservableList<String> brands = Manager.getAllBrands();
 
             this.brandListView.setItems(brands);
 
@@ -46,7 +44,7 @@ public class Melt1Controller {
 
     @FXML public void selectBrandButtonClicked()
     {
-        chosenBrand = this.brandListView.getSelectionModel().getSelectedItem();
+        String chosenBrand = this.brandListView.getSelectionModel().getSelectedItem();
         if (null != chosenBrand)
         {
             try

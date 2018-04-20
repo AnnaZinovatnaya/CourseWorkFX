@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class MeltBrand
 {
@@ -207,7 +206,7 @@ public class MeltBrand
         String query = "";
         try
         {
-            if (false == meltBrandExists(name))
+            if (!meltBrandExists(name))
             {
                 ResultSet rs;
                 query = "INSERT INTO meltbrand (name, standard) VALUES ('" + name + "', '" + standard + "');";

@@ -188,13 +188,6 @@ public class User
 
     public boolean isDefaultAdmin()
     {
-        if (name.equals("Администратор") && lastname.equals("Администратор") && role.equals("администратор"))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return name.equals("Администратор") && lastname.equals("Администратор") && role.equals("администратор");
     }
 }

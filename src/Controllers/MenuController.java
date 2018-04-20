@@ -20,9 +20,6 @@ public class MenuController
     @FXML private Button             reportButton;
     @FXML private Button             showMeltsButton;
 
-    private AddComponentController   addComponentController;
-    private AddCharge1Controller     addCharge1Controller;
-    private ReportController         reportController;
     private UserController           userController;
 
     public void init(Stage primaryStage, String menuWindowTitle, UserController userController)
@@ -108,7 +105,7 @@ public class MenuController
                 getClass().getResource("/Views/AddComponentScene.fxml")
             );
             Parent root = loader.load();
-            addComponentController = loader.getController();
+            AddComponentController addComponentController = loader.getController();
             addComponentController.setMenuController(this);
             primaryStage.setScene(new Scene(root));
             primaryStage.setTitle("Новый компонент");
@@ -149,7 +146,7 @@ public class MenuController
                 getClass().getResource("/Views/ReportScene.fxml")
             );
             Parent root = loader.load();
-            reportController = loader.getController();
+            ReportController reportController = loader.getController();
             reportController.setMenuController(this);
             primaryStage.setScene(new Scene(root));
             primaryStage.setTitle("Отчет по плавкам");
@@ -169,7 +166,7 @@ public class MenuController
                 getClass().getResource("/Views/AddCharge1Scene.fxml")
             );
             Parent root = loader.load();
-            addCharge1Controller = loader.getController();
+            AddCharge1Controller addCharge1Controller = loader.getController();
             addCharge1Controller.init(this);
             primaryStage.setScene(new Scene(root));
             primaryStage.setTitle("Новая плавка");
@@ -183,7 +180,7 @@ public class MenuController
 
     @FXML private void showMeltsButtonClicked()
     {
-
+        //TODO
     }
 
     public Stage getPrimaryStage() {
