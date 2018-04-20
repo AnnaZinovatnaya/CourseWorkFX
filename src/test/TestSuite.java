@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
         UserTest.class,
-        MeltBrandTest.class
+        MeltBrandTest.class,
+        ChargeTest.class
 })
 
 public class TestSuite {

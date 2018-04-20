@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import test.TestRunner;
 
 
 public class Main extends Application
@@ -30,6 +31,7 @@ public class Main extends Application
 
     public static void main(String[] args)
     {
+        TestRunner.main(args);
         launch(args);
     }
 }

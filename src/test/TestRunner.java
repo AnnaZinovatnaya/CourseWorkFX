@@ -15,6 +15,7 @@ import java.nio.file.StandardOpenOption;
 public class TestRunner {
     private static Result result;
     public static void main(String[] args) {
+        System.out.println("Tests started...");
 
         PrintStream oldPrintStream = System.out;
 
@@ -30,6 +31,7 @@ public class TestRunner {
         } catch (IOException ex) {
         } finally {
             System.setOut(oldPrintStream);
+            System.out.println("Tests finished.");
         }
     }
 
