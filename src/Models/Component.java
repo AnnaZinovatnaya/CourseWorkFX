@@ -171,12 +171,12 @@ public class Component
         return  false;
     }
 
-    public void saveComponentParam() throws RuntimeException
+    public void saveComponentGeneralInfo() throws RuntimeException
     {
         this.calculateAdopt();
 
         String query = "INSERT INTO component (name, brand, adoptBase, currentAmount, currentPrice, mandatory, adoptComp) " +
-                "VALUES ('" + name + "', '" + brand + "', '" + adoptBase + "', '" + amount + "', '" + price + "', '" + mandatory +"', '" + adoptComp + "')";
+                "VALUES ('" + name + "', '" + brand + "', '" + adoptBase + "', '" + amount + "', '" + price + "', '" + mandatory + "', '" + adoptComp + "')";
         try
         {
             SQLiteUtil.dbExecuteUpdate(query);
@@ -192,7 +192,7 @@ public class Component
         elements.add(new Element(name, 0, 0, percent, adopt));
     }
 
-    public void saveComponentElements() throws RuntimeException
+    public void saveComponentElementsInfo() throws RuntimeException
     {
         ResultSet rs;
         int id = 0;

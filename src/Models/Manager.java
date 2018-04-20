@@ -154,7 +154,7 @@ public class Manager
     {
         try
         {
-            component.saveComponentParam();
+            component.saveComponentGeneralInfo();
         }
         catch (RuntimeException e)
         {
@@ -171,7 +171,7 @@ public class Manager
     {
         try
         {
-            component.saveComponentElements();
+            component.saveComponentElementsInfo();
         }
         catch (RuntimeException e)
         {
