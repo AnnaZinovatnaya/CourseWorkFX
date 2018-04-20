@@ -96,7 +96,7 @@ public class Manager
     {
         try
         {
-            currentUser = User.login(name, lastname, password);
+            currentUser = User.loginAndReturnUser(name, lastname, password);
         }
         catch (RuntimeException e)
         {

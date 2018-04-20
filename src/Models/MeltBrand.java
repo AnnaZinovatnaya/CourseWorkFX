@@ -204,33 +204,33 @@ public class MeltBrand
 
     public void saveToDB() throws RuntimeException
     {
-        ResultSet rs;
-        String query =  "INSERT INTO meltbrand (name, standard) VALUES ('" + name + "', '" + standard + "');";
-        int idMeltBrand = 0;
+        String query = "";
         try
         {
-            SQLiteUtil.dbExecuteUpdate(query);
-
-            query = "SELECT * FROM meltbrand WHERE name = '" + name + "';";
-            rs = SQLiteUtil.dbExecuteQuery(query);
-            if (rs.next())
+            if (false == meltBrandExists(name))
             {
-                idMeltBrand = rs.getInt("idMeltBrand");
-            }
+                ResultSet rs;
+                query = "INSERT INTO meltbrand (name, standard) VALUES ('" + name + "', '" + standard + "');";
+                int idMeltBrand = 0;
 
-            for (Element el : elements)
-            {
-                query =  "INSERT INTO elementinbrand (minProcent, maxProcent, MeltBrand_idMeltBrand, Element_idElement)\n" +
-                        " VALUES ('" + el.getMinPercentDouble() + "', '" + el.getMaxPercentDouble() + "', '" + idMeltBrand + "', '" + el.getIdFromDB() + "');";
                 SQLiteUtil.dbExecuteUpdate(query);
+
+                query = "SELECT * FROM meltbrand WHERE name = '" + name + "';";
+                rs = SQLiteUtil.dbExecuteQuery(query);
+                if (rs.next()) {
+                    idMeltBrand = rs.getInt("idMeltBrand");
+                }
+
+                for (Element el : elements)
+                {
+                    query = "INSERT INTO elementinbrand (minProcent, maxProcent, MeltBrand_idMeltBrand, Element_idElement)\n" +
+                            " VALUES ('" + el.getMinPercentDouble() + "', '" + el.getMaxPercentDouble() + "', '" + idMeltBrand + "', '" + el.getIdFromDB() + "');";
+                    SQLiteUtil.dbExecuteUpdate(query);
+                }
             }
-        }
-        catch (RuntimeException e)
-        {
+        } catch (RuntimeException e) {
             throw e;
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
     }

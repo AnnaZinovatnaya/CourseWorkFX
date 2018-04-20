@@ -22,8 +22,8 @@ public class UserTest {
 
         assertEquals("Existing user not found by userExists()", true, User.userExists("new name", "new lastname"));
 
-        User loggedInUser = User.login("new name", "new lastname", "new password");
-        assertNotNull("User cannot login", loggedInUser);
+        User loggedInUser = User.loginAndReturnUser("new name", "new lastname", "new password");
+        assertNotNull("User cannot loginAndReturnUser", loggedInUser);
         assertEquals("Login name is not correctly received", "new name", loggedInUser.getName());
         assertEquals("Login lastname is not correctly received", "new lastname", loggedInUser.getLastname());
         assertEquals("Login password is not correctly received", "new password", loggedInUser.getPassword());
@@ -45,7 +45,12 @@ public class UserTest {
 
     @Test
     public void nonExistingUserCannotBeLoggedIn() {
-        User loggedInUser = User.login("bla", "bla", "bla");
+        User loggedInUser = User.loginAndReturnUser("bla", "bla", "bla");
         assertEquals("Non existing user logged in", null, loggedInUser);
+    }
+
+    @Test
+    public void defaultAdminExists() {
+        assertNotNull("Default user doesn't exist", User.readUserFromDB("Администратор", "Администратор"));
     }
 }

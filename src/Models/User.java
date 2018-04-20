@@ -154,7 +154,7 @@ public class User
         }
     }
 
-    public static User login(String name, String lastname, String password) throws RuntimeException
+    public static User loginAndReturnUser(String name, String lastname, String password) throws RuntimeException
     {
         User tempUser=null;
         ResultSet rs;
