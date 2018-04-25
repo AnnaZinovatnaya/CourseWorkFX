@@ -13,6 +13,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import Util.ErrorMessage;
 import Util.Helper;
+import javafx.util.StringConverter;
+import javafx.util.converter.DoubleStringConverter;
 
 public class AddCharge4Controller
 {
@@ -138,6 +140,7 @@ public class AddCharge4Controller
     private void initMaxPercentColumn()
     {
         this.maxComponentPercentColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
         this.maxComponentPercentColumn.setOnEditCommit(
                 t ->
                 {

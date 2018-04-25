@@ -169,7 +169,7 @@ public class MenuController
             AddCharge1Controller addCharge1Controller = loader.getController();
             addCharge1Controller.init(this);
             primaryStage.setScene(new Scene(root));
-            primaryStage.setTitle("Новая плавка");
+            primaryStage.setTitle("Расчет шихты");
             primaryStage.show();
         }
         catch (Exception ex)
