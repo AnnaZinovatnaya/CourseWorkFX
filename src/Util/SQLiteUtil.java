@@ -1,76 +1,124 @@
 package Util;
 import com.sun.rowset.CachedRowSetImpl;
 
-import java.io.*;
-import java.sql.*;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class SQLiteUtil
 {
     private static Connection connection = null;
     private static Statement statement = null;
+    private static ResultSet resultSet = null;
 
-    private static boolean isDBCreated()
+    public static ResultSet dbExecuteQuery(String queryStatement) throws RuntimeException
+    {
+        resultSet = null;
+        CachedRowSetImpl cachedResultSet;
+        try
+        {
+            prepareStatement();
+            resultSet = statement.executeQuery(queryStatement);
+
+            cachedResultSet = new CachedRowSetImpl();
+            cachedResultSet.populate(resultSet);
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException (ErrorMessage.CANNOT_EXECUTE_QUERY + queryStatement);
+        }
+        finally
+        {
+            closeResultSet();
+            closeStatement();
+            disconnectDb();
+        }
+        return cachedResultSet;
+    }
+
+    public static void dbExecuteUpdate(String sqlStatement) throws RuntimeException
     {
         try
         {
-            statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM user;");
-
-            if (!rs.next())
-            {
-                //TODO check if this works (return false when user table is empty)
-                rs.close();
-                statement.close();
-                return false;
-            }
-
-            rs.close();
-            statement.close();
-            return true;
-        } catch (Exception e)
+            prepareStatement();
+            statement.executeUpdate(sqlStatement);
+        }
+        catch (SQLException e)
         {
-            return false;
+            throw new RuntimeException (ErrorMessage.CANNOT_EXECUTE_QUERY + sqlStatement);
+        }
+        finally
+        {
+            closeStatement();
+            disconnectDb();
         }
     }
 
-    private static void createDB()
+    private static void prepareStatement() throws RuntimeException
+    {
+        connectDb();
+        createDbIfNotCreated();
+        createStatement();
+    }
+
+    private static void connectDb() throws RuntimeException
     {
         try
         {
-            statement = connection.createStatement();
+            if (null == connection || connection.isClosed())
+            {
+                Class.forName("org.sqlite.JDBC");
+                connection = DriverManager.getConnection(createURL());
+            }
+        } catch (SQLException | ClassNotFoundException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
+        }
+    }
+
+    private static void createDbIfNotCreated() throws RuntimeException
+    {
+        if (!isDBCreated())
+        {
+            createDB();
+        }
+    }
+
+    private static boolean isDBCreated()
+    {
+        boolean result;
+        try
+        {
+            createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM user;");
+
+            result = resultSet.next();
+
+            closeResultSet();
+            closeStatement();
+        } catch (SQLException e)
+        {
+            result = false;
+        }
+        return result;
+    }
+
+    private static void createDB() throws RuntimeException
+    {
+        try
+        {
+            createStatement();
             for (String query : DbStructure.getDbStructure())
             {
                 statement.execute(query);
             }
-
-            statement.close();
-        } catch (Exception e)
+            closeStatement();
+        } catch (SQLException e)
         {
-            e.printStackTrace();
             throw new RuntimeException(ErrorMessage.CANNOT_CREATE_DB);
-        }
-    }
-
-    private static void dbConnect() throws RuntimeException
-    {
-        try
-        {
-            Class.forName("org.sqlite.JDBC");
-
-            connection = DriverManager.getConnection(createURL());
-
-            if (!isDBCreated())
-            {
-                createDB();
-            }
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
         }
     }
 
@@ -84,135 +132,59 @@ public class SQLiteUtil
         return url;
     }
 
-    private static void dbDisconnect() throws RuntimeException
+    private static void disconnectDb() throws RuntimeException
     {
         try
         {
-            if (connection != null && !connection.isClosed())
+            if (null != connection && !connection.isClosed())
             {
                 connection.close();
             }
         }
-        catch (Exception e)
+        catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_CLOSE_CONNECTION);
         }
     }
 
-    public static ResultSet dbExecuteQuery(String queryStatement) throws RuntimeException
+    private static void createStatement() throws RuntimeException
     {
-        statement = null;
-        ResultSet resultSet = null;
-        CachedRowSetImpl cachedResultSet;
         try
         {
-            tryConnectingToDB();
-
             statement = connection.createStatement();
-            resultSet = statement.executeQuery(queryStatement);
-            cachedResultSet = new CachedRowSetImpl();
-            cachedResultSet.populate(resultSet);
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
-        catch (SQLException e)
-        {
-            throw new RuntimeException (ErrorMessage.CANNOT_EXECUTE_QUERY + queryStatement);
-        }
-        finally
-        {
-            if (resultSet != null)
-            {
-                try
-                {
-                    resultSet.close();
-                }
-                catch (SQLException e)
-                {
-                    throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
-                }
-            }
-            if (statement != null)
-            {
-                try
-                {
-                    statement.close();
-                }
-                catch (SQLException e)
-                {
-                    throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
-                }
-            }
 
-            try
-            {
-                dbDisconnect();
-            }
-            catch (RuntimeException e)
-            {
-                throw e;
-            }
-        }
-        return cachedResultSet;
-    }
-
-    public static void dbExecuteUpdate(String sqlStatement) throws RuntimeException
-    {
-        statement = null;
-        try
+        } catch (SQLException e)
         {
-            tryConnectingToDB();
-
-            statement = connection.createStatement();
-            statement.executeUpdate(sqlStatement);
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
-        catch (SQLException e)
-        {
-            throw new RuntimeException (ErrorMessage.CANNOT_EXECUTE_QUERY + sqlStatement);
-        }
-        finally
-        {
-            if (statement != null)
-            {
-                try
-                {
-                    statement.close();
-                }
-                catch (SQLException e)
-                {
-                    throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
-                }
-            }
-
-            try
-            {
-                dbDisconnect();
-            }
-            catch (RuntimeException e)
-            {
-                throw e;
-            }
+            throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
         }
     }
 
-    private static void tryConnectingToDB() throws RuntimeException
+    private static void closeStatement() throws RuntimeException
     {
         try
         {
-            if (null == connection || connection.isClosed())
+            if (null != statement)
             {
-                dbConnect();
+                statement.close();
+            }
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
+        }
+    }
+
+    private static void closeResultSet() throws RuntimeException
+    {
+        try
+        {
+            if (null != resultSet)
+            {
+                resultSet.close();
             }
         }
-        catch (Exception e)
+        catch (SQLException e)
         {
-            throw new RuntimeException (ErrorMessage.CANNOT_CONNECT_TO_DB);
+            throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
         }
     }
 }
