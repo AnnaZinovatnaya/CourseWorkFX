@@ -110,10 +110,6 @@ public class Element
             }
             rs.close();
         }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
@@ -143,10 +139,6 @@ public class Element
                     "VALUES ('" + percent + "', '" + idElement + "', '" + idComponent + "', '" + adopt + "')";
             SQLiteUtil.dbExecuteUpdate(query);
         }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
@@ -169,10 +161,6 @@ public class Element
 
             rs.close();
         }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
@@ -180,5 +168,4 @@ public class Element
 
         return id;
     }
-
 }

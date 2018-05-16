@@ -11,7 +11,6 @@ public class DbStructure {
         {
             init();
         }
-
         return dbStructure;
     }
 

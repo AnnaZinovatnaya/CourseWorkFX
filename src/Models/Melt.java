@@ -65,10 +65,6 @@ public class Melt
             rs.close();
 
         }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + "SELECT max(idMelt) FROM melt;");
@@ -79,16 +75,9 @@ public class Melt
 
     public void saveToDB() throws RuntimeException
     {
-        try
-        {
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-            SQLiteUtil.dbExecuteUpdate("INSERT INTO melt (date, Charge_idCharge, User_idUser)\n" +
-                    "VALUES ('" + sqlDate + "', '" + this.charge.getId() + "', '" + this.user.getId() +"');");
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
+        SQLiteUtil.dbExecuteUpdate("INSERT INTO melt (date, Charge_idCharge, User_idUser)\n" +
+                "VALUES ('" + sqlDate + "', '" + this.charge.getId() + "', '" + this.user.getId() +"');");
     }
 }

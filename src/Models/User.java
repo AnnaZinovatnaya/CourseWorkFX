@@ -2,7 +2,9 @@ package Models;
 
 import Util.ErrorMessage;
 import Util.SQLiteUtil;
+import com.sun.rowset.CachedRowSetImpl;
 
+import javax.sql.rowset.CachedRowSet;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -74,18 +76,11 @@ public class User
 
     public void saveToDB() throws RuntimeException
     {
-        try
-        {
-            SQLiteUtil.dbExecuteUpdate("INSERT INTO user (name, lastname, password, role) " +
-                                       "VALUES ('" + name     + "', " +
-                                               "'" + lastname + "', " +
-                                               "'" + password + "', " +
-                                               "'" + role     + "');");
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
+        SQLiteUtil.dbExecuteUpdate("INSERT INTO user (name, lastname, password, role) " +
+                                   "VALUES ('" + name     + "', " +
+                                           "'" + lastname + "', " +
+                                           "'" + password + "', " +
+                                           "'" + role     + "');");
     }
 
     public static boolean userExists(String name, String lastname) throws RuntimeException
@@ -98,10 +93,6 @@ public class User
             query = "SELECT * FROM user WHERE name = '" + name + "' AND lastname = '" + lastname + "';";
             rs = SQLiteUtil.dbExecuteQuery(query);
             return rs.next();
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
         }
         catch (SQLException e)
         {
@@ -130,10 +121,6 @@ public class User
 
             rs.close();
         }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
@@ -144,14 +131,7 @@ public class User
 
     public void deleteFromDB() throws RuntimeException
     {
-        try
-        {
-            SQLiteUtil.dbExecuteUpdate("DELETE FROM user WHERE name = '" + name + "' AND lastname = '" + lastname + "';");
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
+        SQLiteUtil.dbExecuteUpdate("DELETE FROM user WHERE name = '" + name + "' AND lastname = '" + lastname + "';");
     }
 
     public static User loginAndReturnUser(String name, String lastname, String password) throws RuntimeException
@@ -173,10 +153,6 @@ public class User
                                     rs.getString("password"),
                                     rs.getString("role"));
             }
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
         }
         catch (SQLException e)
         {

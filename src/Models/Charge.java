@@ -190,7 +190,7 @@ public class Charge
         int i;
         double temp;
 
-        double curPercSum=0;
+        double curPercSum = 0;
 
         double massM[] = new double[mandatoryComponents.size()];
 
@@ -199,65 +199,63 @@ public class Charge
         double massMTemp = 0;
 
         double massET[] = new double[elements.size()];
-        for(i = 0; i<elements.size(); i++)
+        for(i = 0; i < elements.size(); ++i)
         {
             massET[i] = 0;
         }
 
 
         double[] massETmin = new double[elements.size()];
-        for(i=0; i<elements.size(); i++)
+        for(i = 0; i < elements.size(); ++i)
         {
-            massETmin[i] = elements.get(i).getMinPercentDouble()*mass/100;
+            massETmin[i] = elements.get(i).getMinPercentDouble() * mass / 100;
         }
 
         double[] massETmax = new double[elements.size()];
-        for(i=0; i<elements.size(); i++)
+        for(i = 0; i < elements.size(); ++i)
         {
-            massETmax[i] = elements.get(i).getMaxPercentDouble()*mass/100;
+            massETmax[i] = elements.get(i).getMaxPercentDouble() * mass / 100;
         }
 
         mandatoryComponents = sortMandatoryComps();
 
-        for(i=0; i<mandatoryComponents.size(); i++)
+        for(i = 0; i < mandatoryComponents.size(); ++i)
         {
 
             mandatoryComponents.get(i).setCurrentPercent(mandatoryComponents.get(i).getMinPercent());
-            curPercSum+=mandatoryComponents.get(i).getCurrentPercent()/100;
+            curPercSum+=mandatoryComponents.get(i).getCurrentPercent() / 100;
 
         }
 
-        massChRes=calculateMassCharge();
-        massChTemp=massChRes*curPercSum;
+        massChRes = calculateMassCharge();
+        massChTemp = massChRes*curPercSum;
 
-        massMTemp=mass*curPercSum;
+        massMTemp = mass * curPercSum;
 
-        for(i=0; i<mandatoryComponents.size(); i++)
+        for(i=0; i<mandatoryComponents.size(); ++i)
         {
 
-            mandatoryComponents.get(i).setCurrentMass(massChTemp * mandatoryComponents.get(i).getCurrentPercent()/100);
-            massM[i] = mandatoryComponents.get(i).getCurrentMass() * mandatoryComponents.get(i).getComponent().getAdoptComp()/100;
+            mandatoryComponents.get(i).setCurrentMass(massChTemp * mandatoryComponents.get(i).getCurrentPercent() / 100);
+            massM[i] = mandatoryComponents.get(i).getCurrentMass() * mandatoryComponents.get(i).getComponent().getAdoptComp() / 100;
         }
 
         massET = checkElements();
         //ошибка: взяли всех обяхательных компонентов по минимуму и получилось элементов юольше, чем минимальная граница:
-        for(i=0; i<elements.size(); i++)
+        for(i = 0; i < elements.size(); ++i)
         {
-            if(massET[i]> (elements.get(i).getMaxPercentDouble()*mass/100))
+            if(massET[i] > (elements.get(i).getMaxPercentDouble() * mass / 100))
             {
-                //System.out.println("Строка 185");
-                //System.out.println(elements.get(i).getName()+"\t"+(elements.get(i).getMaxPercentDouble()*mass/100)+"\t"+massET[i]);
                 return false;
             }
         }
 
-        int p=0;
+        int p = 0;
         while(true)
         {
 
             curPercSum = 0;
             mandatoryComponents.get(p).setCurrentPercent(mandatoryComponents.get(p).getMaxPercent());
-            for (i = 0; i < mandatoryComponents.size(); i++)
+            for (i = 0; i < mandatoryComponents.size(); ++i)
             {
                 curPercSum += mandatoryComponents.get(i).getCurrentPercent()/100;
             }
@@ -265,23 +263,22 @@ public class Charge
             if (curPercSum > 1)
             {
                 temp = curPercSum - 1;
-                mandatoryComponents.get(p).setCurrentPercent(mandatoryComponents.get(p).getCurrentPercent()-temp*100);
+                mandatoryComponents.get(p).setCurrentPercent(mandatoryComponents.get(p).getCurrentPercent() - temp * 100);
                 curPercSum = 1;
             }
-
 
             massChRes = calculateMassCharge();
             massChTemp = massChRes * curPercSum;
             massMTemp = mass * curPercSum;
 
-            for (i = 0; i < mandatoryComponents.size(); i++)
+            for (i = 0; i < mandatoryComponents.size(); ++i)
             {
-                mandatoryComponents.get(i).setCurrentMass(massChTemp *mandatoryComponents.get(i).getCurrentPercent()/100);
+                mandatoryComponents.get(i).setCurrentMass(massChTemp * mandatoryComponents.get(i).getCurrentPercent() / 100);
 
-                massM[i] = mandatoryComponents.get(i).getCurrentMass() * mandatoryComponents.get(i).getComponent().getAdoptComp()/100;
+                massM[i] = mandatoryComponents.get(i).getCurrentMass() * mandatoryComponents.get(i).getComponent().getAdoptComp() / 100;
             }
 
-            for (i = 0; i < elements.size(); i++)
+            for (i = 0; i < elements.size(); ++i)
             {
                 massET = checkElements();
 
@@ -289,26 +286,26 @@ public class Charge
                 {
                     temp = massET[i] - massETmin[i];//масса, которую надо вычесть
                     temp /= massChTemp;//процент, который нужно вычесть
-                    mandatoryComponents.get(p).setCurrentPercent(mandatoryComponents.get(p).getCurrentPercent()-temp*100);
+                    mandatoryComponents.get(p).setCurrentPercent(mandatoryComponents.get(p).getCurrentPercent() - temp * 100);
 
                     massChRes = calculateMassCharge();
                     massChTemp = massChRes * curPercSum;
                     massMTemp = mass * curPercSum;
 
-                    for (i = 0; i < mandatoryComponents.size(); i++)
+                    for (i = 0; i < mandatoryComponents.size(); ++i)
                     {
-                        mandatoryComponents.get(i).setCurrentMass(massChTemp * mandatoryComponents.get(i).getCurrentPercent()/100);
-                        massM[i] = mandatoryComponents.get(i).getCurrentMass() * mandatoryComponents.get(i).getComponent().getAdoptComp()/100;
+                        mandatoryComponents.get(i).setCurrentMass(massChTemp * mandatoryComponents.get(i).getCurrentPercent() / 100);
+                        massM[i] = mandatoryComponents.get(i).getCurrentMass() * mandatoryComponents.get(i).getComponent().getAdoptComp() / 100;
                     }
 
                 }
             }
-            curPercSum=0;
-            for (i = 0; i < mandatoryComponents.size(); i++)
+            curPercSum = 0;
+            for (i = 0; i < mandatoryComponents.size(); ++i)
             {
-                curPercSum += mandatoryComponents.get(i).getCurrentPercent()/100;
+                curPercSum += mandatoryComponents.get(i).getCurrentPercent() / 100;
             }
-            if (curPercSum==1)
+            if (1 == curPercSum)
             {
                 break;
             }
@@ -317,22 +314,18 @@ public class Charge
                 p++;
                 if (p >= mandatoryComponents.size())
                 {
-                    //System.out.println("Строка 245");
                     return false;
                 }
             }
         }
 
 
-        for (i = 0; i < mandatoryComponents.size(); i++)
+        for (i = 0; i < mandatoryComponents.size(); ++i)
         {
-
             mandatoryComponents.get(i).setCurrentMass((double)Math.round(massChTemp * mandatoryComponents.get(i).getCurrentPercent()/100*10)/10);
             massM[i] = (double)Math.round(mandatoryComponents.get(i).getCurrentMass() * mandatoryComponents.get(i).getComponent().getAdoptComp()/100*10)/10;
-
         }
 
-        //massChTemp=(double)Math.round(massChTemp*10)/10;
         return true;
 
     }
@@ -342,7 +335,7 @@ public class Charge
         ArrayList<CompInCharge> newList = new ArrayList<>();
         // всегда ли у всех заданных компонентов одиноковый набор элементов?
         double array[][]=new double[mandatoryComponents.size()][mandatoryComponents.get(0).getComponent().getElements().size()];
-        for(int i=0; i<mandatoryComponents.size(); i++)
+        for(int i=0; i<mandatoryComponents.size(); ++i)
         {
             for(int j=0; j< mandatoryComponents.get(i).getComponent().getElements().size(); j++)
             {
@@ -359,7 +352,7 @@ public class Charge
         double arrayMax[]=new double[mandatoryComponents.size()];
         double max;
 
-        for(int i=0; i<mandatoryComponents.size(); i++)
+        for(int i=0; i<mandatoryComponents.size(); ++i)
         {
             max=array[i][0];
             for (int j = 0; j < mandatoryComponents.get(0).getComponent().getElements().size(); j++)
@@ -374,8 +367,8 @@ public class Charge
 
         while(newList.size()<mandatoryComponents.size())
         {
-            min=0;
-            for (int i = 0; i < mandatoryComponents.size(); i++)
+            min = 0;
+            for (int i = 0; i < mandatoryComponents.size(); ++i)
             {
                 if (arrayMax[i] < arrayMax[min])
                 {
@@ -395,7 +388,7 @@ public class Charge
     public double[] checkElements()
     {
         double[] massET = new double[elements.size()];
-        for(int i = 0; i<elements.size(); i++)
+        for(int i = 0; i < elements.size(); ++i)
         {
             massET[i] = 0;
         }
@@ -425,7 +418,7 @@ public class Charge
     public double[] checkElements(ArrayList<CompInCharge> list)
     {
         double[] massET = new double[elements.size()];
-        for(int i = 0; i<elements.size(); i++)
+        for(int i = 0; i < elements.size(); ++i)
         {
             massET[i] = 0;
         }
@@ -455,41 +448,40 @@ public class Charge
     double calculateMassCharge()
     {
 
-        double sumPerc=0;
+        double sumPerc = 0;
         double massCharge;
-        double sumKadoptPerc=0;
+        double sumKadoptPerc = 0;
         for (CompInCharge mandatoryComponent : mandatoryComponents)
         {
             sumPerc += mandatoryComponent.getCurrentPercent() / 100;
             sumKadoptPerc += (mandatoryComponent.getComponent().getAdoptComp() * mandatoryComponent.getCurrentPercent() / 100);
         }
 
-        if(sumPerc>1)
+        if(sumPerc > 1)
             return -1;
 
-        massCharge=mass*sumPerc;
-        massCharge/=sumKadoptPerc;
+        massCharge = mass * sumPerc;
+        massCharge /= sumKadoptPerc;
 
         return massCharge;
     }
 
     double calculateMassCharge(ArrayList<CompInCharge> list)
     {
-
-        double sumPerc=0;
+        double sumPerc = 0;
         double massCharge;
-        double sumKadoptPerc=0;
+        double sumKadoptPerc = 0;
         for (CompInCharge aList : list)
         {
             sumPerc += aList.getCurrentPercent() / 100;
             sumKadoptPerc += (aList.getComponent().getAdoptComp() * aList.getCurrentPercent() / 100);
         }
 
-        if(sumPerc>1)
+        if(sumPerc > 1)
             return -1;
 
-        massCharge=mass*sumPerc;
-        massCharge/=sumKadoptPerc;
+        massCharge = mass * sumPerc;
+        massCharge /= sumKadoptPerc;
 
         return massCharge;
     }
@@ -499,15 +491,15 @@ public class Charge
         ArrayList<CompInCharge> newList = new ArrayList<>();
         double prices[] = new double[mandatoryComponents.size()];
 
-        for (int i = 0; i < mandatoryComponents.size(); i++)
+        for (int i = 0; i < mandatoryComponents.size(); ++i)
         {
             prices[i]=mandatoryComponents.get(i).getComponent().getPriceDouble();
         }
 
-        while(newList.size()<mandatoryComponents.size())
+        while(newList.size() < mandatoryComponents.size())
         {
-            int indexMinPrice=0;
-            for (int i = 0; i < mandatoryComponents.size(); i++)
+            int indexMinPrice = 0;
+            for (int i = 0; i < mandatoryComponents.size(); ++i)
             {
                 if (prices[i] < prices[indexMinPrice])
                 {
@@ -525,23 +517,23 @@ public class Charge
         ArrayList<CompInCharge> newList = new ArrayList<>();
         CompInCharge temp = new CompInCharge(null, 0, 0, 0);
         int i;
-        for(i=0; i<mandatoryCompsTemp.size(); i++)
+        for(i = 0; i < mandatoryCompsTemp.size(); ++i)
         {
             newList.add(mandatoryCompsTemp.get(i));
         }
-        for(i=0; i<mandatoryComponents.size(); i++)
+        for(i = 0; i < mandatoryComponents.size(); ++i)
         {
-            if (mandatoryComponents.get(i).getName().compareTo(newList.get(i).getName())!=0)
+            if (mandatoryComponents.get(i).getName().compareTo(newList.get(i).getName()) != 0)
             {
-                for(int j=i; j<newList.size(); j++)
+                for(int j = i; j < newList.size(); j++)
                 {
-                    if(newList.get(j).getName().compareTo(mandatoryComponents.get(i).getName())==0)
+                    if(newList.get(j).getName().compareTo(mandatoryComponents.get(i).getName()) == 0)
                     {
-                        while(j!=i)
+                        while(j != i)
                         {
                             temp.setCompInCharge(newList.get(j));
-                            newList.get(j).setCompInCharge(newList.get(j-1));
-                            newList.get(j-1).setCompInCharge(temp);
+                            newList.get(j).setCompInCharge(newList.get(j - 1));
+                            newList.get(j - 1).setCompInCharge(temp);
                             j--;
                         }
                         return newList;
@@ -554,14 +546,14 @@ public class Charge
 
     public ArrayList<CompInCharge> sortByElement(Element element)
     {
-        int max=0;
+        int max = 0;
         int size;
         ArrayList<CompInCharge> newList = new ArrayList<>();
         size = optionalComponents.size();
 
         while(newList.size()<size)
         {
-            for(int i=0; i<optionalComponents.size(); i++)
+            for(int i = 0; i < optionalComponents.size(); ++i)
             {
                 for(int j = 0; j<optionalComponents.get(i).getComponent().getElements().size(); j++)
                 {
@@ -569,14 +561,14 @@ public class Charge
                     {
                         if(optionalComponents.get(i).getComponent().getElements().get(j).getPercent()>optionalComponents.get(max).getComponent().getElements().get(j).getPercent())
                         {
-                            max=i;
+                            max = i;
                         }
                     }
                 }
             }
             newList.add(optionalComponents.get(max));
             optionalComponents.remove(max);
-            max=0;
+            max = 0;
         }
         return newList;
     }
@@ -587,31 +579,31 @@ public class Charge
         int i;
         double temp;
 
-        double curPercSum=0;
+        double curPercSum = 0;
 
         double massM[] = new double[mandatoryComponents.size()];
 
-        double massChTemp=0;
+        double massChTemp = 0;
         double massChRes;
         double massMTemp = 0;
 
         double massET[] = new double[elements.size()];
-        for(i = 0; i<elements.size(); i++)
+        for(i = 0; i < elements.size(); ++i)
         {
             massET[i] = 0;
         }
 
 
         double[] massETmin = new double[elements.size()];
-        for(i=0; i<elements.size(); i++)
+        for(i = 0; i < elements.size(); ++i)
         {
-            massETmin[i] = elements.get(i).getMinPercentDouble()*mass/100;
+            massETmin[i] = elements.get(i).getMinPercentDouble() * mass / 100;
         }
 
         double[] massETmax = new double[elements.size()];
-        for(i=0; i<elements.size(); i++)
+        for(i = 0; i < elements.size(); ++i)
         {
-            massETmax[i] = elements.get(i).getMaxPercentDouble()*mass/100;
+            massETmax[i] = elements.get(i).getMaxPercentDouble() * mass / 100;
         }
 
         mandatoryComponents = sortMandatoryComps();
@@ -621,22 +613,21 @@ public class Charge
         while(!areListsEqual((ArrayList)mandatoryComponents, mandatoryCompsTemp))
         {
 
-            for(i=0; i<mandatoryCompsTemp.size(); i++)
+            for(i = 0; i<mandatoryCompsTemp.size(); ++i)
             {
 
                 mandatoryCompsTemp.get(i).setCurrentPercent(mandatoryCompsTemp.get(i).getMinPercent());
-                curPercSum+=mandatoryCompsTemp.get(i).getCurrentPercent()/100;
+                curPercSum+=mandatoryCompsTemp.get(i).getCurrentPercent() / 100;
             }
 
             massChRes = calculateMassCharge(mandatoryCompsTemp);
             massChTemp = massChRes * curPercSum;
-            //massMTemp = mass * curPercSum;
 
-            for(i=0; i<mandatoryCompsTemp.size(); i++)
+            for(i=0; i<mandatoryCompsTemp.size(); ++i)
             {
 
-                mandatoryCompsTemp.get(i).setCurrentMass(massChTemp * mandatoryCompsTemp.get(i).getCurrentPercent()/100);
-                massM[i] = mandatoryCompsTemp.get(i).getCurrentMass() * mandatoryCompsTemp.get(i).getComponent().getAdoptComp()/100;
+                mandatoryCompsTemp.get(i).setCurrentMass(massChTemp * mandatoryCompsTemp.get(i).getCurrentPercent() / 100);
+                massM[i] = mandatoryCompsTemp.get(i).getCurrentMass() * mandatoryCompsTemp.get(i).getComponent().getAdoptComp() / 100;
             }
 
             massET = checkElements(mandatoryCompsTemp);
@@ -647,15 +638,15 @@ public class Charge
 
                 curPercSum = 0;
                 mandatoryCompsTemp.get(p).setCurrentPercent(mandatoryCompsTemp.get(p).getMaxPercent());
-                for (i = 0; i < mandatoryCompsTemp.size(); i++)
+                for (i = 0; i < mandatoryCompsTemp.size(); ++i)
                 {
-                    curPercSum += mandatoryCompsTemp.get(i).getCurrentPercent()/100;
+                    curPercSum += mandatoryCompsTemp.get(i).getCurrentPercent() / 100;
                 }
 
                 if (curPercSum > 1)
                 {
                     temp = curPercSum - 1;
-                    mandatoryCompsTemp.get(p).setCurrentPercent(mandatoryCompsTemp.get(p).getCurrentPercent()-temp*100);
+                    mandatoryCompsTemp.get(p).setCurrentPercent(mandatoryCompsTemp.get(p).getCurrentPercent() - temp * 100);
                     curPercSum = 1;
                 }
 
@@ -664,15 +655,13 @@ public class Charge
                 massChTemp = massChRes * curPercSum;
                 massMTemp = mass * curPercSum;
 
-                for (i = 0; i < mandatoryCompsTemp.size(); i++)
+                for (i = 0; i < mandatoryCompsTemp.size(); ++i)
                 {
-                    mandatoryCompsTemp.get(i).setCurrentMass(massChTemp *mandatoryCompsTemp.get(i).getCurrentPercent()/100);
-                    massM[i] = mandatoryCompsTemp.get(i).getCurrentMass() * mandatoryCompsTemp.get(i).getComponent().getAdoptComp()/100;
+                    mandatoryCompsTemp.get(i).setCurrentMass(massChTemp *mandatoryCompsTemp.get(i).getCurrentPercent() / 100);
+                    massM[i] = mandatoryCompsTemp.get(i).getCurrentMass() * mandatoryCompsTemp.get(i).getComponent().getAdoptComp() / 100;
                 }
 
-
-
-                for (i = 0; i < elements.size(); i++)
+                for (i = 0; i < elements.size(); ++i)
                 {
                     massET = checkElements(mandatoryCompsTemp);
 
@@ -680,22 +669,22 @@ public class Charge
                     {
                         temp = massET[i] - massETmin[i];//масса, которую надо вычесть
                         temp /= massChTemp;//процент, который нужно вычесть
-                        mandatoryCompsTemp.get(p).setCurrentPercent(mandatoryCompsTemp.get(p).getCurrentPercent()-temp*100);
+                        mandatoryCompsTemp.get(p).setCurrentPercent(mandatoryCompsTemp.get(p).getCurrentPercent() - temp * 100);
 
                         massChRes = calculateMassCharge(mandatoryCompsTemp);
                         massChTemp = massChRes * curPercSum;
                         massMTemp = mass * curPercSum;
 
-                        for (i = 0; i < mandatoryCompsTemp.size(); i++)
+                        for (i = 0; i < mandatoryCompsTemp.size(); ++i)
                         {
-                            mandatoryCompsTemp.get(i).setCurrentMass(massChTemp * mandatoryCompsTemp.get(i).getCurrentPercent()/100);
-                            massM[i] = mandatoryCompsTemp.get(i).getCurrentMass() * mandatoryCompsTemp.get(i).getComponent().getAdoptComp()/100;
+                            mandatoryCompsTemp.get(i).setCurrentMass(massChTemp * mandatoryCompsTemp.get(i).getCurrentPercent() / 100);
+                            massM[i] = mandatoryCompsTemp.get(i).getCurrentMass() * mandatoryCompsTemp.get(i).getComponent().getAdoptComp() / 100;
                         }
 
                     }
                 }
                 curPercSum=0;
-                for (i = 0; i < mandatoryCompsTemp.size(); i++)
+                for (i = 0; i < mandatoryCompsTemp.size(); ++i)
                 {
                     curPercSum += mandatoryCompsTemp.get(i).getCurrentPercent()/100;
                 }
@@ -720,12 +709,10 @@ public class Charge
                 break;
         }
 
-        for (i = 0; i < mandatoryCompsTemp.size(); i++)
+        for (i = 0; i < mandatoryCompsTemp.size(); ++i)
         {
-
             mandatoryCompsTemp.get(i).setCurrentMass((double)Math.round(massChTemp * mandatoryCompsTemp.get(i).getCurrentPercent()/100*10)/10);
             massM[i] = (double)Math.round(mandatoryCompsTemp.get(i).getCurrentMass() * mandatoryCompsTemp.get(i).getComponent().getAdoptComp()/100*10)/10;
-
         }
         mandatoryComponents = mandatoryCompsTemp;
         massChTemp=(double)Math.round(massChTemp*10)/10;
@@ -735,9 +722,9 @@ public class Charge
 
     public boolean areListsEqual(ArrayList<CompInCharge> list1, ArrayList<CompInCharge> list2)
     {
-        if(list1.size()!=list2.size())
+        if(list1.size() != list2.size())
             return false;
-        for(int i=0; i<list1.size(); i++)
+        for(int i = 0; i < list1.size(); ++i)
         {
             if(list1.get(i).getName().compareTo(list2.get(i).getName())!=0)
                 return false;
@@ -753,13 +740,13 @@ public class Charge
         double[] massETmin = new double[elements.size()];
         double[] massETmax = new double[elements.size()];
         double[] delta = new double[elements.size()];
-        for(i=0; i<elements.size(); i++)
+        for(i = 0; i < elements.size(); ++i)
         {
             massETmin[i] = elements.get(i).getMinPercentDouble()*mass/100;
             massETmax[i] = elements.get(i).getMaxPercentDouble()*mass/100;
         }
 
-        for(i=0; i<elements.size(); i++)
+        for(i=0; i<elements.size(); ++i)
         {
             massET = checkElements();
             delta[i] = massETmin[i] - massET[i];
@@ -806,10 +793,7 @@ public class Charge
 
             SQLiteUtil.dbExecuteUpdate("INSERT INTO charge (mass, deltaMass, dateCharge, User_idUser, MeltBrand_idMeltBrand)\n" +
                                    "VALUES ('"+mass+"', '"+deltaMass+"', '"+sqlDate+"', '"+idUser+"', '"+idMeltBrand+"');");
-            //rs = SQLiteUtil.dbExecuteQuery("SELECT * FROM charge WHERE dateCharge='"+sqlDate+"'");
-            //rs.next();
             idCharge = getMaxIndexFromDB();
-            //idCharge = rs.getInt("idCharge");
             for(Element aElement: elements)
             {
                 if(aElement.getName().equals("C"))
@@ -863,10 +847,6 @@ public class Charge
             }
 
         }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY);
@@ -882,10 +862,6 @@ public class Charge
             rs.next();
             res = rs.getInt("max(idCharge)");
         }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + "SELECT max(idCharge) FROM charge;");
@@ -894,7 +870,7 @@ public class Charge
         return res;
     }
 
-    public static ObservableList<Charge> getCharges(String meltBrand)
+    public static ObservableList<Charge> getCharges(String meltBrand) throws RuntimeException
     {
         ObservableList<Charge> resCharges = FXCollections.observableArrayList();
 
@@ -944,11 +920,6 @@ public class Charge
 
                 resCharges.add(tempCharge);
             }
-
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
         }
         catch (SQLException e)
         {

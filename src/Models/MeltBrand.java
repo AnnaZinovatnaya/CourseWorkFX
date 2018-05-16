@@ -93,10 +93,6 @@ public class MeltBrand
 
             rs.close();
         }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
@@ -133,10 +129,6 @@ public class MeltBrand
 
             rs2.close();
         }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
@@ -148,28 +140,21 @@ public class MeltBrand
     public void update()
     {
         String query = "";
-        try
+        query = "UPDATE meltbrand SET " +
+                "standard = '" + this.standard + "' " +
+                "WHERE name = '" + this.name + "';";
+
+        SQLiteUtil.dbExecuteUpdate(query);
+
+        for (Element el : this.elements)
         {
-            query = "UPDATE meltbrand SET " +
-                    "standard = '" + this.standard + "' " +
-                    "WHERE name = '" + this.name + "';";
+            query = "UPDATE elementinbrand SET " +
+                    "minProcent = '" + el.getMinPercentDouble() + "', " +
+                    "maxProcent = '" + el.getMaxPercentDouble() + "' " +
+                    "WHERE Element_idElement = '" + el.getIdFromDB() + "' AND " +
+                    "MeltBrand_idMeltBrand = '" + this.id + "';";
 
             SQLiteUtil.dbExecuteUpdate(query);
-
-            for (Element el : this.elements)
-            {
-                query = "UPDATE elementinbrand SET " +
-                        "minProcent = '" + el.getMinPercentDouble() + "', " +
-                        "maxProcent = '" + el.getMaxPercentDouble() + "' " +
-                        "WHERE Element_idElement = '" + el.getIdFromDB() + "' AND " +
-                        "MeltBrand_idMeltBrand = '" + this.id + "';";
-
-                SQLiteUtil.dbExecuteUpdate(query);
-            }
-        }
-        catch (RuntimeException ex)
-        {
-            throw ex;
         }
     }
 
@@ -188,10 +173,6 @@ public class MeltBrand
                 res = true;
             }
             rs.close();
-        }
-        catch (RuntimeException ex)
-        {
-            throw ex;
         }
         catch (SQLException e)
         {
@@ -227,9 +208,9 @@ public class MeltBrand
                     SQLiteUtil.dbExecuteUpdate(query);
                 }
             }
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
     }
@@ -257,10 +238,6 @@ public class MeltBrand
 
             query = "DELETE FROM meltbrand WHERE idMeltBrand = '" + id + "';";
             SQLiteUtil.dbExecuteUpdate(query);
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
         }
         catch (SQLException e)
         {

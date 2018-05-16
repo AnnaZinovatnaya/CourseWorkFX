@@ -159,10 +159,6 @@ public class Component
 
             rs.close();
         }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
@@ -177,14 +173,7 @@ public class Component
 
         String query = "INSERT INTO component (name, brand, adoptBase, currentAmount, currentPrice, mandatory, adoptComp) " +
                 "VALUES ('" + name + "', '" + brand + "', '" + adoptBase + "', '" + amount + "', '" + price + "', '" + mandatory + "', '" + adoptComp + "')";
-        try
-        {
-            SQLiteUtil.dbExecuteUpdate(query);
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
+        SQLiteUtil.dbExecuteUpdate(query);
     }
 
     public void setComponentElement(String name, double percent, double adopt)
@@ -212,10 +201,6 @@ public class Component
             }
 
         }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
@@ -239,10 +224,6 @@ public class Component
             }
 
             rs.close();
-        }
-        catch (RuntimeException ex)
-        {
-            throw ex;
         }
         catch (SQLException e)
         {
@@ -269,10 +250,6 @@ public class Component
                 names.add(temp);
             }
             rs.close();
-        }
-        catch (RuntimeException ex)
-        {
-            throw ex;
         }
         catch (SQLException e)
         {
@@ -316,10 +293,6 @@ public class Component
                 }
                 i++;
             }
-        }
-        catch (RuntimeException ex)
-        {
-            throw ex;
         }
         catch (SQLException e)
         {
@@ -365,10 +338,6 @@ public class Component
                 i++;
             }
         }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
@@ -407,10 +376,6 @@ public class Component
             query = "DELETE FROM component WHERE `name` = '" + this.name + "';";
             SQLiteUtil.dbExecuteUpdate(query);
         }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
@@ -437,10 +402,6 @@ public class Component
                 component.getElements().add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
             }
         }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
@@ -452,18 +413,12 @@ public class Component
     public void update() throws RuntimeException
     {
         String query = "";
-        try
-        {
-            query = "UPDATE component SET " +
-                    "currentAmount = '" + this.amount + "', " +
-                    "currentPrice = '" + this.price + "' " +
-                    "WHERE name = '" + this.name + "';";
 
-            SQLiteUtil.dbExecuteUpdate(query);
-        }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
+        query = "UPDATE component SET " +
+                "currentAmount = '" + this.amount + "', " +
+                "currentPrice = '" + this.price + "' " +
+                "WHERE name = '" + this.name + "';";
+
+        SQLiteUtil.dbExecuteUpdate(query);
     }
 }
