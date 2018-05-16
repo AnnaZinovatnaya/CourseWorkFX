@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 
-public class Helper {
+public class Message {
     private static Alert alert = new Alert(Alert.AlertType.ERROR);
 
     public static void showErrorMessage(String message)

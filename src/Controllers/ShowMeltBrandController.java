@@ -3,7 +3,7 @@ package Controllers;
 import Models.Element;
 import Models.MeltBrand;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,7 +38,7 @@ public class ShowMeltBrandController {
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
         this.nameLabel.setText(this.meltBrand.getName());
         this.standardField.setText(this.meltBrand.getStandard());
@@ -80,7 +80,7 @@ public class ShowMeltBrandController {
             this.sMinPercentField.getText().isEmpty()  ||
             this.sMaxPercentField.getText().isEmpty())
         {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            Message.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
             return;
         }
 
@@ -158,12 +158,12 @@ public class ShowMeltBrandController {
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.INCORRECT_PERCENT);
+            Message.showErrorMessage(ErrorMessage.INCORRECT_PERCENT);
             return;
         }
 
         this.meltBrand.update();
-        Helper.showInformationMessage("Данные о марке сохранены!");
+        Message.showInformationMessage("Данные о марке сохранены!");
     }
 
     @FXML private void deleteButtonClicked()
@@ -192,7 +192,7 @@ public class ShowMeltBrandController {
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 

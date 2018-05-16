@@ -9,7 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -50,7 +50,7 @@ public class ReportController
         {
             if (this.startDatePicker.getValue().isAfter(this.endDatePicker.getValue()))
             {
-                Helper.showErrorMessage(ErrorMessage.INCORRECT_DATES);
+                Message.showErrorMessage(ErrorMessage.INCORRECT_DATES);
                 return;
             }
         }
@@ -82,7 +82,7 @@ public class ReportController
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
 
         if (this.melts != null)

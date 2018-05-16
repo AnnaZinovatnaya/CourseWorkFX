@@ -12,9 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import Util.ErrorMessage;
-import Util.Helper;
-import javafx.util.StringConverter;
-import javafx.util.converter.DoubleStringConverter;
+import Util.Message;
 
 public class AddCharge4Controller
 {
@@ -64,25 +62,25 @@ public class AddCharge4Controller
     {
         if (!areAllFieldsFilled())
         {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            Message.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
             return;
         }
 
         if (minPercentIsBiggerThanMax())
         {
-            Helper.showErrorMessage(ErrorMessage.MIN_BIGGER_THAN_MAX);
+            Message.showErrorMessage(ErrorMessage.MIN_BIGGER_THAN_MAX);
             return;
         }
 
         if (sumOfMinIsBiggerThan100())
         {
-            Helper.showErrorMessage(ErrorMessage.MIN_SUM_BIGGER_THAN_100);
+            Message.showErrorMessage(ErrorMessage.MIN_SUM_BIGGER_THAN_100);
             return;
         }
 
         if (sumOfMaxIsLessThan100())
         {
-            Helper.showErrorMessage(ErrorMessage.MAX_SUM_LESS_THAN_100);
+            Message.showErrorMessage(ErrorMessage.MAX_SUM_LESS_THAN_100);
             return;
         }
 
@@ -93,7 +91,7 @@ public class AddCharge4Controller
         }
         else
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_CALCULATE_CHARGE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_CALCULATE_CHARGE);
         }
     }
 
@@ -128,7 +126,7 @@ public class AddCharge4Controller
                     }
                     catch (Exception ex)
                     {
-                        Helper.showErrorMessage(ErrorMessage.INCORRECT_MIN_PERCENT);
+                        Message.showErrorMessage(ErrorMessage.INCORRECT_MIN_PERCENT);
 
                         t.getTableView().getItems().get(
                                 t.getTablePosition().getRow()).setMinPercent(INVALID_VALUE);
@@ -160,7 +158,7 @@ public class AddCharge4Controller
                     }
                     catch (Exception ex)
                     {
-                        Helper.showErrorMessage(ErrorMessage.INCORRECT_MAX_PERCENT);
+                        Message.showErrorMessage(ErrorMessage.INCORRECT_MAX_PERCENT);
 
                         t.getTableView().getItems().get(
                                 t.getTablePosition().getRow()).setMaxPercent(INVALID_VALUE);
@@ -183,7 +181,7 @@ public class AddCharge4Controller
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 

@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 
 public class UserController
 {
@@ -68,7 +68,7 @@ public class UserController
            this.loginLastname.getText().isEmpty() ||
            this.loginPassword.getText().isEmpty())
         {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            Message.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
         }
         else
         {
@@ -88,7 +88,7 @@ public class UserController
 
             if(!isLoginSuccessful)
             {
-                Helper.showErrorMessage(ErrorMessage.WRONG_LOGIN_OR_PASSWORD);
+                Message.showErrorMessage(ErrorMessage.WRONG_LOGIN_OR_PASSWORD);
                 return;
             }
 
@@ -96,7 +96,7 @@ public class UserController
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
     }
 
@@ -135,7 +135,7 @@ public class UserController
         }
         catch (Exception e)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 
@@ -155,7 +155,7 @@ public class UserController
         }
         catch (Exception e)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 
@@ -175,7 +175,7 @@ public class UserController
         }
         catch (Exception e)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 
@@ -195,7 +195,7 @@ public class UserController
         }
         catch (Exception e)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 
@@ -206,19 +206,19 @@ public class UserController
             this.passwordToAdd.getText().isEmpty() ||
             this.roles.getValue().isEmpty())
         {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            Message.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
             return;
         }
 
         if (!userExists())
         {
             addNewUser();
-            Helper.showInformationMessage("Пользователь добавлен!");
+            Message.showInformationMessage("Пользователь добавлен!");
             clearAddUserFields();
         }
         else
         {
-            Helper.showErrorMessage(ErrorMessage.USER_ALREADY_EXISTS);
+            Message.showErrorMessage(ErrorMessage.USER_ALREADY_EXISTS);
         }
     }
 
@@ -233,7 +233,7 @@ public class UserController
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
 
         return false;
@@ -250,7 +250,7 @@ public class UserController
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
     }
 
@@ -266,7 +266,7 @@ public class UserController
     {
         if (this.nameToSearch.getText().isEmpty() || this.lastnameToSearch.getText().isEmpty())
         {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            Message.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
         }
         else
         {
@@ -294,7 +294,7 @@ public class UserController
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
 
         return result;
@@ -310,7 +310,7 @@ public class UserController
 
         if (Manager.isUserDefaultAdmin())
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_DELETE_ADMIN);
+            Message.showErrorMessage(ErrorMessage.CANNOT_DELETE_ADMIN);
             return;
         }
 
@@ -337,7 +337,7 @@ public class UserController
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 

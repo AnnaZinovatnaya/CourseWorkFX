@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 
 public class MenuController
 {
@@ -52,7 +52,7 @@ public class MenuController
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 
@@ -74,7 +74,7 @@ public class MenuController
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 
@@ -113,7 +113,7 @@ public class MenuController
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 
@@ -134,7 +134,7 @@ public class MenuController
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 
@@ -154,7 +154,7 @@ public class MenuController
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 
@@ -174,7 +174,7 @@ public class MenuController
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 
@@ -208,7 +208,7 @@ public class MenuController
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 
@@ -229,7 +229,7 @@ public class MenuController
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 }

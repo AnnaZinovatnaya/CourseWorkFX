@@ -5,7 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import Util.Helper;
+import Util.Message;
 
 public class DeleteComponentController
 {
@@ -24,13 +24,13 @@ public class DeleteComponentController
         {
             component.deleteFromDB();
 
-            Helper.showInformationMessage("Компонент удален!");
+            Message.showInformationMessage("Компонент удален!");
 
             this.showComponentController.setDeleted(true);
         }
         catch (RuntimeException ex)
         {
-            Helper.showErrorMessage(ex.getLocalizedMessage());
+            Message.showErrorMessage(ex.getLocalizedMessage());
         }
 
         stage = (Stage)((Button) e.getSource()).getScene().getWindow();

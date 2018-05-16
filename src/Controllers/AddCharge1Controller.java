@@ -11,7 +11,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 
 public class AddCharge1Controller
 {
@@ -35,7 +35,7 @@ public class AddCharge1Controller
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
 
         this.brandChoiceBox.setValue("");
@@ -55,7 +55,7 @@ public class AddCharge1Controller
             this.massField.getText().isEmpty()       ||
             this.deltaMassField.getText().isEmpty())
         {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            Message.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
             return;
         }
 
@@ -70,7 +70,7 @@ public class AddCharge1Controller
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.INCORRECT_MASS);
+            Message.showErrorMessage(ErrorMessage.INCORRECT_MASS);
             return;
         }
 
@@ -85,7 +85,7 @@ public class AddCharge1Controller
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.INCORRECT_DELTA_MASS);
+            Message.showErrorMessage(ErrorMessage.INCORRECT_DELTA_MASS);
             return;
         }
 
@@ -118,7 +118,7 @@ public class AddCharge1Controller
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 }

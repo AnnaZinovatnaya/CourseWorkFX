@@ -6,8 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
-import Util.Helper;
+import Util.Message;
 
 
 public class Melt3Controller {
@@ -59,11 +58,11 @@ public class Melt3Controller {
             Manager.setMeltCharge(this.charge);
             Manager.saveMelt();
 
-            Helper.showInformationMessage("Плавка успешно сохранена!");
+            Message.showInformationMessage("Плавка успешно сохранена!");
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
     }
 }

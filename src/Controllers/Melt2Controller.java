@@ -12,7 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 
 public class Melt2Controller {
     private Melt1Controller melt1Controller;
@@ -80,14 +80,14 @@ public class Melt2Controller {
             }
             catch (Exception ex)
             {
-                Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+                Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
             }
 
             primaryStage.show();
         }
         else
         {
-            Helper.showErrorMessage("Выберите шихту!");
+            Message.showErrorMessage("Выберите шихту!");
         }
     }
 

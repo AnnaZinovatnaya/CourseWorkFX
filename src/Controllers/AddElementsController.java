@@ -1,6 +1,5 @@
 package Controllers;
 
-import Models.Component;
 import Models.Element;
 import Models.Manager;
 import javafx.collections.FXCollections;
@@ -10,7 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 
 
 public class AddElementsController
@@ -59,7 +58,7 @@ public class AddElementsController
             }
             catch (Exception ex)
             {
-                Helper.showErrorMessage(ErrorMessage.INCORRECT_PERCENT);
+                Message.showErrorMessage(ErrorMessage.INCORRECT_PERCENT);
                 b=false;
             }
 
@@ -93,7 +92,7 @@ public class AddElementsController
             }
             catch (Exception ex)
             {
-                Helper.showErrorMessage(ErrorMessage.INCORRECT_ADAPT);
+                Message.showErrorMessage(ErrorMessage.INCORRECT_ADAPT);
                 b=false;
             }
 
@@ -138,18 +137,18 @@ public class AddElementsController
                 Manager.saveComponentParam();
                 Manager.saveComponentElements();
 
-                Helper.showInformationMessage("Компонент сохранен!");
+                Message.showInformationMessage("Компонент сохранен!");
 
                 this.addComponentController.getMenuController().backToMenu();
             }
             catch (RuntimeException e)
             {
-                Helper.showErrorMessage(e.getLocalizedMessage());
+                Message.showErrorMessage(e.getLocalizedMessage());
             }
         }
         else
         {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            Message.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
         }
     }
 }

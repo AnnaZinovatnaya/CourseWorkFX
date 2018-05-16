@@ -1,7 +1,7 @@
 package Controllers;
 
 import Models.MeltBrand;
-import Util.Helper;
+import Util.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -24,13 +24,13 @@ public class DeleteMeltBrandController {
         {
             meltBrand.deleteFromDB();
 
-            Helper.showInformationMessage("Марка удалена!");
+            Message.showInformationMessage("Марка удалена!");
 
             this.showMeltBrandController.setDeleted(true);
         }
         catch (RuntimeException ex)
         {
-            Helper.showErrorMessage(ex.getLocalizedMessage());
+            Message.showErrorMessage(ex.getLocalizedMessage());
         }
 
         stage = (Stage)((Button) e.getSource()).getScene().getWindow();

@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 
 public class AddCharge3Controller
 {
@@ -37,7 +37,7 @@ public class AddCharge3Controller
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
     }
 
@@ -63,12 +63,12 @@ public class AddCharge3Controller
             }
             catch (Exception ex)
             {
-                Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+                Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
             }
         }
         else
         {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_COMPONENT_CHOICE);
+            Message.showErrorMessage(ErrorMessage.EMPTY_COMPONENT_CHOICE);
         }
     }
 

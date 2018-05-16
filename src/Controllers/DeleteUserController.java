@@ -5,7 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import Util.Helper;
+import Util.Message;
 
 public class DeleteUserController
 {
@@ -21,7 +21,7 @@ public class DeleteUserController
         }
         catch (RuntimeException ex)
         {
-            Helper.showErrorMessage(ex.getLocalizedMessage());
+            Message.showErrorMessage(ex.getLocalizedMessage());
         }
 
         stage = (Stage)((Button) e.getSource()).getScene().getWindow();

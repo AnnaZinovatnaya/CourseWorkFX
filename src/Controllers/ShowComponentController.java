@@ -11,7 +11,7 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 
 public class ShowComponentController
 {
@@ -96,7 +96,7 @@ public class ShowComponentController
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
     @FXML
@@ -108,7 +108,7 @@ public class ShowComponentController
 
         if (priceField.getText().isEmpty() || amountField.getText().isEmpty())
         {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            Message.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
             return;
         }
 
@@ -125,7 +125,7 @@ public class ShowComponentController
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.INCORRECT_PRICE);
+            Message.showErrorMessage(ErrorMessage.INCORRECT_PRICE);
         }
 
         if (validPrice) {
@@ -140,7 +140,7 @@ public class ShowComponentController
 
                 validAmount = true;
             } catch (Exception ex) {
-                Helper.showErrorMessage(ErrorMessage.INCORRECT_AMOUNT);
+                Message.showErrorMessage(ErrorMessage.INCORRECT_AMOUNT);
             }
 
             if (validAmount) {
@@ -149,11 +149,11 @@ public class ShowComponentController
                 try
                 {
                     component.update();
-                    Helper.showInformationMessage("Изменения сохранены!");
+                    Message.showInformationMessage("Изменения сохранены!");
                 }
                 catch (RuntimeException e)
                 {
-                    Helper.showErrorMessage(e.getLocalizedMessage());
+                    Message.showErrorMessage(e.getLocalizedMessage());
                 }
             }
         }

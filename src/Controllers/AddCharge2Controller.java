@@ -13,7 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 
 public class AddCharge2Controller
 {
@@ -61,7 +61,7 @@ public class AddCharge2Controller
         {
             if (aElement.getMinPercentDouble() > aElement.getMaxPercentDouble())
             {
-                Helper.showErrorMessage(ErrorMessage.MIN_BIGGER_THAN_MAX);
+                Message.showErrorMessage(ErrorMessage.MIN_BIGGER_THAN_MAX);
                 return;
             }
         }
@@ -94,7 +94,7 @@ public class AddCharge2Controller
         }
         catch (Exception ex)
         {
-            Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+            Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
         }
     }
 
@@ -119,7 +119,7 @@ public class AddCharge2Controller
                     }
                     catch (Exception ex)
                     {
-                        Helper.showErrorMessage(ErrorMessage.INCORRECT_MIN_PERCENT);
+                        Message.showErrorMessage(ErrorMessage.INCORRECT_MIN_PERCENT);
                         validValue = false;
                     }
 
@@ -153,7 +153,7 @@ public class AddCharge2Controller
                     }
                     catch (Exception ex)
                     {
-                        Helper.showErrorMessage(ErrorMessage.INCORRECT_MAX_PERCENT);
+                        Message.showErrorMessage(ErrorMessage.INCORRECT_MAX_PERCENT);
                         validValue = false;
                     }
 

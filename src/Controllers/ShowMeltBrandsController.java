@@ -2,7 +2,7 @@ package Controllers;
 
 import Models.MeltBrand;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,7 +42,7 @@ public class ShowMeltBrandsController {
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
     }
 
@@ -73,12 +73,12 @@ public class ShowMeltBrandsController {
             catch (Exception ex)
             {
                 ex.printStackTrace();
-                Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+                Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
             }
         }
         else
         {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_MELT_BRAND_CHOICE);
+            Message.showErrorMessage(ErrorMessage.EMPTY_MELT_BRAND_CHOICE);
         }
     }
 
@@ -93,7 +93,7 @@ public class ShowMeltBrandsController {
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
     }
 

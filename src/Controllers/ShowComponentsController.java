@@ -8,7 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 
 public class ShowComponentsController
 {
@@ -62,7 +62,7 @@ public class ShowComponentsController
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
     }
 
@@ -99,12 +99,12 @@ public class ShowComponentsController
             }
             catch (Exception ex)
             {
-                Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+                Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
             }
         }
         else
         {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_COMPONENT_CHOICE);
+            Message.showErrorMessage(ErrorMessage.EMPTY_COMPONENT_CHOICE);
         }
     }
 
@@ -123,7 +123,7 @@ public class ShowComponentsController
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
     }
 

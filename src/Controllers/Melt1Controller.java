@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 
 public class Melt1Controller {
     @FXML private ListView<String> brandListView = new ListView<>();
@@ -38,7 +38,7 @@ public class Melt1Controller {
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
     }
 
@@ -59,14 +59,14 @@ public class Melt1Controller {
             }
             catch (Exception ex)
             {
-                Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+                Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
             }
 
             primaryStage.show();
         }
         else
         {
-            Helper.showErrorMessage("Выберите марку сплава!");
+            Message.showErrorMessage("Выберите марку сплава!");
         }
     }
 

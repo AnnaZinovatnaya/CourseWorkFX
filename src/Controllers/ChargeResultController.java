@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import Util.Helper;
+import Util.Message;
 
 public class ChargeResultController
 {
@@ -60,11 +60,11 @@ public class ChargeResultController
         try
         {
             Manager.saveCharge();
-            Helper.showInformationMessage("Шихта успешно сохранена!");
+            Message.showInformationMessage("Шихта успешно сохранена!");
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
     }
 }

@@ -3,7 +3,7 @@ package Controllers;
 import Models.Element;
 import Models.MeltBrand;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -43,7 +43,7 @@ public class AddMeltBrandController
             this.sMinPercentField.getText().isEmpty()  ||
             this.sMaxPercentField.getText().isEmpty())
         {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            Message.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
             return;
         }
 
@@ -51,7 +51,7 @@ public class AddMeltBrandController
         {
             if (MeltBrand.meltBrandExists(this.nameField.getText()))
             {
-                Helper.showErrorMessage(ErrorMessage.MELTBRAND_ALREADY_EXISTS);
+                Message.showErrorMessage(ErrorMessage.MELTBRAND_ALREADY_EXISTS);
                 return;
             }
 
@@ -117,7 +117,7 @@ public class AddMeltBrandController
             }
             catch (Exception ex)
             {
-                Helper.showErrorMessage(ErrorMessage.INCORRECT_PERCENT);
+                Message.showErrorMessage(ErrorMessage.INCORRECT_PERCENT);
                 return;
             }
 
@@ -128,11 +128,11 @@ public class AddMeltBrandController
             newMeltBrand.getElements().add(new Element("S", sMinPercent, sMaxPercent, 0, 0));
 
             newMeltBrand.saveToDB();
-            Helper.showInformationMessage("Марка успешно сохранена!");
+            Message.showInformationMessage("Марка успешно сохранена!");
         }
         catch (RuntimeException e)
         {
-            Helper.showErrorMessage(e.getLocalizedMessage());
+            Message.showErrorMessage(e.getLocalizedMessage());
         }
     }
 

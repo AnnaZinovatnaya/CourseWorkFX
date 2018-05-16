@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import Util.ErrorMessage;
-import Util.Helper;
+import Util.Message;
 
 public class AddComponentController
 {
@@ -62,7 +62,7 @@ public class AddComponentController
            this.priceField.getText().isEmpty() || !this.mandatoryButton.isSelected()   &&
            !this.optionalButton.isSelected())
         {
-            Helper.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
+            Message.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
         }
         else
         {
@@ -75,7 +75,7 @@ public class AddComponentController
             {
                 if (Manager.componentExists(nameField.getText()))
                 {
-                    Helper.showErrorMessage(ErrorMessage.COMPONENT_ALREADY_EXISTS);
+                    Message.showErrorMessage(ErrorMessage.COMPONENT_ALREADY_EXISTS);
 
                     b = false;
                 }
@@ -91,7 +91,7 @@ public class AddComponentController
                         }
                     } catch (Exception ex)
                     {
-                        Helper.showErrorMessage(ErrorMessage.INCORRECT_ADAPT);
+                        Message.showErrorMessage(ErrorMessage.INCORRECT_ADAPT);
 
                         b = false;
                     }
@@ -106,7 +106,7 @@ public class AddComponentController
                             }
                         } catch (Exception ex)
                         {
-                            Helper.showErrorMessage(ErrorMessage.INCORRECT_AMOUNT);
+                            Message.showErrorMessage(ErrorMessage.INCORRECT_AMOUNT);
 
                             b = false;
                         }
@@ -122,7 +122,7 @@ public class AddComponentController
                                 }
                             } catch (Exception ex)
                             {
-                                Helper.showErrorMessage(ErrorMessage.INCORRECT_PRICE);
+                                Message.showErrorMessage(ErrorMessage.INCORRECT_PRICE);
 
                                 b = false;
                             }
@@ -151,7 +151,7 @@ public class AddComponentController
                                 }
                                 catch (Exception ex)
                                 {
-                                    Helper.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
+                                    Message.showErrorMessage(ErrorMessage.CANNOT_LOAD_SCENE);
                                 }
                             }
                         }
@@ -160,7 +160,7 @@ public class AddComponentController
             }
             catch (RuntimeException e)
             {
-                Helper.showErrorMessage(e.getLocalizedMessage());
+                Message.showErrorMessage(e.getLocalizedMessage());
             }
         }
     }

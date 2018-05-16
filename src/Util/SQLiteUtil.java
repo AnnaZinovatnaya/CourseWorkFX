@@ -4,43 +4,48 @@ import com.sun.rowset.CachedRowSetImpl;
 import java.io.*;
 import java.sql.*;
 
-public class SQLiteUtil {
+public class SQLiteUtil
+{
+    private static Connection connection = null;
+    private static Statement statement = null;
 
-    private static Connection conn = null;
-    static Statement stmt = null;
+    private static boolean isDBCreated()
+    {
+        try
+        {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM user;");
 
-    private static boolean structureCreated() {
-        try {
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM user;");
-
-            if (!rs.next()) {
+            if (!rs.next())
+            {
                 //TODO check if this works (return false when user table is empty)
                 rs.close();
-                stmt.close();
+                statement.close();
                 return false;
             }
 
             rs.close();
-            stmt.close();
+            statement.close();
             return true;
-        } catch ( Exception e ) {
+        } catch (Exception e)
+        {
             return false;
         }
     }
 
-    private static void createStructure()
+    private static void createDB()
     {
         try
         {
-            stmt = conn.createStatement();
+            statement = connection.createStatement();
             for (String query : DbStructure.getDbStructure())
             {
-                stmt.execute(query);
+                statement.execute(query);
             }
 
-            stmt.close();
-        } catch ( Exception e ) {
+            statement.close();
+        } catch (Exception e)
+        {
             e.printStackTrace();
             throw new RuntimeException(ErrorMessage.CANNOT_CREATE_DB);
         }
@@ -50,19 +55,13 @@ public class SQLiteUtil {
     {
         try
         {
-            String url = "jdbc:sqlite://";
-            url += new File(".").getAbsoluteFile();
-            url = url.replace("\\", "//");
-            url = url.substring(0, url.length() - 1);
-            url += "charge2.0.db";
-
             Class.forName("org.sqlite.JDBC");
 
-            conn = DriverManager.getConnection(url);
+            connection = DriverManager.getConnection(createURL());
 
-            if (!structureCreated())
+            if (!isDBCreated())
             {
-                createStructure();
+                createDB();
             }
         }
         catch (RuntimeException e)
@@ -73,16 +72,25 @@ public class SQLiteUtil {
         {
             throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
         }
+    }
 
+    private static String createURL()
+    {
+        String url = "jdbc:sqlite://";
+        url += new File(".").getAbsoluteFile();
+        url = url.replace("\\", "//");
+        url = url.substring(0, url.length() - 1);
+        url += "charge2.0.db";
+        return url;
     }
 
     private static void dbDisconnect() throws RuntimeException
     {
         try
         {
-            if (conn != null && !conn.isClosed())
+            if (connection != null && !connection.isClosed())
             {
-                conn.close();
+                connection.close();
             }
         }
         catch (Exception e)
@@ -91,33 +99,27 @@ public class SQLiteUtil {
         }
     }
 
-    public static ResultSet dbExecuteQuery(String queryStmt) throws RuntimeException
+    public static ResultSet dbExecuteQuery(String queryStatement) throws RuntimeException
     {
-        Statement stmt = null;
+        statement = null;
         ResultSet resultSet = null;
-        CachedRowSetImpl crs;
+        CachedRowSetImpl cachedResultSet;
         try
         {
-            if (null == conn || conn.isClosed())
-            {
-                try
-                {
-                    dbConnect();
-                }
-                catch (RuntimeException e)
-                {
-                    throw e;
-                }
-            }
+            tryConnectingToDB();
 
-            stmt = conn.createStatement();
-            resultSet = stmt.executeQuery(queryStmt);
-            crs = new CachedRowSetImpl();
-            crs.populate(resultSet);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(queryStatement);
+            cachedResultSet = new CachedRowSetImpl();
+            cachedResultSet.populate(resultSet);
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
         }
         catch (SQLException e)
         {
-            throw new RuntimeException (ErrorMessage.CANNOT_EXECUTE_QUERY + queryStmt);
+            throw new RuntimeException (ErrorMessage.CANNOT_EXECUTE_QUERY + queryStatement);
         }
         finally
         {
@@ -132,11 +134,11 @@ public class SQLiteUtil {
                     throw new RuntimeException(ErrorMessage.CANNOT_CONNECT_TO_DB);
                 }
             }
-            if (stmt != null)
+            if (statement != null)
             {
                 try
                 {
-                    stmt.close();
+                    statement.close();
                 }
                 catch (SQLException e)
                 {
@@ -153,41 +155,34 @@ public class SQLiteUtil {
                 throw e;
             }
         }
-        return crs;
+        return cachedResultSet;
     }
 
-    public static void dbExecuteUpdate(String sqlStmt) throws RuntimeException
+    public static void dbExecuteUpdate(String sqlStatement) throws RuntimeException
     {
-        Statement stmt = null;
+        statement = null;
         try
         {
-            if (null == conn || conn.isClosed())
-            {
-                try
-                {
-                    dbConnect();
-                }
-                catch (RuntimeException e)
-                {
-                    throw e;
-                }
-            }
+            tryConnectingToDB();
 
-            stmt = conn.createStatement();
-
-            stmt.executeUpdate(sqlStmt);
+            statement = connection.createStatement();
+            statement.executeUpdate(sqlStatement);
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
         }
         catch (SQLException e)
         {
-            throw new RuntimeException (ErrorMessage.CANNOT_EXECUTE_QUERY + sqlStmt);
+            throw new RuntimeException (ErrorMessage.CANNOT_EXECUTE_QUERY + sqlStatement);
         }
         finally
         {
-            if (stmt != null)
+            if (statement != null)
             {
                 try
                 {
-                    stmt.close();
+                    statement.close();
                 }
                 catch (SQLException e)
                 {
@@ -203,6 +198,21 @@ public class SQLiteUtil {
             {
                 throw e;
             }
+        }
+    }
+
+    private static void tryConnectingToDB() throws RuntimeException
+    {
+        try
+        {
+            if (null == connection || connection.isClosed())
+            {
+                dbConnect();
+            }
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException (ErrorMessage.CANNOT_CONNECT_TO_DB);
         }
     }
 }
