@@ -34,7 +34,7 @@ public class ChargeResultController
         this.primaryStage.setMinHeight(400);
         this.primaryStage.setMinWidth(600);
 
-        this.numberLabel.setText(String.valueOf(Charge.getMaxIndexFromDB() + 1));
+        this.numberLabel.setText(String.valueOf(Charge.getIndexOfLastSavedCharge() + 1));
         this.meltLabel.setText(Manager.getChargeMeltBrand());
         this.amountLabel.setText(Manager.getChargeMass());
 

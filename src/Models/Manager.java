@@ -186,7 +186,7 @@ public class Manager
 
     public static ObservableList<CompInCharge> getChargeResultComps()
     {
-        return FXCollections.observableList(charge.getChargeResultComps());
+        return FXCollections.observableList(charge.getChargeResultComponents());
     }
 
     public static String getChargeMeltBrand()
@@ -231,7 +231,7 @@ public class Manager
 
     public static ObservableList<Charge> getCharges(String meltBrand)
     {
-        return Charge.getCharges(meltBrand);
+        return Charge.getChargesOfBrand(meltBrand);
     }
 
     public static boolean isUserDefaultAdmin()
