@@ -141,7 +141,7 @@ public class Manager
 
     public static boolean canEditPercent(String element, double percent)
     {
-        return charge.canEditPercent(element, percent);
+        return charge.isNewElementPercentInAllowedRange(element, percent);
     }
 
     public static void setChargeElements(ObservableList<Element> elements)
@@ -177,7 +177,7 @@ public class Manager
 
     public static boolean isChargePossible()
     {
-        return charge.isPossible();
+        return charge.isChargePossible();
     }
     public static void calculateCheapCharge()
     {
