@@ -778,7 +778,7 @@ public class Charge
         return allComponents;
     }
 
-    public void saveToDB() throws RuntimeException
+    public void saveToDB()
     {
         saveGeneralChargeToDB();
 
@@ -789,7 +789,7 @@ public class Charge
         saveOptionalComponentsInCharge(idCharge);
     }
 
-    private void saveGeneralChargeToDB() throws RuntimeException
+    private void saveGeneralChargeToDB()
     {
         SQLiteUtil.dbExecuteUpdate("INSERT INTO charge (mass, deltaMass, dateCharge, User_idUser, MeltBrand_idMeltBrand)\n" +
                                    "VALUES ('" + mass + "', '" +
@@ -799,7 +799,7 @@ public class Charge
                                                  getIdMeltBrandFromDb(meltBrand.getName()) + "');");
     }
 
-    private void saveElementsInCharge(int idCharge) throws RuntimeException
+    private void saveElementsInCharge(int idCharge)
     {
         for (Element element: elements)
         {
@@ -811,7 +811,7 @@ public class Charge
         }
     }
 
-    private void saveMandatoryComponentsInCharge(int idCharge) throws RuntimeException
+    private void saveMandatoryComponentsInCharge(int idCharge)
     {
         for (CompInCharge component: mandatoryComponents)
         {
@@ -824,7 +824,7 @@ public class Charge
         }
     }
 
-    private void saveOptionalComponentsInCharge(int idCharge) throws RuntimeException
+    private void saveOptionalComponentsInCharge(int idCharge)
     {
         for (CompInCharge component: optionalComponents)
         {
@@ -840,7 +840,7 @@ public class Charge
         }
     }
 
-    public static int getIndexOfLastSavedCharge() throws RuntimeException
+    public static int getIndexOfLastSavedCharge()
     {
         int index = 0;
         String query = "SELECT max(idCharge) FROM charge;";
@@ -859,7 +859,7 @@ public class Charge
         return index;
     }
 
-    public static ObservableList<Charge> getChargesOfBrand(String meltBrand) throws RuntimeException
+    public static ObservableList<Charge> getChargesOfBrand(String meltBrand)
     {
         ObservableList<Charge> charges = FXCollections.observableArrayList();
 
@@ -912,7 +912,7 @@ public class Charge
         return charges;
     }
 
-    private static int getIdMeltBrandFromDb(String meltBrandName) throws RuntimeException
+    private static int getIdMeltBrandFromDb(String meltBrandName)
     {
         int idMeltBrand = 0;
         String query = "";
@@ -932,7 +932,7 @@ public class Charge
         return idMeltBrand;
     }
 
-    private static int getIdUserFromDb(String firstname, String lastname) throws RuntimeException
+    private static int getIdUserFromDb(String firstname, String lastname)
     {
         int idUser = 0;
         String query = "";
@@ -952,7 +952,7 @@ public class Charge
         return idUser;
     }
 
-    private static int getIdElementFromDb(String elementName) throws RuntimeException
+    private static int getIdElementFromDb(String elementName)
     {
         int idElement = 0;
         String query = "SELECT * FROM element WHERE name = '" + elementName + "'";
@@ -971,7 +971,7 @@ public class Charge
         return idElement;
     }
 
-    private static int getIdComponentFromDb(String componentName) throws RuntimeException
+    private static int getIdComponentFromDb(String componentName)
     {
         int idComponent = 0;
         String query = "SELECT * FROM component WHERE name = '" + componentName + "';";

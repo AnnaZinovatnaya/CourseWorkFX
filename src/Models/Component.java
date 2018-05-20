@@ -144,7 +144,7 @@ public class Component
         this.elements = elements;
     }
 
-    public boolean componentExists(String name) throws RuntimeException
+    public boolean componentExists(String name)
     {
         String query = "SELECT * FROM component WHERE name = '" + name + "'";
 
@@ -167,7 +167,7 @@ public class Component
         return  false;
     }
 
-    public void saveComponentGeneralInfo() throws RuntimeException
+    public void saveComponentGeneralInfo()
     {
         this.calculateAdopt();
 
@@ -181,7 +181,7 @@ public class Component
         elements.add(new Element(name, 0, 0, percent, adopt));
     }
 
-    public void saveComponentElementsInfo() throws RuntimeException
+    public void saveComponentElementsInfo()
     {
         ResultSet rs;
         int id = 0;
@@ -207,7 +207,7 @@ public class Component
         }
     }
 
-    public static ObservableList<String> getAllMandatoryComponentNames() throws RuntimeException
+    public static ObservableList<String> getAllMandatoryComponentNames()
     {
         ObservableList<String> names = FXCollections.observableArrayList ();
 
@@ -233,7 +233,7 @@ public class Component
         return names;
     }
 
-    public static ObservableList<String> getAllOptionalComponentNames() throws RuntimeException
+    public static ObservableList<String> getAllOptionalComponentNames()
     {
         ObservableList<String> names = FXCollections.observableArrayList ();
 
@@ -259,7 +259,7 @@ public class Component
         return names;
     }
 
-    public static ObservableList<Component> getAllMandatoryComponents() throws RuntimeException
+    public static ObservableList<Component> getAllMandatoryComponents()
     {
         ObservableList<Component> components = FXCollections.observableArrayList ();
 
@@ -302,7 +302,7 @@ public class Component
         return components;
     }
 
-    public static ArrayList<Component> getAllOptionalComponents() throws RuntimeException
+    public static ArrayList<Component> getAllOptionalComponents()
     {
         ArrayList<Component> components = new ArrayList<>();
 
@@ -363,7 +363,7 @@ public class Component
         adoptComp = 1/temp;
     }
 
-    public void deleteFromDB() throws RuntimeException
+    public void deleteFromDB()
     {
         String query = "";
         try
@@ -382,7 +382,7 @@ public class Component
         }
     }
 
-    public static Component readComponentFromDB(String name) throws RuntimeException
+    public static Component readComponentFromDB(String name)
     {
         Component component = null;
         int idComponent;
@@ -410,7 +410,7 @@ public class Component
         return component;
     }
 
-    public void update() throws RuntimeException
+    public void update()
     {
         String query = "";
 

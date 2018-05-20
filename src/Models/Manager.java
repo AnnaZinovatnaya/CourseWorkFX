@@ -14,18 +14,18 @@ public class Manager
     private static Charge          charge;
     private static Melt            melt;
 
-    public static boolean userExists(String name, String lastname) throws RuntimeException
+    public static boolean userExists(String name, String lastname)
     {
         return User.userExists(name, lastname);
     }
 
-    public static void saveNewUser(String name, String lastname, String password, String role) throws RuntimeException
+    public static void saveNewUser(String name, String lastname, String password, String role)
     {
         user = new User(0, name, lastname, password, role);
         user.saveToDB();
     }
 
-    public static boolean findUser(String name, String lastname) throws RuntimeException
+    public static boolean findUser(String name, String lastname)
     {
         user = User.readUserFromDB(name, lastname);
 
@@ -52,7 +52,7 @@ public class Manager
         return user.getRole();
     }
 
-    public static void deleteUser() throws RuntimeException
+    public static void deleteUser()
     {
         user.deleteFromDB();
 
@@ -64,7 +64,7 @@ public class Manager
         user = null;
     }
 
-    public static boolean login(String name, String lastname, String password) throws RuntimeException
+    public static boolean login(String name, String lastname, String password)
     {
         currentUser = User.loginAndReturnUser(name, lastname, password);
 
@@ -81,7 +81,7 @@ public class Manager
         component = new Component("", "", 0, 0, 0, 0, 0, new ArrayList<>());
     }
 
-    public static boolean componentExists(String name) throws RuntimeException
+    public static boolean componentExists(String name)
     {
         return component.componentExists(name);
     }
@@ -96,12 +96,12 @@ public class Manager
         component.setMandatory(mandatory);
     }
 
-    public static ObservableList<String> getAllElements() throws RuntimeException
+    public static ObservableList<String> getAllElements()
     {
         return Element.getAllElements();
     }
 
-    public static void saveComponentParam() throws RuntimeException
+    public static void saveComponentParam()
     {
         component.saveComponentGeneralInfo();
     }
@@ -111,7 +111,7 @@ public class Manager
         component.setComponentElement(name, percent, adopt);
     }
 
-    public static void saveComponentElements() throws RuntimeException
+    public static void saveComponentElements()
     {
         component.saveComponentElementsInfo();
 
@@ -123,7 +123,7 @@ public class Manager
         component = null;
     }
 
-    public static ObservableList<String> getAllBrands() throws RuntimeException
+    public static ObservableList<String> getAllBrands()
     {
         return MeltBrand.getAllBrandNamesFromDB();
     }
@@ -149,12 +149,12 @@ public class Manager
         charge.setElements(elements);
     }
 
-    public static ObservableList<String> getAllMandatoryComponentNames() throws RuntimeException
+    public static ObservableList<String> getAllMandatoryComponentNames()
     {
         return Component.getAllMandatoryComponentNames();
     }
 
-    public static ObservableList<String> getAllOptionalComponentNames() throws RuntimeException
+    public static ObservableList<String> getAllOptionalComponentNames()
     {
         return Component.getAllOptionalComponentNames();
     }
@@ -199,22 +199,22 @@ public class Manager
         return String.valueOf(charge.getMass());
     }
 
-    public static ObservableList<Component> getAllMandatoryComponents()  throws RuntimeException
+    public static ObservableList<Component> getAllMandatoryComponents()
     {
         return Component.getAllMandatoryComponents();
     }
 
-    public static ObservableList<Component> getAllOptionalComponents()  throws RuntimeException
+    public static ObservableList<Component> getAllOptionalComponents()
     {
         return FXCollections.observableArrayList(Component.getAllOptionalComponents());
     }
 
-    public static Component readComponentFromDB(String name) throws RuntimeException
+    public static Component readComponentFromDB(String name)
     {
         return Component.readComponentFromDB(name);
     }
 
-    public static void saveCharge() throws RuntimeException
+    public static void saveCharge()
     {
         charge.setDateCharge(new Date());
         charge.setUser(currentUser);

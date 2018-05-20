@@ -74,7 +74,7 @@ public class User
         this.role = role;
     }
 
-    public void saveToDB() throws RuntimeException
+    public void saveToDB()
     {
         SQLiteUtil.dbExecuteUpdate("INSERT INTO user (name, lastname, password, role) " +
                                    "VALUES ('" + name     + "', " +
@@ -83,7 +83,7 @@ public class User
                                            "'" + role     + "');");
     }
 
-    public static boolean userExists(String name, String lastname) throws RuntimeException
+    public static boolean userExists(String name, String lastname)
     {
         ResultSet rs;
         String query = "";
@@ -100,7 +100,7 @@ public class User
         }
     }
 
-    public static User readUserFromDB(String name, String lastname) throws RuntimeException
+    public static User readUserFromDB(String name, String lastname)
     {
         User user = null;
         ResultSet rs;
@@ -129,14 +129,14 @@ public class User
         return user;
     }
 
-    public void deleteFromDB() throws RuntimeException
+    public void deleteFromDB()
     {
         SQLiteUtil.dbExecuteUpdate("DELETE FROM user WHERE name = '" + name + "' AND lastname = '" + lastname + "';");
     }
 
-    public static User loginAndReturnUser(String name, String lastname, String password) throws RuntimeException
+    public static User loginAndReturnUser(String name, String lastname, String password)
     {
-        User tempUser=null;
+        User tempUser = null;
         ResultSet rs;
         String query = "";
 
@@ -158,7 +158,6 @@ public class User
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
-
         return tempUser;
     }
 

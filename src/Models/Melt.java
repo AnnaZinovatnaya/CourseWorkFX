@@ -51,7 +51,7 @@ public class Melt
         this.date = date;
     }
 
-    public static int getMaxIdFromDB() throws RuntimeException
+    public static int getMaxIdFromDB()
     {
         int id = 0;
         try
@@ -73,7 +73,7 @@ public class Melt
         return id;
     }
 
-    public void saveToDB() throws RuntimeException
+    public void saveToDB()
     {
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 

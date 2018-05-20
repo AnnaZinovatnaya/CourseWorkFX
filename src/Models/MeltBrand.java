@@ -73,7 +73,7 @@ public class MeltBrand
         this.elements = elements;
     }
 
-    public static ObservableList<String> getAllBrandNamesFromDB() throws RuntimeException
+    public static ObservableList<String> getAllBrandNamesFromDB()
     {
         ObservableList<String> list = FXCollections.observableArrayList ();
 
@@ -101,7 +101,7 @@ public class MeltBrand
         return list;
     }
 
-    public static MeltBrand readMeltBrandFromDB(String name) throws RuntimeException
+    public static MeltBrand readMeltBrandFromDB(String name)
     {
         MeltBrand resultMeltBrand = new MeltBrand(name, new ArrayList<>());
         ResultSet rs;
@@ -158,7 +158,7 @@ public class MeltBrand
         }
     }
 
-    public static boolean meltBrandExists(String name)throws RuntimeException
+    public static boolean meltBrandExists(String name)
     {
         ResultSet rs;
         boolean res = false;
@@ -182,7 +182,7 @@ public class MeltBrand
         return res;
     }
 
-    public void saveToDB() throws RuntimeException
+    public void saveToDB()
     {
         String query = "";
         try
@@ -215,7 +215,7 @@ public class MeltBrand
         }
     }
 
-    public void deleteFromDB() throws RuntimeException
+    public void deleteFromDB()
     {
         ArrayList<Integer> chargeIndexes = new ArrayList<>();
 

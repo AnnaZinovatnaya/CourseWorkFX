@@ -66,7 +66,7 @@ public class MeltForReport
         this.lastname = lastname;
     }
 
-    public static ObservableList<MeltForReport> getMelts(Date startDate, Date endDate)  throws RuntimeException
+    public static ObservableList<MeltForReport> getMelts(Date startDate, Date endDate)
     {
         ObservableList<MeltForReport> melts = FXCollections.observableArrayList ();
         String query = formQuery(startDate, endDate);

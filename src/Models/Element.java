@@ -94,7 +94,7 @@ public class Element
         this.adopt = adopt;
     }
 
-    public static ObservableList<String> getAllElements() throws RuntimeException
+    public static ObservableList<String> getAllElements()
     {
         ObservableList<String> elementNames = FXCollections.observableArrayList ();
         String query = "";
@@ -118,7 +118,7 @@ public class Element
         return elementNames;
     }
 
-    public void saveElementInComponent(int idComponent) throws RuntimeException
+    public void saveElementInComponent(int idComponent)
     {
         ResultSet rs;
         int idElement = 0;

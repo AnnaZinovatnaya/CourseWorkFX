@@ -14,7 +14,7 @@ public class SQLiteUtil
     private static Statement statement = null;
     private static ResultSet resultSet = null;
 
-    public static ResultSet dbExecuteQuery(String queryStatement) throws RuntimeException
+    public static ResultSet dbExecuteQuery(String queryStatement)
     {
         resultSet = null;
         CachedRowSetImpl cachedResultSet;
@@ -39,7 +39,7 @@ public class SQLiteUtil
         return cachedResultSet;
     }
 
-    public static void dbExecuteUpdate(String sqlStatement) throws RuntimeException
+    public static void dbExecuteUpdate(String sqlStatement)
     {
         try
         {
@@ -57,14 +57,14 @@ public class SQLiteUtil
         }
     }
 
-    private static void prepareStatement() throws RuntimeException
+    private static void prepareStatement()
     {
         connectDb();
         createDbIfNotCreated();
         createStatement();
     }
 
-    private static void connectDb() throws RuntimeException
+    private static void connectDb()
     {
         try
         {
@@ -79,7 +79,7 @@ public class SQLiteUtil
         }
     }
 
-    private static void createDbIfNotCreated() throws RuntimeException
+    private static void createDbIfNotCreated()
     {
         if (!isDBCreated())
         {
@@ -106,7 +106,7 @@ public class SQLiteUtil
         return result;
     }
 
-    private static void createDB() throws RuntimeException
+    private static void createDB()
     {
         try
         {
@@ -132,7 +132,7 @@ public class SQLiteUtil
         return url;
     }
 
-    private static void disconnectDb() throws RuntimeException
+    private static void disconnectDb()
     {
         try
         {
@@ -147,7 +147,7 @@ public class SQLiteUtil
         }
     }
 
-    private static void createStatement() throws RuntimeException
+    private static void createStatement()
     {
         try
         {
@@ -159,7 +159,7 @@ public class SQLiteUtil
         }
     }
 
-    private static void closeStatement() throws RuntimeException
+    private static void closeStatement()
     {
         try
         {
@@ -173,7 +173,7 @@ public class SQLiteUtil
         }
     }
 
-    private static void closeResultSet() throws RuntimeException
+    private static void closeResultSet()
     {
         try
         {
