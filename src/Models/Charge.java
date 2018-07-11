@@ -23,26 +23,9 @@ public class Charge
     private List<CompInCharge> optionalComponents;
     private List<Element>      elements;
 
-    public Charge(User user, double mass, double deltaMass, Date dateCharge, MeltBrand meltBrand, List<CompInCharge> mandatoryComponents, List<CompInCharge> optionalComponents, List<Element> elements)
-    {
-        this.id = 0;
-        this.user = user;
-        this.mass = mass;
-        this.deltaMass = deltaMass;
-        this.dateCharge = dateCharge;
-        this.meltBrand = meltBrand;
-        this.mandatoryComponents = mandatoryComponents;
-        this.optionalComponents = optionalComponents;
-        this.elements = elements;
-
-        this.optionalComponents = new ArrayList<>();
-        for (Component aComponent: Component.getAllOptionalComponents())
-        {
-            this.optionalComponents.add(new CompInCharge(aComponent, 0, 0, 0));
-        }
-    }
-
-    public Charge(int id, User user, double mass, double deltaMass, Date dateCharge, MeltBrand meltBrand, List<CompInCharge> mandatoryComponents, List<CompInCharge> optionalComponents, List<Element> elements)
+    public Charge(int id, User user, double mass, double deltaMass, Date dateCharge, MeltBrand meltBrand,
+                  List<CompInCharge> mandatoryComponents, List<CompInCharge> optionalComponents,
+                  List<Element> elements)
     {
         this.id = id;
         this.user = user;
@@ -190,9 +173,8 @@ public class Charge
 
         double massChTemp;
         double massChRes;
-        double massMTemp = 0;
 
-        double[] currentElementMasses = initializeCurrentElementMasses();
+        double[] currentElementMasses;
         double[] minAllowedElementMasses = initializeMinAllowedElementMasses();
         double[] maxAllowedElementMasses = initializeMaxAllowedElementMasses();
 
@@ -207,8 +189,6 @@ public class Charge
         massChRes = calculateCurrentMassChargeOfComponents(mandatoryComponents);
         massChTemp = massChRes * curPercSum;
 
-        massMTemp = mass * curPercSum;
-
         for (int i = 0; i < mandatoryComponents.size(); ++i)
         {
             mandatoryComponents.get(i).setCurrentMass(massChTemp * mandatoryComponents.get(i).getCurrentPercent() / 100);
@@ -216,7 +196,7 @@ public class Charge
         }
 
         currentElementMasses = calculateElementMassesInCurrentMelt();
-        //ошибка: взяли всех обяхательных компонентов по минимуму и получилось элементов юольше, чем минимальная граница:
+        //ошибка: взяли всех обяхательных компонентов по минимуму и получилось элементов юольше, чем максимальная граница:
 
         for (int i = 0; i < elements.size(); ++i)
         {
@@ -245,12 +225,10 @@ public class Charge
 
             massChRes = calculateCurrentMassChargeOfComponents(mandatoryComponents);
             massChTemp = massChRes * curPercSum;
-            massMTemp = mass * curPercSum;
 
             for (int i = 0; i < mandatoryComponents.size(); ++i)
             {
                 mandatoryComponents.get(i).setCurrentMass(massChTemp * mandatoryComponents.get(i).getCurrentPercent() / 100);
-
                 massM[i] = mandatoryComponents.get(i).getCurrentMass() * mandatoryComponents.get(i).getComponent().getAdoptComp() / 100;
             }
 
@@ -266,14 +244,12 @@ public class Charge
 
                     massChRes = calculateCurrentMassChargeOfComponents(mandatoryComponents);
                     massChTemp = massChRes * curPercSum;
-                    massMTemp = mass * curPercSum;
 
                     for (i = 0; i < mandatoryComponents.size(); ++i)
                     {
                         mandatoryComponents.get(i).setCurrentMass(massChTemp * mandatoryComponents.get(i).getCurrentPercent() / 100);
                         massM[i] = mandatoryComponents.get(i).getCurrentMass() * mandatoryComponents.get(i).getComponent().getAdoptComp() / 100;
                     }
-
                 }
             }
             curPercSum = 0;
@@ -413,20 +389,19 @@ public class Charge
         return sortedList;
     }
 
-    //возвращает массу хим. элементов в расплаве
     public double[] calculateElementMassesInCurrentMelt()
     {
-        double[] massET = new double[elements.size()];
+        double[] elementInMeltMasses = new double[elements.size()];
         for (int i = 0; i < elements.size(); ++i)
         {
-            massET[i] = 0;
+            elementInMeltMasses[i] = 0;
         }
 
         for (CompInCharge mandatoryComponent : mandatoryComponents)
         {
             for (int j = 0; j < elements.size(); j++)
             {
-                massET[j] += mandatoryComponent.getCurrentMass() * mandatoryComponent.getComponent().getElements().get(j).getPercent() / 100 * mandatoryComponent.getComponent().getElements().get(j).getAdopt() / 100;
+                elementInMeltMasses[j] += mandatoryComponent.getCurrentMass() * mandatoryComponent.getComponent().getElements().get(j).getPercent() / 100 * mandatoryComponent.getComponent().getElements().get(j).getAdopt() / 100;
             }
         }
 
@@ -436,12 +411,11 @@ public class Charge
             {
                 for (int j = 0; j < elements.size(); j++)
                 {
-                    massET[j] += optionalComponent.getCurrentMass() * optionalComponent.getComponent().getElements().get(j).getPercent() / 100 * optionalComponent.getComponent().getElements().get(j).getAdopt() / 100;
+                    elementInMeltMasses[j] += optionalComponent.getCurrentMass() * optionalComponent.getComponent().getElements().get(j).getPercent() / 100 * optionalComponent.getComponent().getElements().get(j).getAdopt() / 100;
                 }
             }
         }
-
-        return massET;
+        return elementInMeltMasses;
     }
 
     public double[] calculateElementMassesInCurrentMelt(ArrayList<CompInCharge> list)
@@ -553,7 +527,6 @@ public class Charge
     private ArrayList<CompInCharge> sortOptionalComponentsByElement(Element element)
     {
         ArrayList<CompInCharge> sortedList = new ArrayList<>();
-
         while (sortedList.size() < optionalComponents.size())
         {
             int index = findIndexOfComponentWithMaxElementPercent(element);
@@ -571,12 +544,13 @@ public class Charge
         {
             for (int j = 0; j < optionalComponents.get(i).getComponent().getElements().size(); ++j)
             {
-                if (optionalComponents.get(i).getComponent().getElements().get(j).getName().equals(element.getName()))
+                Element elementInCurrentComponent = optionalComponents.get(i).getComponent().getElements().get(j);
+                Element elementInCurrentMaxComponent = optionalComponents.get(maxIndex).getComponent().getElements().get(j);
+
+                if (elementInCurrentComponent.getName().equals(element.getName()) &&
+                   (elementInCurrentComponent.getPercent() > elementInCurrentMaxComponent.getPercent()))
                 {
-                    if (optionalComponents.get(i).getComponent().getElements().get(j).getPercent() > optionalComponents.get(maxIndex).getComponent().getElements().get(j).getPercent())
-                    {
-                        maxIndex = i;
-                    }
+                   maxIndex = i;
                 }
             }
         }
@@ -586,7 +560,7 @@ public class Charge
 
     public void calculateCheapCharge()
     {
-        boolean meltSuccess = false;
+        boolean isChargeSuccessful = false;
         double temp;
 
         double curPercSum = 0;
@@ -595,9 +569,8 @@ public class Charge
 
         double massChTemp = 0;
         double massChRes;
-        double massMTemp = 0;
 
-        double[] currentElementMasses = initializeCurrentElementMasses();
+        double[] currentElementMasses;
         double[] minAllowedElementMasses = initializeMinAllowedElementMasses();
         double[] maxAllowedElementMasses = initializeMaxAllowedElementMasses();
 
@@ -605,12 +578,10 @@ public class Charge
 
         ArrayList<CompInCharge> mandatoryCompsTemp = sortMandatoryComponentsByPrice();
 
-        while(!areListsEqual((ArrayList)mandatoryComponents, mandatoryCompsTemp))
+        while(!areListsEqual((ArrayList) mandatoryComponents, mandatoryCompsTemp))
         {
-
-            for (int i = 0; i<mandatoryCompsTemp.size(); ++i)
+            for (int i = 0; i < mandatoryCompsTemp.size(); ++i)
             {
-
                 mandatoryCompsTemp.get(i).setCurrentPercent(mandatoryCompsTemp.get(i).getMinPercent());
                 curPercSum+=mandatoryCompsTemp.get(i).getCurrentPercent() / 100;
             }
@@ -618,19 +589,15 @@ public class Charge
             massChRes = calculateCurrentMassChargeOfComponents(mandatoryCompsTemp);
             massChTemp = massChRes * curPercSum;
 
-            for (int i = 0; i<mandatoryCompsTemp.size(); ++i)
+            for (int i = 0; i < mandatoryCompsTemp.size(); ++i)
             {
-
                 mandatoryCompsTemp.get(i).setCurrentMass(massChTemp * mandatoryCompsTemp.get(i).getCurrentPercent() / 100);
                 massM[i] = mandatoryCompsTemp.get(i).getCurrentMass() * mandatoryCompsTemp.get(i).getComponent().getAdoptComp() / 100;
             }
 
-            currentElementMasses = calculateElementMassesInCurrentMelt(mandatoryCompsTemp);
-
             int p = 0;
             while (true)
             {
-
                 curPercSum = 0;
                 mandatoryCompsTemp.get(p).setCurrentPercent(mandatoryCompsTemp.get(p).getMaxPercent());
                 for (int i = 0; i < mandatoryCompsTemp.size(); ++i)
@@ -645,10 +612,8 @@ public class Charge
                     curPercSum = 1;
                 }
 
-
                 massChRes = calculateCurrentMassChargeOfComponents(mandatoryCompsTemp);
                 massChTemp = massChRes * curPercSum;
-                massMTemp = mass * curPercSum;
 
                 for (int i = 0; i < mandatoryCompsTemp.size(); ++i)
                 {
@@ -668,7 +633,6 @@ public class Charge
 
                         massChRes = calculateCurrentMassChargeOfComponents(mandatoryCompsTemp);
                         massChTemp = massChRes * curPercSum;
-                        massMTemp = mass * curPercSum;
 
                         for (i = 0; i < mandatoryCompsTemp.size(); ++i)
                         {
@@ -678,21 +642,20 @@ public class Charge
 
                     }
                 }
-                curPercSum=0;
+                curPercSum = 0;
                 for (int i = 0; i < mandatoryCompsTemp.size(); ++i)
                 {
-                    curPercSum += mandatoryCompsTemp.get(i).getCurrentPercent()/100;
+                    curPercSum += mandatoryCompsTemp.get(i).getCurrentPercent() / 100;
                 }
 
-
-                if (curPercSum == 1)
+                if (1 == curPercSum)
                 {
-                    meltSuccess = true;
+                    isChargeSuccessful = true;
                     break;
                 }
                 else
                 {
-                    p++;
+                    ++p;
                     if (p >= mandatoryCompsTemp.size())
                     {
                         mandatoryCompsTemp = change(mandatoryCompsTemp);
@@ -700,7 +663,7 @@ public class Charge
                     }
                 }
             }
-            if (meltSuccess)
+            if (isChargeSuccessful)
             {
                break;
             }
@@ -740,10 +703,8 @@ public class Charge
         {
             minElementMasses[i] = elements.get(i).getMinPercentDouble() * mass / 100;
         }
-
-        double[] delta = new double[elements.size()];
-
         double currentElementMasses[] = calculateElementMassesInCurrentMelt();
+        double[] delta = new double[elements.size()];
 
         for (int i = 0; i < elements.size(); ++i)
         {
@@ -782,11 +743,11 @@ public class Charge
     {
         saveGeneralChargeToDB();
 
-        int idCharge = getIndexOfLastSavedCharge();
+        int chargeID = getIndexOfLastSavedCharge();
 
-        saveElementsInCharge(idCharge);
-        saveMandatoryComponentsInCharge(idCharge);
-        saveOptionalComponentsInCharge(idCharge);
+        saveElementsInCharge(chargeID);
+        saveMandatoryComponentsInCharge(chargeID);
+        saveOptionalComponentsInCharge(chargeID);
     }
 
     private void saveGeneralChargeToDB()
@@ -795,47 +756,49 @@ public class Charge
                                    "VALUES ('" + mass + "', '" +
                                                  deltaMass + "', '" +
                                                  new java.sql.Date(dateCharge.getTime()) + "', '" +
-                                                 getIdUserFromDb(user.getName(), user.getLastname()) + "', '" +
-                                                 getIdMeltBrandFromDb(meltBrand.getName()) + "');");
+                                                 getUserIdFromDb(user.getName(), user.getLastname()) + "', '" +
+                                                 getMeltIdBrandFromDb(meltBrand.getName()) + "');");
     }
 
-    private void saveElementsInCharge(int idCharge)
+    private void saveElementsInCharge(int chargeID)
     {
         for (Element element: elements)
         {
             SQLiteUtil.dbExecuteUpdate("INSERT INTO elementincharge (minProcent, maxProcent, Charge_idCharge, Element_idElement)\n" +
                                         "VALUES ('" + element.getMinPercentDouble() + "', '" +
                                                       element.getMaxPercentDouble() + "', '" +
-                                                      idCharge + "', '" +
-                                                      getIdElementFromDb(element.getName()) + "');");
+                                                      chargeID + "', '" +
+                                                      getElementIdFromDb(element.getName()) + "');");
         }
     }
 
-    private void saveMandatoryComponentsInCharge(int idCharge)
+    private void saveMandatoryComponentsInCharge(int chargeID)
     {
         for (CompInCharge component: mandatoryComponents)
         {
-            SQLiteUtil.dbExecuteUpdate("INSERT INTO componentincharge (currentMass, minProcent, maxProcent, Charge_idCharge, Component_idComponent)\n" +
+            SQLiteUtil.dbExecuteUpdate("INSERT INTO componentincharge (currentMass, minProcent, maxProcent, " +
+                                       "                               Charge_idCharge, Component_idComponent)\n" +
                                         "VALUES ('" + component.getCurrentMass() + "', '" +
                                                       component.getMinPercent() + "', '" +
                                                       component.getMaxPercent() + "', '" +
-                                                      idCharge + "', '" +
-                                                      getIdComponentFromDb(component.getName()) + "');");
+                                                      chargeID + "', '" +
+                                                      getComponentIdFromDb(component.getName()) + "');");
         }
     }
 
-    private void saveOptionalComponentsInCharge(int idCharge)
+    private void saveOptionalComponentsInCharge(int chargeID)
     {
         for (CompInCharge component: optionalComponents)
         {
-            if (component.getCurrentMass() != 0)
+            if (0 != component.getCurrentMass())
             {
-                SQLiteUtil.dbExecuteUpdate("INSERT INTO componentincharge (currentMass, minProcent, maxProcent, Charge_idCharge, Component_idComponent)\n" +
+                SQLiteUtil.dbExecuteUpdate("INSERT INTO componentincharge (currentMass, minProcent, maxProcent, " +
+                                           "                               Charge_idCharge, Component_idComponent)\n" +
                                            "VALUES ('" + component.getCurrentMass() + "', '" +
                                                          component.getMinPercent() + "', '" +
                                                          component.getMaxPercent() + "', '" +
-                                                         idCharge + "', '" +
-                                                         getIdComponentFromDb(component.getName()) + "');");
+                                                         chargeID + "', '" +
+                                                         getComponentIdFromDb(component.getName()) + "');");
             }
         }
     }
@@ -866,42 +829,46 @@ public class Charge
         String query = "";
         try
         {
-            query = "SELECT * FROM charge WHERE MeltBrand_idMeltBrand='" + getIdMeltBrandFromDb(meltBrand) + "';";
+            query = "SELECT idCharge, mass, deltaMass FROM charge " +
+                    "WHERE MeltBrand_idMeltBrand = '" + getMeltIdBrandFromDb(meltBrand) + "';";
             ResultSet rs = SQLiteUtil.dbExecuteQuery(query);
             while (rs.next())
             {
-                Charge tempCharge = new Charge(rs.getInt("idCharge"), null, rs.getDouble("mass"), rs.getDouble("deltaMass"), null, new MeltBrand(meltBrand, null), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+                Charge charge = new Charge(rs.getInt("idCharge"), null, rs.getDouble("mass"),
+                                               rs.getDouble("deltaMass"), null, new MeltBrand(meltBrand, null),
+                                               new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
-                tempCharge.getOptionalComponents().clear();
-                query = "SELECT * FROM elementincharge WHERE `Charge_idCharge`='" + rs.getInt("idCharge") + "';";
+                charge.getOptionalComponents().clear();
+                query = "SELECT name, minProcent, maxProcent " +
+                        "FROM elementincharge A join element B on A.Element_idElement=B.idElement " +
+                        "WHERE Charge_idCharge = '" + rs.getInt("idCharge") + "';";
                 ResultSet rs2 = SQLiteUtil.dbExecuteQuery(query);
 
                 while (rs2.next())
                 {
-                    query = "SELECT * FROM element WHERE `idElement`='" + rs2.getInt("Element_idElement") + "';";
-                    ResultSet rs3 = SQLiteUtil.dbExecuteQuery(query);
-
-                    if (rs3.next())
-                    {
-                        tempCharge.getElements().add(new Element(rs3.getString("name"), rs2.getDouble("minProcent"), rs2.getDouble("maxProcent"), 0, 0));
-                    }
+                   charge.getElements().add(new Element(rs2.getString("name"), rs2.getDouble("minProcent"),
+                                                            rs2.getDouble("maxProcent"), 0, 0));
                 }
 
-                query = "SELECT name, currentMass, mandatory FROM componentincharge CIC JOIN component C ON C.idComponent = CIC.Component_idComponent WHERE Charge_idCharge='" + rs.getInt("idCharge") + "';";
-                ResultSet rs4 = SQLiteUtil.dbExecuteQuery(query);
-                while (rs4.next())
+                query = "SELECT name, currentMass, mandatory FROM componentincharge CIC " +
+                        "JOIN component C ON C.idComponent = CIC.Component_idComponent " +
+                        "WHERE Charge_idCharge = '" + rs.getInt("idCharge") + "';";
+                ResultSet rs3 = SQLiteUtil.dbExecuteQuery(query);
+                while (rs3.next())
                 {
-                    if (rs4.getInt("mandatory") == 1)
+                    CompInCharge compInCharge = new CompInCharge(new Component(rs3.getString("name"), null, 0, 0, 0, 0, 0,
+                                                                 new ArrayList<>()), rs3.getDouble("currentMass"), 0, 0);
+                    if (1 == rs3.getInt("mandatory"))
                     {
-                        tempCharge.getMandatoryComponents().add(new CompInCharge(new Component(rs4.getString("name"), null, 0, 0, 0, 0, 0, new ArrayList<>()), rs4.getDouble("currentMass"), 0, 0));
+                        charge.getMandatoryComponents().add(compInCharge);
                     }
                     else
                     {
-                        tempCharge.getOptionalComponents().add(new CompInCharge(new Component(rs4.getString("name"), null, 0, 0, 0, 0, 0, new ArrayList<>()), rs4.getDouble("currentMass"), 0, 0));
+                        charge.getOptionalComponents().add(compInCharge);
                     }
                 }
 
-                charges.add(tempCharge);
+                charges.add(charge);
             }
         }
         catch (SQLException e)
@@ -912,81 +879,81 @@ public class Charge
         return charges;
     }
 
-    private static int getIdMeltBrandFromDb(String meltBrandName)
+    private static int getMeltIdBrandFromDb(String meltBrandName)
     {
-        int idMeltBrand = 0;
+        int meltBrandID = 0;
         String query = "";
         try
         {
-            query = "SELECT * FROM meltbrand WHERE name='" + meltBrandName + "';";
+            query = "SELECT idMeltBrand FROM meltbrand WHERE name = '" + meltBrandName + "';";
             ResultSet rs = SQLiteUtil.dbExecuteQuery(query);
             if (rs.next())
             {
-               idMeltBrand = rs.getInt("idMeltBrand");
+               meltBrandID = rs.getInt("idMeltBrand");
             }
         }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
-        return idMeltBrand;
+        return meltBrandID;
     }
 
-    private static int getIdUserFromDb(String firstname, String lastname)
+    private static int getUserIdFromDb(String firstname, String lastname)
     {
-        int idUser = 0;
+        int userID = 0;
         String query = "";
         try
         {
-            query = "SELECT * FROM user WHERE name = '" + firstname + "' AND lastname = '" + lastname + "';";
+            query = "SELECT idUser FROM user WHERE name = '" + firstname + "' AND lastname = '" + lastname + "';";
             ResultSet rs = SQLiteUtil.dbExecuteQuery(query);
             if (rs.next())
             {
-                idUser = rs.getInt("idUser");
+                userID = rs.getInt("idUser");
             }
         }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
-        return idUser;
+        return userID;
     }
 
-    private static int getIdElementFromDb(String elementName)
+    private static int getElementIdFromDb(String elementName)
     {
-        int idElement = 0;
-        String query = "SELECT * FROM element WHERE name = '" + elementName + "'";
+        int elementID = 0;
+        String query = "SELECT idElement FROM element WHERE name = '" + elementName + "'";
         try
         {
             ResultSet rs = SQLiteUtil.dbExecuteQuery(query);
             if (rs.next())
             {
-                idElement = rs.getInt("idElement");
+                elementID = rs.getInt("idElement");
             }
         }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
-        return idElement;
+        return elementID;
     }
 
-    private static int getIdComponentFromDb(String componentName)
+    private static int getComponentIdFromDb(String componentName)
     {
-        int idComponent = 0;
-        String query = "SELECT * FROM component WHERE name = '" + componentName + "';";
+        int componentID = 0;
+        String query = "SELECT idComponent FROM component WHERE name = '" + componentName + "';";
         try
         {
             ResultSet rs = SQLiteUtil.dbExecuteQuery(query);
             if (rs.next())
             {
-                idComponent = rs.getInt("idComponent");
+                componentID = rs.getInt("idComponent");
             }
         }
         catch (SQLException e)
         {
             throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
         }
-        return idComponent;
+        return componentID;
     }
 }

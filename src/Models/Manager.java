@@ -130,7 +130,7 @@ public class Manager
 
     public static void createNewCharge(double mass, double deltaMass, String meltBrand)
     {
-        charge = new Charge(currentUser, mass, deltaMass, null, null, null, null, null);
+        charge = new Charge(1, currentUser, mass, deltaMass, null, null, null, null, null);
         charge.setChargeBrand(meltBrand);
     }
 
