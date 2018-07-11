@@ -2,9 +2,7 @@ package Models;
 
 import Util.ErrorMessage;
 import Util.SQLiteUtil;
-import com.sun.rowset.CachedRowSetImpl;
 
-import javax.sql.rowset.CachedRowSet;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -49,29 +47,14 @@ public class User
         return lastname;
     }
 
-    public void setLastname(String lastname)
-    {
-        this.lastname = lastname;
-    }
-
     public String getPassword()
     {
         return password;
     }
 
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
-
     public String getRole()
     {
         return role;
-    }
-
-    public void setRole(String role)
-    {
-        this.role = role;
     }
 
     public void saveToDB()

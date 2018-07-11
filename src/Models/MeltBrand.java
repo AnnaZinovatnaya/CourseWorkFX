@@ -217,8 +217,6 @@ public class MeltBrand
 
     public void deleteFromDB()
     {
-        ArrayList<Integer> chargeIndexes = new ArrayList<>();
-
         ResultSet rs;
         String query =  "SELECT * FROM charge WHERE MeltBrand_idMeltBrand = '" + id + "';";
         try
@@ -229,8 +227,6 @@ public class MeltBrand
             {
                 String query2 = "DELETE FROM melt WHERE Charge_idCharge = '" + rs.getInt("idCharge") + "'";
                 SQLiteUtil.dbExecuteUpdate(query2);
-
-                chargeIndexes.add(rs.getInt("idCharge"));
             }
 
             query = "DELETE FROM charge WHERE MeltBrand_idMeltBrand = '" + id + "';";

@@ -11,12 +11,10 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import Util.ErrorMessage;
 import Util.Message;
 
-
 public class AddElementsController
 {
     private AddComponentController             addComponentController;
     private ObservableList<String>             selectedItems;
-    private ObservableList<Element>            elements;
 
     @FXML private TableColumn<Element, String> elementColumn = new TableColumn<>();
     @FXML private TableColumn<Element, String> percentColumn = new TableColumn<>();
@@ -32,7 +30,7 @@ public class AddElementsController
     {
         this.elementsTable.setEditable(true);
 
-        elements = FXCollections.observableArrayList ();
+        ObservableList<Element> elements = FXCollections.observableArrayList();
         this.selectedItems = selectedItems;
         for (String selectedItem : selectedItems)
         {
@@ -45,7 +43,7 @@ public class AddElementsController
         this.percentColumn.setOnEditCommit(
             t ->
         {
-            boolean b= true;
+            boolean b = true;
             double percent = 0;
             try
             {
@@ -59,7 +57,7 @@ public class AddElementsController
             catch (Exception ex)
             {
                 Message.showErrorMessage(ErrorMessage.INCORRECT_PERCENT);
-                b=false;
+                b = false;
             }
 
             if(b)
@@ -80,7 +78,7 @@ public class AddElementsController
         this.adoptColumn.setOnEditCommit(
             t ->
         {
-            boolean b= true;
+            boolean b = true;
             double adapt = 0;
             try
             {
@@ -93,10 +91,10 @@ public class AddElementsController
             catch (Exception ex)
             {
                 Message.showErrorMessage(ErrorMessage.INCORRECT_ADAPT);
-                b=false;
+                b = false;
             }
 
-            if(b)
+            if (b)
             {
                 t.getTableView().getItems().get(
                     t.getTablePosition().getRow()).setAdopt(Double.parseDouble(t.getNewValue()));
@@ -119,18 +117,18 @@ public class AddElementsController
         boolean b=true;
         for(Element aElement: elementsTable.getItems())
         {
-            if(aElement.getPercent()==0)
-                b=false;
-            if(aElement.getAdopt()==0)
-                b=false;
+            if(aElement.getPercent() == 0)
+                b = false;
+            if(aElement.getAdopt() == 0)
+                b = false;
         }
         if (b)
         {
             for (int i = 0; i < selectedItems.size(); i++)
             {
                 Manager.setComponentElement(selectedItems.get(i),
-                                             elementsTable.getItems().get(i).getPercent(),
-                                             elementsTable.getItems().get(i).getAdopt());
+                                            elementsTable.getItems().get(i).getPercent(),
+                                            elementsTable.getItems().get(i).getAdopt());
             }
             try
             {
