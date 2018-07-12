@@ -161,7 +161,7 @@ public class Manager
 
     public static void setMandatoryComponents(ObservableList<String> components)
     {
-        charge.setMandatoryComponents(components);
+        charge.setMandatoryComponentsString(components);
         charge.setOptionalComponents();
     }
 
