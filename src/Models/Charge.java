@@ -13,16 +13,16 @@ import java.util.List;
 
 public class Charge
 {
-    private int                id;
-    private User               user;
-    private double             mass;
-    private double             deltaMass;
-    private Date               dateCharge;
-    private MeltBrand          meltBrand;
-    private List<CompInCharge> mandatoryComponents;
-    private List<CompInCharge> optionalComponents;
-    private List<Element>      elements;
-    private ChargeCalculator   calculator;
+    private int                    id;
+    private User                   user;
+    private double                 mass;
+    private double                 deltaMass;
+    private Date                   dateCharge;
+    private MeltBrand              meltBrand;
+    private List<CompInCharge>     mandatoryComponents;
+    private List<CompInCharge>     optionalComponents;
+    private List<Element>          elements;
+    private final ChargeCalculator calculator;
 
     public Charge(int id, User user, double mass, double deltaMass, Date dateCharge, MeltBrand meltBrand,
                   List<CompInCharge> mandatoryComponents, List<CompInCharge> optionalComponents,

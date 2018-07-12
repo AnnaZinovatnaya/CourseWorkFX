@@ -29,7 +29,7 @@ public class Melt1Controller {
                 if (click.getClickCount() == 2)
                 {
                     String currentItemSelected = brandListView.getSelectionModel().getSelectedItem();
-                    if(currentItemSelected!=null)
+                    if (currentItemSelected != null)
                     {
                         selectBrandButtonClicked();
                     }

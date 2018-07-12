@@ -44,7 +44,7 @@ public class AddElementsController
             t ->
         {
             boolean b = true;
-            double percent = 0;
+            double percent;
             try
             {
                 percent = Double.parseDouble(t.getNewValue());
@@ -79,7 +79,7 @@ public class AddElementsController
             t ->
         {
             boolean b = true;
-            double adapt = 0;
+            double adapt;
             try
             {
                 adapt = Double.parseDouble(t.getNewValue());

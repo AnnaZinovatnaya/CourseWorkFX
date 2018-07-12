@@ -21,7 +21,11 @@ public class UserTest {
 
         assertTrue("Existing user not found by userExists()", User.userExists("new name", "new lastname"));
 
-        User loggedInUser = User.loginAndReturnUser("new name", "new lastname", "new password");
+        boolean isLoggedIn = User.isLoginSuccessful("new name", "new lastname", "new password");
+
+        assertTrue("Existing user cannot log in", isLoggedIn);
+
+        User loggedInUser = User.getUserFromDB("new name", "new lastname", "new password");
         assertNotNull("User cannot loginAndReturnUser", loggedInUser);
         assertEquals("Login name is not correctly received", "new name", loggedInUser.getName());
         assertEquals("Login lastname is not correctly received", "new lastname", loggedInUser.getLastname());
@@ -44,8 +48,8 @@ public class UserTest {
 
     @Test
     public void nonExistingUserCannotBeLoggedIn() {
-        User loggedInUser = User.loginAndReturnUser("bla", "bla", "bla");
-        assertNull("Non existing user logged in", loggedInUser);
+        boolean isLoggedIn = User.isLoginSuccessful("bla", "bla", "bla");
+        assertFalse("Non existing user logged in", isLoggedIn);
     }
 
     @Test

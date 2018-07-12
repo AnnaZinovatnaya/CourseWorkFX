@@ -66,9 +66,15 @@ public class Manager
 
     public static boolean login(String name, String lastname, String password)
     {
-        currentUser = User.loginAndReturnUser(name, lastname, password);
-
-        return currentUser != null;
+        if (User.isLoginSuccessful(name, lastname, password))
+        {
+            currentUser = User.getUserFromDB(name, lastname, password);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public static String getRole()

@@ -139,8 +139,7 @@ public class MeltBrand
 
     public void update()
     {
-        String query = "";
-        query = "UPDATE meltbrand SET " +
+        String query = "UPDATE meltbrand SET " +
                 "standard = '" + this.standard + "' " +
                 "WHERE name = '" + this.name + "';";
 

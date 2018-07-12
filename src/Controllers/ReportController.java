@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Objects;
 
 
 public class ReportController
@@ -60,7 +61,7 @@ public class ReportController
 
         try
         {
-            startDate = Date.from(this.startDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            startDate = Date.from(Objects.requireNonNull(this.startDatePicker.getValue()).atStartOfDay(ZoneId.systemDefault()).toInstant());
         }
         catch (Exception e)
         {
@@ -69,7 +70,7 @@ public class ReportController
 
         try
         {
-            endDate = Date.from(this.endDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            endDate = Date.from(Objects.requireNonNull(this.endDatePicker.getValue()).atStartOfDay(ZoneId.systemDefault()).toInstant());
         }
         catch (Exception e)
         {

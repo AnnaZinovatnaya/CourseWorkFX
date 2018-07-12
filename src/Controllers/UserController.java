@@ -78,13 +78,15 @@ public class UserController
 
     private void login()
     {
-        boolean isLoginSuccessful = false;
+        boolean isLoginSuccessful;
 
         try
         {
             isLoginSuccessful = Manager.login(this.loginName.getText(),
                     this.loginLastname.getText(),
                     this.loginPassword.getText());
+
+
 
             if(!isLoginSuccessful)
             {

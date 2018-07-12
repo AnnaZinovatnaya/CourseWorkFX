@@ -8,11 +8,11 @@ import java.sql.SQLException;
 
 public class User
 {
-    private int    id;
-    private String name;
-    private String lastname;
-    private String password;
-    private String role;
+    private int          id;
+    private final String name;
+    private final String lastname;
+    private final String password;
+    private final String role;
 
     public User(int id, String name, String lastname, String password, String role)
     {
@@ -35,11 +35,6 @@ public class User
     public String getName()
     {
         return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
     }
 
     public String getLastname()
@@ -93,7 +88,7 @@ public class User
             query = "SELECT * FROM user WHERE name = '" + name + "' AND lastname = '" + lastname + "';";
             rs = SQLiteUtil.dbExecuteQuery(query);
 
-            if(rs.next())
+            if (rs.next())
             {
                 user = new User(rs.getInt("idUser"),
                                 rs.getString("name"),
@@ -117,7 +112,30 @@ public class User
         SQLiteUtil.dbExecuteUpdate("DELETE FROM user WHERE name = '" + name + "' AND lastname = '" + lastname + "';");
     }
 
-    public static User loginAndReturnUser(String name, String lastname, String password)
+    public static boolean isLoginSuccessful(String name, String lastname, String password)
+    {
+        ResultSet rs;
+        String query = "";
+        boolean result = false;
+
+        try
+        {
+            query = "SELECT * FROM user WHERE name = '" + name + "' AND lastname = '" + lastname + "' AND password ='" + password + "';";
+            rs = SQLiteUtil.dbExecuteQuery(query);
+
+            if (rs.next())
+            {
+                result = true;
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(ErrorMessage.CANNOT_EXECUTE_QUERY + query);
+        }
+        return result;
+    }
+
+    public static User getUserFromDB(String name, String lastname, String password)
     {
         User tempUser = null;
         ResultSet rs;
@@ -128,7 +146,7 @@ public class User
             query = "SELECT * FROM user WHERE name = '" + name + "' AND lastname = '" + lastname + "' AND password ='" + password + "';";
             rs = SQLiteUtil.dbExecuteQuery(query);
 
-            if(rs.next())
+            if (rs.next())
             {
                 tempUser = new User(rs.getInt("IdUser"),
                                     rs.getString("name"),

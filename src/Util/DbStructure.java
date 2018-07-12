@@ -3,7 +3,7 @@ package Util;
 import java.util.ArrayList;
 
 public class DbStructure {
-    private static ArrayList<String> dbStructure = new ArrayList<>();
+    private static final ArrayList<String> dbStructure = new ArrayList<>();
 
     public static ArrayList<String> getDbStructure()
     {

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ChargeCalculator {
 
-    private Charge charge;
+    private final Charge charge;
 
     public ChargeCalculator (Charge charge)
     {
@@ -231,7 +231,7 @@ public class ChargeCalculator {
 
         for (CompInCharge mandatoryComponent : this.charge.getMandatoryComponents())
         {
-            for (int j = 0; j < this.charge.getElements().size(); j++)
+            for (int j = 0; j < this.charge.getElements().size(); ++j)
             {
                 elementInMeltMasses[j] += mandatoryComponent.getCurrentMass() * mandatoryComponent.getComponent().getElements().get(j).getPercent() / 100 * mandatoryComponent.getComponent().getElements().get(j).getAdopt() / 100;
             }
@@ -241,7 +241,7 @@ public class ChargeCalculator {
         {
             if (optionalComponent.getCurrentMass() > 0)
             {
-                for (int j = 0; j < this.charge.getElements().size(); j++)
+                for (int j = 0; j < this.charge.getElements().size(); ++j)
                 {
                     elementInMeltMasses[j] += optionalComponent.getCurrentMass() * optionalComponent.getComponent().getElements().get(j).getPercent() / 100 * optionalComponent.getComponent().getElements().get(j).getAdopt() / 100;
                 }
@@ -250,19 +250,19 @@ public class ChargeCalculator {
         return elementInMeltMasses;
     }
 
-    public double[] calculateElementMassesInCurrentMelt(ArrayList<CompInCharge> list)
+    public double[] calculateElementMassesInGivenComponents(ArrayList<CompInCharge> components)
     {
-        double[] massET = new double[this.charge.getElements().size()];
+        double[] elementMasses = new double[this.charge.getElements().size()];
         for (int i = 0; i < this.charge.getElements().size(); ++i)
         {
-            massET[i] = 0;
+            elementMasses[i] = 0;
         }
 
-        for (CompInCharge aList : list)
+        for (CompInCharge component : components)
         {
-            for (int j = 0; j < this.charge.getElements().size(); j++)
+            for (int j = 0; j < this.charge.getElements().size(); ++j)
             {
-                massET[j] += aList.getCurrentMass() * aList.getComponent().getElements().get(j).getPercent() / 100 * aList.getComponent().getElements().get(j).getAdopt() / 100;
+                elementMasses[j] += component.getCurrentMass() * component.getComponent().getElements().get(j).getPercent() / 100 * component.getComponent().getElements().get(j).getAdopt() / 100;
             }
         }
 
@@ -270,14 +270,14 @@ public class ChargeCalculator {
         {
             if (optionalComponent.getCurrentMass() > 0)
             {
-                for (int j = 0; j < this.charge.getElements().size(); j++)
+                for (int j = 0; j < this.charge.getElements().size(); ++j)
                 {
-                    massET[j] += optionalComponent.getCurrentMass() * optionalComponent.getComponent().getElements().get(j).getPercent() / 100 * optionalComponent.getComponent().getElements().get(j).getAdopt() / 100;
+                    elementMasses[j] += optionalComponent.getCurrentMass() * optionalComponent.getComponent().getElements().get(j).getPercent() / 100 * optionalComponent.getComponent().getElements().get(j).getAdopt() / 100;
                 }
             }
         }
 
-        return massET;
+        return elementMasses;
     }
 
     double calculateCurrentMassChargeOfComponents(List<CompInCharge> components)
@@ -359,7 +359,7 @@ public class ChargeCalculator {
 
                 for (int i = 0; i < this.charge.getElements().size(); ++i)
                 {
-                    currentElementMasses = calculateElementMassesInCurrentMelt(mandatoryCompsTemp);
+                    currentElementMasses = calculateElementMassesInGivenComponents(mandatoryCompsTemp);
 
                     if (currentElementMasses[i] > maxAllowedElementMasses[i])
                     {

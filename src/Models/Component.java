@@ -384,7 +384,7 @@ public class Component
 
     public static Component readComponentFromDB(String name)
     {
-        Component component = null;
+        Component component;
         int idComponent;
         String query = "";
         try
@@ -412,9 +412,7 @@ public class Component
 
     public void update()
     {
-        String query = "";
-
-        query = "UPDATE component SET " +
+        String query = "UPDATE component SET " +
                 "currentAmount = '" + this.amount + "', " +
                 "currentPrice = '" + this.price + "' " +
                 "WHERE name = '" + this.name + "';";

@@ -48,8 +48,8 @@ public class AddCharge1Controller
 
     @FXML public void nextButtonClicked()
     {
-        double mass = 0;
-        double deltaMass = 0;
+        double mass;
+        double deltaMass;
 
         if (this.brandChoiceBox.getValue().isEmpty() ||
             this.massField.getText().isEmpty()       ||
