@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Melt2Controller">
@@ -12,12 +11,12 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="selectBrandButton" mnemonicParsing="false" onAction="#selectButtonClicked" text="Выбрать" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="7.0">
+      <Button mnemonicParsing="false" onAction="#selectButtonClicked" text="Выбрать" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="7.0">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="backButton" layoutX="14.0" layoutY="349.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0">
+      <Button layoutX="14.0" layoutY="349.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0">
          <font>
             <Font size="20.0" />
          </font>

@@ -327,9 +327,8 @@ public class ChargeCalculator {
             massChRes = calculateCurrentMassChargeOfComponents(mandatoryCompsTemp);
             massChTemp = massChRes * curPercSum;
 
-            for (int i = 0; i < mandatoryCompsTemp.size(); ++i)
-            {
-                mandatoryCompsTemp.get(i).setCurrentMass(massChTemp * mandatoryCompsTemp.get(i).getCurrentPercent() / 100);
+            for (CompInCharge mandatoryComponentTemp : mandatoryCompsTemp) {
+                mandatoryComponentTemp.setCurrentMass(massChTemp * mandatoryComponentTemp.getCurrentPercent() / 100);
             }
 
             int p = 0;
@@ -352,9 +351,8 @@ public class ChargeCalculator {
                 massChRes = calculateCurrentMassChargeOfComponents(mandatoryCompsTemp);
                 massChTemp = massChRes * curPercSum;
 
-                for (int i = 0; i < mandatoryCompsTemp.size(); ++i)
-                {
-                    mandatoryCompsTemp.get(i).setCurrentMass(massChTemp *mandatoryCompsTemp.get(i).getCurrentPercent() / 100);
+                for (CompInCharge mandatoryComponentTemp : mandatoryCompsTemp) {
+                    mandatoryComponentTemp.setCurrentMass(massChTemp * mandatoryComponentTemp.getCurrentPercent() / 100);
                 }
 
                 for (int i = 0; i < this.charge.getElements().size(); ++i)
@@ -404,9 +402,8 @@ public class ChargeCalculator {
             }
         }
 
-        for (int i = 0; i < mandatoryCompsTemp.size(); ++i)
-        {
-            mandatoryCompsTemp.get(i).setCurrentMass((double)Math.round(massChTemp * mandatoryCompsTemp.get(i).getCurrentPercent()/100*10)/10);
+        for (CompInCharge mandatoryComponentTemp : mandatoryCompsTemp) {
+            mandatoryComponentTemp.setCurrentMass((double) Math.round(massChTemp * mandatoryComponentTemp.getCurrentPercent() / 100 * 10) / 10);
         }
         this.charge.setMandatoryComponents(mandatoryCompsTemp);
 

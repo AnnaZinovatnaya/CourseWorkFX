@@ -15,17 +15,17 @@
             </Label>
          </children>
       </VBox>
-      <Button fx:id="BackButton" layoutX="7.0" layoutY="347.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
+      <Button layoutX="7.0" layoutY="347.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Назад">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="DeleteButton" layoutX="352.0" layoutY="347.0" mnemonicParsing="false" onAction="#deleteButtonClicked" text="Удалить">
+      <Button layoutX="352.0" layoutY="347.0" mnemonicParsing="false" onAction="#deleteButtonClicked" text="Удалить">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="SaveButton" layoutX="467.0" layoutY="347.0" mnemonicParsing="false" onAction="#saveButtonClicked" text="Сохранить">
+      <Button layoutX="467.0" layoutY="347.0" mnemonicParsing="false" onAction="#saveButtonClicked" text="Сохранить">
          <font>
             <Font size="20.0" />
          </font>

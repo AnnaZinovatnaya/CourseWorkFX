@@ -359,13 +359,13 @@ public class Charge
         return meltBrandID;
     }
 
-    private static int getUserIdFromDb(String firstname, String lastname)
+    private static int getUserIdFromDb(String firstName, String lastName)
     {
         int userID = 0;
         String query = "";
         try
         {
-            query = "SELECT idUser FROM user WHERE name = '" + firstname + "' AND lastname = '" + lastname + "';";
+            query = "SELECT idUser FROM user WHERE name = '" + firstName + "' AND lastname = '" + lastName + "';";
             ResultSet rs = SQLiteUtil.dbExecuteQuery(query);
             if (rs.next())
             {

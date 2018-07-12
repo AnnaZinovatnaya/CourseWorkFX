@@ -28,7 +28,9 @@ public class TestRunner {
 
             result = JUnitCore.runClasses(TestSuite.class);
             printResult();
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
+            System.out.println("IOException occurred: " + ex.getLocalizedMessage());
         } finally {
             System.setOut(oldPrintStream);
             System.out.println("Tests finished " + (result.wasSuccessful()?"successfully":" - failed") + ".");
@@ -71,6 +73,7 @@ public class TestRunner {
         }
         catch (NullPointerException ex)
         {
+            System.out.println("NullPointerException occurred: " + ex.getLocalizedMessage());
         }
     }
 

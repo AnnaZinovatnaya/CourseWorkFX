@@ -33,14 +33,14 @@ public class Melt2Controller {
         for(Charge aCharge: Manager.getCharges(meltBrand))
         {
             this.charges.add(aCharge);
-            String tempString = "№" + aCharge.getId() + " " + aCharge.getMeltBrand().getName() + " " + aCharge.getMass() + " кг ";
+            StringBuilder tempString = new StringBuilder("№" + aCharge.getId() + " " + aCharge.getMeltBrand().getName() + " " + aCharge.getMass() + " кг ");
 
             for (Element aElement : aCharge.getElements())
             {
-                tempString += aElement.getName() + " (" + aElement.getMinPercent() + " - " + aElement.getMaxPercent() + ") ";
+                tempString.append(aElement.getName()).append(" (").append(aElement.getMinPercent()).append(" - ").append(aElement.getMaxPercent()).append(") ");
             }
 
-            this.chargesString.add(tempString);
+            this.chargesString.add(tempString.toString());
         }
 
         this.chargesListView.setItems(chargesString);
