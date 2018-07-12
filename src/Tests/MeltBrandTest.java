@@ -1,4 +1,4 @@
-package test;
+package Tests;
 
 import Models.Element;
 import Models.MeltBrand;

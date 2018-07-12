@@ -1,4 +1,4 @@
-package test;
+package Tests;
 
 import Models.User;
 import org.junit.Test;

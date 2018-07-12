@@ -16,7 +16,7 @@ public class ChargeCalculator {
     {
         double temp;
 
-        double curPercSum = 0;
+        double accumulatedShares = 0;
 
         double massChTemp;
         double massChRes;
@@ -30,11 +30,11 @@ public class ChargeCalculator {
         for (CompInCharge mandatoryComponent : this.charge.getMandatoryComponents())
         {
             mandatoryComponent.setCurrentPercent(mandatoryComponent.getMinPercent());
-            curPercSum += mandatoryComponent.getCurrentPercent() / 100;
+            accumulatedShares += mandatoryComponent.getCurrentPercent() / 100;
         }
 
         massChRes = calculateCurrentMassChargeOfComponents(this.charge.getMandatoryComponents());
-        massChTemp = massChRes * curPercSum;
+        massChTemp = massChRes * accumulatedShares;
 
         for (int i = 0; i < this.charge.getMandatoryComponents().size(); ++i)
         {
@@ -55,22 +55,22 @@ public class ChargeCalculator {
         int p = 0;
         while (true)
         {
-            curPercSum = 0;
+            accumulatedShares = 0;
             this.charge.getMandatoryComponents().get(p).setCurrentPercent(this.charge.getMandatoryComponents().get(p).getMaxPercent());
             for (CompInCharge mandatoryComponent : this.charge.getMandatoryComponents())
             {
-                curPercSum += mandatoryComponent.getCurrentPercent() / 100;
+                accumulatedShares += mandatoryComponent.getCurrentPercent() / 100;
             }
 
-            if (curPercSum > 1)
+            if (accumulatedShares > 1)
             {
-                temp = curPercSum - 1;
+                temp = accumulatedShares - 1;
                 this.charge.getMandatoryComponents().get(p).setCurrentPercent(this.charge.getMandatoryComponents().get(p).getCurrentPercent() - temp * 100);
-                curPercSum = 1;
+                accumulatedShares = 1;
             }
 
             massChRes = calculateCurrentMassChargeOfComponents(this.charge.getMandatoryComponents());
-            massChTemp = massChRes * curPercSum;
+            massChTemp = massChRes * accumulatedShares;
 
             for (int i = 0; i < this.charge.getMandatoryComponents().size(); ++i)
             {
@@ -88,7 +88,7 @@ public class ChargeCalculator {
                     this.charge.getMandatoryComponents().get(p).setCurrentPercent(this.charge.getMandatoryComponents().get(p).getCurrentPercent() - temp * 100);
 
                     massChRes = calculateCurrentMassChargeOfComponents(this.charge.getMandatoryComponents());
-                    massChTemp = massChRes * curPercSum;
+                    massChTemp = massChRes * accumulatedShares;
 
                     for (i = 0; i < this.charge.getMandatoryComponents().size(); ++i)
                     {
@@ -96,12 +96,12 @@ public class ChargeCalculator {
                     }
                 }
             }
-            curPercSum = 0;
+            accumulatedShares = 0;
             for (CompInCharge mandatoryComponent : this.charge.getMandatoryComponents())
             {
-                curPercSum += mandatoryComponent.getCurrentPercent() / 100;
+                accumulatedShares += mandatoryComponent.getCurrentPercent() / 100;
             }
-            if (1 == curPercSum)
+            if (1 == accumulatedShares)
             {
                 break;
             }
@@ -318,10 +318,10 @@ public class ChargeCalculator {
 
         while(!areListsEqual((ArrayList) this.charge.getMandatoryComponents(), mandatoryCompsTemp))
         {
-            for (CompInCharge aMandatoryCompsTemp : mandatoryCompsTemp)
+            for (CompInCharge mandatoryComponentTemp : mandatoryCompsTemp)
             {
-                aMandatoryCompsTemp.setCurrentPercent(aMandatoryCompsTemp.getMinPercent());
-                curPercSum += aMandatoryCompsTemp.getCurrentPercent() / 100;
+                mandatoryComponentTemp.setCurrentPercent(mandatoryComponentTemp.getMinPercent());
+                curPercSum += mandatoryComponentTemp.getCurrentPercent() / 100;
             }
 
             massChRes = calculateCurrentMassChargeOfComponents(mandatoryCompsTemp);
@@ -336,9 +336,9 @@ public class ChargeCalculator {
             {
                 curPercSum = 0;
                 mandatoryCompsTemp.get(p).setCurrentPercent(mandatoryCompsTemp.get(p).getMaxPercent());
-                for (CompInCharge aMandatoryCompsTemp : mandatoryCompsTemp)
+                for (CompInCharge mandatoryComponentTemp : mandatoryCompsTemp)
                 {
-                    curPercSum += aMandatoryCompsTemp.getCurrentPercent() / 100;
+                    curPercSum += mandatoryComponentTemp.getCurrentPercent() / 100;
                 }
 
                 if (curPercSum > 1)
@@ -376,9 +376,9 @@ public class ChargeCalculator {
                     }
                 }
                 curPercSum = 0;
-                for (CompInCharge aMandatoryCompsTemp : mandatoryCompsTemp)
+                for (CompInCharge mandatoryComponentTemp : mandatoryCompsTemp)
                 {
-                    curPercSum += aMandatoryCompsTemp.getCurrentPercent() / 100;
+                    curPercSum += mandatoryComponentTemp.getCurrentPercent() / 100;
                 }
 
                 if (1 == curPercSum)
@@ -429,65 +429,62 @@ public class ChargeCalculator {
 
     public void correctCharge()
     {
+        double mass = this.charge.getMass();
+
         double[] minElementMasses = new double[this.charge.getElements().size()];
         for (int i = 0; i < this.charge.getElements().size(); ++i)
         {
-            minElementMasses[i] = this.charge.getElements().get(i).getMinPercentDouble() * this.charge.getMass() / 100;
+            minElementMasses[i] = this.charge.getElements().get(i).getMinPercentDouble() * mass / 100;
         }
         double currentElementMasses[] = calculateElementMassesInCurrentMelt();
-        double[] delta = new double[this.charge.getElements().size()];
 
+        double[] delta = new double[this.charge.getElements().size()];
         for (int i = 0; i < this.charge.getElements().size(); ++i)
         {
             delta[i] = currentElementMasses[i] - minElementMasses[i];
             if (delta[i] < 0)
             {
-                this.charge.setOptionalComponents(sortOptionalComponentsByElement(this.charge.getElements().get(i)));
+                this.charge.setOptionalComponents(getOptionalComponentsSortedByElement(this.charge.getElements().get(i)));
 
                 double adoptOfCurrentElement = this.charge.getOptionalComponents().get(0).getComponent().getElements().get(i).getAdopt();
                 double percentOfCurrentElement = this.charge.getOptionalComponents().get(0).getComponent().getElements().get(i).getPercent();
                 double minPercentOfCurrentElement = this.charge.getElements().get(i).getMinPercentDouble();
 
-                long   newComponentMassMultipliedBy100 = Math.round(((minPercentOfCurrentElement / 100 * this.charge.getMass() - currentElementMasses[i]) / (adoptOfCurrentElement / 100 * (percentOfCurrentElement / 100 - minPercentOfCurrentElement / 100)) * 100));
+                long   newComponentMassMultipliedBy100 = Math.round(((minPercentOfCurrentElement / 100 * mass - currentElementMasses[i]) / (adoptOfCurrentElement / 100 * (percentOfCurrentElement / 100 - minPercentOfCurrentElement / 100)) * 100));
                 double newComponentMass = (double) newComponentMassMultipliedBy100 / 100;
                 this.charge.getOptionalComponents().get(0).setCurrentMass(newComponentMass);
             }
         }
     }
 
+    // what is this method for?
     public ArrayList<CompInCharge> change(ArrayList<CompInCharge> mandatoryCompsTemp)
     {
-        ArrayList<CompInCharge> newList = new ArrayList<>();
-        CompInCharge temp = new CompInCharge(null, 0, 0, 0);
-        int i;
-        for (i = 0; i < mandatoryCompsTemp.size(); ++i)
+        for (int i = 0; i < this.charge.getMandatoryComponents().size(); ++i)
         {
-            newList.add(mandatoryCompsTemp.get(i));
-        }
-        for (i = 0; i < this.charge.getMandatoryComponents().size(); ++i)
-        {
-            if (this.charge.getMandatoryComponents().get(i).getName().compareTo(newList.get(i).getName()) != 0)
+            if (mandatoryCompsTemp.get(i).getName().compareTo(this.charge.getMandatoryComponents().get(i).getName()) != 0)
             {
-                for (int j = i; j < newList.size(); ++j)
+                for (int j = i; j < mandatoryCompsTemp.size(); ++j)
                 {
-                    if (newList.get(j).getName().compareTo(this.charge.getMandatoryComponents().get(i).getName()) == 0)
+                    if (mandatoryCompsTemp.get(j).getName().compareTo(this.charge.getMandatoryComponents().get(i).getName()) == 0)
                     {
                         while (j != i)
                         {
-                            temp.setCompInCharge(newList.get(j));
-                            newList.get(j).setCompInCharge(newList.get(j - 1));
-                            newList.get(j - 1).setCompInCharge(temp);
+                            CompInCharge temp = new CompInCharge(null, 0, 0, 0);
+                            temp.setCompInCharge(mandatoryCompsTemp.get(j));
+                            mandatoryCompsTemp.get(j).setCompInCharge(mandatoryCompsTemp.get(j - 1));
+                            mandatoryCompsTemp.get(j - 1).setCompInCharge(temp);
                             --j;
                         }
-                        return newList;
+                        return mandatoryCompsTemp;
                     }
                 }
             }
         }
-        return newList;
+        return mandatoryCompsTemp;
     }
 
-    private ArrayList<CompInCharge> sortOptionalComponentsByElement(Element element)
+    private ArrayList<CompInCharge> getOptionalComponentsSortedByElement(Element element)
     {
         ArrayList<CompInCharge> sortedList = new ArrayList<>();
         while (sortedList.size() < this.charge.getOptionalComponents().size())

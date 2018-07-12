@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import test.TestRunner;
+import Tests.TestRunner;
 
 
 public class Main extends Application
