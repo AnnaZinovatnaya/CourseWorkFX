@@ -114,7 +114,7 @@ public class AddElementsController
 
     @FXML private void finishedButtonClicked()
     {
-        boolean b=true;
+        boolean b = true;
         for(Element aElement: elementsTable.getItems())
         {
             if(aElement.getPercent() == 0)

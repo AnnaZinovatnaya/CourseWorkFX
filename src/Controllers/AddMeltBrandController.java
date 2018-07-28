@@ -19,6 +19,8 @@ public class AddMeltBrandController
     @FXML private TextField siMaxPercentField;
     @FXML private TextField sMinPercentField;
     @FXML private TextField sMaxPercentField;
+    @FXML private TextField mnMinPercentField;
+    @FXML private TextField mnMaxPercentField;
 
     private MenuController  menuController;
 
@@ -41,7 +43,9 @@ public class AddMeltBrandController
             this.siMinPercentField.getText().isEmpty() ||
             this.siMaxPercentField.getText().isEmpty() ||
             this.sMinPercentField.getText().isEmpty()  ||
-            this.sMaxPercentField.getText().isEmpty())
+            this.sMaxPercentField.getText().isEmpty()  ||
+            this.mnMinPercentField.getText().isEmpty() ||
+            this.mnMaxPercentField.getText().isEmpty())
         {
             Message.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
             return;
@@ -61,6 +65,8 @@ public class AddMeltBrandController
             double siMaxPercent = 0;
             double sMinPercent = 0;
             double sMaxPercent = 0;
+            double mnMinPercent = 0;
+            double mnMaxPercent = 0;
 
             try
             {
@@ -71,9 +77,9 @@ public class AddMeltBrandController
                 }
 
                 cMaxPercent = Double.parseDouble(cMaxPercentField.getText());
-                if (cMaxPercent < 0)
+                if (cMaxPercent <= 0)
                 {
-                    throw new RuntimeException(ErrorMessage.INCORRECT_PERCENT);
+                    throw new RuntimeException(ErrorMessage.SPECIAL_CASE);
                 }
 
                 if (cMinPercent > cMaxPercent)
@@ -88,9 +94,9 @@ public class AddMeltBrandController
                 }
 
                 siMaxPercent = Double.parseDouble(siMaxPercentField.getText());
-                if (siMaxPercent < 0)
+                if (siMaxPercent <= 0)
                 {
-                    throw new RuntimeException(ErrorMessage.INCORRECT_PERCENT);
+                    throw new RuntimeException(ErrorMessage.SPECIAL_CASE);
                 }
 
                 if (siMinPercent > siMaxPercent)
@@ -105,19 +111,44 @@ public class AddMeltBrandController
                 }
 
                 sMaxPercent = Double.parseDouble(sMaxPercentField.getText());
-                if (sMaxPercent < 0)
+                if (sMaxPercent <= 0)
                 {
-                    throw new RuntimeException(ErrorMessage.INCORRECT_PERCENT);
+                    throw new RuntimeException(ErrorMessage.SPECIAL_CASE);
                 }
 
                 if (sMinPercent > sMaxPercent)
                 {
                     throw new RuntimeException(ErrorMessage.INCORRECT_PERCENT);
                 }
+
+                mnMinPercent = Double.parseDouble(mnMinPercentField.getText());
+                if (mnMinPercent < 0)
+                {
+                    throw new RuntimeException(ErrorMessage.INCORRECT_PERCENT);
+                }
+
+                mnMaxPercent = Double.parseDouble(mnMaxPercentField.getText());
+                if (mnMaxPercent <= 0)
+                {
+                    throw new RuntimeException(ErrorMessage.SPECIAL_CASE);
+                }
+
+                if (mnMinPercent > mnMaxPercent)
+                {
+                    throw new RuntimeException(ErrorMessage.INCORRECT_PERCENT);
+                }
             }
             catch (Exception ex)
             {
-                Message.showErrorMessage(ErrorMessage.INCORRECT_PERCENT);
+                if (ex.getMessage().equals(ErrorMessage.SPECIAL_CASE))
+                {
+                    Message.showErrorMessage(ex.getMessage());
+                }
+                else
+                {
+                    Message.showErrorMessage(ErrorMessage.INCORRECT_PERCENT);
+                }
+
                 return;
             }
 
@@ -126,6 +157,7 @@ public class AddMeltBrandController
             newMeltBrand.getElements().add(new Element("C", cMinPercent, cMaxPercent, 0, 0));
             newMeltBrand.getElements().add(new Element("Si", siMinPercent, siMaxPercent, 0, 0));
             newMeltBrand.getElements().add(new Element("S", sMinPercent, sMaxPercent, 0, 0));
+            newMeltBrand.getElements().add(new Element("Mn", mnMinPercent, mnMaxPercent, 0, 0));
 
             newMeltBrand.saveToDB();
             Message.showInformationMessage("Марка успешно сохранена!");
@@ -135,5 +167,4 @@ public class AddMeltBrandController
             Message.showErrorMessage(e.getLocalizedMessage());
         }
     }
-
 }

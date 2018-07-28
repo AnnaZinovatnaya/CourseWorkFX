@@ -29,6 +29,7 @@ public class ErrorMessage
     public static final String MIN_BIGGER_THAN_MAX      = "Минимальный процен не может быть больше максимального!";
     public static final String MIN_SUM_BIGGER_THAN_100  = "Сумма минимальных значений не может превышать 100%!";
     public static final String NO_MELTS_FOUND           = "В этот период не было плавок";
+    public static final String SPECIAL_CASE             = "Максимальный процент должен быть больше 0!";
     public static final String USER_ALREADY_EXISTS      = "Пользователь с таким именем уже есть!";
     public static final String USER_NOT_FOUND           = "Пользователь не найден!";
     public static final String WRONG_LOGIN_OR_PASSWORD  = "Неверное имя или пароль!";

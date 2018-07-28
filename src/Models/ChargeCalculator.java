@@ -442,7 +442,7 @@ public class ChargeCalculator {
         for (int i = 0; i < this.charge.getElements().size(); ++i)
         {
             delta[i] = currentElementMasses[i] - minElementMasses[i];
-            if (delta[i] < 0)
+            if (delta[i] < 0) // if delta < 0, mass of element is less than min allowed mass
             {
                 this.charge.setOptionalComponents(getOptionalComponentsSortedByElement(this.charge.getElements().get(i)));
 

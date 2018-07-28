@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -16,17 +17,17 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Label layoutX="316.0" layoutY="47.0" text="Стандарт" AnchorPane.leftAnchor="316.0" AnchorPane.topAnchor="47.0">
+      <Label layoutX="316.0" layoutY="41.0" text="Стандарт" AnchorPane.leftAnchor="316.0" AnchorPane.topAnchor="41.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="nameField" layoutX="113.0" layoutY="41.0" prefWidth="170.0" AnchorPane.leftAnchor="113.0" AnchorPane.topAnchor="41.0">
+      <TextField fx:id="nameField" layoutX="113.0" layoutY="35.0" prefWidth="170.0" AnchorPane.leftAnchor="113.0" AnchorPane.topAnchor="35.0">
          <font>
             <Font size="18.0" />
          </font>
       </TextField>
-      <GridPane layoutX="78.0" layoutY="144.0" prefHeight="182.0" prefWidth="586.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="144.0">
+      <GridPane layoutX="7.0" layoutY="113.0" prefHeight="223.0" prefWidth="586.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="113.0">
         <columnConstraints>
             <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="58.0" />
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="408.0" minWidth="10.0" prefWidth="260.0" />
@@ -36,6 +37,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -94,19 +96,34 @@
                   <Font size="18.0" />
                </font>
             </TextField>
+            <Label text="Mn" GridPane.rowIndex="4">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="mnMinPercentField" maxWidth="100.0" minWidth="70.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="mnMaxPercentField" maxWidth="100.0" minWidth="70.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
          </children>
       </GridPane>
-      <Label layoutX="21.0" layoutY="109.0" text="Химический состав:" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="109.0">
+      <Label layoutX="21.0" layoutY="93.0" text="Химический состав:" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="93.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="24.0" layoutY="47.0" text="Название" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="47.0">
+      <Label layoutX="24.0" layoutY="41.0" text="Название" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="41.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="standardField" layoutX="406.0" layoutY="41.0" prefHeight="39.0" prefWidth="170.0" AnchorPane.leftAnchor="406.0" AnchorPane.topAnchor="41.0">
+      <TextField fx:id="standardField" layoutX="406.0" layoutY="35.0" prefHeight="39.0" prefWidth="170.0" AnchorPane.leftAnchor="406.0" AnchorPane.topAnchor="35.0">
          <font>
             <Font size="18.0" />
          </font>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -30,124 +31,139 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Label layoutX="17.0" layoutY="89.0" text="Марка">
+      <Label layoutX="17.0" layoutY="74.0" text="Марка">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="331.0" layoutY="75.0" text="Усвоение">
+      <Label layoutX="331.0" layoutY="60.0" text="Усвоение">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="40.0" layoutY="161.0" text="Содержание, %">
+      <Label layoutX="40.0" layoutY="131.0" text="Содержание, %">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="181.0" layoutY="161.0" text="Усвоение, %">
+      <Label layoutX="181.0" layoutY="131.0" text="Усвоение, %">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="16.0" layoutY="203.0" text="C">
+      <Label layoutX="16.0" layoutY="173.0" text="C">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="245.0" text="Si">
+      <Label layoutX="15.0" layoutY="215.0" text="Si">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="17.0" layoutY="292.0" prefHeight="27.0" prefWidth="0.0" text="S">
+      <Label layoutX="17.0" layoutY="262.0" prefHeight="27.0" prefWidth="0.0" text="S">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="412.0" layoutY="200.0" text="Цена">
+      <Label layoutX="410.0" layoutY="197.0" text="Цена">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="382.0" layoutY="245.0" text="Наличие">
+      <Label layoutX="380.0" layoutY="242.0" text="Наличие">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="priceField" layoutX="467.0" layoutY="194.0" prefHeight="25.0" prefWidth="82.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="amountField" layoutX="467.0" layoutY="239.0" prefHeight="25.0" prefWidth="82.0">
+      <TextField fx:id="priceField" layoutX="465.0" layoutY="191.0" prefHeight="25.0" prefWidth="82.0">
          <font>
             <Font size="18.0" />
          </font>
       </TextField>
-      <Label layoutX="560.0" layoutY="200.0" text="грн">
+      <TextField fx:id="amountField" layoutX="465.0" layoutY="236.0" prefHeight="25.0" prefWidth="82.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <Label layoutX="558.0" layoutY="197.0" text="грн">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="560.0" layoutY="245.0" text="кг">
+      <Label layoutX="558.0" layoutY="242.0" text="кг">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="424.0" layoutY="75.0" text="баз.">
+      <Label layoutX="424.0" layoutY="60.0" text="баз.">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="359.0" layoutY="102.0" text="элемента">
+      <Label layoutX="359.0" layoutY="87.0" text="элемента">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="562.0" layoutY="89.0" text="\%">
+      <Label layoutX="562.0" layoutY="74.0" text="\%">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="brandLabel" layoutX="89.0" layoutY="89.0" prefHeight="27.0" prefWidth="210.0">
+      <Label fx:id="brandLabel" layoutX="89.0" layoutY="74.0" prefHeight="27.0" prefWidth="210.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="adoptLabel" layoutX="493.0" layoutY="89.0" prefHeight="27.0" prefWidth="54.0">
+      <Label fx:id="adoptLabel" layoutX="493.0" layoutY="74.0" prefHeight="27.0" prefWidth="54.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="cPercentLabel" layoutX="69.0" layoutY="200.0" prefHeight="27.0" prefWidth="82.0">
+      <Label fx:id="cPercentLabel" layoutX="69.0" layoutY="170.0" prefHeight="27.0" prefWidth="82.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="siPercentLabel" layoutX="69.0" layoutY="246.0" prefHeight="27.0" prefWidth="82.0">
+      <Label fx:id="siPercentLabel" layoutX="69.0" layoutY="216.0" prefHeight="27.0" prefWidth="82.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="sPercentLabel" layoutX="69.0" layoutY="292.0" prefHeight="27.0" prefWidth="82.0">
+      <Label fx:id="sPercentLabel" layoutX="69.0" layoutY="262.0" prefHeight="27.0" prefWidth="82.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="sAdoptLabel" layoutX="188.0" layoutY="295.0" prefHeight="27.0" prefWidth="82.0">
+      <Label fx:id="sAdoptLabel" layoutX="188.0" layoutY="265.0" prefHeight="27.0" prefWidth="82.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="siAdoptLabel" layoutX="188.0" layoutY="249.0" prefHeight="27.0" prefWidth="82.0">
+      <Label fx:id="siAdoptLabel" layoutX="188.0" layoutY="219.0" prefHeight="27.0" prefWidth="82.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="cAdoptLabel" layoutX="188.0" layoutY="203.0" prefHeight="27.0" prefWidth="82.0">
+      <Label fx:id="cAdoptLabel" layoutX="188.0" layoutY="173.0" prefHeight="27.0" prefWidth="82.0">
          <font>
             <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="mnAdoptLabel" layoutX="187.0" layoutY="311.0" prefHeight="27.0" prefWidth="82.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="mnPercentLabel" layoutX="68.0" layoutY="308.0" prefHeight="27.0" prefWidth="82.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="16.0" layoutY="308.0" prefHeight="27.0" prefWidth="28.0" text="Mn">
+         <font>
+            <Font size="18.0" />
          </font>
       </Label>
    </children>

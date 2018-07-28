@@ -58,7 +58,7 @@ public class DbStructure {
                 "CREATE TABLE element (\n" +
                 "  idElement INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                 "  name VARCHAR(45) NOT NULL);\n");
-        dbStructure.add("INSERT INTO element VALUES (1,'C'),(3,'S'),(2,'Si');");
+        dbStructure.add("INSERT INTO element VALUES (1,'C'),(3,'S'),(2,'Si'), (4, 'Mn');");
 
         dbStructure.add("DROP TABLE IF EXISTS elementincomponent;");
         dbStructure.add("" +
@@ -72,33 +72,43 @@ public class DbStructure {
                 "(20,4,1,11,95)," +
                 "(21,0.02,3,11,95)," +
                 "(22,1.2,2,11,95)," +
+                "(1,0,4,11,100)," +
                 "(23,4.1,1,12,95)" +
                 ",(24,0.05,3,12,95)," +
                 "(25,1.8,2,12,95)," +
+                "(2,0,4,12,100)," +
                 "(26,3.2,1,13,95)," +
                 "(27,0.12,3,13,95)," +
                 "(28,2,2,13,95)," +
+                "(3,0,4,13,100)," +
                 "(29,3.5,1,14,95)," +
                 "(30,0.02,3,14,95)," +
                 "(31,2.7,2,14,95)," +
+                "(4,0,4,14,100)," +
                 "(32,0.4,1,15,92)," +
                 "(33,0.06,3,15,92)," +
                 "(34,0.35,2,15,92)," +
+                "(5,0,4,15,100)," +
                 "(35,0.4,1,16,85)," +
                 "(36,0.06,3,16,85)," +
                 "(37,0.35,2,16,85)," +
+                "(6,0,4,16,100)," +
                 "(38,85,1,17,90)," +
                 "(39,1,3,17,90)," +
                 "(40,0,2,17,0)," +
+                "(7,0,4,17,100)," +
                 "(44,85,1,18,90)," +
                 "(45,1,3,18,90)," +
                 "(46,0,2,18,100)," +
+                "(8,0,4,18,100)," +
                 "(47,0,1,19,100)," +
                 "(48,0.04,3,19,95)," +
                 "(49,47,2,19,95)," +
+                "(9,0,4,19,100)," +
                 "(50,0,1,20,100)," +
                 "(51,0.04,3,20,95)," +
-                "(52,10,2,20,95);");
+                "(52,10,2,20,95)," +
+                "(10,0,4,20,100);");
 
         dbStructure.add("DROP TABLE IF EXISTS meltbrand;");
         dbStructure.add("" +
@@ -117,7 +127,7 @@ public class DbStructure {
                 "  MeltBrand_idMeltBrand INTEGER NOT NULL REFERENCES meltbrand(idMeltBrand) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "  Element_idElement INTEGER NOT NULL REFERENCES element(idElement) ON DELETE CASCADE ON UPDATE CASCADE\n" +
                 ");\n");
-        dbStructure.add("INSERT INTO elementinbrand VALUES (1,3.6,3.8,1,1),(3,0,0.05,1,3),(4,1.5,1.7,1,2);");
+        dbStructure.add("INSERT INTO elementinbrand VALUES (1,3.6,3.8,1,1),(3,0,0.05,1,3),(4,1.5,1.7,1,2), (5,0,0.01,1,4);");
 
         dbStructure.add("DROP TABLE IF EXISTS charge;");
         dbStructure.add("" +

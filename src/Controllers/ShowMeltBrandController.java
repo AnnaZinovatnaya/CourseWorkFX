@@ -25,6 +25,8 @@ public class ShowMeltBrandController {
     @FXML private TextField          siMaxPercentField;
     @FXML private TextField          sMinPercentField;
     @FXML private TextField          sMaxPercentField;
+    @FXML private TextField          mnMinPercentField;
+    @FXML private TextField          mnMaxPercentField;
     @FXML private Button             saveButton;
     @FXML private Button             deleteButton;
     private boolean                  isDeleted;
@@ -58,6 +60,10 @@ public class ShowMeltBrandController {
                     this.sMinPercentField.setText(el.getMinPercent());
                     this.sMaxPercentField.setText(el.getMaxPercent());
                     break;
+                case "Mn":
+                    this.mnMinPercentField.setText(el.getMinPercent());
+                    this.mnMaxPercentField.setText(el.getMaxPercent());
+                    break;
             }
         }
 
@@ -78,7 +84,9 @@ public class ShowMeltBrandController {
             this.siMinPercentField.getText().isEmpty() ||
             this.siMaxPercentField.getText().isEmpty() ||
             this.sMinPercentField.getText().isEmpty()  ||
-            this.sMaxPercentField.getText().isEmpty())
+            this.sMaxPercentField.getText().isEmpty()  ||
+            this.mnMinPercentField.getText().isEmpty() ||
+            this.mnMaxPercentField.getText().isEmpty())
         {
             Message.showErrorMessage(ErrorMessage.EMPTY_FIELDS);
             return;
@@ -139,6 +147,23 @@ public class ShowMeltBrandController {
                 throw new RuntimeException(ErrorMessage.INCORRECT_PERCENT);
             }
 
+            double mnMinPercent = Double.parseDouble(mnMinPercentField.getText());
+            if (mnMinPercent < 0)
+            {
+                throw new RuntimeException(ErrorMessage.INCORRECT_PERCENT);
+            }
+
+            double mnMaxPercent = Double.parseDouble(mnMaxPercentField.getText());
+            if (mnMaxPercent < 0)
+            {
+                throw new RuntimeException(ErrorMessage.INCORRECT_PERCENT);
+            }
+
+            if (mnMinPercent > mnMaxPercent)
+            {
+                throw new RuntimeException(ErrorMessage.INCORRECT_PERCENT);
+            }
+
             for (Element el : this.meltBrand.getElements()) {
                 switch (el.getName()) {
                     case "C":
@@ -152,6 +177,10 @@ public class ShowMeltBrandController {
                     case "S":
                         el.setMinPercent(sMinPercent);
                         el.setMaxPercent(sMaxPercent);
+                        break;
+                    case "Mn":
+                        el.setMinPercent(mnMinPercent);
+                        el.setMaxPercent(mnMaxPercent);
                         break;
                 }
             }

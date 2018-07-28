@@ -57,9 +57,9 @@ public class AddCharge2Controller
 
     @FXML private void nextButtonClicked()
     {
-        for (Element aElement: this.elements)
+        for (Element element: this.elements)
         {
-            if (aElement.getMinPercentDouble() > aElement.getMaxPercentDouble())
+            if (element.getMinPercentDouble() > element.getMaxPercentDouble())
             {
                 Message.showErrorMessage(ErrorMessage.MIN_BIGGER_THAN_MAX);
                 return;
@@ -146,9 +146,9 @@ public class AddCharge2Controller
                     {
                         maxPercent = Double.parseDouble(t.getNewValue());
 
-                        if (maxPercent < 0)
+                        if (maxPercent <= 0)
                         {
-                            throw new RuntimeException(ErrorMessage.INCORRECT_AMOUNT);
+                            throw new RuntimeException(ErrorMessage.SPECIAL_CASE);
                         }
                     }
                     catch (Exception ex)

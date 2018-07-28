@@ -20,9 +20,11 @@ public class ShowComponentController
     @FXML private Label     cAdoptLabel;
     @FXML private Label     siAdoptLabel;
     @FXML private Label     sAdoptLabel;
+    @FXML private Label     mnAdoptLabel;
     @FXML private Label     cPercentLabel;
     @FXML private Label     siPercentLabel;
     @FXML private Label     sPercentLabel;
+    @FXML private Label     mnPercentLabel;
     @FXML private TextField priceField;
     @FXML private TextField amountField;
     @FXML private Label     nameLabel;
@@ -57,6 +59,11 @@ public class ShowComponentController
             {
                 this.sAdoptLabel.setText(String.valueOf(aElement.getAdopt()));
                 this.sPercentLabel.setText(String.valueOf(aElement.getPercent()));
+            }
+            if (aElement.getName().equals("Mn"))
+            {
+                this.mnAdoptLabel.setText(String.valueOf(aElement.getAdopt()));
+                this.mnPercentLabel.setText(String.valueOf(aElement.getPercent()));
             }
         }
 

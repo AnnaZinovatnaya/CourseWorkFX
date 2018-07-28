@@ -146,7 +146,7 @@ public class AddComponentController
 
                                     AddElementsController addElementsController = loader.getController();
                                     addElementsController.setPreviousController(this);
-                                    addElementsController.init(FXCollections.observableArrayList("C", "S", "Si"));
+                                    addElementsController.init(FXCollections.observableArrayList("C", "S", "Si", "Mn"));
                                     primaryStage.setScene(new Scene(root));
                                 }
                                 catch (Exception ex)

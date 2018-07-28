@@ -287,11 +287,40 @@ public class Component
 
                 query = "SELECT * FROM elementincomponent JOIN element ON idElement = Element_idElement WHERE Component_idComponent = " + component.getId();
                 rs2 = SQLiteUtil.dbExecuteQuery(query);
+                // very very bad workaround
+                Element c = new Element("", 0, 0, 0, 0);
+                Element s = new Element("", 0, 0, 0, 0);
+                Element si = new Element("", 0, 0, 0, 0);
+                Element mn = new Element("", 0, 0, 0, 0);
                 while (rs2.next())
                 {
-                    components.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
+                    switch(rs2.getString("name"))
+                    {
+                    case "C":
+                        c = new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt"));
+                        break;
+                    case "S":
+                        s = new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt"));
+                        break;
+                    case "Si":
+                        si = new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt"));
+                        break;
+                    case "Mn":
+                        mn = new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt"));
+                        break;
+                    default:
+                        break;
+                    }
+
+                    //components.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
                 }
-                i++;
+                components.get(i).elements.add(c);
+                components.get(i).elements.add(s);
+                components.get(i).elements.add(si);
+                components.get(i).elements.add(mn);
+                // end of very very bad workaround
+
+                ++i;
             }
         }
         catch (SQLException e)
@@ -331,11 +360,42 @@ public class Component
 
                 query = "SELECT * FROM elementincomponent JOIN element ON idElement = Element_idElement WHERE Component_idComponent = " + component.getId();
                 rs2 = SQLiteUtil.dbExecuteQuery(query);
+
+                // very very bad workaround [2]
+                Element c = new Element("", 0, 0, 0, 0);
+                Element s = new Element("", 0, 0, 0, 0);
+                Element si = new Element("", 0, 0, 0, 0);
+                Element mn = new Element("", 0, 0, 0, 0);
+
                 while (rs2.next())
                 {
-                    components.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
+                    switch(rs2.getString("name"))
+                    {
+                        case "C":
+                            c = new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt"));
+                            break;
+                        case "S":
+                            s = new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt"));
+                            break;
+                        case "Si":
+                            si = new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt"));
+                            break;
+                        case "Mn":
+                            mn = new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt"));
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //components.get(i).elements.add(new Element(rs2.getString("name"), 0, 0, rs2.getDouble("procent"), rs2.getDouble("adopt")));
                 }
-                i++;
+                components.get(i).elements.add(c);
+                components.get(i).elements.add(s);
+                components.get(i).elements.add(si);
+                components.get(i).elements.add(mn);
+                // end of very very bad workaround [2]
+
+                ++i;
             }
         }
         catch (SQLException e)
